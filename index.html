@@ -728,6 +728,15 @@ body.itdong .in-bg.on{animation:none} body.itdong .dlg,body.itdong .hd-hole,body
 .olu button{background:none;border:1px solid var(--line2);color:#d9d3c4;border-radius:14px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
 .olu button:disabled{opacity:.4;cursor:default}
 .olu button.warn{border-color:var(--amber);color:var(--amber)}
+
+#cv{transition:filter 2.5s ease}
+#vig{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 2.5s ease;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 50%,rgba(5,7,14,.9) 100%)}
+body[data-hoi="1"] #cv{filter:saturate(.9) contrast(1.03) brightness(.97)} body[data-hoi="1"] #vig{opacity:.3}
+body[data-hoi="2"] #cv{filter:saturate(.82) contrast(1.05) brightness(.94) hue-rotate(-3deg)} body[data-hoi="2"] #vig{opacity:.4}
+body[data-hoi="3"] #cv{filter:saturate(.74) contrast(1.08) brightness(.9) hue-rotate(-5deg)} body[data-hoi="3"] #vig{opacity:.5}
+body[data-hoi="4"] #cv{filter:saturate(.64) contrast(1.11) brightness(.86) hue-rotate(-8deg)} body[data-hoi="4"] #vig{opacity:.6}
+body[data-hoi="5"] #cv{filter:saturate(.56) contrast(1.14) brightness(.83) hue-rotate(-10deg)} body[data-hoi="5"] #vig{opacity:.68}
+body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} body[data-hoi="ket"] #vig{opacity:.35}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -2403,6 +2412,7 @@ try{ if(/\.vercel\.app$/.test(location.hostname)){ window.va=window.va||function
 (function(){ const tools=document.querySelector('#cover .tools'); if(!tools) return; const b=document.createElement('button'); b.type='button'; b.id='bTt';
   b.innerHTML='<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5A3.5 3.5 0 0 1 15.5 11"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg><span class="t">Thành tựu</span>'; b.onclick=()=>{ ac(); ttOpen(); };
   const ins=$('bInstall'); tools.insertBefore(b,ins&&ins.parentNode===tools?ins:null); })();
+(function(){ const st=$('stage'); if(st&&!$('vig')){ const v=document.createElement('div'); v.id='vig'; st.insertBefore(v,$('cv').nextSibling); } const _hud=hud; hud=function(){ const r=_hud.apply(this,arguments); try{ document.body.dataset.hoi=started?(S.ended?'ket':String(Math.min(5,Math.max(1,S.hoi||1)))):''; }catch(e){} return r; }; })();
 $('bNew').onclick=()=>begin(false); $('bCont').onclick=()=>begin(true);
 /* ================= SỔ TAY: TRUYỆN + TÂM SỰ TÁC GIẢ =================
    Bài viết lưu ở bảng Supabase "baiviet", tim ở bảng "baiviet_tim" (xem file sql).

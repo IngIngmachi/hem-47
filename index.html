@@ -1743,7 +1743,20 @@ function prepLit(){ HOUSE_ORDER.forEach(hk=>{ const im=IMG[hk], L=LIT[hk.slice(4
 function drawSprite(k,x,yb,hh,face,bob){ const im=IMG[k]; if(!im) return; const w=im.width*hh/im.height; g.save(); g.translate(x,yb+(bob||0)); g.scale(face||1,1); g.drawImage(im,-w/2,-hh,w,hh); g.restore(); }
 let FGP=[], WK=[];
 function propsInit(){ FGP=[{k:'fg-ghenhua',x:at('taphoa',1.02),h:60},{k:'fg-xemay',x:at('khoa',.98),h:92},{k:'fg-xemay',x:at('diem',1.12),h:92,f:-1},{k:'fg-chaucay',x:at('basau',.02),h:104}]; }
-function drawProps(){ FGP.forEach(p=>drawSprite(p.k,p.x,GROUND+20,p.h,p.f)); }
+const ELN=['quan-nuoc','coc-giaothong','rao-betong','ket-nhua','ban-nhua','xe-so-xanh','cho-ngu','thung-rac','chau-cay','xe-cub-do','xe-hoa','ghe-da','bien-xebuyt','cay','sap-taphoa','xe-banhmi','cot-den','meo-den'];
+ELN.forEach(n=>{ const i=new Image(); i.onload=()=>{ IMG['el-'+n]=i; }; i.src='img/el-'+n+'.webp'; });
+let ELP=null;
+function elInit(){ const R0=A.diem.x+A.diem.w; ELP=[
+  {k:'el-quan-nuoc',x:ML-175,h:170,y:6},{k:'el-coc-giaothong',x:ML-60,h:52},{k:'el-xe-cub-do',x:ML-110,h:92,f:-1,y:14},
+  {k:'el-ket-nhua',x:at('taphoa',.1),h:66,y:4},{k:'el-ban-nhua',x:at('banhmi',.86),h:66,y:6},
+  {k:'el-xe-so-xanh',x:at('basau',.93),h:90,y:10},{k:'el-cho-ngu',x:at('tam',.2),h:40,y:12},
+  {k:'el-thung-rac',x:at('tam',.97),h:92,y:2},{k:'el-chau-cay',x:at('diem',.94),h:60,y:6},
+  {k:'el-cay',x:R0+330,h:270,y:-6},{k:'el-bien-xebuyt',x:R0+250,h:200,y:2},{k:'el-ghe-da',x:R0+190,h:62,y:8},{k:'el-xe-hoa',x:R0+95,h:118,y:12,f:-1}]; }
+const ELD={};
+function elDark(k){ if(ELD[k]) return ELD[k]; const im=IMG[k]; if(!im) return null; const c=document.createElement('canvas'); c.width=im.width; c.height=im.height; const q=c.getContext('2d'); q.drawImage(im,0,0); q.globalCompositeOperation='source-atop'; q.fillStyle='rgb(14,18,40)'; q.fillRect(0,0,c.width,c.height); return ELD[k]=c; }
+function drawProps(){ if(!ELP&&A.diem) elInit(); const nn=nightF(hour());
+  (ELP||[]).forEach(p=>{ const im=IMG[p.k]; if(!im) return; const yb=GROUND+(p.y||0)+8, w=im.width*p.h/im.height; g.save(); g.translate(p.x,yb); g.scale(p.f||1,1); g.drawImage(im,-w/2,-p.h,w,p.h); if(nn>.05){ const d=elDark(p.k); if(d){ g.globalAlpha=Math.min(.72,nn*.72); g.drawImage(d,-w/2,-p.h,w,p.h); } } g.restore(); });
+  FGP.forEach(p=>drawSprite(p.k,p.x,GROUND+20,p.h,p.f)); }
 const WKT={'di-banrong':[150,55],'di-xeom':[150,240],'di-hocsinh':[126,70],'di-concho':[62,95]};
 function updateWalkers(dt){ if(S.scene!=='street'||SO.on){ WK=[]; return; } const h=hour();
   if(WK.length<2&&h>=6&&h<22&&Math.random()<dt*.06){ const ks=Object.keys(WKT).filter(k=>IMG[k]&&(h<19||k==='di-xeom')); if(ks.length){ const k=ks[Math.floor(Math.random()*ks.length)]; const d=Math.random()<.5?1:-1; WK.push({k,d,x:d>0?cam-220:cam+VW+220,ph:0}); } }

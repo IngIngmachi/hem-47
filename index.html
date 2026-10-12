@@ -1123,7 +1123,22 @@ function prepDark(){ ['loc','bin','tam'].forEach(k=>{ const f=IMG[k+'-full']; if
   const im=IMG['loc-up']; if(im){ const m=META.loc; DARK['loc-jacket']=tinted(im,'rgba(38,140,74,.82)',[0,m.h*.17,m.w*.78,m.h*.29]); }
   ['loc','bin'].forEach(k=>['up','back','front'].forEach(p=>{ const i2=IMG[k+'-'+p]; if(i2) SIL[k+'-'+p]=tinted(i2,'rgba(14,16,26,.94)'); })); }
 const SIL={};
-function drawFull(g,k,x,fy,face,o,fu){
+const LEG={lam:[.64,.478],khoa:[.63,.335],basau:[.75,.272],thoa:[.65,.295],hanh:[.72,.421],bin:[.62,.373],loc:[.65,.371],tam:[.64,.26],diem:[.68,.552]};
+const LEGDARK={};
+function legDark(k,fu){ if(LEGDARK[k]) return LEGDARK[k]; const c=document.createElement('canvas'); c.width=fu.width; c.height=fu.height; const q=c.getContext('2d'); q.drawImage(fu,0,0); q.globalCompositeOperation='source-atop'; q.fillStyle='rgba(10,12,20,.42)'; q.fillRect(0,0,c.width,c.height); return LEGDARK[k]=c; }
+function drawWalk(g,k,x,fy,face,o,fu){ const L=LEG[k]||[.64,.45], H=(HGT[k]||160)*(o.sc||1), sc=H/fu.height, w=fu.width*sc;
+  const hy=L[0], hpx=H*hy, cx=(L[1]-.5)*w, sw=Math.sin(o.ph)*.13, bob=-Math.abs(Math.cos(o.ph))*H*.006;
+  g.save(); g.globalAlpha=o.alpha==null?1:o.alpha;
+  const gg=g.createRadialGradient(x,fy,2,x,fy,H*.2); gg.addColorStop(0,'rgba(0,0,0,.34)'); gg.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=gg; g.beginPath(); g.ellipse(x,fy,H*.2,H*.045,0,0,Math.PI*2); g.fill();
+  g.translate(x,fy); g.scale(face,1);
+  const sy=fu.height*hy, sh=fu.height-sy, lh=H-hpx;
+  const leg=(img,ang)=>{ g.save(); g.translate(cx,-lh); g.rotate(ang); g.translate(-cx,lh); g.drawImage(img,0,sy,fu.width,sh,-w/2,-lh,w,lh); g.restore(); };
+  const dk=o.sil?(SIL[k+'-full']||fu):legDark(k,fu), im=o.sil?(SIL[k+'-full']||fu):fu;
+  leg(dk,-sw); leg(im,sw);
+  g.translate(0,bob); g.rotate(.012); const ov=fu.height*.03;
+  g.drawImage(im,0,0,fu.width,sy+ov,-w/2,-H,w,hpx+ov*sc);
+  g.restore(); }
+function drawFull(g,k,x,fy,face,o,fu){ if(o.walk&&!o.crouch&&!(o.jacket)) return drawWalk(g,k,x,fy,face,o,fu);
   const H=(HGT[k]||160)*(o.sc||1), sc=H/fu.height, w=fu.width*sc;
   const bob=o.walk?-Math.abs(Math.sin(o.ph))*H*.006:0, rot=o.walk?.016+Math.sin(o.ph*2)*.003:0, br=o.walk?0:Math.sin((o.t||0)*1.6)*.005;
   g.save(); g.globalAlpha=o.alpha==null?1:o.alpha;

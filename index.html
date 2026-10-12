@@ -737,6 +737,20 @@ body[data-hoi="3"] #cv{filter:saturate(.74) contrast(1.08) brightness(.9) hue-ro
 body[data-hoi="4"] #cv{filter:saturate(.64) contrast(1.11) brightness(.86) hue-rotate(-8deg)} body[data-hoi="4"] #vig{opacity:.6}
 body[data-hoi="5"] #cv{filter:saturate(.56) contrast(1.14) brightness(.83) hue-rotate(-10deg)} body[data-hoi="5"] #vig{opacity:.68}
 body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} body[data-hoi="ket"] #vig{opacity:.35}
+
+/* ===== chuyện trong hẻm ===== */
+#evp{position:fixed;inset:0;z-index:66;background:rgba(5,6,10,.55);display:grid;place-items:center;padding:20px}
+#evp[hidden]{display:none}
+#evp .ev-c{width:min(420px,100%);background:#161a28;border:1px solid rgba(240,178,92,.35);border-radius:16px;padding:18px 18px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);animation:evIn .35s ease both}
+@keyframes evIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+#evp .ev-k{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#9aa3bd}
+#evp h3{margin:6px 0 8px;font-family:var(--f-head);font-weight:600;font-size:22px;letter-spacing:.02em;color:var(--amber)}
+#evp p{margin:0;font-size:15.5px;line-height:1.6;color:#e8e2d2}
+#evp .ev-b{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+#evp .ev-b button{font:inherit;font-size:15px;text-align:left;background:#1f2538;border:1px solid var(--line2);color:#ece8dd;border-radius:12px;padding:11px 14px;cursor:pointer}
+#evp .ev-b button:hover,#evp .ev-b button:focus-visible{border-color:var(--amber);outline:none}
+#evp .ev-b button small{display:block;font-size:12.5px;color:var(--txt2);margin-top:2px}
+#evp .ev-r{margin-top:12px;font-style:italic;color:#cfd0d8}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -1734,7 +1748,7 @@ const WKT={'di-banrong':[150,55],'di-xeom':[150,240],'di-hocsinh':[126,70],'di-c
 function updateWalkers(dt){ if(S.scene!=='street'||SO.on){ WK=[]; return; } const h=hour();
   if(WK.length<2&&h>=6&&h<22&&Math.random()<dt*.06){ const ks=Object.keys(WKT).filter(k=>IMG[k]&&(h<19||k==='di-xeom')); if(ks.length){ const k=ks[Math.floor(Math.random()*ks.length)]; const d=Math.random()<.5?1:-1; WK.push({k,d,x:d>0?cam-220:cam+VW+220,ph:0}); } }
   WK.forEach(w=>{ w.x+=w.d*WKT[w.k][1]*dt; w.ph+=dt*8; }); WK=WK.filter(w=>w.x>cam-400&&w.x<cam+VW+400); }
-function drawWalkers(){ WK.forEach(w=>drawSprite(w.k,w.x,GROUND+12,WKT[w.k][0],w.d,w.k==='di-xeom'?0:-Math.abs(Math.sin(w.ph))*3)); }
+function drawWalkers(){ WK.forEach(w=>{ const im=IMG[w.k]; if(!im) return; const hh=WKT[w.k][0], wd=im.width*hh/im.height; g.save(); g.translate(w.x,GROUND+12); g.scale(w.d,1); if(w.k!=='di-xeom'){ g.rotate(Math.sin(w.ph)*.012); g.scale(1,1-(1-Math.cos(w.ph*2))*.004); } g.drawImage(im,-wd/2,-hh,wd,hh); g.restore(); }); }
 function drawCat(){ if(IMG['di-meomun']){ drawSprite('di-meomun',catAt(),GROUND+20,46,1); return; } const x=catAt(), y=GROUND+12; g.fillStyle='#141418'; g.beginPath(); g.ellipse(x,y,16,9,0,0,Math.PI*2); g.fill(); g.beginPath(); g.arc(x+15,y-8,7,0,Math.PI*2); g.fill(); g.beginPath(); g.moveTo(x+10,y-13); g.lineTo(x+12,y-20); g.lineTo(x+15,y-14); g.moveTo(x+16,y-14); g.lineTo(x+20,y-20); g.lineTo(x+21,y-12); g.fill(); g.strokeStyle='#141418'; g.lineWidth=3; g.beginPath(); g.moveTo(x-15,y); g.quadraticCurveTo(x-28,y-4,x-24,y-16); g.stroke(); if(nightF(hour())>.4){ g.fillStyle='#e8d24a'; g.fillRect(x+15,y-10,2,2); g.fillRect(x+19,y-10,2,2);} }
 function pill(x,y,txt,col){ g.font='600 16px "Be Vietnam Pro",system-ui'; const w=g.measureText(txt).width+24; g.fillStyle='rgba(16,19,28,.86)'; g.beginPath(); if(g.roundRect) g.roundRect(x-w/2,y,w,30,15); else g.rect(x-w/2,y,w,30); g.fill(); g.fillStyle=col||'#f0b25c'; g.textAlign='center'; g.textBaseline='middle'; g.fillText(txt,x,y+15); g.textBaseline='alphabetic'; }
 let rain=[], cars=[], tsec=0;
@@ -2428,6 +2442,44 @@ try{ if(/\.vercel\.app$/.test(location.hostname)){ window.va=window.va||function
   b.innerHTML='<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5A3.5 3.5 0 0 1 15.5 11"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg><span class="t">Thành tựu</span>'; b.onclick=()=>{ ac(); ttOpen(); };
   const ins=$('bInstall'); tools.insertBefore(b,ins&&ins.parentNode===tools?ins:null); })();
 (function(){ const st=$('stage'); if(st&&!$('vig')){ const v=document.createElement('div'); v.id='vig'; st.insertBefore(v,$('cv').nextSibling); } const _hud=hud; hud=function(){ const r=_hud.apply(this,arguments); try{ document.body.dataset.hoi=started?(S.ended?'ket':String(Math.min(5,Math.max(1,S.hoi||1)))):''; }catch(e){} return r; }; })();
+
+/* ---- chuyện trong hẻm: mỗi ngày có thể có một chuyện nhỏ, không đụng manh mối ---- */
+const EV=[
+ {id:'cupdien',t:'Cúp điện',x:'Mười giờ sáng, cả hẻm cúp điện cái rụp. Tiệm nail tắt đèn, cô Thoa lôi đèn sạc ra để trên quầy.',o:[{l:'Ngồi ngoài hiên chờ có điện lại',m:30,r:'Nửa tiếng sau điện có lại. Cả hẻm vỗ tay.'}]},
+ {id:'mucdep',t:'Con Mực tha dép',x:'Con Mực của chú Tám ngậm chiếc dép tổ ong chạy ngang, phía sau có một bà cụ cầm chổi rượt theo.',o:[{l:'Rượt giùm',m:20,e:'+tin_tam',r:'Lấy lại được chiếc dép. Bà cụ cảm ơn rối rít, chú Tám cười khà khà.'},{l:'Kệ',r:'Con Mực chạy mất hút vô tiệm hớt tóc.'}]},
+ {id:'nhomcai',t:'Nhóm cư dân cãi nhau',x:'Nhóm Za Lô "Cư dân hẻm 47" nổ bốn chục tin nhắn trong một tiếng: ai để xe chắn cửa nhà ai.',o:[{l:'Nhắn một câu hòa giải',m:15,e:'+tin_ba_sau',r:'Bà Sáu thả một cái tim vô tin của bạn. Cả nhóm im re.'},{l:'Tắt thông báo',r:'Điện thoại yên được một chút.'}]},
+ {id:'xerac',t:'Xe rác tới sớm',x:'Xe rác tới sớm hơn mọi bữa. Bà Sáu xách hai bịch rác lật đật chạy ra, không kịp.',o:[{l:'Khiêng giùm bà',m:15,e:'+tin_ba_sau',r:'"Con được ghê." Bà Sáu nói vậy rồi đi vô nhà.'},{l:'Đứng coi',r:'Xe rác chờ bà được đúng mười giây.'}]},
+ {id:'ngap',t:'Mưa ngập',x:'Mưa lớn hai chục phút, đầu hẻm ngập tới mắt cá. Xe ôm đứng ngoài, không chịu vô.',o:[{l:'Xắn quần lội nước',m:20,r:'Giày ướt nhẹp. Đi tới đâu kêu chẹp chẹp tới đó.'}]},
+ {id:'giaonham',t:'Giao nhầm',x:'Shipper để trước cửa phòng 3 một thùng nước mắm. Người nhận ghi: "Cô Thoa, tạp hóa đầu hẻm".',o:[{l:'Đem qua tạp hóa',m:15,e:'+tin_thoa',r:'Cô Thoa nhận thùng, không nói gì. Nhưng cũng không đuổi.'},{l:'Để đó',r:'Chiều shipper quay lại lấy, càm ràm một hồi.'}]},
+ {id:'veso',t:'Vé số',x:'Bà bán vé số quen mặt chìa xấp vé: "Tờ này đẹp lắm con, đuôi 47 nè."',o:[{l:'Mua một tờ',s:'10 ngàn',c:'tien>=10000',lo:1},{l:'Thôi bà ơi',r:'Bà cười, đi qua nhà kế bên.'}]},
+ {id:'damgio',t:'Đám giỗ',x:'Nhà đầu hẻm có đám giỗ, bày bàn ra tận hẻm, ới cả xóm qua ăn.',o:[{l:'Qua ăn ké',s:'khỏi tốn tiền cơm tối',m:60,e:'+tien:30000 +tin_hanh +tin_diem',r:'No căng. Ai cũng chào bạn một tiếng.'},{l:'Cảm ơn, để bữa khác',r:'Mùi thịt kho bay tới tận phòng 3.'}]},
+ {id:'karaoke',t:'Karaoke',x:'Nhà bên kia hẻm mở karaoke từ trưa. Bài nào cũng bolero, loa rè rè.',o:[{l:'Đóng cửa sổ, ráng tập trung',m:30,r:'Mất nửa tiếng mới làm việc lại được.'}]},
+ {id:'vechai',t:'Ve chai',x:'Ông ve chai đạp xe ngang, hỏi có đồ cũ bán không. Góc phòng 3 còn một bao chai nhựa người cũ để lại.',o:[{l:'Bán',e:'+tien:25000',r:'Hai mươi lăm ngàn. Phòng 3 rộng ra được một chút.'},{l:'Thôi',r:'Ông đạp xe đi, cái loa rao vọng lại cuối hẻm.'}]},
+ {id:'binxe',t:'Bin xẹp bánh',x:'Bin dắt chiếc xe xẹp bánh ngang qua, mặt nhăn như khỉ ăn ớt.',o:[{l:'Phụ dắt ra tiệm vá',s:'mất 20 ngàn tiền vá',c:'tien>=20000',m:30,e:'-tien:20000 +tin_bin',r:'Bin không cảm ơn. Nhưng lúc đi, nó gật đầu với bạn một cái.'},{l:'Hỏi thăm rồi đi',r:'"Không sao anh." Bin nói, mắt không ngó lên.'}]},
+ {id:'meomun',t:'Mèo mun',x:'Con mèo mun đầu hẻm theo về tới cửa phòng 3, ngồi đó kêu meo meo.',o:[{l:'Mua cá cho nó',s:'10 ngàn',c:'tien>=10000',e:'-tien:10000',r:'Nó ăn xong, liếm mép, bỏ đi không thèm ngó lại.'},{l:'Đóng cửa',r:'Nó ngồi thêm một chút rồi cũng đi.'}]},
+ {id:'diemlive',t:'Diễm live trúng',x:'Diễm la lên cả hẻm nghe: "Ba trăm người xem nè bà con ơi!"',o:[{l:'Vô chụp hình móng ké',m:30,e:'+tien:40000',r:'Diễm dúi cho bốn chục: "Bữa nay hên, chia hên."'},{l:'Đi ngang',r:'Tiếng Diễm cười theo ra tới đầu hẻm.'}]},
+ {id:'nguoila',h:3,t:'Người lạ hỏi đường',x:'Một cậu cỡ mười tám tuổi, cầm tờ giấy gấp làm tư, hỏi văn phòng số 12 ở đâu.',o:[{l:'Chỉ đường',r:'Cậu cảm ơn, đi thẳng vô văn phòng. Cửa kính đóng lại sau lưng.'},{l:'Hỏi cậu đi làm gì',e:'+nghi:2',r:'"Việc nhẹ lương cao anh." Anh Khoa đứng sau cửa kính, nhìn ra.'}]},
+ {id:'tamtru',h:2,t:'Kiểm tra tạm trú',x:'Công an khu vực đi từng nhà kiểm tra tạm trú.',o:[{l:'Đưa giấy tờ',m:20,r:'Bà Sáu đứng kế bên: "Thằng này ở đàng hoàng." Xong nhanh.'}]},
+ {id:'banhmi',t:'Bánh mì dư',x:'Cuối buổi chị Hạnh dư ba ổ bánh mì, kêu với theo: "Lâm, lấy đi em, để tới mai là bỏ."',o:[{l:'Cảm ơn chị',s:'khỏi tốn tiền cơm tối',e:'+tien:30000',r:'Bữa tối nay có rồi.'}]},
+ {id:'hetpin',t:'Sắp hết pin',x:'Đang đi thì điện thoại báo còn 5% pin.',o:[{l:'Về phòng sạc',m:40,r:'Ngồi chờ sạc, ngó trần nhà.'},{l:'Mua sạc dự phòng ở tạp hóa',s:'30 ngàn',c:'tien>=30000',e:'-tien:30000',r:'Cô Thoa đưa cục sạc, thối tiền lẻ, không nói thêm câu nào.'}]},
+ {id:'tinrac',t:'Tin nhắn lạ',x:'Một số lạ nhắn: "CHUC MUNG BAN TRUNG THUONG XE SH. BAM VAO LINK DE NHAN QUA."',o:[{l:'Xóa',r:'Tin rác thường thôi.'}]}];
+function evFree(){ const vis=id=>{ const e=$(id); return e&&!e.hidden; };
+  return started&&!busy&&!sleeping&&!S.ended&&!(typeof SO!=='undefined'&&SO.on)&&S.scene==='street'&&!vis('phone')&&!vis('game')&&!vis('cover')&&!vis('goal')&&!vis('hd')&&!vis('pn')&&!vis('bl')&&!vis('cd')&&!vis('so')&&!vis('dlg')&&!vis('evp')&&!vis('intro')&&!chooseFn; }
+function evPlan(){ if(S.evd===S.day) return; S.evd=S.day; S.evk=null; if(!S.evs) S.evs={}; if(S.day<2||Math.random()>=.5) return;
+  const L=EV.filter(e=>!S.evs[e.id]&&(e.h||1)<=S.hoi); if(!L.length) return; S.evk=L[Math.floor(Math.random()*L.length)].id; S.eva=9+Math.random()*8; }
+function evShow(e){ return new Promise(res=>{ let el=$('evp'); if(!el){ el=document.createElement('div'); el.id='evp'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true'); document.body.appendChild(el); }
+  const O=e.o.filter(o=>!o.c||cond(o.c));
+  el.innerHTML='<div class="ev-c"><div class="ev-k">Chuyện trong hẻm</div><h3>'+esc(e.t)+'</h3><p>'+esc(e.x)+'</p><div class="ev-b">'+O.map((o,i)=>'<button type="button" data-i="'+i+'">'+esc(o.l)+(o.s||o.m?'<small>'+esc([o.s,o.m?('mất '+(o.m>=60?(o.m/60)+' tiếng':o.m+' phút')):''].filter(Boolean).join(' · '))+'</small>':'')+'</button>').join('')+'</div></div>';
+  el.setAttribute('aria-label',e.t); el.hidden=false; tone(520,.12,.02,'sine'); const b0=el.querySelector('button'); if(b0) b0.focus();
+  el.querySelectorAll('[data-i]').forEach(bt=>bt.onclick=async()=>{ const o=O[+bt.dataset.i]; let r=o.r||'';
+    if(o.lo){ effects('-tien:10000'); if(Math.random()<.1){ effects('+tien:200000'); r='Dò số tối đó: trúng hai trăm ngàn. Bà bán vé số cười tít mắt.'; } else r='Dò số tối đó: trật hết. Bà nói "bữa sau hên".'; }
+    else if(o.e) effects(o.e);
+    blPush('Chuyện trong hẻm',e.t+'. '+o.l+'. '+r,'mota');
+    const box=el.querySelector('.ev-b'); box.innerHTML='<p class="ev-r">'+esc(r)+'</p><button type="button" id="evOk">Ừ</button>'; $('evOk').focus();
+    $('evOk').onclick=async()=>{ el.hidden=true; if(o.m) await spend(o.m); save(); res(); }; }); }); }
+let evBusy=false;
+setInterval(async()=>{ try{ if(evBusy||typeof TESTMODE!=='undefined'&&TESTMODE) return; if(!started||S.ended) return; evPlan(); if(!S.evk||hour()<S.eva||hour()>=19) return; if(!evFree()) return;
+  const e=EV.find(x=>x.id===S.evk); S.evk=null; if(!e) return; S.evs[e.id]=1; evBusy=true; busy=true; try{ await evShow(e); } finally { busy=false; evBusy=false; } }catch(err){ evBusy=false; } },1200);
 $('bNew').onclick=()=>begin(false); $('bCont').onclick=()=>begin(true);
 /* ================= SỔ TAY: TRUYỆN + TÂM SỰ TÁC GIẢ =================
    Bài viết lưu ở bảng Supabase "baiviet", tim ở bảng "baiviet_tim" (xem file sql).

@@ -1125,7 +1125,7 @@ function prepDark(){ ['loc','bin','tam'].forEach(k=>{ const f=IMG[k+'-full']; if
 const SIL={};
 function drawFull(g,k,x,fy,face,o,fu){
   const H=(HGT[k]||160)*(o.sc||1), sc=H/fu.height, w=fu.width*sc;
-  const bob=o.walk?-Math.abs(Math.sin(o.ph))*H*.035:0, rot=o.walk?Math.sin(o.ph)*.025:0, br=o.walk?0:Math.sin((o.t||0)*1.6)*.005;
+  const bob=o.walk?-Math.abs(Math.sin(o.ph))*H*.006:0, rot=o.walk?.016+Math.sin(o.ph*2)*.003:0, br=o.walk?0:Math.sin((o.t||0)*1.6)*.005;
   g.save(); g.globalAlpha=o.alpha==null?1:o.alpha;
   const gg=g.createRadialGradient(x,fy,2,x,fy,H*.2); gg.addColorStop(0,'rgba(0,0,0,.34)'); gg.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=gg; g.beginPath(); g.ellipse(x,fy,H*.2,H*.045,0,0,Math.PI*2); g.fill();
   if(o.glow){ const gl=g.createRadialGradient(x,fy-H*.5,10,x,fy-H*.5,H*.7); gl.addColorStop(0,'rgba(240,178,92,.18)'); gl.addColorStop(1,'rgba(240,178,92,0)'); g.fillStyle=gl; g.fillRect(x-H,fy-H*1.2,H*2,H*1.4); }

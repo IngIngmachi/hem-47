@@ -751,6 +751,12 @@ body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} bo
 #evp .ev-b button:hover,#evp .ev-b button:focus-visible{border-color:var(--amber);outline:none}
 #evp .ev-b button small{display:block;font-size:12.5px;color:var(--txt2);margin-top:2px}
 #evp .ev-r{margin-top:12px;font-style:italic;color:#cfd0d8}
+
+.fbg{display:inline-flex;align-items:center;gap:8px;margin:22px auto 0;padding:8px 16px 8px 12px;border:1px solid rgba(120,150,230,.45);border-radius:999px;background:rgba(24,119,242,.12);color:#c9d6f5;font-size:13.5px;text-decoration:none;letter-spacing:.01em}
+.fbg svg{width:18px;height:18px;fill:#5b8def}
+.fbg:hover,.fbg:focus-visible{background:rgba(24,119,242,.22);color:#fff;outline:none}
+.cover .fbg + .foot{margin-top:14px}
+.moc + .fbg,.row + .fbg{display:flex;width:max-content}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -795,7 +801,7 @@ body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} bo
       <div class="kick">Sài Gòn · 2026 <span class="age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div><h2>Hẻm 47</h2><div class="part">Thế Giới Lặng</div>
       <p>Một năm trước, Lâm viết một bài bóc phốt sai. Cô gái tên Ngân mất hết rồi biến mất. Giờ Lâm dọn về đúng con hẻm mẹ cô bán tạp hóa, mở dịch vụ xác minh để có tiền đóng trọ.</p>
       <div class="row"><button class="btn" id="bNew" type="button" disabled>Chơi mới</button><button class="btn ghost" id="bCont" type="button" hidden>Chơi tiếp</button><button class="btn ghost" id="bIntro" type="button">Xem mở đầu</button><button class="btn ghost" id="bCd" type="button">Cài đặt</button><button class="btn ghost" id="bAcct" type="button">Đăng nhập</button><button class="btn ghost" id="bSo" type="button">Sổ tay</button><button class="btn ghost" id="bInstall" type="button" hidden>Thêm vào màn hình chính</button></div>
-      <p class="sub" id="loadTx" style="margin-top:14px">Đang tải tranh…</p><div class="foot">© 2026 Jesuising Studio · <a href="https://the-gioi-lang-v6.vercel.app" target="_blank" rel="noopener">the-gioi-lang-v6.vercel.app</a> · <a href="mailto:jesuising.studio@gmail.com" title="jesuising.studio@gmail.com">Liên hệ tác giả</a></div>
+      <p class="sub" id="loadTx" style="margin-top:14px">Đang tải tranh…</p><a class="fbg" href="https://www.facebook.com/share/g/1HZAi2hPn7/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5h2.2V5.2H13.6c-2.6 0-3.8 1.6-3.8 4v2H7.6v3.3h2.2V22h3.4v-7.5h2.6l.5-3.3h-3.1V9.6c0-.7.3-1.1 1-1.1z"/></svg><span>Vào nhóm Cư dân Hẻm 47</span></a><div class="foot">© 2026 Jesuising Studio · <a href="https://the-gioi-lang-v6.vercel.app" target="_blank" rel="noopener">the-gioi-lang-v6.vercel.app</a> · <a href="mailto:jesuising.studio@gmail.com" title="jesuising.studio@gmail.com">Liên hệ tác giả</a></div>
     </div></div>
     <div class="dlg" id="dlg" hidden><img id="dFace" alt=""><div class="tx"><div class="nm" id="dNm"></div><div class="ln" id="dLn"></div><div class="choices" id="dCh"></div></div><span class="more" id="dMore">chạm để tiếp</span></div>
   </div>
@@ -2493,6 +2499,8 @@ function evShow(e){ return new Promise(res=>{ let el=$('evp'); if(!el){ el=docum
 let evBusy=false;
 setInterval(async()=>{ try{ if(evBusy||typeof TESTMODE!=='undefined'&&TESTMODE) return; if(!started||S.ended) return; evPlan(); if(!S.evk||hour()<S.eva||hour()>=19) return; if(!evFree()) return;
   const e=EV.find(x=>x.id===S.evk); S.evk=null; if(!e) return; S.evs[e.id]=1; evBusy=true; busy=true; try{ await evShow(e); } finally { busy=false; evBusy=false; } }catch(err){ evBusy=false; } },1200);
+const FBG_HTML='<a class="fbg" href="https://www.facebook.com/share/g/1HZAi2hPn7/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5h2.2V5.2H13.6c-2.6 0-3.8 1.6-3.8 4v2H7.6v3.3h2.2V22h3.4v-7.5h2.6l.5-3.3h-3.1V9.6c0-.7.3-1.1 1-1.1z"/></svg><span>Vào nhóm Cư dân Hẻm 47</span></a>';
+{ const _ec2=endCard; endCard=function(k){ _ec2.apply(this,arguments); if(!ENDS[k]) return; const c=$('cover'); if(!c||c.querySelector('.in .fbg')) return; const row=c.querySelector('.in .row'); if(!row) return; const after=c.querySelector('.in .moc')||row; after.insertAdjacentHTML('afterend',FBG_HTML); }; }
 $('bNew').onclick=()=>begin(false); $('bCont').onclick=()=>begin(true);
 /* ================= SỔ TAY: TRUYỆN + TÂM SỰ TÁC GIẢ =================
    Bài viết lưu ở bảng Supabase "baiviet", tim ở bảng "baiviet_tim" (xem file sql).

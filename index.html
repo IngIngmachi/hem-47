@@ -1,7 +1,7 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0d14"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Hẻm 47"><link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png?v=3"><link rel="icon" href="icons/icon-192.png?v=3"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="vi"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0d14"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Hẻm 47"><link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png?v=3"><link rel="icon" href="icons/icon-192.png?v=3"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hẻm 47: Thế Giới Lặng</title>
+<title>Hẻm 47: Thế Giới Lặng</title><meta name="description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta property="og:type" content="website"><meta property="og:site_name" content="Hẻm 47"><meta property="og:title" content="Hẻm 47: Thế Giới Lặng"><meta property="og:description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta property="og:url" content="https://the-gioi-lang-v6.vercel.app/"><meta property="og:image" content="https://the-gioi-lang-v6.vercel.app/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Hẻm 47: Thế Giới Lặng, một con hẻm Sài Gòn ban đêm"><meta property="og:locale" content="vi_VN"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Hẻm 47: Thế Giới Lặng"><meta name="twitter:description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta name="twitter:image" content="https://the-gioi-lang-v6.vercel.app/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;1,400&family=Oswald:wght@500;600&family=Playpen+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -663,6 +663,30 @@ body.itdong .in-bg.on{animation:none} body.itdong .dlg,body.itdong .hd-hole,body
 .cover .foot .warn{color:#a8a294;margin-bottom:4px}
 .cover .foot a{color:#c9c2b0;text-decoration:none;border-bottom:1px solid rgba(201,194,176,.35)}
 .cover .foot a:hover{color:var(--amber);border-color:var(--amber)}
+
+/* ===== v6.8: xem lại thoại, tóm tắt ===== */
+#bl{position:fixed;inset:0;z-index:63;background:rgba(5,6,10,.72);display:flex;align-items:flex-end;justify-content:center}
+#bl[hidden]{display:none}
+#bl .bl-p{width:min(640px,100%);max-height:min(78dvh,720px);display:flex;flex-direction:column;background:#141826;border:1px solid var(--line2);border-bottom:0;border-radius:16px 16px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.45)}
+#bl .bl-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;border-bottom:1px solid var(--line2)}
+#bl .bl-h h3{margin:0;font-family:var(--f-head);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:16px;color:var(--amber)}
+#bl .bl-x{background:none;border:1px solid var(--line2);color:var(--txt2);border-radius:17px;height:34px;padding:0 14px;font:inherit;font-size:13px;cursor:pointer}
+#bl .bl-l{overflow-y:auto;padding:8px 18px max(18px,env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+#bl .bl-i{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:15px;line-height:1.55;color:#e4e1d8}
+#bl .bl-i b{display:block;font-size:12px;letter-spacing:.04em;color:var(--amber);font-weight:600;margin-bottom:1px}
+#bl .bl-i.mota{color:#cfd0d8;font-style:italic}
+#bl .bl-i.nghi b{color:#9cc3f0}
+#bl .bl-i.chon{color:#f6efe0}
+#bl .bl-i.chon b{color:#7ec8be}
+#bl .bl-e{padding:28px 0;text-align:center;color:var(--txt2);font-size:14px}
+@media (min-width:720px){ #bl{align-items:center} #bl .bl-p{border-radius:16px;border-bottom:1px solid var(--line2)} }
+.rc-sub{margin:-8px 0 18px;color:#a9a493;font-size:14px;letter-spacing:.04em}
+.rc-sec{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#9aa3bd;margin:14px 0 6px}
+.rc-tx{font-size:16px;line-height:1.55;color:#e8e2d2;margin:0;white-space:pre-line}
+.rc-ul{margin:0;padding:0;list-style:none;color:#d9d3c4;font-size:15px;line-height:1.6}
+.gl-in .rc-ul li{display:block;margin:0 0 4px;padding-left:16px;position:relative;font-size:15px}
+.gl-in .rc-ul li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:6px;border:0;border-radius:50%;background:#f0b25c;margin:0}
+.gl-in .rc-go{margin-top:22px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -672,7 +696,7 @@ body.itdong .in-bg.on{animation:none} body.itdong .dlg,body.itdong .hd-hole,body
 <div class="cd" id="cd" hidden><div class="cd-box" id="cdBox"></div></div>
 <div class="inst" id="inst" hidden><div id="instTx"></div></div>
 <div id="app">
-  <div class="top"><h1>Hẻm 47</h1><div class="r"><span id="hAct">Hồi 1 · hẻm 47 Fan Xích Vô</span><button class="ebtn so" id="soBtn" type="button">Sổ tay<i id="soDot" hidden></i></button><button class="ebtn" id="tsBtn" type="button" hidden>Phòng thử</button><button class="ebtn" id="edBtn" type="button" hidden>Biên tập lời thoại</button><button class="ebtn" id="cdBtn" type="button" title="Cài đặt" aria-label="Cài đặt">⚙</button><button class="ebtn" id="musBtn" type="button" title="Nhạc nền" aria-label="Bật tắt nhạc nền">♪</button><button class="ebtn" id="hdBtn" type="button" title="Hướng dẫn chơi" aria-label="Hướng dẫn chơi" hidden>?</button><button class="ebtn" id="acctBtn" type="button">Đăng nhập</button></div></div>
+  <div class="top"><h1>Hẻm 47</h1><div class="r"><span id="hAct">Hồi 1 · hẻm 47 Fan Xích Vô</span><button class="ebtn so" id="soBtn" type="button">Sổ tay<i id="soDot" hidden></i></button><button class="ebtn" id="tsBtn" type="button" hidden>Phòng thử</button><button class="ebtn" id="edBtn" type="button" hidden>Biên tập lời thoại</button><button class="ebtn" id="cdBtn" type="button" title="Cài đặt" aria-label="Cài đặt">⚙</button><button class="ebtn" id="musBtn" type="button" title="Nhạc nền" aria-label="Bật tắt nhạc nền">♪</button><button class="ebtn" id="blBtn" type="button" title="Xem lại thoại" aria-label="Xem lại thoại" hidden></button><button class="ebtn" id="hdBtn" type="button" title="Hướng dẫn chơi" aria-label="Hướng dẫn chơi" hidden>?</button><button class="ebtn" id="acctBtn" type="button">Đăng nhập</button></div></div>
   <div id="auth" hidden style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(8,10,16,.82);padding:16px">
     <div style="width:min(380px,100%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-sizing:border-box">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -869,7 +893,7 @@ async function run(a,b,opt){
     if(SKIPK[r.kieu]||!cond(r.hien,opt)){i++;continue;}
     if(r.kieu==='chon'){ const set=[]; let j=i; while(j<=end&&T[j].kieu==='chon'){ if(cond(T[j].hien,opt)) set.push(T[j]); j++; }
       if(!set.length){ i=j; continue; }
-      const pick=await choose(set,prev==='tin'||prev==='nhom'); S.ch[pick.ma]=1;
+      const pick=await choose(set,prev==='tin'||prev==='nhom'); S.ch[pick.ma]=1; blPush('Bạn chọn',tpl(pick.loi),'chon');
       if(prev==='tin'&&lastTin&&!/^\(.*\)$/.test(pick.loi)) await phoneMsg(lastTin,{me:1,text:tpl(pick.loi)},false);
       const jp=effects(pick.sau); if(pendingGame) await doGame(); i=jp&&IDX[jp]!=null?IDX[jp]:j; prev='chon'; continue; }
     if(r.kieu==='trinh'){ const m=String(r.sau).match(/dung:([\w|]+)/); const pick=await presentCC(tpl(r.loi)); S.ch[r.ma+(m&&m[1].split('|').includes(pick)?'_dung':'_sai')]=1; effects(String(r.sau).replace(/dung:[\w|]+/,'')); i++; prev='trinh'; continue; }
@@ -881,7 +905,7 @@ function threadOf(r){ const ai=String(r.ai||''); if(ai.includes(' > ')){ const [
 async function show(r){ const k=r.kieu;
   if(k==='tin'||k==='nhom'){ hideDlg(); const t=threadOf(r); await phoneMsg(t.th,{who:t.who,text:tpl(r.loi),me:t.me},true); return t.th; }
   if(phAuto) closePhone(); webSeen(r.loi); await say(k,k==='mota'?'':(r.ai||''),tpl(r.loi)); }
-function say(kind,name,text){ return new Promise(res=>{
+function say(kind,name,text){ blPush(kind==='mota'?'':kind==='nghi'?'Lâm nghĩ':(name||''),text,kind); return new Promise(res=>{
   const d=$('dlg'); d.hidden=false; d.className='dlg '+kind; $('dCh').innerHTML='';
   const nm=kind==='nghi'?'Lâm':name; speaking=kind==='thoai'?SPK[name]:null;
   $('dFace').hidden=kind==='mota'||!nm; if(nm) $('dFace').src=faceFor(nm);
@@ -2002,10 +2026,11 @@ async function boot(){
   PL.x=at('basau',.4); $('loadTx').hidden=true;
   if(CLOUD||lsGet(SAVEKEY)) $('bCont').hidden=false; $('bNew').disabled=false;
   requestAnimationFrame(loop); }
-async function begin(cont){ ac(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; setInterval(()=>{ if(!busy&&!SO.on) save(); },8000);
+async function begin(cont){ ac(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; $('blBtn').hidden=false; setInterval(()=>{ if(!busy&&!SO.on) save(); },8000);
   if(cont&&load()){ if(S.ended){ endCard(S.ended); return; } if(S.scene==='room'||S.scene==='place'){ S.scene='street'; S.room=null; } PL.x=at('basau',.4); snapNPC(); hud();
     if(!lsGet(INTRO_KEY)){ await typeIntro(); lsSet(INTRO_KEY,'1'); }
     if(!lsGet(HD_KEY)){ await sleep(500); await tutorial(); }
+    else if((S.log||[]).length||S.day>1) await recap();
     await tick(); return; }
   S=fresh(); const jh=location.hash.slice(1); if(JUMP[jh]){ JUMP[jh](); PL.x=at('basau',.4); snapNPC(); hud(); await tick(); return; }
   await typeIntro(); lsSet(INTRO_KEY,'1');
@@ -2209,6 +2234,30 @@ function soiOpen(aid){ return new Promise(res=>{ const D=SOI[aid]; if(!D){ res()
 (function dockTop(){ const d=$('dock'); if(!d) return; const upd=()=>{ const r=d.getBoundingClientRect(); if(r.height>0) document.documentElement.style.setProperty('--dockTop',Math.round(r.top)+'px'); else document.documentElement.style.removeProperty('--dockTop'); };
   upd(); addEventListener('resize',upd); addEventListener('orientationchange',()=>setTimeout(upd,300)); try{ new ResizeObserver(upd).observe(d); }catch(e){} setInterval(upd,1500); })();
 (function(){ const m=$('dMore'), ln=$('dLn'); if(m&&ln&&matchMedia('(orientation:portrait) and (max-width:719px)').matches) ln.after(m); })();
+
+function blPush(n,t,k){ if(!t) return; if(!S.bl) S.bl=[]; S.bl.push({n:String(n||''),t:String(t),k:k||''}); if(S.bl.length>40) S.bl.splice(0,S.bl.length-40); }
+(function blInit(){ const b=$('blBtn'); if(!b) return; b.classList.add('ico');
+  b.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v3.8h3.8"/><path d="M12 8v4.3l2.8 1.7"/></svg><span class="lb">Xem lại</span>';
+  let el=null; const close=()=>{ if(el) el.hidden=true; };
+  const open=()=>{ ac(); if(!el){ el=document.createElement('div'); el.id='bl'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true'); el.setAttribute('aria-label','Xem lại thoại'); document.body.appendChild(el);
+      el.addEventListener('click',e=>{ if(e.target===el) close(); }); }
+    const L=(S.bl||[]);
+    el.innerHTML='<div class="bl-p"><div class="bl-h"><h3>Xem lại thoại</h3><button type="button" class="bl-x" id="blX">Đóng</button></div><div class="bl-l" id="blL">'
+      +(L.length?L.map(x=>'<div class="bl-i '+esc(x.k)+'">'+(x.n?'<b>'+esc(x.n)+'</b>':'')+esc(x.t)+'</div>').join(''):'<div class="bl-e">Chưa có câu thoại nào.</div>')+'</div></div>';
+    el.hidden=false; $('blX').onclick=close; const l=$('blL'); l.scrollTop=l.scrollHeight; $('blX').focus(); };
+  b.onclick=e=>{ e.stopPropagation(); open(); };
+  addEventListener('keydown',e=>{ if(el&&!el.hidden){ if(e.key==='Escape'||e.key==='l'||e.key==='L'){ e.preventDefault(); e.stopImmediatePropagation(); close(); } else e.stopImmediatePropagation(); return; }
+    if((e.key==='l'||e.key==='L')&&started&&!e.target.closest('input,textarea,[contenteditable]')){ e.preventDefault(); open(); } },true); })();
+function recap(){ return new Promise(res=>{ let el=$('goal'); if(!el){ el=document.createElement('div'); el.id='goal'; document.body.appendChild(el); }
+  const r=metaRows('muc').find(x=>cond(x.hien)); const muc=r?tpl(r.loi):'';
+  const done=(S.log||[]).filter(Boolean).slice(-3).reverse();
+  const last=(S.bl||[]).filter(x=>x.k!=='chon').slice(-1)[0];
+  el.innerHTML='<div class="gl-in"><div class="gl-k">Lần trước</div><h2>Ngày '+S.day+'/'+TOTAL_DAYS+' · '+fmtT(S.min)+'</h2><p class="rc-sub">'+esc(ACTN[S.hoi]||('Hồi '+S.hoi))+'</p>'
+    +(done.length?'<div class="rc-sec">Vừa làm</div><ul class="rc-ul">'+done.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
+    +(last?'<div class="rc-sec">Câu cuối</div><p class="rc-tx">'+(last.n?esc(last.n)+': ':'')+esc(last.t)+'</p>':'')
+    +(muc?'<div class="rc-sec">Việc cần làm</div><p class="rc-tx">'+esc(muc)+'</p>':'')
+    +'<button class="btn rc-go" type="button" id="rcGo">Chơi tiếp</button></div>';
+  el.hidden=false; $('rcGo').focus(); $('rcGo').onclick=()=>{ el.hidden=true; res(); }; }); }
 $('bNew').onclick=()=>begin(false); $('bCont').onclick=()=>begin(true);
 /* ================= SỔ TAY: TRUYỆN + TÂM SỰ TÁC GIẢ =================
    Bài viết lưu ở bảng Supabase "baiviet", tim ở bảng "baiviet_tim" (xem file sql).

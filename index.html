@@ -2074,10 +2074,10 @@ async function begin(cont){ ac(); $('cover').hidden=true; started=true; $('hdBtn
     else if((S.log||[]).length||S.day>1) await recap();
     await tick(); return; }
   S=fresh(); const jh=location.hash.slice(1); if(JUMP[jh]){ JUMP[jh](); PL.x=at('basau',.4); snapNPC(); hud(); await tick(); return; }
-  await typeIntro(); lsSet(INTRO_KEY,'1');
   S.scene='room'; S.min=2*60+14; PL.x=VW*.45; PL.face=1; hud();
+  await typeIntro(); lsSet(INTRO_KEY,'1'); fade=1;
   await sleep(500); await runS('n0_mo'); hideDlg(); await showGoal();
-  S.scene='street'; S.min=7*60+12; PL.x=at('basau',.4); snapNPC(); hud();
+  S.scene='street'; S.min=7*60+12; PL.x=at('basau',.4); snapNPC(); fade=1.4; hud(); toast('Sáng hôm sau · '+fmtT(S.min));
   if(!lsGet(HD_KEY)){ await sleep(700); await tutorial(); }
   await tick(); }
 /* ===== ĐĂNG NHẬP / TÀI KHOẢN ===== */

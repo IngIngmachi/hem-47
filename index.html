@@ -839,17 +839,15 @@ body.testing .top h1.tua{display:flex;align-items:center;gap:6px;line-height:1}
     <select id="edScene" aria-label="Lọc theo cảnh"></select>
     <input id="edFind" type="search" placeholder="Tìm chữ…" aria-label="Tìm">
     <span class="sp"></span><span class="msgx" id="edMsg"></span>
-    <button class="pbtn" id="edImport" type="button">Nạp Excel</button>
+    <button class="pbtn" id="edOld" type="button" hidden>Tải bản sửa cũ</button>
     <button class="pbtn" id="edCopy" type="button">Sao chép CSV</button>
-    <button class="ebtn" id="edSave" type="button">Lưu cho người chơi</button>
+    <button class="ebtn" id="edSave" type="button">Tải file sửa</button>
     <button class="pbtn" id="edClose" type="button">Về game</button>
   </div>
   <div class="ed-b"><table><thead><tr><th style="width:96px">Mã</th><th style="width:150px">Cảnh</th><th style="width:130px">Ai nói</th><th style="width:84px">Kiểu</th><th>Lời</th><th style="width:130px">Hiện khi</th><th style="width:130px">Sau đó</th><th style="width:160px">Ghi chú</th><th style="width:70px"></th></tr></thead><tbody id="edBody"></tbody></table></div>
 </div>
-<input type="file" id="fileIn" accept=".xlsx,.xls,.csv" hidden>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
@@ -1990,15 +1988,20 @@ $('panL').onclick=e=>{ e.stopPropagation(); panBy(-1); }; $('panR').onclick=e=>{
 cv.addEventListener('click',e=>{ ac(); if(DRAGGED){ DRAGGED=false; return; } if(busy&&!chooseFn){ advance(); return; } if(!started||busy||S.ended) return; if(SO.on) return; if(S.scene!=='street'&&S.scene!=='in') return; const p=worldPt(e); if(S.scene==='street'){ const sx=p.x-cam, ed=EDGE.find(q=>sx>=q.x&&sx<=q.x+q.w&&p.y>=q.y&&p.y<=q.y+q.h); if(ed){ tapSpot(ed.spot); return; } } const h=spotAt(p); if(h) tapSpot(h); else if(S.scene==='street'){ PL.goal=Math.max(60,Math.min(W-60,p.x)); } });
 
 /* ================= KHO LỜI THOẠI + BIÊN TẬP ================= */
+/* Lời thoại: bản trong repo là bản chính. Bản sửa cũ trên Supabase chỉ còn áp cho dòng repo chưa cập nhật,
+   dòng nào có trong REPO_WINS thì repo thắng. Biên tập xong bấm "Tải file sửa", gửi file cho người giữ repo. */
+const REPO_WINS=new Set(['n0_truyen_01','n0_truyen_02','n0_truyen_03','n0_truyen_04','n0_truyen_05','n0_truyen_06','n0_truyen_07','n0_truyen_08','n1_thoa_11','n1_thoa_12','n1_thoa_13','n1_tra_01','n1_tra_02','n1_dem_02','n1_dem_08','n2_kqhanh_06','n2_kqhanh_09','n2_basau_07','n2_khoa_08','n2_loc_03','n3_khoa_06','tra_bienlai_tung_01','tra_bienlai_tung_02','h2_tu_06','h4_phuong_09','h4_thoa_15','h4_dong_01','h4_dong_02','h4_dong_03','h4_dong_04','h4_dong_05']);
+let OLDOVR=[];
+function dlJson(name,obj){ const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }
 async function initStore(){ if(!supa) return;
   try{ const {data,error}=await supa.from('suadoi').select('*').limit(5000);
-    if(!error&&data){ OVR={}; data.forEach(o=>{ if(o&&o.ma) OVR[o.ma]=o; }); if(data.length){ rebuild(); ROWSRC='đã biên tập ('+data.length+' dòng sửa)'; } } }catch(e){}
+    if(!error&&data){ OLDOVR=data; OVR={}; data.forEach(o=>{ if(o&&o.ma&&!REPO_WINS.has(o.ma)) OVR[o.ma]=o; }); if(Object.keys(OVR).length){ rebuild(); ROWSRC='đã biên tập ('+Object.keys(OVR).length+' dòng sửa)'; } } }catch(e){}
   applyAdminUI(); }
 const KINDS=['thoai','nghi','tin','nhom','mota','chon','trinh','cc','so','don','muc','cliff','bang','tu','web','trang','anh','maycu','khai','cau'];
 const SPEAKERS=['','Lâm','Bà Sáu','Khoa','Cô Thoa','Ngân','Bin','Lộc','Hạnh Bánh Mì','Tám Hớt Tóc','Diễm Nail','Phương','Tú','Hương','Đại úy Vinh','Thủy','Tùng','Lụa','Phát','Hoa','Người lạ'];
 let ED=[], DIRTY=new Set(), DELETED=new Set();
 const DEF=new Map(ROWS_DEFAULT.map(r=>[r.ma,r]));
-function openEditor(){ ED=T.map(r=>Object.assign({},r)); DIRTY.clear(); DELETED.clear(); fillScenes(); renderEd(); $('ed').hidden=false; edMsg(Object.keys(OVR).length+' dòng đã sửa so với bản gốc.'); }
+function openEditor(){ ED=T.map(r=>Object.assign({},r)); DIRTY.clear(); DELETED.clear(); fillScenes(); renderEd(); $('ed').hidden=false; $('edOld').hidden=!OLDOVR.length; $('edOld').textContent='Tải bản sửa cũ ('+OLDOVR.length+')'; edMsg(Object.keys(OVR).length+' dòng đang khác bản repo.'); }
 function fillScenes(){ const sc=[...new Set(ED.map(r=>r.canh).filter(Boolean))]; const sel=$('edScene'), cur=sel.value; sel.innerHTML='<option value="">Tất cả cảnh ('+ED.length+' dòng)</option>'+sc.map(s=>'<option'+(s===cur?' selected':'')+'>'+esc(s)+'</option>').join(''); }
 function renderEd(){ const f=$('edScene').value, q=$('edFind').value.trim().toLowerCase(); const body=$('edBody'); body.innerHTML=''; let shown=0;
   ED.forEach((r,i)=>{ if(f&&r.canh!==f) return; if(q&&!(r.loi+' '+r.ma+' '+r.ai).toLowerCase().includes(q)) return; if(++shown>400) return;
@@ -2019,37 +2022,25 @@ $('edScene').onchange=renderEd; $('edFind').oninput=renderEd;
 const edMsg=t=>$('edMsg').textContent=t;
 const clean=r=>({ma:String(r.ma).trim(),hoi:String(r.hoi==null?'':r.hoi),canh:r.canh||'',ai:r.ai||'',kieu:r.kieu||'',loi:r.loi||'',hien:r.hien||'',sau:r.sau||'',note:r.note||'',stt:+r.stt||0});
 const same=(a,b)=>['hoi','canh','ai','kieu','loi','hien','sau','note'].every(k=>String(a[k]||'')===String(b[k]||''))&&(+a.stt===+b.stt);
-$('edSave').onclick=async()=>{ if(!supa) return edMsg('Không kết nối được kho lời thoại.');
-  if(!isAdmin()) return edMsg('Cần đăng nhập bằng tài khoản chủ game mới lưu được.');
-  const ids=ED.map(r=>String(r.ma).trim()); const dup=ids.find((x,i)=>!x||ids.indexOf(x)!==i); if(dup!==undefined) return edMsg('Mã bị trống hoặc trùng: "'+dup+'". Sửa rồi lưu lại.');
+$('edSave').onclick=()=>{
+  const ids=ED.map(r=>String(r.ma).trim()); const dup=ids.find((x,i)=>!x||ids.indexOf(x)!==i); if(dup!==undefined) return edMsg('Mã bị trống hoặc trùng: "'+dup+'". Sửa rồi tải lại.');
   const bad=ids.find(x=>!/^[A-Za-z0-9_.~:@+-]+$/.test(x)); if(bad) return edMsg('Mã "'+bad+'" chỉ được dùng chữ không dấu, số, _ và -.');
-  $('edSave').disabled=true; let n=0;
-  try{ for(const r of DIRTY){ if(r._oldma&&r._oldma!==r.ma) DELETED.add(r._oldma); }
-    for(const id of DELETED){ if(ids.includes(id)) continue; if(DEF.has(id)){ const {error}=await supa.from('suadoi').upsert({ma:id,xoa:true}); if(error) throw error; OVR[id]={ma:id,xoa:true}; } else { const {error}=await supa.from('suadoi').delete().eq('ma',id); if(error) throw error; delete OVR[id]; } n++; edMsg('Đang lưu… '+n); }
-    for(const r of DIRTY){ delete r._oldma; const c=clean(r); const d=DEF.get(c.ma); if(d&&same(c,d)){ if(OVR[c.ma]){ const {error}=await supa.from('suadoi').delete().eq('ma',c.ma); if(error) throw error; delete OVR[c.ma]; } } else { const {error}=await supa.from('suadoi').upsert(c); if(error) throw error; OVR[c.ma]=c; } n++; edMsg('Đang lưu… '+n); }
-    DIRTY.clear(); DELETED.clear(); rebuild(); ROWSRC='đã biên tập ('+Object.keys(OVR).length+' dòng sửa)'; ED=T.map(r=>Object.assign({},r)); renderEd(); edMsg('Đã lưu. Người chơi mở game lần sau sẽ thấy lời mới.'); }
-  catch(err){ edMsg('Lưu không được ('+(err&&(err.message||err.code)||'lỗi')+'). Những dòng chưa lưu vẫn còn tô vàng, thử lại.'); }
-  $('edSave').disabled=false; };
+  for(const r of DIRTY){ if(r._oldma&&r._oldma!==r.ma) DELETED.add(r._oldma); }
+  const sua=[...DIRTY].map(r=>{ delete r._oldma; return clean(r); }).filter(c=>{ const d=DEF.get(c.ma); return !(d&&same(c,d)); });
+  const xoa=[...DELETED].filter(id=>!ids.includes(id));
+  if(!sua.length&&!xoa.length) return edMsg('Chưa có dòng nào khác bản repo.');
+  const d=new Date(), tag=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0');
+  dlJson('hem47-sua-'+tag+'.json',{sua,xoa});
+  xoa.forEach(id=>{ OVR[id]={ma:id,xoa:true}; }); sua.forEach(c=>{ OVR[c.ma]=c; }); rebuild();
+  DIRTY.clear(); DELETED.clear(); ED=T.map(r=>Object.assign({},r)); renderEd();
+  edMsg('Đã tải file ('+sua.length+' sửa, '+xoa.length+' xóa). Máy này chơi thử được ngay. Gửi file để đưa lên game cho mọi người.'); };
+$('edOld').onclick=()=>{ dlJson('hem47-ban-sua-cu-supabase.json',OLDOVR); edMsg('Đã tải '+OLDOVR.length+' dòng sửa cũ.'); };
 $('edClose').onclick=()=>{ $('ed').hidden=true; };
 $('edBtn').onclick=openEditor;
 $('edCopy').onclick=()=>{ const H=['Mã','Hồi','Cảnh','Ai nói','Kiểu','Lời','Hiện khi','Sau đó','Ghi chú cho người viết'], K=['ma','hoi','canh','ai','kieu','loi','hien','sau','note'];
   const csv=[H].concat(ED.map(r=>K.map(k=>r[k]))).map(r=>r.map(v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"').join(',')).join('\n');
   (navigator.clipboard?navigator.clipboard.writeText(csv):Promise.reject()).then(()=>edMsg('Đã sao chép. Dán vào Google Sheets hoặc Excel.')).catch(()=>edMsg('Máy này không cho sao chép.')); };
-$('edImport').onclick=()=>$('fileIn').click();
-const COLS={'mã':'ma','hồi':'hoi','cảnh':'canh','ai nói':'ai','kiểu':'kieu','lời':'loi','hiện khi':'hien','sau đó':'sau','ghi chú cho người viết':'note','ghi chú':'note'};
-$('fileIn').addEventListener('change',async e=>{ const f=e.target.files[0]; if(!f) return;
-  try{ if(typeof XLSX==='undefined') throw new Error('chưa tải được bộ đọc Excel');
-    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
-    const sn=wb.SheetNames.find(n=>/LOI_THOAI/i.test(n))||wb.SheetNames.find(n=>{const r=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1})[0]||[];return r.some(c=>String(c).trim().toLowerCase()==='mã');});
-    if(!sn) throw new Error('không thấy tab LOI_THOAI hoặc cột "Mã"');
-    const A_=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:''}); const hd=A_[0].map(c=>COLS[String(c).trim().toLowerCase()]||null);
-    if(!hd.includes('ma')||!hd.includes('loi')) throw new Error('thiếu cột "Mã" hoặc "Lời"');
-    const rows=A_.slice(1).filter(r=>String(r[hd.indexOf('ma')]).trim()).map((r,i)=>{const o={ma:'',hoi:'',canh:'',ai:'',kieu:'',loi:'',hien:'',sau:'',note:'',stt:(i+1)*10}; hd.forEach((k,j)=>{if(k) o[k]=String(r[j]).trim();}); return o;});
-    const newIds=new Set(rows.map(r=>r.ma)); ED.forEach(r=>{ if(!newIds.has(r.ma)) DELETED.add(r.ma); });
-    const old=new Map(ED.map(r=>[r.ma,r])); ED=rows; DIRTY=new Set(rows.filter(r=>{ const o=old.get(r.ma); return !o||!same(clean(r),clean(o)); }));
-    fillScenes(); renderEd(); edMsg('Đã nạp '+rows.length+' dòng, '+DIRTY.size+' dòng khác bản đang chạy. Bấm "Lưu cho người chơi" để áp dụng.'); }
-  catch(err){ edMsg('Không nạp được: '+err.message+'.'); }
-  e.target.value=''; });
+
 
 
 

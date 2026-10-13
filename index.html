@@ -2456,8 +2456,11 @@ async function kqCanvas(k){ const W=1080,H=1350, c=document.createElement('canva
   if(im){ const sc=Math.max(W/im.width,H*.62/im.height), w=im.width*sc, h=im.height*sc; g.drawImage(im,(W-w)/2,0,w,h); }
   let gr=g.createLinearGradient(0,0,0,H); gr.addColorStop(0,'rgba(11,13,20,.55)'); gr.addColorStop(.32,'rgba(11,13,20,.15)'); gr.addColorStop(.58,'rgba(11,13,20,.92)'); gr.addColorStop(1,'#0b0d14'); g.fillStyle=gr; g.fillRect(0,0,W,H);
   try{ await Promise.all([document.fonts.load('600 120px Oswald, "Arial Narrow", sans-serif'),document.fonts.load('400 40px "Be Vietnam Pro", sans-serif'),document.fonts.load('600 40px "Be Vietnam Pro", sans-serif')]); }catch(e){}
-  g.textAlign='center'; g.fillStyle='#f0b25c'; g.font='600 132px Oswald, "Arial Narrow", sans-serif'; g.fillText('HẺM 47',W/2,190);
-  g.fillStyle='#efe6d2'; g.font='600 46px Oswald, "Arial Narrow", sans-serif'; if('letterSpacing' in g) g.letterSpacing='8px'; g.fillText('THẾ GIỚI LẶNG',W/2,258); if('letterSpacing' in g) g.letterSpacing='0px';
+  g.textAlign='center';
+  const tua=await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img/tua.webp'; });
+  if(tua){ const tw=640, th=tw*tua.height/tua.width; g.shadowColor='rgba(0,0,0,.6)'; g.shadowBlur=24; g.drawImage(tua,(W-tw)/2,36,tw,th); g.shadowBlur=0; g.shadowColor='transparent'; }
+  else { g.fillStyle='#f0b25c'; g.font='600 132px Oswald, "Arial Narrow", sans-serif'; g.fillText('HẺM 47',W/2,190);
+    g.fillStyle='#efe6d2'; g.font='600 46px Oswald, "Arial Narrow", sans-serif'; if('letterSpacing' in g) g.letterSpacing='8px'; g.fillText('THẾ GIỚI LẶNG',W/2,258); if('letterSpacing' in g) g.letterSpacing='0px'; }
   g.fillStyle='#a9a493'; g.font='500 30px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='6px'; g.fillText('KẾT THÚC · NGÀY '+S.day+'/'+TOTAL_DAYS,W/2,860); if('letterSpacing' in g) g.letterSpacing='0px';
   g.fillStyle='#ffffff'; g.font='600 92px Oswald, "Arial Narrow", sans-serif'; g.fillText(String(ENDS[k][1]).toUpperCase(),W/2,965);
   const got=Object.keys(ENDS).filter(x=>lsGet('tgl6_end_'+x)).length, tt=TT.filter(a=>ttGot()[a.k]).length;

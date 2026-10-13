@@ -907,6 +907,7 @@ body{font-size-adjust:.5}
 #tlr[hidden]{display:none}
 #tlr .box{width:min(1100px,100%,calc((100dvh - 120px) * 16 / 9));aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}
 #tlr video{width:100%;height:100%;display:block;background:#000}
+#tlr.doc .box{width:min(100%,calc((100dvh - 110px) * 9 / 16));aspect-ratio:9/16}
 #tlr .cap{font-size:13px;color:#9aa3bd;letter-spacing:.04em}
 #tlr .x{position:absolute;top:max(14px,env(safe-area-inset-top));right:14px;font:inherit;font-size:13px;background:rgba(239,232,216,.1);color:#efe8d8;border:1px solid rgba(239,232,216,.25);border-radius:16px;padding:6px 14px;cursor:pointer}
 </style>
@@ -3031,7 +3032,11 @@ cdApply();
   document.body.appendChild(ov);
   const v=ov.querySelector('video');
   const mute=on=>{ try{ (NHAC.els||[]).forEach(a=>{ a.muted=on; }); }catch(e){} };
-  const open=()=>{ if(!v.src) v.src='trailer/hem47-trailer.mp4'; ov.hidden=false; mute(true); const p=v.play(); if(p&&p.catch) p.catch(()=>{}); };
+  const doc=()=>matchMedia('(orientation:portrait) and (max-width:719px)').matches;
+  const open=()=>{ const d=doc(), src=d?'trailer/hem47-trailer-doc.mp4':'trailer/hem47-trailer.mp4';
+    ov.classList.toggle('doc',d);
+    if(v.getAttribute('src')!==src){ v.setAttribute('src',src); v.poster=d?'img/trailer-cover-doc.webp':'img/trailer-cover.webp'; }
+    ov.hidden=false; mute(true); const p=v.play(); if(p&&p.catch) p.catch(()=>{}); };
   const close=()=>{ v.pause(); ov.hidden=true; mute(false); st.focus(); };
   st.onclick=open; ov.querySelector('.x').onclick=close;
   ov.addEventListener('click',e=>{ if(e.target===ov) close(); });

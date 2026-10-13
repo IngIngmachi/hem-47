@@ -2294,10 +2294,8 @@ cv.addEventListener('click',e=>{ ac(); if(DRAGGED){ DRAGGED=false; return; } if(
 const REPO_WINS=new Set(['n0_truyen_01','n0_truyen_02','n0_truyen_03','n0_truyen_04','n0_truyen_05','n0_truyen_06','n0_truyen_07','n0_truyen_08','n1_thoa_11','n1_thoa_12','n1_thoa_13','n1_tra_01','n1_tra_02','n1_dem_02','n1_dem_08','n2_kqhanh_06','n2_kqhanh_09','n2_basau_07','n2_khoa_08','n2_loc_03','n3_khoa_06','tra_bienlai_tung_01','tra_bienlai_tung_02','h2_tu_06','h4_phuong_09','h4_thoa_15','h4_dong_01','h4_dong_02','h4_dong_03','h4_dong_04','h4_dong_05','CC_quan_dong','kh_loc_h1_02','kh_loc_h1_03','CAU_loc_01','kh_loc_1_02']);
 let OLDOVR=[];
 function dlJson(name,obj){ const b=new Blob([JSON.stringify(obj,null,1)],{type:'application/json'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }
-async function initStore(){ if(!supa) return;
-  try{ const {data,error}=await supa.from('suadoi').select('*').limit(5000);
-    if(!error&&data){ OLDOVR=data; OVR={}; data.forEach(o=>{ if(o&&o.ma&&!REPO_WINS.has(o.ma)) OVR[o.ma]=o; }); if(Object.keys(OVR).length){ rebuild(); ROWSRC='đã biên tập ('+Object.keys(OVR).length+' dòng sửa)'; } } }catch(e){}
-  applyAdminUI(); }
+/* 14/10/2026: bỏ hẳn bản sửa trên Supabase (bảng suadoi). Lời thoại chỉ lấy từ repo. */
+async function initStore(){ if(!supa) return; applyAdminUI(); }
 const KINDS=['thoai','nghi','tin','nhom','mota','chon','trinh','cc','so','don','muc','cliff','bang','tu','web','trang','anh','maycu','khai','cau'];
 const SPEAKERS=['','Lâm','Bà Sáu','Khoa','Cô Thoa','Ngân','Bin','Lộc','Hạnh Bánh Mì','Tám Hớt Tóc','Diễm Nail','Phương','Tú','Hương','Đại úy Vinh','Thủy','Tùng','Lụa','Phát','Hoa','Người lạ'];
 let ED=[], DIRTY=new Set(), DELETED=new Set();

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;1,400&family=Oswald:wght@500;600&family=Playpen+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Be+Vietnam+Pro:ital,wght@0,400;0,600;1,400&family=Oswald:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: cảnh phim ngang 16:9 vẽ tay, HUD nổi trên tranh, hộp thoại đè đáy (màn rộng) hoặc nằm dưới (điện thoại). Single dark look. */
 :root{--ink:#10131c;--panel:#181c28;--panel2:#20263a;--line:#2e3549;--paper:#efe8d8;--dim:#959cb2;--amber:#f0b25c;--za:#4b8fe6;--red:#e2645c;--ok:#5fb37a;
@@ -781,6 +781,101 @@ body.testing .top h1.tua{display:flex;align-items:center;gap:6px;line-height:1}
   .cover:not(.solid) .tools svg{width:18px;height:18px}
   .cover:not(.solid) .foot{margin-top:28px}
 }
+
+/* ===== Giao diện v3 (13/10/2026): chữ Newsreader, điện thoại kiểu app, laptop kiểu desktop ===== */
+:root{--f-head:"Newsreader",Georgia,serif;--f-body:"Newsreader",Georgia,serif;--f-hand:"Newsreader",Georgia,serif;--v3edge:rgba(235,228,212,.14)}
+body{font-size-adjust:.5}
+.dlg.mota .ln,.cover h2.cl{font-style:italic}
+.dlg .nm{text-transform:none;letter-spacing:.01em;font-size:19px}
+.phone{background:#0b0d11;border:1.5px solid #2b2f36;border-radius:26px}
+.ph-h{position:relative;background:#0b0d11 center/cover no-repeat;color:var(--paper);min-height:50px;border-bottom:1px solid var(--v3edge)}
+.ph-h>*{position:relative}
+.ph-h b{font-family:var(--f-head);font-size:17px}
+.ph-h button{color:var(--paper)}
+.phone:not([data-v="thr"]) .ph-h{min-height:128px;align-items:flex-end;padding:0 16px 12px;border-bottom:0}
+.phone:not([data-v="thr"]) .ph-h::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,17,.1),rgba(11,13,17,.45) 55%,#0b0d11)}
+.phone:not([data-v="thr"]) .ph-h b{font-size:32px;font-weight:600;line-height:1.05}
+.phone:not([data-v="thr"]) #phBack{display:none}
+.phone:not([data-v="thr"]) #phClose{position:absolute;top:8px;right:10px;text-shadow:0 1px 3px #000}
+.phone[data-v="tin"] .ph-h{background-image:url(img/hem-dem.webp)}
+.phone[data-v="tim"] .ph-h,.phone[data-v="don"] .ph-h{background-image:url(img/trong-phong3-dem.webp)}
+.phone[data-v="anh"] .ph-h{background-image:url(img/ky-uc-1.webp)}
+.phone[data-v="so"] .ph-h{background-image:url(img/ky-uc-3.webp)}
+.phone[data-v="nv"] .ph-h{background-image:url(img/bia.webp)}
+.phone[data-v="maycu"] .ph-h{background-image:url(img/ky-uc-2.webp)}
+.phone[data-v="cai"] .ph-h{background-image:url(img/hem-dem.webp)}
+.ph-b{background:#0b0d11}
+.ph-tabs{display:flex;background:#0e1014;border-top:1px solid var(--v3edge);overflow-x:auto;scrollbar-width:none}
+.ph-tabs button{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;padding:6px 5px;font-size:11.5px;color:var(--txt2);background:none}
+.ph-tabs button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ph-tabs button[aria-pressed="true"]{color:var(--amber)}
+.card{background:transparent;border:1px solid var(--v3edge);border-radius:12px}
+.card.key{border-color:rgba(224,170,85,.55)}
+.card.sel{background:transparent;border-color:var(--amber);box-shadow:0 0 0 3px rgba(224,170,85,.12)}
+.card.suy{border:1px solid rgba(91,156,143,.75)}
+.card.hasvat img.vat{border-radius:2px}
+.ph-sec{font-family:var(--f-body);font-size:13.5px;font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--txt2)}
+.thr{padding:11px 4px;border-bottom:1px solid var(--v3edge)}
+.thr .av{width:44px;height:44px}
+.thr .t b{font-size:15.5px}
+.thr .t span{font-size:13.5px}
+.msg{background:transparent;border:1px solid var(--v3edge);border-radius:14px 14px 14px 5px;font-size:14.5px}
+.msg.me{background:#2b3748;border-color:transparent;border-radius:14px 14px 5px 14px;color:var(--paper)}
+.so-flt button{background:transparent;border:1px solid var(--v3edge);border-radius:999px;padding:4px 12px;font-size:13px}
+.so-flt button.on{background:var(--amber);color:#1c1408;border-color:var(--amber)}
+.noibtn{background:transparent;border-radius:12px}
+.noibtn.on{background:rgba(224,170,85,.12)}
+.noibar{background:#16140d;border-radius:12px}
+.phone input[type=search],.phone input[type=text],.phone .srch input{background:transparent;border:1px solid var(--v3edge);border-radius:10px;color:var(--paper)}
+.phone .pbtn{background:transparent;border:1px solid var(--v3edge);border-radius:10px}
+/* laptop phòng 3 */
+#lap{position:fixed;inset:0;z-index:60;background:linear-gradient(180deg,rgba(8,10,13,.3),rgba(8,10,13,.62)),#0b0d11 url(img/trong-phong3-dem.webp) center/cover;color:var(--paper);font-family:var(--f-body);overflow:hidden}
+#lap .dicons{position:absolute;left:18px;top:calc(18px + env(safe-area-inset-top,0px));display:grid;grid-template-columns:repeat(2,92px);gap:10px 4px;z-index:2}
+#lap.open .dicons{grid-template-columns:92px}
+#lap.open .dicons .lk{display:none}
+#lap .di{background:none;border:0;border-radius:10px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font:inherit;font-size:14px;line-height:1.2;text-align:center;color:var(--paper);position:relative;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+#lap .di i{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;background:var(--c,#1d2128);border:1px solid rgba(255,255,255,.12);box-shadow:0 4px 12px rgba(0,0,0,.45)}
+#lap .di svg,#lap .wt svg{width:26px;height:26px;stroke:#ece5d6;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#lap .di[aria-current="true"] i{border-color:var(--amber);box-shadow:0 0 0 3px rgba(224,170,85,.18),0 0 18px rgba(224,170,85,.3)}
+#lap .di.lk{opacity:.42}
+#lap .di em{position:absolute;top:0;left:56px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font:600 11px/18px system-ui,sans-serif;font-style:normal;text-shadow:none}
+#lap .slip{position:absolute;left:clamp(230px,48%,760px);top:22%;width:min(390px,calc(100% - 250px));background:#ece5d6;color:#2a2620;padding:24px 26px 20px;transform:rotate(-1.5deg);box-shadow:0 14px 30px rgba(0,0,0,.55);font:16px/1.55 var(--f-mono)}
+#lap .slip:before{content:"";position:absolute;top:-12px;left:42%;width:90px;height:24px;background:rgba(222,210,176,.85);transform:rotate(2deg)}
+#lap .slip h4{margin:0 0 10px;font:500 16px var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+#lap .slip ol{margin:0;padding-left:22px}
+#lap .slip .stamp{position:absolute;right:-12px;top:-14px;border:2.5px solid #b3322a;color:#b3322a;font:500 14px/1 var(--f-mono);letter-spacing:.12em;padding:5px 8px;transform:rotate(-10deg);opacity:.85}
+#lap.open .slip{display:none}
+#lap .ltb{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:0 18px env(safe-area-inset-bottom,0px);background:rgba(6,7,9,.88);border-top:1px solid rgba(255,255,255,.06);font-size:15px;color:#c3bcae}
+#lap .ltb .sp{flex:1}
+#lap .ltb button{background:none;border:1px solid rgba(255,255,255,.2);border-radius:7px;color:var(--paper);font:inherit;font-size:14px;padding:4px 12px;cursor:pointer}
+#lap .lw{position:absolute;left:130px;right:26px;top:calc(20px + env(safe-area-inset-top,0px));bottom:58px;background:#14171c;border:1px solid #30343c;border-radius:10px;box-shadow:0 26px 60px rgba(0,0,0,.7);display:flex;flex-direction:column;overflow:hidden}
+#lap .wt{display:flex;align-items:center;gap:10px;height:46px;padding:0 8px 0 14px;background:#101216;border-bottom:1px solid #262a31;flex:none;font-family:var(--f-head);font-weight:600;font-size:18px}
+#lap .wt i{width:28px;height:28px;border-radius:6px;display:grid;place-items:center;background:var(--c,#2a2f37)}
+#lap .wt svg{width:17px;height:17px}
+#lap .wt .sp{flex:1}
+#lap .wt button{background:none;border:0;color:var(--txt2);font-size:22px;width:36px;height:34px;border-radius:6px;cursor:pointer}
+#lap .wb{flex:1;overflow:auto;padding:20px 24px}
+#lap .jp{background:#ece5d6;color:#2a2620;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.4)}
+#lap .jx{display:grid;grid-template-columns:minmax(0,1fr) 24px;column-gap:16px;align-items:center;width:100%;padding:16px 20px;background:none;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+#lap .jx+.jx{border-top:1px solid rgba(42,38,32,.14)}
+#lap .jx:hover{background:rgba(0,0,0,.04)}
+#lap .jx b{display:block;font-weight:600;font-size:17px;line-height:1.3}
+#lap .jx span{display:block;font-size:14.5px;color:#6f685b;margin-top:2px}
+#lap .jx.dis b{color:#8a8274;font-weight:500}
+#lap .jx svg{width:20px;height:20px;stroke:#6f685b;fill:none;stroke-width:1.8}
+#lap .empty{color:var(--txt2);font-size:15px}
+#lap .lt{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid var(--v3edge);padding:9px 18px;border-radius:999px;font-size:15px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90%;text-align:center}
+#lap .lt.on{opacity:1}
+@media (max-width:700px){
+  #lap .dicons{grid-template-columns:repeat(4,1fr);left:10px;right:10px}
+  #lap.open .dicons{display:none}
+  #lap .slip{left:16px;right:16px;width:auto;top:auto;bottom:70px}
+  #lap .lw{left:8px;right:8px;top:calc(8px + env(safe-area-inset-top,0px))}
+  #lap .wb{padding:14px}
+  #lap .ltb>span:first-child{display:none}
+  #lap .ltb{white-space:nowrap}
+}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -1141,8 +1236,47 @@ function photoHtml(k){ const r=T[IDX['ANH_'+k]]||{}; const f=r.note; return f&&I
 function renderMayCu(b){ $('phTitle').textContent='Máy cũ của Lâm'; const L=metaRows('maycu').filter(r=>cond(r.hien)); const groups=[...new Set(L.map(r=>r.canh))];
   b.innerHTML='<div class="ph-note">Cái máy cũ hết pin cả năm. Màn hình nứt một góc.</div>'+groups.map(g=>'<div class="ph-sec">'+esc(g)+'</div>'+L.filter(r=>r.canh===g).map(r=>'<div class="card mc'+(S.mc[r.ma]?'':' new')+'" data-m="'+r.ma+'"><b>'+esc(r.ai)+'</b>'+lk(r.loi)+'</div>').join('')).join('');
   b.querySelectorAll('.card.mc.new').forEach(el=>el.onclick=async()=>{ if(busy) return; const r=T[IDX[el.dataset.m]]; S.mc[r.ma]=1; effects(r.sau); const sc='mcn_'+r.ma.slice(3); if(SCN[sc]){ closePhone(); await runS(sc); phAuto=false; openPhone(null,false); phTab='maycu'; } renderPhone(); save(); }); }
-function tabs(){ document.querySelectorAll('#phTabs button').forEach(b=>{ b.setAttribute('aria-pressed',String(!phThread&&b.dataset.t===phTab)); if(b.dataset.t==='maycu') b.hidden=!S.co.maycu; }); $('phBack').style.visibility=phThread?'visible':'hidden'; }
+function tabs(){ document.querySelectorAll('#phTabs button').forEach(b=>{ b.setAttribute('aria-pressed',String(!phThread&&b.dataset.t===phTab)); if(b.dataset.t==='maycu') b.hidden=!S.co.maycu; }); $('phBack').style.visibility=phThread?'visible':'hidden'; $('phone').dataset.v=phThread?'thr':phTab; }
 document.querySelectorAll('#phTabs button').forEach(b=>b.onclick=e=>{e.stopPropagation(); if(busy&&phAuto) return; phTab=b.dataset.t; renderPhone();});
+
+/* ---- Giao diện v3: icon chung cho điện thoại và laptop ---- */
+const V3I={tin:'<path d="M4 5.5h16v10.5H10l-5 4v-4H4z"/><path d="M8.5 10.8h7"/>',tim:'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>',anh:'<rect x="3.5" y="5" width="17" height="14" rx="1.5"/><circle cx="9" cy="10" r="1.8"/><path d="M20.5 16l-5-5-8 8"/>',so:'<path d="M3 6.5h6l2 2h10v10.5H3z"/><circle cx="14" cy="13.5" r="2.6"/><path d="M16 15.5l2.2 2.2"/>',nv:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20.5c.8-4 3.6-6 7-6s6.2 2 7 6"/>',don:'<rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 4V2.8h6V4M8.5 10h7M8.5 13.5h7M8.5 17h4"/>',maycu:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 7l2.5 3-1.5 2 2.5 3"/>',cai:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>',
+ bang:'<rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M7.5 9.5h4M7.5 13h3"/><path d="M14 8.5l3 3-3 3"/>',nhatky:'<path d="M6.5 3.5h11a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-11z"/><path d="M6.5 3.5v17M10 8.5h5.5M10 12h5.5M10 15.5h3"/>',giai:'<path d="M5 18V8l4 10V8M14 18l2.5-10L19 18M14.8 14.5h3.4"/>',web:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.4 5.4 3.4 8.5s-1 6.1-3.4 8.5c-2.4-2.4-3.4-5.4-3.4-8.5s1-6.1 3.4-8.5z"/>',len:'<path d="M4 20l1-4L16.5 4.5l3 3L8 19z"/><path d="M14 7l3 3"/>',chev:'<path d="M9 5l7 7-7 7"/>'};
+const v3svg=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+V3I[k]+'</svg>';
+document.querySelectorAll('#phTabs button').forEach(b=>{ const k=b.dataset.t; const l=k==='cai'?'Cài đặt':b.textContent.trim(); b.innerHTML=v3svg(k)+'<span>'+l+'</span>'; });
+/* ---- LAPTOP PHÒNG 3: màn hình desktop, việc gom theo app ---- */
+const LAPAPPS=[['bang','Bảng suy luận','#6a2e29'],['nhatky','Nhật ký','#2f5a55'],['don','Đơn việc','#6a5430'],['giai','Giải mã','#30353d'],['web','Trình duyệt','#2f4f78'],['len','Lên tiếng','#4a2522'],['anh','Ảnh & clip','#6a5430']];
+function lapCat(a){ const k=String(a.k||''); if(a.board) return 'bang'; if(a.fin) return 'len'; if(k.startsWith('h4_giai')) return 'giai'; if(a.khai==='lam') return 'nhatky'; if(k==='h2_anh'||k==='h3_hoaxl') return 'anh'; if(k==='h4_baocao'||/^Đơn /.test(a.t)) return 'don'; return 'web'; }
+function openLaptop(acts,sides){ return new Promise(res=>{
+  const items=[]; acts.forEach(a=>items.push({cat:lapCat(a),t:a.t,ok:actOk(a),main:!a.ngoai,sub:actOk(a)?(a.free?'Không tốn thời gian':(a.ngoai?'Việc ngoài luồng · khoảng '+fmtDur(actCost(a))+' · có thể ra manh mối':'Việc chính · khoảng '+fmtDur(actCost(a)))):a.why,pick:{act:a}}));
+  sides.forEach(x=>items.push({cat:'don',t:x.t,ok:true,main:false,sub:'Việc phụ · '+fmtDur(x.cost||150)+' · '+x.sub,pick:{side:x}}));
+  const L=document.createElement('div'); L.id='lap'; L.setAttribute('role','dialog'); L.setAttribute('aria-label','Laptop');
+  const cnt=k=>items.filter(i=>i.cat===k&&i.ok).length;
+  const main=items.filter(i=>i.ok&&i.main).slice(0,4);
+  L.innerHTML='<div class="dicons">'+LAPAPPS.map(([k,l,c])=>{ const n=cnt(k), has=items.some(i=>i.cat===k); return '<button type="button" class="di'+(has?'':' lk')+'" data-k="'+k+'" style="--c:'+c+'"><i>'+v3svg(k)+'</i>'+l+(n?'<em>'+n+'</em>':'')+'</button>'; }).join('')+'</div>'+
+    '<div class="slip"><span class="stamp">NGÀY '+S.day+'</span><h4>Phiếu việc</h4>'+(main.length?'<ol>'+main.map(i=>'<li>'+esc(i.t)+'</li>').join('')+'</ol>':'<div>Hôm nay không còn việc chính trên máy.</div>')+'</div>'+
+    '<div class="lt" id="lapT"></div><div class="ltb"><span>Phòng 3 · nhà bà Sáu</span><span class="sp"></span><span>Ngày '+S.day+' · '+fmtT(S.min)+'</span><button type="button" data-x>Gập laptop</button></div>';
+  document.body.appendChild(L);
+  const RMx=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  L.animate([{opacity:0},{opacity:1}],{duration:RMx?0:220});
+  const lt=t=>{ const e=$('lapT'); e.textContent=t; e.classList.add('on'); clearTimeout(lt.t); lt.t=setTimeout(()=>e.classList.remove('on'),2200); };
+  let win=null;
+  const done=v=>{ document.removeEventListener('keydown',key); L.animate([{opacity:1},{opacity:0}],{duration:RMx?0:160}).onfinish=()=>L.remove(); res(v); };
+  const key=e=>{ if(e.key==='Escape'){ if(win) closeWin(); else done(null); } };
+  document.addEventListener('keydown',key);
+  function closeWin(){ if(!win) return; win.remove(); win=null; L.classList.remove('open'); L.querySelectorAll('.di').forEach(b=>b.removeAttribute('aria-current')); }
+  function openWin(k,btn){ const app=LAPAPPS.find(x=>x[0]===k); const list=items.filter(i=>i.cat===k);
+    if(!list.length){ lt(k==='giai'?'Chưa có tin nào để giải mã.':k==='len'?'Chưa tới lúc lên tiếng.':'Bây giờ không có việc gì trong '+app[1]+'.'); return; }
+    if(win) win.remove(); L.classList.add('open'); L.querySelectorAll('.di').forEach(b=>b.toggleAttribute('aria-current',b===btn)); btn.setAttribute('aria-current','true');
+    win=document.createElement('div'); win.className='lw';
+    win.innerHTML='<div class="wt" style="--c:'+app[2]+'"><i>'+v3svg(k)+'</i>'+app[1]+'<span class="sp"></span><button type="button" aria-label="Đóng" data-w>×</button></div><div class="wb"><div class="jp">'+list.map((i,n)=>'<button type="button" class="jx'+(i.ok?'':' dis')+'" data-n="'+items.indexOf(i)+'"><span style="margin:0"><b>'+esc(i.t)+'</b><span>'+esc(i.sub||'')+'</span></span>'+v3svg('chev')+'</button>').join('')+'</div></div>';
+    L.appendChild(win);
+    if(!RMx){ const ir=btn.querySelector('i').getBoundingClientRect(), wr=win.getBoundingClientRect(); win.animate([{transform:'translate('+(ir.left+ir.width/2-(wr.left+wr.width/2))+'px,'+(ir.top+ir.height/2-(wr.top+wr.height/2))+'px) scale(.06)',opacity:0},{transform:'none',opacity:1}],{duration:300,easing:'cubic-bezier(.2,.8,.2,1)'}); }
+    win.querySelector('[data-w]').onclick=closeWin;
+    win.querySelectorAll('.jx').forEach(b=>b.onclick=()=>{ const it=items[+b.dataset.n]; if(!it.ok){ lt(it.sub||'Chưa làm được.'); return; } done(it.pick); }); }
+  L.querySelectorAll('.di').forEach(b=>b.onclick=()=>openWin(b.dataset.k,b));
+  L.querySelector('[data-x]').onclick=()=>done(null);
+}); }
 $('phBack').onclick=e=>{e.stopPropagation(); if(busy&&phAuto) return; renderPhone();};
 $('phClose').onclick=e=>{e.stopPropagation(); if(busy&&phAuto){advance();return;} closePhone();};
 $('phone').addEventListener('click',()=>{ if(busy&&phAuto) advance(); });
@@ -1487,6 +1621,7 @@ async function tapSpot(h){ if(busy||S.ended) return;
   if(h.kind==='door'){ const sub=h.main?h.main+' việc chính bên trong':(h.sidesN?h.sidesN+' việc phụ bên trong':'Bên trong chưa có gì cần làm');
     busy=true; const p=await choose([{ma:'in',loi:'Bước vô',sub},{ma:'_x',loi:'Thôi, đi tiếp'}],false,h.l,'Lâm'); hideDlg(); busy=false; if(p.ma!=='in') return; await enterRoom(h.room); return; }
   const who=h.id; const acts=actsNow(who), sides=sidesNow(who); const npc=!!NPC[who];
+  if(who==='o:laptop'){ busy=true; const pk=await openLaptop(acts,sides); busy=false; if(!pk) return; if(pk.side) return doSide(pk.side); return doAct(pk.act); }
   if(!acts.length&&!sides.length){ if(npc){ await idle(who); return; } if(h.kind==='obj'&&h.o.idle){ await say('nghi','',h.o.idle); hideDlg(); return; } toast('Bây giờ không có gì để làm ở đây'); return; }
   busy=true; const set=[];
   acts.forEach(a=>set.push({ma:'A:'+a.id,loi:a.t,sub:actOk(a)?(a.free?'Không tốn thời gian':(a.ngoai?'Việc ngoài luồng · khoảng '+fmtDur(actCost(a))+' · có thể ra manh mối':'Việc chính · khoảng '+fmtDur(actCost(a)))):a.why,cost:actOk(a)&&!a.free,dis:!actOk(a)}));

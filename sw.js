@@ -1,5 +1,5 @@
 // Thế Giới Lặng · lưu sẵn tranh để mở nhanh, trang chính luôn lấy bản mới khi có mạng
-const C='tgl-v7';
+const C='tgl-v8';
 self.addEventListener('install',e=>{ self.skipWaiting(); e.waitUntil(caches.open(C).then(c=>c.addAll(['./','manifest.webmanifest','icons/icon-192.png']).catch(()=>{}))); });
 self.addEventListener('activate',e=>{ e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k))))); self.clients.claim(); });
 self.addEventListener('fetch',e=>{ const r=e.request; if(r.method!=='GET') return; const u=new URL(r.url); if(u.origin!==location.origin) return;

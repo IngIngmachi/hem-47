@@ -842,6 +842,8 @@ body{font-size-adjust:.5}
 .phone .hi svg{width:26px;height:26px;stroke:#efe8d8;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .phone .hi:active i{transform:scale(.94)}
 .phone:not([data-v="thr"]):not([data-v="home"]) #phBack{display:block;position:absolute;top:8px;left:10px;font-size:26px;text-shadow:0 1px 3px #000}
+.kh .kb{flex-wrap:wrap}
+.kh-need{display:block;flex:1 0 100%;order:-1;margin-bottom:2px;font-size:14px;line-height:1.4;color:var(--txt2);font-style:italic}
 /* laptop phòng 3 */
 #lap{position:fixed;inset:0;z-index:60;background:linear-gradient(180deg,rgba(8,10,13,.3),rgba(8,10,13,.62)),#0b0d11 url(img/trong-phong3-dem.webp) center/cover;color:var(--paper);font-family:var(--f-body);overflow:hidden}
 #lap .dicons{position:absolute;left:18px;top:calc(18px + env(safe-area-inset-top,0px));display:grid;grid-template-columns:repeat(2,92px);gap:10px 4px;z-index:2}
@@ -1537,6 +1539,8 @@ function endCard(k){ if(!ENDS[k]) return;
   $('bAgain').onclick=()=>{ if(TESTMODE){ lsDel('tgl_v6_test'); location.reload(); return; } lsDel(SAVEKEY); cloudClear(); location.hash=''; location.reload(); }; }
 
 /* ---------------- BẮT LỖI LỜI KHAI ---------------- */
+const KHINT={CAU_loc_01:'Phải tận mắt thấy ổng đi đâu lúc 11 giờ đêm: canh anh Lộc buổi tối.',CAU_loc_02:'Chú Tám hớt tóc biết anh Lộc có nợ hay không.',CAU_loc_03:'Chị Diễm từng thấy anh Lộc ở văn phòng số 12. Tờ rơi tuyển việc trong hẻm cũng dùng được.'};
+const KOPT={loc:1};
 function khaiRows(id){ return T.filter(r=>r.kieu==='cau'&&r.ai==='KHAI_'+id); }
 const tok=(r,k)=>{ const m=String(r.sau).match(new RegExp('(?:^|\\s)'+k+':([\\w|]+)')); return m?m[1]:null; };
 const isKey=r=>/(?:^|\s)key(?:\s|$)/.test(String(r.sau));
@@ -1544,8 +1548,8 @@ function testimony(id){ return new Promise(async res=>{
   const K=T[IDX['KHAI_'+id]]; if(!K){ res(false); return; } hideDlg(); if(phAuto) closePhone();
   let hp=3; const g=$('game');
   const draw=()=>{ const L=khaiRows(id).filter(r=>cond(r.hien)); const nb=L.filter(r=>S.kh[r.ma]).length; const face=faceFor(K.ai,nb===0?1:nb>=2?3:2);
-    $('gameBox').innerHTML='<div class="kh-h"><img src="'+face+'" alt=""><div><h3>'+esc(K.loi)+'</h3><p class="sub">'+esc(K.ai)+' đang nói. Bấm "Hỏi thêm" để moi thêm. Thấy câu nào sai thì bấm "Đưa ra" và chọn thứ chứng minh.</p></div><span class="hp">'+'♥'.repeat(hp)+'<i>'+'♥'.repeat(3-hp)+'</i></span></div>'+
-      L.map(r=>{ const br=S.kh[r.ma]; return '<div class="kh'+(br?' br':'')+(isKey(r)&&!br?' key':'')+'"><q>'+esc(tpl(r.loi))+'</q>'+(br?'<span class="ok">Đã vạch ra</span>':'<div class="kb">'+(tok(r,'hoi')?'<button type="button" class="pbtn" data-h="'+r.ma+'">'+(S.ch[r.ma+'_hoi']?'Hỏi lại':'Hỏi thêm')+'</button>':'')+'<button type="button" class="pbtn warn" data-d="'+r.ma+'">Đưa ra…</button></div>')+'</div>'; }).join('')+
+    $('gameBox').innerHTML='<div class="kh-h"><img src="'+face+'" alt=""><div><h3>'+esc(K.loi)+'</h3><p class="sub">'+esc(K.ai)+' đang nói. Bấm "Hỏi thêm" để moi thêm. Thấy câu nào sai thì bấm "Đưa ra" và chọn thứ chứng minh. Vạch được hết các câu viền vàng là xong.'+(KOPT[id]?' Đây là việc phụ: không vạch được thì vẫn chơi tiếp bình thường.':'')+'</p></div><span class="hp">'+'♥'.repeat(hp)+'<i>'+'♥'.repeat(3-hp)+'</i></span></div>'+
+      L.map(r=>{ const br=S.kh[r.ma]; return '<div class="kh'+(br?' br':'')+(isKey(r)&&!br?' key':'')+'"><q>'+esc(tpl(r.loi))+'</q>'+(br?'<span class="ok">Đã vạch ra</span>':'<div class="kb">'+(tok(r,'hoi')?'<button type="button" class="pbtn" data-h="'+r.ma+'">'+(S.ch[r.ma+'_hoi']?'Hỏi lại':'Hỏi thêm')+'</button>':'')+(tok(r,'dung')?(tok(r,'dung').split('|').some(x=>S.cc[x])?'<button type="button" class="pbtn warn" data-d="'+r.ma+'">Đưa ra…</button>':'<span class="kh-need">Chưa có thứ để vạch câu này.'+(KHINT[r.ma]?' '+esc(KHINT[r.ma]):' Đi hỏi thêm rồi quay lại.')+'</span>'):'')+'</div>')+'</div>'; }).join('')+
       '<div class="row"><button class="pbtn" type="button" id="khX">Thôi, để bữa khác</button></div>';
     $('gameBox').querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>act({t:'h',r:T[IDX[b.dataset.h]]}));
     $('gameBox').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>act({t:'d',r:T[IDX[b.dataset.d]]}));

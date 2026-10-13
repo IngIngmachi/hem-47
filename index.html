@@ -767,6 +767,9 @@ body.testing .top h1.tua{display:flex;align-items:center;gap:6px;line-height:1}
 .cover:not(.solid) .in>p:not(.sub){display:none}
 .cover:not(.solid) .in>.fbg{display:none}
 .cover:not(.solid) #bIntro{display:none}
+.so-h h2.so-tua{filter:none;display:flex;align-items:center;gap:12px}
+.so-h h2.so-tua img{height:40px;width:auto;display:block}
+@media (max-width:719px){.so-h h2.so-tua img{height:30px}.so-h h2.so-tua{gap:8px}}
 @media (min-width:720px){
   .cover:not(.solid){background:linear-gradient(90deg,rgba(6,8,14,.9) 0%,rgba(6,8,14,.62) 34%,rgba(6,8,14,.08) 62%,rgba(6,8,14,.25) 100%),linear-gradient(180deg,rgba(6,8,14,.25),rgba(6,8,14,0) 40%,rgba(6,8,14,.7)),#0b0d14 url(img/bia.webp) center/cover;justify-content:flex-start;align-items:flex-end;padding:40px 56px 30px}
   .cover:not(.solid) .in{text-align:left;max-width:460px}
@@ -784,7 +787,7 @@ body.testing .top h1.tua{display:flex;align-items:center;gap:6px;line-height:1}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
 <div id="test" class="tsp" hidden><div class="ts-box"><div class="ts-h"><b>Phòng thử</b><span>Chỉ bạn thấy. Bản thử lưu riêng, không đè lên bản chơi thật.</span><button type="button" id="tsX">Đóng</button></div><div id="tsTabs"><button data-t="canh">Cảnh</button><button data-t="khai">Lời khai</button><button data-t="bang">Bảng · trò chơi</button><button data-t="noi">Phòng · nơi chốn</button><button data-t="ket">Kết</button><button data-t="tt">Trạng thái</button></div><div id="tsBody"></div></div></div>
-<div id="so" class="so" hidden role="dialog" aria-modal="true" aria-label="Sổ tay"><div class="so-book"><div class="so-h"><h2>Sổ tay hẻm 47</h2><button type="button" class="so-adm2" id="soTabBtn" hidden>⚙ Chỉnh tab</button><button type="button" class="so-new" id="soNew" hidden>+ Viết bài</button><button type="button" class="so-x" id="soX">Đóng</button></div><div class="so-tabs" id="soTabs"></div><div class="so-b" id="soBody"></div></div></div>
+<div id="so" class="so" hidden role="dialog" aria-modal="true" aria-label="Sổ tay"><div class="so-book"><div class="so-h"><h2 class="so-tua"><span>Sổ tay</span><img src="img/hem47-muc.webp" alt="Hẻm 47" width="400" height="151"></h2><button type="button" class="so-adm2" id="soTabBtn" hidden>⚙ Chỉnh tab</button><button type="button" class="so-new" id="soNew" hidden>+ Viết bài</button><button type="button" class="so-x" id="soX">Đóng</button></div><div class="so-tabs" id="soTabs"></div><div class="so-b" id="soBody"></div></div></div>
 <div class="so-lb" id="soLb" hidden><span class="k" id="lbK"></span><button type="button" class="x" id="lbX" aria-label="Đóng">×</button><button type="button" class="p" id="lbP" aria-label="Ảnh trước">‹</button><img id="lbI" alt=""><div class="cap" id="lbC"></div><button type="button" class="n" id="lbN" aria-label="Ảnh sau">›</button></div>
 <div class="cd" id="cd" hidden><div class="cd-box" id="cdBox"></div></div>
 <div class="inst" id="inst" hidden><div id="instTx"></div></div>

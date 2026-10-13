@@ -891,6 +891,24 @@ body{font-size-adjust:.5}
   #lap .ltb{white-space:nowrap}
 }
 
+
+/* ===== Trailer: miếng dán trên màn hình chính + khung xem 16:9 ===== */
+.tlr-st{position:absolute;top:84px;right:52px;width:208px;padding:8px 8px 30px;background:#efe8d8;border:0;border-radius:2px;box-shadow:0 10px 24px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.4) inset;transform:rotate(3.5deg);cursor:pointer;z-index:2;font:inherit;color:#2a241b;transition:transform .25s ease,box-shadow .25s ease}
+.tlr-st::before{content:"";position:absolute;top:-11px;left:50%;width:78px;height:22px;transform:translateX(-50%) rotate(-4deg);background:rgba(232,220,190,.72);box-shadow:0 1px 2px rgba(0,0,0,.25);backdrop-filter:blur(1px)}
+.tlr-st img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:saturate(.92) contrast(1.04)}
+.tlr-st .pi{position:absolute;left:50%;top:8px;width:calc(100% - 16px);aspect-ratio:16/9;transform:translateX(-50%);display:grid;place-items:center;pointer-events:none}
+.tlr-st .pi i{width:38px;height:38px;border-radius:50%;background:rgba(10,12,18,.62);border:1.5px solid rgba(239,232,216,.85);display:grid;place-items:center}
+.tlr-st .pi i::after{content:"";margin-left:3px;border-left:11px solid #efe8d8;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.tlr-st span{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Playpen Sans",var(--f-hand);font-size:15px;line-height:1.2;color:#3a3226}
+.tlr-st:hover,.tlr-st:focus-visible{transform:rotate(0deg) translateY(-3px) scale(1.03);box-shadow:0 16px 30px rgba(0,0,0,.6);outline:none}
+.cover.solid .tlr-st,#cover[hidden] .tlr-st{display:none}
+@media (max-width:719px){.tlr-st{top:12px;right:12px;width:122px;padding:5px 5px 20px}.tlr-st::before{width:48px;height:15px;top:-8px}.tlr-st .pi{top:5px;width:calc(100% - 10px)}.tlr-st .pi i{width:26px;height:26px}.tlr-st .pi i::after{border-left-width:8px;border-top-width:5px;border-bottom-width:5px}.tlr-st span{font-size:11px;bottom:4px}}
+#tlr{position:fixed;inset:0;z-index:95;background:rgba(5,6,10,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:12px}
+#tlr[hidden]{display:none}
+#tlr .box{width:min(1100px,100%,calc((100dvh - 120px) * 16 / 9));aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+#tlr video{width:100%;height:100%;display:block;background:#000}
+#tlr .cap{font-size:13px;color:#9aa3bd;letter-spacing:.04em}
+#tlr .x{position:absolute;top:max(14px,env(safe-area-inset-top));right:14px;font:inherit;font-size:13px;background:rgba(239,232,216,.1);color:#efe8d8;border:1px solid rgba(239,232,216,.25);border-radius:16px;padding:6px 14px;cursor:pointer}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -2999,6 +3017,26 @@ function cdOpen(){ hoiMax(); const seg=(k,o)=>'<div class="seg" data-k="'+k+'">'
 $('cdBtn').onclick=()=>{ ac(); cdOpen(); }; $('bCd').onclick=()=>{ ac(); cdOpen(); };
 $('cd').addEventListener('click',e=>{ if(e.target.id==='cd') $('cd').hidden=true; });
 cdApply();
+</script>
+
+
+<script>
+/* ---- Trailer: miếng dán trên bìa, bấm vào xem khung 16:9 ---- */
+(function(){ const cv=document.getElementById('cover'); if(!cv) return;
+  const st=document.createElement('button'); st.type='button'; st.className='tlr-st'; st.setAttribute('aria-label','Xem trailer Hẻm 47');
+  st.innerHTML='<img src="img/trailer-poster.webp" alt="" width="640" height="360" loading="lazy"><div class="pi"><i></i></div><span>xem trailer</span>';
+  cv.appendChild(st);
+  const ov=document.createElement('div'); ov.id='tlr'; ov.hidden=true; ov.setAttribute('role','dialog'); ov.setAttribute('aria-modal','true'); ov.setAttribute('aria-label','Trailer Hẻm 47');
+  ov.innerHTML='<button type="button" class="x">Đóng</button><div class="box"><video controls playsinline preload="none" poster="img/trailer-cover.webp"></video></div><div class="cap">Hẻm 47: Thế Giới Lặng · Trailer</div>';
+  document.body.appendChild(ov);
+  const v=ov.querySelector('video');
+  const mute=on=>{ try{ (NHAC.els||[]).forEach(a=>{ a.muted=on; }); }catch(e){} };
+  const open=()=>{ if(!v.src) v.src='trailer/hem47-trailer.mp4'; ov.hidden=false; mute(true); const p=v.play(); if(p&&p.catch) p.catch(()=>{}); };
+  const close=()=>{ v.pause(); ov.hidden=true; mute(false); st.focus(); };
+  st.onclick=open; ov.querySelector('.x').onclick=close;
+  ov.addEventListener('click',e=>{ if(e.target===ov) close(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&!ov.hidden) close(); });
+})();
 </script>
 
 </body></html>

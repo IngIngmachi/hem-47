@@ -757,6 +757,29 @@ body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} bo
 .fbg:hover,.fbg:focus-visible{background:rgba(24,119,242,.22);color:#fff;outline:none}
 .cover .fbg + .foot{margin-top:14px}
 .moc + .fbg,.row + .fbg{display:flex;width:max-content}
+/* Màn hình chính: tựa ảnh, bố cục gọn */
+.cover h2.tua{filter:none;line-height:0;margin:6px 0 0}
+.cover h2.tua img{display:block;width:min(380px,80vw);height:auto;margin:0 auto}
+.top h1.tua{filter:none;line-height:0}
+.top h1.tua img{display:block;height:52px;width:auto}
+@media (max-width:719px){ .top h1.tua img{height:36px} }
+body.testing .top h1.tua{display:flex;align-items:center;gap:6px;line-height:1}
+.cover:not(.solid) .in>p:not(.sub){display:none}
+.cover:not(.solid) .in>.fbg{display:none}
+.cover:not(.solid) #bIntro{display:none}
+@media (min-width:720px){
+  .cover:not(.solid){background:linear-gradient(90deg,rgba(6,8,14,.9) 0%,rgba(6,8,14,.62) 34%,rgba(6,8,14,.08) 62%,rgba(6,8,14,.25) 100%),linear-gradient(180deg,rgba(6,8,14,.25),rgba(6,8,14,0) 40%,rgba(6,8,14,.7)),#0b0d14 url(img/bia.webp) center/cover;justify-content:flex-start;align-items:flex-end;padding:40px 56px 30px}
+  .cover:not(.solid) .in{text-align:left;max-width:460px}
+  .cover:not(.solid) .kick{padding-left:0}
+  .cover:not(.solid) h2.tua{margin:14px 0 0 -6px}
+  .cover:not(.solid) h2.tua img{margin:0}
+  .cover:not(.solid) .row,.cover:not(.solid) .row.main{justify-content:flex-start;margin-top:26px}
+  .cover:not(.solid) .tools{position:absolute;top:22px;right:40px;margin:0;border:0;max-width:none;gap:6px}
+  .cover:not(.solid) .tools button{flex:0 0 auto;flex-direction:row;gap:8px;font-size:13px;padding:10px 12px}
+  .cover:not(.solid) .tools .t{overflow:visible;max-width:none}
+  .cover:not(.solid) .tools svg{width:18px;height:18px}
+  .cover:not(.solid) .foot{margin-top:28px}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-10%" y="-30%" width="120%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="3" seed="8" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.55" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
@@ -766,7 +789,7 @@ body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} bo
 <div class="cd" id="cd" hidden><div class="cd-box" id="cdBox"></div></div>
 <div class="inst" id="inst" hidden><div id="instTx"></div></div>
 <div id="app">
-  <div class="top"><h1>Hẻm 47</h1><div class="r"><span id="hAct">Hồi 1 · hẻm 47 Fan Xích Vô</span><button class="ebtn so" id="soBtn" type="button">Sổ tay<i id="soDot" hidden></i></button><button class="ebtn" id="tsBtn" type="button" hidden>Phòng thử</button><button class="ebtn" id="edBtn" type="button" hidden>Biên tập lời thoại</button><button class="ebtn" id="cdBtn" type="button" title="Cài đặt" aria-label="Cài đặt">⚙</button><button class="ebtn" id="musBtn" type="button" title="Nhạc nền" aria-label="Bật tắt nhạc nền">♪</button><button class="ebtn" id="blBtn" type="button" title="Xem lại thoại" aria-label="Xem lại thoại" hidden></button><button class="ebtn" id="hdBtn" type="button" title="Hướng dẫn chơi" aria-label="Hướng dẫn chơi" hidden>?</button><button class="ebtn" id="acctBtn" type="button">Đăng nhập</button></div></div>
+  <div class="top"><h1 class="tua"><img src="img/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="607" height="315"></h1><div class="r"><span id="hAct">Hồi 1 · hẻm 47 Fan Xích Vô</span><button class="ebtn so" id="soBtn" type="button">Sổ tay<i id="soDot" hidden></i></button><button class="ebtn" id="tsBtn" type="button" hidden>Phòng thử</button><button class="ebtn" id="edBtn" type="button" hidden>Biên tập lời thoại</button><button class="ebtn" id="cdBtn" type="button" title="Cài đặt" aria-label="Cài đặt">⚙</button><button class="ebtn" id="musBtn" type="button" title="Nhạc nền" aria-label="Bật tắt nhạc nền">♪</button><button class="ebtn" id="blBtn" type="button" title="Xem lại thoại" aria-label="Xem lại thoại" hidden></button><button class="ebtn" id="hdBtn" type="button" title="Hướng dẫn chơi" aria-label="Hướng dẫn chơi" hidden>?</button><button class="ebtn" id="acctBtn" type="button">Đăng nhập</button></div></div>
   <div id="auth" hidden style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(8,10,16,.82);padding:16px">
     <div style="width:min(380px,100%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;box-sizing:border-box">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -798,10 +821,10 @@ body[data-hoi="ket"] #cv{filter:saturate(.85) contrast(1.05) brightness(.95)} bo
     </div>
     <div class="game" id="game" hidden><div class="box" id="gameBox"></div></div>
     <div class="cover" id="cover"><img id="logoTop" src="https://pwafboowdpivoysmjrqp.supabase.co/storage/v1/object/public/assets/logo.png" onerror="this.onerror=null;this.src='img/logo.webp'" alt="logo"><img id="logoBot" src="https://pwafboowdpivoysmjrqp.supabase.co/storage/v1/object/public/assets/logo.png" onerror="this.onerror=null;this.src='img/logo.webp'" alt="logo"><div class="in">
-      <div class="kick">Sài Gòn · 2026 <span class="age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div><h2>Hẻm 47</h2><div class="part">Thế Giới Lặng</div>
+      <div class="kick">Sài Gòn · 2026 <span class="age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div><h2 class="tua"><img src="img/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="607" height="315"></h2>
       <p>Một năm trước, Lâm viết một bài bóc phốt sai. Cô gái tên Ngân mất hết rồi biến mất. Giờ Lâm dọn về đúng con hẻm mẹ cô bán tạp hóa, mở dịch vụ xác minh để có tiền đóng trọ.</p>
       <div class="row"><button class="btn" id="bNew" type="button" disabled>Chơi mới</button><button class="btn ghost" id="bCont" type="button" hidden>Chơi tiếp</button><button class="btn ghost" id="bIntro" type="button">Xem mở đầu</button><button class="btn ghost" id="bCd" type="button">Cài đặt</button><button class="btn ghost" id="bAcct" type="button">Đăng nhập</button><button class="btn ghost" id="bSo" type="button">Sổ tay</button><button class="btn ghost" id="bInstall" type="button" hidden>Thêm vào màn hình chính</button></div>
-      <p class="sub" id="loadTx" style="margin-top:14px">Đang tải tranh…</p><a class="fbg" href="https://www.facebook.com/share/g/1HZAi2hPn7/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5h2.2V5.2H13.6c-2.6 0-3.8 1.6-3.8 4v2H7.6v3.3h2.2V22h3.4v-7.5h2.6l.5-3.3h-3.1V9.6c0-.7.3-1.1 1-1.1z"/></svg><span>Vào nhóm Cư dân Hẻm 47</span></a><div class="foot">© 2026 Jesuising Studio · <a href="https://the-gioi-lang-v6.vercel.app" target="_blank" rel="noopener" title="the-gioi-lang-v6.vercel.app">Trang chủ</a> · <a href="mailto:jesuising.studio@gmail.com" title="jesuising.studio@gmail.com">Liên hệ tác giả</a></div>
+      <p class="sub" id="loadTx" style="margin-top:14px">Đang tải tranh…</p><a class="fbg" href="https://www.facebook.com/share/g/1HZAi2hPn7/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5h2.2V5.2H13.6c-2.6 0-3.8 1.6-3.8 4v2H7.6v3.3h2.2V22h3.4v-7.5h2.6l.5-3.3h-3.1V9.6c0-.7.3-1.1 1-1.1z"/></svg><span>Vào nhóm Cư dân Hẻm 47</span></a><div class="foot">© 2026 Jesuising Studio · <a href="https://the-gioi-lang-v6.vercel.app" target="_blank" rel="noopener" title="the-gioi-lang-v6.vercel.app">Trang chủ</a> · <a class="fbl" href="https://www.facebook.com/share/g/1HZAi2hPn7/" target="_blank" rel="noopener">Nhóm Cư dân Hẻm 47</a> · <a href="mailto:jesuising.studio@gmail.com" title="jesuising.studio@gmail.com">Liên hệ tác giả</a></div>
     </div></div>
     <div class="dlg" id="dlg" hidden><img id="dFace" alt=""><div class="tx"><div class="nm" id="dNm"></div><div class="ln" id="dLn"></div><div class="choices" id="dCh"></div></div><span class="more" id="dMore">chạm để tiếp</span></div>
   </div>

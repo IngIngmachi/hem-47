@@ -912,7 +912,7 @@ body{font-size-adjust:.5}
 .phone.shr:not([data-v="thr"]):not([data-v="home"]) .ph-h{height:64px;min-height:64px;padding:0 20px 10px 44px}
 .phone.shr:not([data-v="thr"]):not([data-v="home"]) .ph-h b{font-size:22px}
 .phone.shr #phSub{display:none}
-.phone .ph-h{transition:height .2s,min-height .2s}
+.phone .ph-h{transition:none}
 .phone .ph-b{padding-left:0;padding-right:0}
 .phone .ph-b>*:not(.thr):not(.jl):not(.ppl):not(.msg):not(.typing):not(.ph-note):not(.nvd){margin-left:12px;margin-right:12px}
 .phone .ph-b>.msg,.phone .ph-b>.ph-note{margin-left:14px;margin-right:14px}
@@ -926,6 +926,7 @@ body{font-size-adjust:.5}
 .phone .thr{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--v3edge);cursor:pointer}
 .phone .thr:first-child{border-top:1px solid var(--v3edge)}
 .phone .thr .av{width:48px;height:48px;border-radius:50%}
+.phone .thr.res{grid-template-columns:minmax(0,1fr)}
 .phone .thr .t b{display:block;font-weight:600;font-size:16px;line-height:1.25}
 .phone .thr .t span{display:block;font-size:14px;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* Manh mối: thanh lọc dạng viên, thẻ trong suốt */
@@ -1051,7 +1052,7 @@ body{font-size-adjust:.5}
 .phone.shr:not([data-v="thr"]):not([data-v="home"]) .ph-h{height:64px;min-height:64px;padding:0 20px 10px 44px}
 .phone.shr:not([data-v="thr"]):not([data-v="home"]) .ph-h b{font-size:22px}
 .phone.shr #phSub{display:none}
-.phone .ph-h{transition:height .2s,min-height .2s}
+.phone .ph-h{transition:none}
 .phone .ph-b{padding-left:0;padding-right:0}
 .phone .ph-b>*:not(.thr):not(.jl):not(.ppl):not(.msg):not(.typing):not(.ph-note):not(.nvd){margin-left:12px;margin-right:12px}
 .phone .ph-b>.msg,.phone .ph-b>.ph-note{margin-left:14px;margin-right:14px}
@@ -1506,7 +1507,7 @@ function photoHtml(k){ const r=T[IDX['ANH_'+k]]||{}; const f=r.note; return f&&I
 function renderMayCu(b){ $('phTitle').textContent='Máy cũ của Lâm'; const L=metaRows('maycu').filter(r=>cond(r.hien)); const groups=[...new Set(L.map(r=>r.canh))];
   b.innerHTML='<div class="ph-note">Cái máy cũ hết pin cả năm. Màn hình nứt một góc.</div>'+groups.map(g=>'<div class="ph-sec">'+esc(g)+'</div>'+L.filter(r=>r.canh===g).map(r=>'<div class="card mc'+(S.mc[r.ma]?'':' new')+'" data-m="'+r.ma+'"><b>'+esc(r.ai)+'</b>'+lk(r.loi)+'</div>').join('')).join('');
   b.querySelectorAll('.card.mc.new').forEach(el=>el.onclick=async()=>{ if(busy) return; const r=T[IDX[el.dataset.m]]; S.mc[r.ma]=1; effects(r.sau); const sc='mcn_'+r.ma.slice(3); if(SCN[sc]){ closePhone(); await runS(sc); phAuto=false; openPhone(null,false); phTab='maycu'; } renderPhone(); save(); }); }
-function tabs(){ document.querySelectorAll('#phTabs button').forEach(b=>{ b.setAttribute('aria-pressed',String(!phThread&&b.dataset.t===phTab)); if(b.dataset.t==='maycu') b.hidden=!S.co.maycu; }); $('phBack').style.visibility='visible'; $('phone').dataset.v=phThread?'thr':phTab; }
+function tabs(){ $('phone').classList.remove('shr'); document.querySelectorAll('#phTabs button').forEach(b=>{ b.setAttribute('aria-pressed',String(!phThread&&b.dataset.t===phTab)); if(b.dataset.t==='maycu') b.hidden=!S.co.maycu; }); $('phBack').style.visibility='visible'; $('phone').dataset.v=phThread?'thr':phTab; }
 document.querySelectorAll('#phTabs button').forEach(b=>b.onclick=e=>{e.stopPropagation(); if(busy&&phAuto) return; phTab=b.dataset.t; renderPhone();});
 
 /* ---- Giao diện v3: icon chung cho điện thoại và laptop ---- */
@@ -2865,7 +2866,7 @@ function nvRender(b){ $('phTitle').textContent='Người trong chuyện'; const 
 const PHSUB={tin:['Za Lô','Tin nhắn · Nhóm hẻm · Cuộc gọi'],so:['Manh mối','Thu thập · Đối chiếu · Nối lại'],don:['Đơn','Những việc cần làm để đi tiếp'],nv:['Nhân vật','Người trong hẻm, người ngoài hẻm'],tim:['Tìm','Tra tên, số điện thoại, công ty'],anh:['Ảnh','Hình đã chụp và đã lưu'],maycu:['Máy cũ','Điện thoại cũ của Lâm'],cai:['Cài đặt','Chữ, âm thanh, hình nền']};
 const CKSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 let nvPick=null;
-$('phBody').addEventListener('scroll',()=>{ $('phone').classList.toggle('shr',$('phBody').scrollTop>40); },{passive:true});
+$('phBody').addEventListener('scroll',()=>{ const b=$('phBody'), ph=$('phone'), on=ph.classList.contains('shr'); if(!on&&b.scrollTop>60&&b.scrollHeight-b.clientHeight>240) ph.classList.add('shr'); else if(on&&b.scrollTop<8) ph.classList.remove('shr'); },{passive:true});
 function phHead(){ const v=PHSUB[phTab]; if(!v||phThread) return; $('phTitle').textContent=v[0]; $('phSub').textContent=v[1]; }
 function donRender(b){ const seen={}, L=[];
   for(const r of metaRows('don')){ if(seen[r.ai]) continue; if(cond(r.hien)){ seen[r.ai]=1; L.push([r.ai,tpl(r.loi),/^Xong|^Đã/.test(r.loi)]); } }

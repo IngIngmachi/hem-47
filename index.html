@@ -548,7 +548,7 @@ body.itdong .in-bg.on{animation:none} body.itdong .dlg,body.itdong .hd-hole,body
 #phoneBtn{border-radius:var(--r2);padding:7px 14px;font-size:13.5px}
 .tbtns button{border-radius:var(--r1);padding:5px 10px;border-color:var(--line2)}
 /* lựa chọn: danh sách liền mạch, việc chính nổi hơn việc phụ */
-.choices{gap:0;border:1px solid var(--line2);border-radius:var(--r2);overflow:hidden;margin-top:var(--s2)}
+.choices{gap:0;border:1px solid var(--line2);border-radius:var(--r2);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin-top:var(--s2)}
 .choices button{border:0;border-radius:0;background:#1b2031;padding:11px 14px;font-size:15px;line-height:1.4;display:block;width:100%}
 .choices button+button{border-top:1px solid var(--line2)}
 .choices button:hover,.choices button:focus-visible{background:#242a40;outline:none}
@@ -1002,6 +1002,11 @@ body{font-size-adjust:.5}
 @media (min-width:900px){#lap .slip{font-size:19px;padding:26px 28px 22px}#lap .slip h4{font-size:20px}}
 @media (max-width:719px){#lap .pg{padding:16px}#lap .pg .rs,#lap .pg .cnt{margin-left:0}}
 
+.phone .card.hint{border-color:var(--amber)!important;box-shadow:0 0 0 3px rgba(224,170,85,.22)}
+.phone .card.hint::after{content:"Gợi ý";position:absolute;top:8px;right:10px;font-size:11px;letter-spacing:.06em;color:#1c1408;background:var(--amber);padding:1px 7px;border-radius:999px}
+.phone .card{position:relative}
+.phone .noihint{margin:0 12px 10px;font-size:14px;color:#e9c48a}
+.noibar button+button{margin-left:6px}
 /* ===== Phân biệt 3 loại lời (14/10): thoại / Lâm nghĩ / mô tả ===== */
 .dbust.lam i{background:linear-gradient(160deg,#9fb6d6,#4a5f80 60%,#1e2738)}
 .dbust.lam b{left:auto;right:-10px;background:#9fb6d6;clip-path:polygon(6% 0,100% 0,100% 100%,0 100%)}
@@ -1379,7 +1384,7 @@ async function presentCC(prompt){ const ord={'Chứng cứ':0,'Suy luận':1,'L�
 const hideDlg=()=>{$('dlg').hidden=true;};
 new MutationObserver(()=>{ if($('dlg').hidden) $('dBust').hidden=true; }).observe($('dlg'),{attributes:true,attributeFilter:['hidden']});
 /* ================= NỐI MANH MỐI ================= */
-let noiMode=false, noiSel=[], lastPairs=0, noiAll=false, soF='all', soQ='';
+let noiMode=false, noiSel=[], lastPairs=0, noiAll=false, soF='all', soQ=''; let noiHint=[];
 const noiParts=r=>String(r.ai).split('+').map(x=>x.trim());
 const noiOut=r=>'suy_'+r.ma.slice(4);
 function noiPairs(){ return metaRows('noi').filter(r=>{ const [a,b]=noiParts(r); return S.cc[a]&&S.cc[b]&&!S.cc[noiOut(r)]&&cond(r.hien); }).length; }
@@ -1422,12 +1427,12 @@ function renderPhone(){ phThread=null; tabs(); const b=$('phBody'); cdWall(); co
     const tr=Object.keys(TR_NEED).map(k=>{ const n=Math.max(0,S.tin[k]||0), need=TR_NEED[k][0]; return esc(TRUSTN[k])+' '+'●'.repeat(Math.min(need,n))+'○'.repeat(Math.max(0,need-n))+(S.hoi>=3&&n<need?' <small style="color:var(--dim)">('+esc(TR_NEED[k][1])+')</small>':''); }).join('<br>');
     const np=noiPairs();
     const card=r=>{ const k=r.ma.slice(3), v=VATCC[k], from=r.canh==='Suy luận'?NR.find(n=>noiOut(n)===k):null, used=usedIn[k];
-      return '<div class="card'+(noiMode?' pick':' cmp')+(noiSel.includes(k)?' sel':'')+(r.canh==='Suy luận'?' suy':'')+(v?' hasvat':'')+(noiMode&&spent(k)?' spent':'')+'" data-k="'+esc(k)+'" data-s="'+esc(nrm(r.ai+' '+r.loi))+'">'+(v?'<img class="vat" src="img2/'+v+'.webp" alt="" onerror="this.remove()">':'')+'<b>'+esc(r.ai)+'</b><span class="tx">'+lk(r.loi)+'</span>'
+      return '<div class="card'+(noiMode?' pick':' cmp')+(noiSel.includes(k)?' sel':'')+(noiMode&&noiHint.includes(k)?' hint':'')+(r.canh==='Suy luận'?' suy':'')+(v?' hasvat':'')+(noiMode&&spent(k)?' spent':'')+'" data-k="'+esc(k)+'" data-s="'+esc(nrm(r.ai+' '+r.loi))+'">'+(v?'<img class="vat" src="img2/'+v+'.webp" alt="" onerror="this.remove()">':'')+'<b>'+esc(r.ai)+'</b><span class="tx">'+lk(r.loi)+'</span>'
         +(from?'<span class="from">Nối từ: '+noiParts(from).map(x=>esc(ccName(x))).join(' + ')+'</span>':'')
         +(used&&!noiMode?'<span class="used">Đã nối ra: '+used.map(n=>esc(n.loi)).join(' · ')+'</span>':'')+'</div>'; };
     let h='<div class="card key"><b>'+esc(ACTN[S.hoi]||'')+' · còn '+(TOTAL_DAYS-S.day)+' ngày</b>Tiền: '+money(S.money)+'.'+'<b style="margin-top:6px">Độ tin trong hẻm</b>'+tr+'</div>';
     if(noiMode){ const s1=noiSel[0];
-      h+='<div class="noibar"><span>'+(s1?'Đã chọn <b>'+esc(ccName(s1))+'</b>. Chọn thêm một thẻ.':'Chọn thẻ thứ nhất.')+(np&&CDK().dem?' Có '+np+' cặp nối được.':'')+'</span><button type="button" id="pNoiX">Thôi</button></div>';
+      h+='<div class="noibar"><span>'+(s1?'Đã chọn <b>'+esc(ccName(s1))+'</b>. Chọn thêm một thẻ.':'Chọn thẻ thứ nhất.')+(np&&CDK().dem?' Có '+np+' cặp nối được.':'')+'</span>'+(np?'<button type="button" id="pNoiHint">Gợi ý</button>':'')+'<button type="button" id="pNoiX">Thôi</button></div>'+(noiHint.length?'<div class="noihint">Gợi ý: '+noiHint.map(x=>'<b>'+esc(ccName(x))+'</b>').join(' + ')+(noiHint.length<2?'. Bấm Gợi ý lần nữa để xem thẻ còn lại.':'')+'</div>':'');
       if(CDK().an) h+='<label class="ph-chk"><input type="checkbox" id="pNoiAll"'+(noiAll?' checked':'')+'> Hiện hết các thẻ</label>'; }
     else { h+='<button class="pbtn noibtn" type="button" id="pNoi">Nối hai manh mối<small>'+(!CDK().dem?'Tự tìm hai thẻ khớp nhau':np?'Có '+np+' cặp nối được':'Chưa thấy cặp nào nối được')+'</small></button>';
       h+='<div class="so-flt" id="soFlt">'+[['all','Tất cả'],['Chứng cứ','Chứng cứ'],['Suy luận','Suy luận'],['Lời khai','Lời khai'],['Manh mối','Manh mối'],['noi','Đã nối · '+done.length]].map(([v,l])=>'<button type="button" data-f="'+v+'" class="'+(soF===v?'on':'')+'">'+l+'</button>').join('')+'</div>';
@@ -1441,8 +1446,8 @@ function renderPhone(){ phThread=null; tabs(); const b=$('phBody'); cdWall(); co
       h+='<div class="ph-sec">'+lab+' · '+all+(cn==='Chứng cứ'?'/'+evidCount()+' (cần '+EVID_MIN+')':'')+'</div>'+(L.length?L.map(card).join(''):'<div class="ph-note">Chưa có.</div>'); }
     b.innerHTML=h;
     const flt=()=>{ const q=nrm(soQ); b.querySelectorAll('[data-s]').forEach(el=>{ el.hidden=!!q&&!el.dataset.s.includes(q); }); };
-    if(noiMode){ $('pNoiX').onclick=()=>{ noiMode=false; noiSel=[]; renderPhone(); }; if($('pNoiAll')) $('pNoiAll').onchange=e=>{ noiAll=e.target.checked; renderPhone(); };
-      b.querySelectorAll('.card.pick').forEach(el=>el.onclick=()=>{ const k=el.dataset.k; if(noiSel.includes(k)) noiSel=noiSel.filter(x=>x!==k); else noiSel.push(k); if(noiSel.length===2){ const [x,y]=noiSel; noiSel=[]; noiMode=false; tryNoi(x,y); } else { renderPhone(); } }); }
+    if(noiMode){ $('pNoiX').onclick=()=>{ noiMode=false; noiSel=[]; noiHint=[]; renderPhone(); }; if($('pNoiHint')) $('pNoiHint').onclick=()=>{ const r=metaRows('noi').find(r=>{ const [a,b]=noiParts(r); return S.cc[a]&&S.cc[b]&&!S.cc[noiOut(r)]&&cond(r.hien); }); if(!r) return; const pr=noiParts(r); noiHint=noiHint.length&&noiHint[0]===pr[0]?pr.slice(0,2):[pr[0]]; renderPhone(); const el=b.querySelector('.card.hint'); if(el) el.scrollIntoView({block:'center',behavior:'smooth'}); }; if($('pNoiAll')) $('pNoiAll').onchange=e=>{ noiAll=e.target.checked; renderPhone(); };
+      b.querySelectorAll('.card.pick').forEach(el=>el.onclick=()=>{ const k=el.dataset.k; if(noiSel.includes(k)) noiSel=noiSel.filter(x=>x!==k); else noiSel.push(k); if(noiSel.length===2){ const [x,y]=noiSel; noiSel=[]; noiMode=false; noiHint=[]; tryNoi(x,y); } else { renderPhone(); } }); }
     else { $('pNoi').onclick=()=>{ noiMode=true; noiSel=[]; renderPhone(); b.scrollTop=0; };
       $('soFlt').querySelectorAll('button').forEach(bt=>bt.onclick=()=>{ soF=bt.dataset.f; renderPhone(); b.scrollTop=0; });
       $('soQ').oninput=e=>{ soQ=e.target.value; flt(); };

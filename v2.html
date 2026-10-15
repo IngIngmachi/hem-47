@@ -27,8 +27,12 @@ body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-siz
 #phoneBtn b{display:inline-block;min-width:18px;background:var(--red);color:#fff;border-radius:9px;margin-left:6px;text-align:center;font-weight:600;font-size:11px}
 button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 .sus{position:absolute;left:50%;top:12px;transform:translateX(-50%);width:180px;height:8px;border-radius:4px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.5)}
+#susTx{position:absolute;left:50%;top:16px;transform:translateX(-50%);white-space:nowrap;font-size:14px;font-weight:600;color:#f3ecdc;background:rgba(10,12,18,.78);padding:4px 12px;border-radius:999px}
+.sus[data-st=warn] #susTx{color:#1c1408;background:#f0b25c}
+.sus[data-st=look] #susTx{color:#fff;background:#c8463e}
+@media (max-width:719px){.sus{top:108px;width:150px}}
 .sus i{display:block;height:100%;width:0;background:var(--red);border-radius:4px}
-.sus em{position:absolute;top:11px;left:0;right:0;text-align:center;font-style:normal;font-size:12px;color:#f1d6d2}
+.sus em{position:absolute;top:-1px;right:100%;margin-right:8px;white-space:nowrap;font-style:normal;font-size:12px;line-height:1;color:#f1d6d2}
 .dlg{position:absolute;left:3%;right:3%;bottom:4%;display:flex;gap:14px;align-items:flex-start;background:rgba(16,19,28,.93);border:1px solid rgba(240,178,92,.3);border-radius:12px;padding:12px 16px;min-height:92px;cursor:pointer;backdrop-filter:blur(4px);z-index:6}
 .dlg img{width:80px;height:80px;object-fit:cover;border-radius:10px;flex:none;background:#222}
 .dlg .tx{min-width:0;flex:1}
@@ -75,6 +79,7 @@ button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 .pbtn:hover{border-color:var(--amber)}.pbtn.warn{border-color:var(--red)}.pbtn:disabled{opacity:.5;cursor:default}
 .pbtn small{display:block;color:var(--dim);font-size:12px}
 .pad{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pad button.on{background:var(--amber);color:#1a1408;border-color:var(--amber)}
 .pad button{flex:1;min-width:64px;font:inherit;font-size:17px;background:var(--panel);color:var(--paper);border:1px solid var(--line);padding:12px 0;border-radius:9px;touch-action:none;cursor:pointer}
 .pad .act{color:var(--amber)}
 .keys{color:var(--dim);font-size:13px;margin-top:8px}
@@ -1120,7 +1125,7 @@ body{font-size-adjust:.5}
     <canvas id="cv" aria-label="Hẻm 47 Fan Xích Vô"></canvas><button type="button" class="pan l" id="panL" aria-label="Xem bên trái">‹</button><button type="button" class="pan r" id="panR" aria-label="Xem bên phải">›</button>
     <div class="hud"><div class="chips"><span class="chip h" id="hHoi">Hồi 1</span><span class="chip" id="hDay">Ngày 1</span><span class="chip" id="hClock">07:12</span><span class="chip m" id="hMoney">650.000đ</span><span class="chip nghi" id="hNghi" hidden title="Anh Khoa nghi tới đâu">Khoa nghi <b><i></i></b></span></div><div class="obj" id="hObj"></div><button type="button" id="goMain" hidden></button></div>
     <div class="tbtns"><button id="exitBtn" type="button" hidden>‹ Ra hẻm</button><button id="waitBtn" type="button" hidden>Chờ 1 tiếng</button><button id="sleepBtn" type="button" hidden>Đi ngủ</button></div><button id="phoneBtn" type="button">Điện thoại<b id="badge" hidden>!</b></button>
-    <div class="sus" id="sus" hidden><i id="susBar"></i><em>bị nghi</em></div>
+    <div class="sus" id="sus" hidden><i id="susBar"></i><em>bị nghi</em><b id="susTx"></b></div>
     <div class="toast" id="toast" hidden></div>
     <div class="polar" id="polar" hidden><canvas id="polarCv" width="320" height="240"></canvas><span id="polarTx"></span></div>
     <div class="panel" id="place" hidden></div>
@@ -1215,7 +1220,7 @@ const HGT={lam:168,basau:140,khoa:170,thoa:150,hanh:152,bin:164,loc:168,tam:150,
 const A={}; let W=0; const ML=260, MR=360;
 function layout(){ let x=ML; HOUSE_ORDER.forEach(h=>{ const im=IMG[h]; const w=Math.round(im.width*HOUSE_H/im.height); A[h.slice(4)]={x,w,cx:x+w/2}; x+=w-4; }); W=x+MR; }
 const at=(h,u)=>A[h].x+A[h].w*u;
-let LAMPS=[], HIDES=[];
+let LAMPS=[], HIDES=[]; const hideNear=()=>HIDES.find(o=>Math.abs(o.x-PL.x)<85); const TOUCH=matchMedia('(pointer:coarse)').matches;
 function places(){ LAMPS=[A.taphoa.x-30,A.basau.x-4,A.tam.x-4,A.diem.x+A.diem.w+70];
   HIDES=[{x:A.taphoa.x-30,n:'cột điện'},{x:at('banhmi',.12),n:'xe bánh mì'},{x:A.basau.x-4,n:'cột điện'},{x:at('khoa',.1),n:'chậu cây'},{x:A.tam.x-4,n:'cột điện'},{x:at('diem',.06),n:'giàn hoa'},{x:A.diem.x+A.diem.w+70,n:'cột điện'}]; }
 const LIT={
@@ -1601,22 +1606,30 @@ const TAILS={ loc:{who:'loc',dir:1,start:()=>at('banhmi',.78),end:()=>A.diem.x+A
   khoa:{who:'khoa',dir:-1,start:()=>at('khoa',.5),end:()=>ML-70,speed:58,van:1,followers:['loc','bin'],photo:'h3_tailchup',lost:'h3_tailmat',caught:'h3_tailbat',done:'tail_xong',caughtFx:'+nghi:25',lostOnRide:1,label:'xe 16 chỗ'} };
 const SO={on:false};
 function startTail(id){ const c=TAILS[id]; Object.assign(SO,{on:true,id,who:c.who,dir:c.dir,x:c.start(),state:'walk',t:0,look:'none',lt:5+Math.random()*2,sus:0,paper:null,face:c.dir,g:7,shot:false}); $('sus').hidden=false; PL.x=c.start()-260*c.dir; PL.goal=null; }
-let tailRes=null; function runTail(id){ return new Promise(r=>{ tailRes=r; startTail(id); hud(); }); }
-async function endTail(){ if(!SO.on) return; SO.on=false; const c=TAILS[SO.id]; if(c&&c.done){ if(SO.shot) setCo(c.done); else setCo('tail_mat'); } $('sus').hidden=true; PL.hidden=false; const f=tailRes; tailRes=null; hud(); if(f) f(); }
+let tailRes=null; async function runTail(id){
+  if(!S.co.tail_hd){ setCo('tail_hd'); const m=TOUCH, ai=id==='khoa'?'anh Khoa':'anh Lộc';
+    await say('mota','','Bám đuôi '+ai+': đi theo sau, đừng sát quá cũng đừng xa quá. Dòng chữ trên đầu màn hình sẽ nhắc.');
+    await say('mota','','Thấy "Sắp quay lại" thì tới cột điện, xe hay chậu cây rồi '+(m?'bấm Núp. Bấm ◀ ▶ là đứng dậy.':'giữ phím ↓.')+' Đứng đủ xa cũng không bị thấy.');
+    await say('mota','',(id==='khoa'?'Xe tới thì':'Ổng dừng lại thì')+' tới gần rồi '+(m?'bấm Chụp.':'bấm phím C.'));
+    hideDlg(); }
+  keys.down=0; return new Promise(r=>{ tailRes=r; startTail(id); hud(); }); }
+async function endTail(){ if(!SO.on) return; SO.on=false; const c=TAILS[SO.id]; if(c&&c.done){ if(SO.shot) setCo(c.done); else setCo('tail_mat'); } $('sus').hidden=true; PL.hidden=false; keys.down=0; { const n=document.querySelector('.pad [data-k=down]'); if(n) n.classList.remove('on'); } const f=tailRes; tailRes=null; hud(); if(f) f(); }
 const runAny=x=>SCN[x]?runS(x):run(x,x);
-async function updateTail(dt){ const c=TAILS[SO.id], d=(SO.x-PL.x)*SO.dir; const detR=250;
+async function updateTail(dt){ const c=TAILS[SO.id], d=(SO.x-PL.x)*SO.dir; const detR=230;
   if(SO.state==='walk'){ SO.g=Math.max(0,SO.g-dt);
-    if(SO.look==='none'){ SO.x+=c.speed*SO.dir*dt; SO.face=SO.dir; SO.lt-=dt; if(SO.lt<=0){SO.look='warn'; SO.lt=.8;} }
-    else if(SO.look==='warn'){ SO.lt-=dt; if(SO.lt<=0){SO.look='look'; SO.lt=1.9; SO.face=-SO.dir;} }
-    else { SO.lt-=dt; if(d>0&&d<detR&&!PL.hidden) SO.sus+=dt*75; if(SO.lt<=0){SO.look='none'; SO.lt=4+Math.random()*3; SO.face=SO.dir;} }
-    if(d<30&&SO.g<=0) SO.sus=100; if(SO.look!=='look') SO.sus=Math.max(0,SO.sus-dt*8);
+    if(SO.look==='none'){ SO.x+=c.speed*SO.dir*dt; SO.face=SO.dir; SO.lt-=dt; if(SO.lt<=0){SO.look='warn'; SO.lt=1.6; if(navigator.vibrate) try{navigator.vibrate(60);}catch(e){} } }
+    else if(SO.look==='warn'){ SO.lt-=dt; if(SO.lt<=0){SO.look='look'; SO.lt=1.7; SO.face=-SO.dir;} }
+    else { SO.lt-=dt; if(d>0&&d<detR&&!PL.hidden) SO.sus+=dt*50; if(SO.lt<=0){SO.look='none'; SO.lt=4+Math.random()*3; SO.face=SO.dir;} }
+    if(d<30&&SO.g<=0) SO.sus=100; if(SO.look!=='look') SO.sus=Math.max(0,SO.sus-dt*16);
     if((SO.x-c.end())*SO.dir>=0){ SO.state='jacket'; SO.t=0; SO.look='none'; }
-    if(d>560&&SO.g<=0){ const st=SO.id; SO.on=false; await runAny(c.lost); SO.on=true; await endTail(); return; }
+    if(d>720&&SO.g<=0){ const st=SO.id; SO.on=false; await runAny(c.lost); SO.on=true; await endTail(); return; }
     if(SO.sus>=100){ SO.on=false; await runAny(c.caught); if(c.caughtFx) effects(c.caughtFx); SO.on=true; await endTail(); return; } }
   else if(SO.state==='jacket'){ SO.t+=dt; if(SO.t>2.2){SO.state='phone'; SO.t=0;} }
   else if(SO.state==='phone'){ SO.t+=dt; if(c.paper&&SO.t>3&&!SO.paper&&!S.cc.to_roi) SO.paper=SO.x-30*SO.dir; if(SO.t>9){SO.state='ride'; SO.t=0; tone(90,1.2,.04,'sawtooth');} }
   else if(SO.state==='ride'){ SO.x+=240*SO.dir*dt; if(SO.x>W+60||SO.x<-200){ SO.paper=null; if(c.lostOnRide&&!SO.shot){ SO.on=false; await runAny(c.lost); SO.on=true; } await endTail(); } }
-  $('susBar').style.width=Math.min(100,SO.sus)+'%'; }
+  $('susBar').style.width=Math.min(100,SO.sus)+'%';
+  const st=SO.state!=='walk'?(c.van?'Xe tới rồi. Đứng gần, bấm Chụp':'Ổng dừng lại rồi. Đứng gần, bấm Chụp'):SO.look==='warn'?'Ổng sắp quay lại! Núp liền':SO.look==='look'?(PL.hidden||d>detR?'Ổng đang nhìn quanh. Đứng yên':'Ổng đang nhìn! Núp hoặc lùi xa'):d<detR?'Gần quá, lùi lại chút':d>560?'Xa quá, sắp mất dấu':'Khoảng cách vừa';
+  if($('susTx').textContent!==st) $('susTx').textContent=st; $('sus').dataset.st=SO.look; }
 async function snap(){ if(!SO.on||busy){ if(!busy) toast('Chưa có gì để chụp'); return; }
   const c=TAILS[SO.id], d=(SO.x-PL.x)*SO.dir;
   if(PL.hidden) return toast('Đứng dậy mới chụp được');
@@ -2197,11 +2210,11 @@ function frame(){
   if(SO.on){ const c=TAILS[SO.id]; D.push({y:NFEET+1,f:()=>{
     if(c.followers){ c.followers.forEach((fk,i)=>drawChar(g,fk,SO.x-SO.dir*(90+i*80),NFEET-2,SO.dir,{walk:SO.state==='walk'&&SO.look==='none',ph:SO.x*.06+i,t:tsec,sil:1})); }
     drawChar(g,SO.who,SO.x,NFEET,SO.face,{walk:SO.state==='walk'&&SO.look==='none'||SO.state==='ride',ph:SO.x*.06,t:tsec,jacket:c.jacket&&SO.state!=='walk'});
-    if(SO.look!=='none') pill(SO.x,NFEET-HGT[SO.who]-46,SO.look==='look'?'!':'?',SO.look==='look'?'#e2645c':'#f0b25c');
+    if(SO.look!=='none') pill(SO.x,NFEET-HGT[SO.who]-46,SO.look==='look'?'! Đang nhìn':'? Sắp quay lại',SO.look==='look'?'#e2645c':'#f0b25c');
     if(SO.paper){ g.fillStyle='#f3eee0'; g.save(); g.translate(SO.paper,NFEET+4); g.rotate(.2); g.fillRect(-12,-6,24,14); g.restore(); } }}); }
   D.push({y:FEET,f:()=>{ drawChar(g,'lam',PL.x,FEET,PL.face,{walk:PL.walk,ph:PL.ph,t:tsec+1,crouch:PL.hidden}); if(PL.carry){ g.fillStyle='#8a6a40'; g.fillRect(PL.x-18,FEET-HGT.lam-34,36,30); g.fillStyle='#6d5230'; g.fillRect(PL.x-18,FEET-HGT.lam-22,36,4);} }});
   D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());
-  if(PL.hidden){ const hs=HIDES.find(o=>Math.abs(o.x-PL.x)<50); if(hs&&hs.n==='cột điện'){ g.fillStyle='#3a3c42'; g.fillRect(hs.x-7,FEET-170,14,180);} }
+  if(PL.hidden){ const hs=hideNear(); if(hs&&hs.n==='cột điện'){ g.fillStyle='#3a3c42'; g.fillRect(hs.x-7,FEET-170,14,180);} }
   g.restore();
   g.globalCompositeOperation='multiply'; g.fillStyle=key(GRK,h)[0]; g.fillRect(0,0,VW,VH); g.globalCompositeOperation='source-over';
   if(nn>0){ g.save(); g.translate(-cam,0);
@@ -2224,7 +2237,9 @@ function overlays(){
   if((S.scene==='street'||S.scene==='in')&&started) drawMarkers();
   const t=(busy||!started||!SO.on)?null:nearest();
   if(t){ const x=S.scene==='room'?t.x:t.x-cam; pill(x,S.scene==='room'?FEET-300:FEET-290,'E · '+t.l); }
-  if(SO.on&&!PL.hidden&&HIDES.some(o=>Math.abs(o.x-PL.x)<50)) pill(PL.x-cam,FEET-20,'↓ núp sau '+HIDES.find(o=>Math.abs(o.x-PL.x)<50).n,'#cfd6f0');
+  if(SO.on&&!PL.hidden&&hideNear()) pill(PL.x-cam,FEET-20,(TOUCH?'Bấm Núp':'Giữ ↓')+' · núp sau '+hideNear().n,'#cfd6f0');
+  if(SO.on&&PL.hidden) pill(PL.x-cam,FEET-20,'Đang núp','#9fd0a8');
+  if(SO.on&&keys.down&&!PL.hidden&&!hideNear()) pill(PL.x-cam,FEET-20,'Chỗ này trống, tới cột điện hay xe để núp','#e2a35c');
   if(flash>0){ g.fillStyle='rgba(255,255,255,'+Math.max(0,flash)+')'; g.fillRect(0,0,VW,VH); }
   if(fade>0){ g.fillStyle='rgba(0,0,0,'+Math.min(1,fade)+')'; g.fillRect(0,0,VW,VH); } }
 const roomW=()=>Math.max(900,VW);
@@ -2312,7 +2327,7 @@ function update(dt){ tsec+=dt;
   updateNPC(dt); updateWalkers(dt);
   if(busy||!$('phone').hidden||!$('ed').hidden||!$('game').hidden||!$('cover').hidden){ PL.walk=false; return; }
   if(SO.on){ S.min+=dt*1.5;
-    PL.hidden=!!(keys.down&&HIDES.some(o=>Math.abs(o.x-PL.x)<50));
+    PL.hidden=!!(keys.down&&hideNear());
     let mv=0; if(!PL.hidden){ if(keys.left) mv-=1; if(keys.right) mv+=1; }
     PL.walk=!!mv; if(mv){ PL.face=mv; PL.x+=mv*175*dt; PL.ph+=dt*7.5; }
     PL.x=Math.max(60,Math.min(W-60,PL.x)); updateTail(dt); }
@@ -2321,7 +2336,7 @@ function update(dt){ tsec+=dt;
   else PL.walk=false;
   if(Math.random()<dt*.03&&S.scene==='street'&&hour()>6&&hour()<22) honk(); }
 function objective(){ if(S.ended) return 'Đã kết thúc: '+ENDS[S.ended][1]+'.';
-  if(SO.on) return SO.id==='khoa'?'Theo anh Khoa ra đầu hẻm. Giữ ↓ núp khi ảnh quay lại. Xe tới thì bấm C chụp biển số.':'Bám theo anh Lộc. Giữ ↓ núp sau cột khi anh quay lại. Anh dừng lại thì bấm C chụp.';
+  if(SO.on) return SO.id==='khoa'?'Theo anh Khoa ra đầu hẻm. '+(TOUCH?'Bấm Núp':'Giữ ↓')+' sau cột khi ổng quay lại. Xe tới thì '+(TOUCH?'bấm Chụp':'bấm C')+' chụp biển số.':'Bám theo anh Lộc. '+(TOUCH?'Bấm Núp':'Giữ ↓')+' sau cột khi ổng quay lại. Ổng dừng lại thì '+(TOUCH?'bấm Chụp':'bấm C')+'.';
   if(S.scene==='room') return 'Đêm ở phòng 3.';
   if(S.scene==='place') return '';
   const r=metaRows('muc').find(x=>cond(x.hien)); const muc=r?tpl(r.loi):'';
@@ -2351,7 +2366,8 @@ addEventListener('keydown',e=>{ if(!$('ed').hidden||!$('game').hidden||!$('so').
 addEventListener('keyup',e=>{ if(KM[e.key]) keys[KM[e.key]]=0; });
 addEventListener('blur',()=>{keys.left=keys.right=keys.down=0;});
 document.querySelectorAll('.pad button').forEach(b=>{ const k=b.dataset.k;
-  if(k==='left'||k==='right'||k==='down'){ b.addEventListener('pointerdown',e=>{e.preventDefault(); keys[k]=1;}); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=0)); }
+  if(k==='down'){ b.addEventListener('pointerdown',e=>{ e.preventDefault(); keys.down=keys.down?0:1; b.classList.toggle('on',!!keys.down); }); }
+  else if(k==='left'||k==='right'){ b.addEventListener('pointerdown',e=>{e.preventDefault(); keys[k]=1; if(keys.down){ keys.down=0; const n=document.querySelector('.pad [data-k=down]'); if(n) n.classList.remove('on'); } }); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=0)); }
   else b.addEventListener('click',()=>{ ac(); if(k==='snap') snap(); else actKey(); }); });
 $('waitBtn').onclick=()=>{ ac(); waitHour(); };
 $('sleepBtn').onclick=()=>{ ac(); goSleep(); };

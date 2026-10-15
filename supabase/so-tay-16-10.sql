@@ -40,7 +40,7 @@ where not exists (
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
 select 'tamsu',
        'Big Update: viết lại toàn bộ hội thoại Hẻm 47',
-       'https://www.hem47.asia/img2/trong-phong3-dem.webp',
+       'https://www.hem47.asia/img2/big-update-hoi-thoai.webp',
        1, 0, true,
 $bai$Lần này Hẻm 47 không có hình mới. Lần này là chữ. ✍️
 
@@ -88,5 +88,5 @@ where not exists (
 -- Mấy dòng dưới gắn lại hình cho cả bài đã thêm (kể cả bài Big Update 14/10).
 update public.baiviet set anh = 'https://www.hem47.asia/img2/bia.webp'
  where tieu_de in ('Tuyên bố quyền sở hữu và quyền tác giả', 'Big Update: Hẻm 47 có diện mạo mới');
-update public.baiviet set anh = 'https://www.hem47.asia/img2/trong-phong3-dem.webp'
+update public.baiviet set anh = 'https://www.hem47.asia/img2/big-update-hoi-thoai.webp'
  where tieu_de = 'Big Update: viết lại toàn bộ hội thoại Hẻm 47';

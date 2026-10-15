@@ -2950,7 +2950,7 @@ function soMarkRead(id){ const s=soRead(); s.add(String(id)); lsSet(SO_READ_KEY,
 function soHoi(){ if(typeof started!=='undefined'&&started&&S&&S.hoi) return +S.hoi||1;
   try{ const c=JSON.parse(lsGet(SAVEKEY)||'null'); if(c&&c.hoi) return +c.hoi||1; }catch(e){} return 1; }
 function soEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function soSafeUrl(u){ u=String(u||'').trim(); return /^(https:\/\/|img\/)[^\s"'<>]+$/.test(u)?u:''; }
+function soSafeUrl(u){ u=String(u||'').trim(); return /^(https:\/\/|img2?\/)[^\s"'<>]+$/.test(u)?u:''; }
 function soColor(c){ return /^#[0-9a-f]{3,8}$/i.test(String(c||''))?c:'#8a4b12'; }
 function soInline(s){ return soEsc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>'); }
 const SO_IMG_RE=/^!\[([^\]]*)\]\(([^)\s]+)\)$/;

@@ -15,7 +15,7 @@ select coalesce(
            limit 1),
          'tuyenbo'),
        'Tuyên bố quyền sở hữu và quyền tác giả',
-       'img2/bia.webp',
+       'https://www.hem47.asia/img2/bia.webp',
        1, 0, true,
 $bai$HẺM 47: THẾ GIỚI LẶNG
 
@@ -40,7 +40,7 @@ where not exists (
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
 select 'tamsu',
        'Big Update: viết lại toàn bộ hội thoại Hẻm 47',
-       'img2/trong-phong3-dem.webp',
+       'https://www.hem47.asia/img2/trong-phong3-dem.webp',
        1, 0, true,
 $bai$Lần này Hẻm 47 không có hình mới. Lần này là chữ. ✍️
 
@@ -82,3 +82,11 @@ Và mình nghĩ, đó cũng là một phần tinh thần của Hẻm 47: đôi k
 where not exists (
   select 1 from public.baiviet where tieu_de = 'Big Update: viết lại toàn bộ hội thoại Hẻm 47'
 );
+
+-- 3. SỬA HÌNH CHO BÀI ĐÃ CHẠY TRƯỚC ĐÓ
+-- Sổ tay chỉ nhận link hình dạng https://..., nên các bài ghi "img2/..." không hiện hình.
+-- Mấy dòng dưới gắn lại hình cho cả bài đã thêm (kể cả bài Big Update 14/10).
+update public.baiviet set anh = 'https://www.hem47.asia/img2/bia.webp'
+ where tieu_de in ('Tuyên bố quyền sở hữu và quyền tác giả', 'Big Update: Hẻm 47 có diện mạo mới');
+update public.baiviet set anh = 'https://www.hem47.asia/img2/trong-phong3-dem.webp'
+ where tieu_de = 'Big Update: viết lại toàn bộ hội thoại Hẻm 47';

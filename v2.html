@@ -1053,7 +1053,7 @@ body{font-size-adjust:.5}
 .tlr-st span{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Playpen Sans",var(--f-hand);font-size:15px;line-height:1.2;color:#3a3226}
 .tlr-st:hover,.tlr-st:focus-visible{transform:rotate(0deg) translateY(-3px) scale(1.03);box-shadow:0 16px 30px rgba(0,0,0,.6);outline:none}
 .cover.solid .tlr-st,#cover[hidden] .tlr-st{display:none}
-@media (max-width:719px){.tlr-st{top:12px;right:12px;width:122px;padding:5px 5px 20px}.tlr-st::before{width:48px;height:15px;top:-8px}.tlr-st .pi{top:5px;width:calc(100% - 10px)}.tlr-st .pi i{width:26px;height:26px}.tlr-st .pi i::after{border-left-width:8px;border-top-width:5px;border-bottom-width:5px}.tlr-st span{font-size:11px;bottom:4px}}
+@media (max-width:719px){.tlr-st{top:calc(env(safe-area-inset-top,0px) + 16px);right:14px;width:112px;padding:5px 5px 20px}.tlr-st::before{width:48px;height:15px;top:-8px}.tlr-st .pi{top:5px;width:calc(100% - 10px)}.tlr-st .pi i{width:26px;height:26px}.tlr-st .pi i::after{border-left-width:8px;border-top-width:5px;border-bottom-width:5px}.tlr-st span{font-size:11px;bottom:4px}}
 #tlr{position:fixed;inset:0;z-index:95;background:rgba(5,6,10,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:12px}
 #tlr[hidden]{display:none}
 #tlr .box{width:min(1100px,100%,calc((100dvh - 120px) * 16 / 9));aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}

@@ -15,7 +15,7 @@ select coalesce(
            limit 1),
          'tuyenbo'),
        'Tuyên bố quyền sở hữu và quyền tác giả',
-       '',
+       'img2/bia.webp',
        1, 0, true,
 $bai$HẺM 47: THẾ GIỚI LẶNG
 
@@ -42,33 +42,43 @@ select 'tamsu',
        'Big Update: viết lại toàn bộ hội thoại Hẻm 47',
        'img2/trong-phong3-dem.webp',
        1, 0, true,
-$bai$Lần này không có hình mới. Lần này là chữ.
+$bai$Lần này Hẻm 47 không có hình mới. Lần này là chữ. ✍️
 
-Hẻm 47 vừa được viết lại gần như toàn bộ phần hội thoại: hơn 800 câu được sửa, 71 câu thừa được bỏ hẳn. Bạn nào đang chơi dở thì cứ chơi tiếp, game lưu y như cũ.
+Hơn 800 câu hội thoại được sửa lại. 71 câu thừa bị bỏ hẳn. Gần như toàn bộ phần hội thoại của Hẻm 47 đã được viết lại trong đợt update này.
 
-✍️ CÓ GÌ KHÁC?
+Bạn nào đang chơi dở cứ chơi tiếp nha, tiến trình vẫn được giữ nguyên như cũ.
 
-• Nhân vật nói chuyện giống người trong hẻm hơn. Bà Sáu, cô Thoa, chú Tám, chị Hạnh… mỗi người một giọng, xưng hô theo đúng mối quan hệ, và đổi theo cảm xúc. Ai từng nghe cô Thoa gọi Lâm là "con" sẽ thấy cái khác khi tới lúc cô gọi "mày".
-• Bớt mấy câu tả cảnh lặp lại. Vô nhà thì biết mình đang ở đâu, bấm vô người thì vô chuyện luôn.
-• Sửa những chỗ Lâm "biết trước" điều người chơi chưa thấy. Mấy câu kiểu nhân vật nói ra chuyện của hồi sau đã được gỡ hết.
-• Nối manh mối gọn hơn: Lâm không đọc lại hai thẻ bạn vừa chọn nữa, chỉ nói ra điều mình vừa hiểu.
-• Việc ngoài luồng đổi sang dấu ? màu xanh, hiên nhà bà Sáu có cầu thang đi thẳng lên phòng 3, và một vài chỗ hiển thị trên điện thoại được làm lại cho dễ đọc.
+✍️ VẬY THÌ CÓ GÌ KHÁC?
 
-—
+• Nhân vật nói chuyện giống người trong hẻm hơn. Bà Sáu, cô Thoa, chú Tám, chị Hạnh… mỗi người có một giọng riêng, cách xưng hô riêng, và cách nói chuyện cũng thay đổi theo mối quan hệ lẫn cảm xúc. Cùng là cô Thoa, nhưng từ lúc gọi Lâm là “con” đến khi chuyển sang “mày”, câu chuyện đã không còn như trước nữa.
+
+• Bớt kể những gì người chơi đã biết. Không còn vừa bước vô nhà đã phải nghe tả lại mình đang đứng ở đâu, hay bấm vào một nhân vật mà vẫn phải đọc một đoạn miêu tả dài trước khi vô chuyện.
+
+• Lâm không còn biết trước những gì người chơi chưa thấy. Những câu thoại vô tình tiết lộ chuyện xảy ra ở các đoạn sau đã được rà soát và sửa lại cho đúng thời điểm.
+
+• Manh mối được nối gọn hơn. Khi ghép hai thẻ thông tin, Lâm không đọc lại nguyên xi những gì bạn vừa chọn nữa, mà tập trung nói ra điều cậu thực sự hiểu được từ chúng.
+
+Ngoài ra, việc ngoài luồng giờ có dấu ? màu xanh, hiên nhà bà Sáu có cầu thang đi thẳng lên Phòng 3, và một số giao diện trên điện thoại cũng được chỉnh lại cho dễ đọc hơn.
 
 🗒️ VÀI DÒNG TÂM SỰ
 
-Làm game này một thời gian, mà tới gần đây mình mới chịu ngồi chơi lại Hồi 1 từ đầu tới cuối như một người chơi thật. Chơi xong mới thấy: nhiều câu mình viết lúc đó đọc thì hay, mà nói ra thì không ai nói vậy.
+Làm game một thời gian rồi, nhưng mãi gần đây mình mới thực sự ngồi chơi lại Hồi 1 từ đầu đến cuối, lần này với tư cách một người chơi chứ không phải người viết.
 
-Nên đợt này mình làm một việc hơi cực: đọc lại từng câu, nghe thử nó có giống người Sài Gòn nói chuyện với nhau không. Câu nào dài quá thì cắt. Câu nào nghe như văn mẫu thì viết lại. Câu nào Lâm "biết" một chuyện mà người chơi chưa hề thấy thì sửa cho đúng lúc.
+Và trời ơi, có những câu lúc viết mình thấy hay lắm, nhưng đọc thành tiếng mới nhận ra… ngoài đời chẳng ai nói chuyện kiểu đó hết. =))))
 
-Cái mình mất nhiều thời gian nhất lại là chuyện xưng hô. Lâm gọi Ngân là "cổ" chứ không phải "nó". Anh Khoa lúc đầu là "ảnh", càng về sau càng thành "ổng". Anh Tú vui thì "anh em", cợt nhã thì "tao mày". Mấy chữ nhỏ xíu, mà đổi một chữ là đổi luôn cách mình nhìn một người.
+Thế là mình quyết định ngồi đọc lại từng câu, thử nghe xem nó có giống cách người Sài Gòn nói chuyện với nhau không. Câu nào dài quá thì cắt. Câu nào nghe như văn mẫu thì viết lại. Câu nào Lâm biết một chuyện mà người chơi còn chưa được thấy thì sửa cho đúng lúc.
 
-Có lẽ cũng giống câu chuyện của Lâm: một bài viết đổi một chữ, có khi là đổi cả cuộc đời người khác.
+Tưởng sửa vài câu thôi, ai dè thành hơn 800 câu.
 
-Cảm ơn mọi người đã chơi, đã nhắn góp ý, đã chỉ cho mình từng lỗi nhỏ. Chơi bản mới rồi cho mình biết câu nào còn "kỳ kỳ" nha. Mình đọc hết.
+Mà thứ làm mình mất thời gian nhất lại là chuyện xưng hô.
 
-#Hem47 #TheGioiLang #BigUpdate #IndieGame$bai$
+Lâm gọi Ngân là “cổ” chứ không phải “nó”. Anh Khoa lúc đầu là “ảnh”, càng về sau càng thành “ổng”. Anh Tú lúc vui thì “anh em”, lúc cợt nhả lại chuyển sang “tao mày”.
+
+Toàn những chữ nhỏ xíu thôi, nhưng đổi một chữ là đổi cả sắc thái của câu nói, đổi luôn cách mình cảm nhận về người đang nói.
+
+Và mình nghĩ, đó cũng là một phần tinh thần của Hẻm 47: đôi khi chỉ một chữ thay đổi, câu chuyện về một con người đã có thể khác đi rất nhiều.
+
+Đợt này không có thêm hình ảnh hoành tráng, không có bối cảnh mới để khoe. Chỉ là mình quay lại làm cho những gì đã có trở nên tốt hơn một chút, tự nhiên hơn một chút, và gần với câu chuyện mình thực sự muốn kể.$bai$
 where not exists (
   select 1 from public.baiviet where tieu_de = 'Big Update: viết lại toàn bộ hội thoại Hẻm 47'
 );

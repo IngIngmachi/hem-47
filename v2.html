@@ -2899,7 +2899,7 @@ async function kqOpen(k){ const b=panel('Khoe kết quả','<p class="ph-note">�
   if(M.length){ const d=document.createElement('div'); d.className='moc'; d.innerHTML='Chơi lại từ giữa chừng<br>'+M.map(h=>'<button type="button" data-h="'+h+'">'+esc(ACTN[h]||('Hồi '+h))+'</button>').join(''); row.after(d);
     d.querySelectorAll('[data-h]').forEach(bt=>bt.onclick=()=>napState(lsGet('tgl_moc_'+bt.dataset.h))); } }; }
 /* ---- thống kê Vercel (chỉ chạy trên link Vercel) ---- */
-try{ if(/(\.vercel\.app|hem47\.asia)$/.test(location.hostname)){ window.va=window.va||function(){ (window.vaq=window.vaq||[]).push(arguments); }; const sc=document.createElement('script'); sc.defer=true; sc.src='/_vercel/insights/script.js'; document.head.appendChild(sc); } }catch(e){}
+try{ if(/\.vercel\.app$/.test(location.hostname)){ window.va=window.va||function(){ (window.vaq=window.vaq||[]).push(arguments); }; const sc=document.createElement('script'); sc.defer=true; sc.src='/_vercel/insights/script.js'; document.head.appendChild(sc); } }catch(e){}
 /* ---- nút Thành tựu trên bìa ---- */
 (function(){ const tools=document.querySelector('#cover .tools'); if(!tools) return; const b=document.createElement('button'); b.type='button'; b.id='bTt';
   b.innerHTML='<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5A3.5 3.5 0 0 1 15.5 11"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg><span class="t">Thành tựu</span>'; b.onclick=()=>{ ac(); ttOpen(); };

@@ -1,0 +1,19 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+
+/nhac/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
+
+/img2/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
+
+/icons/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
+
+/sw.js
+  Cache-Control: no-cache

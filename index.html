@@ -18,6 +18,7 @@
   var co=keys.some(function(k){ return /_save/.test(k)&&LS.getItem(k); });
   if(co&&!confirm('Hẻm 47 đã chuyển sang địa chỉ mới www.hem47.asia.\nMáy này đã có tiến trình ở đây rồi. Thay bằng tiến trình từ link cũ không?')) return;
   keys.forEach(function(k){ LS.setItem(k,d[k]); });
+  try{ sessionStorage.setItem('hem47_mang','1'); }catch(e){}
 }catch(e){}})();
 </script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b0d14"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Hẻm 47"><link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png?v=3"><link rel="icon" href="icons/icon-192.png?v=3"><style>[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Hẻm 47: Thế Giới Lặng</title><meta name="description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta property="og:type" content="website"><meta property="og:site_name" content="Hẻm 47"><meta property="og:title" content="Hẻm 47: Thế Giới Lặng"><meta property="og:description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta property="og:url" content="https://www.hem47.asia/"><meta property="og:image" content="https://www.hem47.asia/og.jpg"><meta property="og:image:secure_url" content="https://www.hem47.asia/og.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Hẻm 47: Thế Giới Lặng, một con hẻm Sài Gòn ban đêm"><meta property="og:locale" content="vi_VN"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Hẻm 47: Thế Giới Lặng"><meta name="twitter:description" content="Game trinh thám ở một con hẻm Sài Gòn: tra điện thoại, hỏi người trong hẻm, tìm cô gái đã biến mất. Chơi miễn phí trên trình duyệt."><meta name="twitter:image" content="https://www.hem47.asia/og.jpg"></head><body>
 
@@ -1093,6 +1094,13 @@ body{font-size-adjust:.5}
 #chao .kk{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 6px}
 #chao h3{margin:0 0 8px;font-family:var(--f-head);font-weight:600;font-size:24px;line-height:1.2}
 #chao p{margin:0 0 16px;font-size:15px;line-height:1.55;color:#c9cdd8}
+#chao .moi{border:1px solid rgba(224,170,85,.55);background:rgba(224,170,85,.08);border-radius:12px;padding:12px 14px;margin:0 0 16px}
+#chao .moi b{display:block;font-size:15px;color:var(--amber);margin-bottom:4px}
+#chao .moi p{margin:0 0 10px;font-size:14px}
+#chao .moi strong{color:var(--paper);white-space:nowrap}
+#chao .moi .cu{text-decoration:line-through;color:var(--dim);word-break:break-all}
+#chao .moi .ok{color:#8fd19e}
+#chao .moi button{font:inherit;font-size:14px;font-weight:600;background:transparent;color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:7px 14px;cursor:pointer}
 #chao .lk{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
 #chao .lk a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#1b2133;color:var(--paper);text-decoration:none;font-size:15px}
 #chao .lk a:hover,#chao .lk a:focus-visible{border-color:var(--amber)}
@@ -3344,6 +3352,12 @@ try{ btvApply(); }catch(e){} { const _rb=rebuild; rebuild=function(){ const r=_r
 <div id="chao" hidden role="dialog" aria-modal="true" aria-labelledby="chaoT"><div class="in">
   <p class="kk">Hẻm 47 · Thế Giới Lặng</p>
   <h3 id="chaoT">Chào bạn ghé hẻm</h3>
+  <div class="moi" id="chaoMoi">
+    <b>Hẻm 47 đã chuyển nhà</b>
+    <p>Từ nay game chỉ chạy ở địa chỉ <strong>www.hem47.asia</strong>. Link cũ <span class="cu">the-gioi-lang-v6.vercel.app</span> sắp ngưng, bạn lưu lại link mới nha.</p>
+    <p class="ok" id="chaoMang" hidden>✓ Tiến trình chơi từ link cũ đã được chuyển sang đây.</p>
+    <button type="button" id="chaoChep">Chép link mới</button>
+  </div>
   <p>Tin cập nhật, hậu trường và chỗ góp ý của Hẻm 47 nằm ở mấy kênh dưới đây.</p>
   <div class="lk">
     <a href="https://www.facebook.com/groups/hem47.asia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.6-.3 4.6 1.3 5 4.3"/></svg><span>Nhóm Cư dân Hẻm 47<small>Hỏi đáp, góp ý, khoe kết</small></span></a>
@@ -3356,7 +3370,11 @@ try{ btvApply(); }catch(e){} { const _rb=rebuild; rebuild=function(){ const r=_r
 /* Popup chào: hiện mỗi lần mở game, trừ khi đã tick "hôm nay không hiện lại" */
 (function(){ const K='hem47_chao_an', today=new Date().toLocaleDateString('sv-SE');
   let an=null; try{ an=localStorage.getItem(K); }catch(e){}
-  const box=document.getElementById('chao'); if(!box||an===today) return;
+  let mang=false; try{ mang=sessionStorage.getItem('hem47_mang')==='1'; sessionStorage.removeItem('hem47_mang'); }catch(e){}
+  const box=document.getElementById('chao'); if(!box||(an===today&&!mang)) return;
+  const moi=document.getElementById('chaoMoi'); if(today>'2026-11-30'&&!mang) moi.hidden=true;
+  document.getElementById('chaoMang').hidden=!mang;
+  document.getElementById('chaoChep').onclick=async function(){ const t='https://www.hem47.asia'; try{ await navigator.clipboard.writeText(t); this.textContent='Đã chép link ✓'; }catch(e){ this.textContent=t; } };
   const close=()=>{ try{ if(document.getElementById('chaoAn').checked) localStorage.setItem(K,today); }catch(e){} box.hidden=true; document.removeEventListener('keydown',esc); };
   const esc=e=>{ if(e.key==='Escape') close(); };
   document.getElementById('chaoGo').onclick=close;

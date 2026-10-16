@@ -121,3 +121,7 @@ update public.baiviet set anh='img2/ngoai-cho.webp', noi_dung=$b$Trong Hẻm 47,
 > Mọi cái tên, app, công ty và sự việc trong game đều là hư cấu. Nhưng kiểu lừa thì không.$b$ where id=19;
 
 update public.baiviet set anh='img2/ngoai-ben.webp' where id=20;
+
+-- Lần 2 (17/10): album dùng ảnh chân dung face-*-1 (không lẹm đầu); bài 19 thêm địa danh chơi chữ; bài 20 bớt lộ.
+-- Nội dung đầy đủ đã chạy trực tiếp trên Supabase, xem bảng baiviet id 17, 19, 20.
+update public.baiviet set noi_dung = regexp_replace(noi_dung, '\(img2/([a-z]+)-face\.webp\)', '(img2/face-\1-1.webp)', 'g') where id=17;

@@ -2,7 +2,8 @@
 /* Chuyển nhà: link cũ *.vercel.app tự sang www.hem47.asia, mang theo tiến trình lưu trên máy (localStorage riêng theo từng địa chỉ). */
 (function(){try{
   var LS=localStorage, re=/^(tgl_|hem47_)/;
-  var MANG_BAT=false; /* bật true khi www.hem47.asia đã chạy trên Cloudflare */
+  var MANG_BAT=true;
+  if(location.hostname==='hem47.asia'){ location.replace('https://www.hem47.asia'+location.pathname+location.search+location.hash); return; }
   if(MANG_BAT&&/\.vercel\.app$/.test(location.hostname)){
     var o={}, n=0; for(var i=0;i<LS.length;i++){ var k=LS.key(i); if(re.test(k)){ o[k]=LS.getItem(k); n++; } }
     var u='https://www.hem47.asia'+location.pathname+location.search, s=JSON.stringify(o);

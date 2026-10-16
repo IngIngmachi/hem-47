@@ -1,0 +1,9 @@
+// Cloudflare Workers (trang tĩnh): build.sh chép file game vào public/, wrangler đưa thư mục đó lên.
+{
+  "name": "hem-47",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "none"
+  }
+}

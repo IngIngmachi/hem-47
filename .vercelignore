@@ -2,3 +2,5 @@ supabase/
 README.md
 trailer/
 public/
+wrangler.jsonc
+build.sh

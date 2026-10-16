@@ -1771,7 +1771,7 @@ function endLines(k){ const ve=k==='phuong'||k==='imlang';
     hetgio:['Ngày ba mươi đã qua.','Khu ở Bavet dời đi. Phòng 3 có người khác thuê.','Ngân vẫn ở đâu đó bên kia sông.','Chơi tiếp Xứ Lạ để tìm ra cô ấy, và đưa mọi người về.']};
   return L[k]||L.hetgio; }
 function typeEnd(k){ return new Promise(res=>{ let el=$('typeEnd'); if(!el){ el=document.createElement('div'); el.id='typeEnd'; document.body.appendChild(el); }
-  el.innerHTML='<div class="te-in"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">PHẦN 2</div><div class="te-n">Xứ Lạ</div><div class="te-s">Sắp ra mắt</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
+  el.innerHTML='<div class="te-in"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">PHẦN 2</div><div class="te-n">Xứ Lạ</div><a class="te-s" href="xula.html" style="color:#f0b25c">Chơi thử bản đầu ▸</a></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
   const bgi=(k==='phuong'||k==='imlang')?'ket-thuy':'ket-ngan-trai'; el.style.background='linear-gradient(rgba(5,6,10,.8),rgba(5,6,10,.92)),#05060a url(img2/'+bgi+'.webp) center/cover';
   el.hidden=false; const tx=$('teTx'); const lines=endLines(k); let skip=false, li=0, ci=0, cur=null;
   const fin=()=>{ tx.innerHTML=lines.map((l,i)=>'<p'+(i===lines.length-1?' class="te-last"':'')+'>'+esc(l)+'</p>').join(''); $('teSkip').hidden=true; setTimeout(()=>{ $('teC2').hidden=false; tone(110,1.6,.05,'sine'); tone(165,1.6,.03,'sine',.05); setTimeout(()=>{ $('teGo').hidden=false; },1400); },700); };

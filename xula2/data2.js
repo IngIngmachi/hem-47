@@ -43,7 +43,7 @@ const P2DATA=(()=>{
     khang:{n:'Khang',at:h=>{ if(!inDs('khang')&&!(S.p1&&S.p1.co.khoa_lat)) return null; if(S.day<15) return null; if(h>=19&&h<22) return {u:S.p1.co.khoa_lat?['xvp',.18]:['xbep',.88],f:-1}; return null; }},
     loc:{n:'Anh Lộc',at:h=>{ if(!inDs('loc')) return null; if(h>=6&&h<19) return {u:['xbep',.5],in:1}; if(h>=19&&h<21) return {u:['xbep',.62]}; return null; }}};
   /* ---------- phòng ---------- */
-  const taphoa=Object.assign({},P1R.taphoa,{objs:(P1R.taphoa.objs||[]).concat([{id:'ban_quay',x:.42,y:.62,w:.12,h:.1,l:'Mặt quầy',idle:'Mặt quầy gỗ, trầy mấy chục năm. Chỗ Ngân hay ngồi làm bài hồi nhỏ.'}])});
+  const taphoa=Object.assign({},P1R.taphoa,{objs:(P1R.taphoa.objs||[]).concat([{id:'ban_quay',x:.6,y:.64,w:.07,h:.08,l:'Mặt quầy',idle:'Mặt quầy gỗ, trầy mấy chục năm. Chỗ Ngân hay ngồi làm bài hồi nhỏ.'}])});
   const present=L=>function(){ return L.filter(k=>NPC[k]&&(()=>{ const p=NPC[k].at(hour()); return p&&p.in; })()); };
   const R2={
     may:{house:'xmay',door:.09,ten:'Phòng máy',img:'x2-phong-may',npc:['bay'],npos:[.7],lamx:.25,

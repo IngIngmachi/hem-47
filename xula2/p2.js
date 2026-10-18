@@ -17,7 +17,7 @@ const P2FB={
   'x2-bep':'trong-banhmi','x2-bo-song-dem':'ngoai-ben','x2-bo-ben-nay':'ngoai-ben','x2-taphoa-chieu':'nha-taphoa','x2-van-phong-lam':'trong-vp12',
   'x2-hien-basau-dem':'hem-dem','x2-quan-thaodien':'ngoai-cafe','x2-congan':'ngoai-congan','x2-ben-ghe':'ngoai-ben','x2-trai-giam':'ngoai-congan',
   'x2-kham-suckhoe':'trong-vp12','x2-vp-quan-khac':'trong-vp12','x2-hem-mua':'hem-dem','x2-hau-trai':'','x2-trai-matcat':'',
-  'x2-cua-khau-sang':'','x2-ket-o-lai':'','x2-ket-ban-dung':'','x2-tiec-taphoa':'','x2-ket-mot-minh':'','face-lam-4':'','face-ngan-4':''};
+  'x2-cua-khau-sang':'','x2-ket-o-lai':'','x2-ket-ban-dung':'','x2-tiec-taphoa':'','x2-ket-mot-minh':'','face-lam-4':'','face-ngan-4':'','x2-trong-hottoc':'','x2-trong-nail':'','x2-trong-taphoa':'','x2-trong-phong3':'','x2-trong-phong3-dem':''};
 /* người mới chưa có hình: mượn tạm hình người cũ */
 const P2CH={bay:'thoa',seo:'tu',thoai:'loc',khang:'bin',ti:'bin',nhi:'thuy',toan:'loc',hue:'hanh'};
 const P2HGT={bay:156,seo:172,thoai:164,khang:166,ti:160,nhi:152,toan:168,hue:150};
@@ -158,7 +158,10 @@ hotspots=function(){ if(!P2.on||P2.map!=='trai'||S.scene!=='street') return hots
       h.sidesN=inside.reduce((n,k)=>n+sidesNow(k).length,0); } });
   return L; };
 const roomIm1=roomIm;
-roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(R&&R.img) return IMG[R.img]||null; } return roomIm1(); };
+const P2ROOMIMG={hottoc:'x2-trong-hottoc',nail:'x2-trong-nail',taphoa:'x2-trong-taphoa',phong3:'x2-trong-phong3'};
+roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(R&&R.img) return IMG[R.img]||null;
+    if(S.room==='phong3'&&(hour()>=18.5||hour()<5.5)&&P2REAL['x2-trong-phong3-dem']) return IMG['x2-trong-phong3-dem'];
+    const k=P2ROOMIMG[S.room]; if(k&&P2REAL[k]) return IMG[k]; } return roomIm1(); };
 const faceFor1=faceFor;
 faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(name==='Ông Chủ Lò'||name==='Người tuyển'||name==='Số lạ') return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
 const setBust1=setBust;

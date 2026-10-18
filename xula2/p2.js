@@ -16,7 +16,8 @@ const P2FB={
   'x2-nha-an':'trong-banhmi','x2-phong-ngu':'trong-phong3-dem','x2-buong-tam':'trong-phong3-dem','x2-tang3':'trong-vp12','x2-phong-toi':'trong-phong3-dem',
   'x2-bep':'trong-banhmi','x2-bo-song-dem':'ngoai-ben','x2-bo-ben-nay':'ngoai-ben','x2-taphoa-chieu':'nha-taphoa','x2-van-phong-lam':'trong-vp12',
   'x2-hien-basau-dem':'hem-dem','x2-quan-thaodien':'ngoai-cafe','x2-congan':'ngoai-congan','x2-ben-ghe':'ngoai-ben','x2-trai-giam':'ngoai-congan',
-  'x2-kham-suckhoe':'trong-vp12','x2-vp-quan-khac':'trong-vp12','x2-hem-mua':'hem-dem','x2-hau-trai':'','x2-trai-matcat':''};
+  'x2-kham-suckhoe':'trong-vp12','x2-vp-quan-khac':'trong-vp12','x2-hem-mua':'hem-dem','x2-hau-trai':'','x2-trai-matcat':'',
+  'x2-cua-khau-sang':'','x2-ket-o-lai':'','x2-ket-ban-dung':'','x2-tiec-taphoa':'','x2-ket-mot-minh':'','face-lam-4':'','face-ngan-4':''};
 /* người mới chưa có hình: mượn tạm hình người cũ */
 const P2CH={bay:'thoa',seo:'tu',thoai:'loc',khang:'bin',ti:'bin',nhi:'thuy',toan:'loc',hue:'hanh'};
 const P2HGT={bay:156,seo:172,thoai:164,khang:166,ti:160,nhi:152,toan:168,hue:150};
@@ -154,7 +155,7 @@ hotspots=function(){ if(!P2.on||P2.map!=='trai'||S.scene!=='street') return hots
 const roomIm1=roomIm;
 roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(R&&R.img) return IMG[R.img]||null; } return roomIm1(); };
 const faceFor1=faceFor;
-faceFor=function(name,n){ if(P2.on){ if(name==='Ông Chủ Lò'||name==='Người tuyển'||name==='Số lạ') return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
+faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(name==='Ông Chủ Lò'||name==='Người tuyển'||name==='Số lạ') return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
 const setBust1=setBust;
 setBust=function(nm,label,kind){ setBust1(nm,label,kind); if(!P2.on) return; const k=nm&&SPK[nm]; if(k&&P2CH[k]&&!P2FACEOK[k+'-bust']){ const b=$('dBust'); if(!b.hidden) b.querySelector('img').src='img2/'+P2CH[k]+'-bust.webp'; } };
 const evPlan1=evPlan; evPlan=function(){ if(P2.on) return; return evPlan1.apply(this,arguments); };
@@ -320,7 +321,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
   if(k!=='ca_to'&&!my) L.push('Ở một nơi khác, một bà già sáu mươi tuổi tắt ứng dụng đổi giọng, rót trà, rồi gọi cho con trai: "Mấy đứa đó để má lo."');
   let got=[]; try{ got=JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){} if(!got.includes(k)) got.push(k); lsSet('tgl_chuong2_ket',JSON.stringify(got));
   hideDlg(); closePhone();
-  const e=document.createElement('div'); e.className='p2end'; e.innerHTML='<div class="in" id="p2eIn"></div>'; document.body.appendChild(e); const inn=e.querySelector('#p2eIn');
+  const e=document.createElement('div'); e.className='p2end'; const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k]; if(EB&&P2REAL[EB]) e.style.background='linear-gradient(rgba(7,8,13,.78),rgba(7,8,13,.94)),url(img2/'+EB+'.webp) center/cover fixed'; e.innerHTML='<div class="in" id="p2eIn"></div>'; document.body.appendChild(e); const inn=e.querySelector('#p2eIn');
   for(const l of L){ const p=document.createElement('p'); p.className='l'; inn.appendChild(p); for(let i=0;i<=l.length;i+=2){ p.textContent=l.slice(0,i); await sleep(16); } p.textContent=l; await sleep(500); }
   inn.insertAdjacentHTML('beforeend','<h2>'+esc((ENDS[k]||['',''])[1])+'</h2><div class="sum"><div><b>'+(S.p2ra||[]).length+'/'+(S.p2tong||0)+'</b><span>người ra tới sông</span></div><div><b>'+ocl()+'/5</b><span>chứng cứ về Ông Chủ Lò</span></div><div><b>'+(S.so||[]).length+'</b><span>người mất tiền vì tin bạn gửi</span></div><div><b>'+got.length+'/4</b><span>kết đã mở</span></div></div>'+
    ((S.so||[]).length?'<p class="tag">SỔ NẠN NHÂN</p><ol>'+S.so.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>':'')+((S.p2log||[]).length?'<p class="tag">GHI CHÉP</p><ol>'+S.p2log.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>':'')+
@@ -359,3 +360,5 @@ async function p2Begin(cont,p1){ ac(); P2.on=true; await p2LoadImgs(); await tra
 p2Buttons(); new MutationObserver(p2Buttons).observe($('cover'),{childList:true,subtree:true});
 /* nhảy nhanh để thử (gõ trong console): P2JUMP(8) vào trại, P2JUMP(19) */
 window.P2JUMP=async d=>{ if(!P2.on) return; if(d>=8){ buildDs(); S.hoi=d>=19?3:2; setCo('hoi2'); setCo('x_mon_xong'); S.ai_vao=S.ai_vao||'lam'; S.vai=S.ai_vao; setME(); p2SetMap('trai'); S.day=d; S.min=d===8?19*60:7*60; putAt('xngu',.35); hud(); save(); await tick(); } };
+/* thành tựu Phần 1 không chấm khi đang chơi Phần 2 */
+const ttCheck1=ttCheck; ttCheck=function(){ if(P2.on) return; return ttCheck1.apply(this,arguments); };

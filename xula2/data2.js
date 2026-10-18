@@ -46,14 +46,14 @@ const P2DATA=(()=>{
   const taphoa=Object.assign({},P1R.taphoa,{objs:(P1R.taphoa.objs||[]).concat([{id:'ban_quay',x:.42,y:.62,w:.12,h:.1,l:'Mặt quầy',idle:'Mặt quầy gỗ, trầy mấy chục năm. Chỗ Ngân hay ngồi làm bài hồi nhỏ.'}])});
   const present=L=>function(){ return L.filter(k=>NPC[k]&&(()=>{ const p=NPC[k].at(hour()); return p&&p.in; })()); };
   const R2={
-    may:{house:'xmay',door:.5,ten:'Phòng máy',img:'x2-phong-may',npc:['bay'],npos:[.7],lamx:.25,
+    may:{house:'xmay',door:.09,ten:'Phòng máy',img:'x2-phong-may',npc:['bay'],npos:[.7],lamx:.25,
       objs:[{id:'bang',x:.5,y:.2,w:.18,h:.2,l:'Bảng chỉ tiêu',idle:'Bảng trắng ghi tên từng người. Tên ai thiếu chỉ tiêu thì tô đỏ.'},{id:'chuong',x:.86,y:.16,w:.06,h:.1,l:'Cái chuông đồng',idle:'Cái chuông đồng. Mỗi lần reo là có một người mất tiền.'}]},
-    an:{house:'xan',door:.5,ten:'Nhà ăn',img:'x2-nha-an',lamx:.2,objs:[{id:'khay',x:.3,y:.62,w:.14,h:.1,l:'Khay cơm',idle:'Cơm, canh rau muống, một miếng cá khô. Ăn lẹ, một giờ vô ca.'}]},
-    ngu:{house:'xngu',door:.3,ten:'Phòng ngủ tổ 3',img:'x2-phong-ngu',npc:[],lamx:.3,
+    an:{house:'xan',door:.45,ten:'Nhà ăn',img:'x2-nha-an',lamx:.2,objs:[{id:'khay',x:.3,y:.62,w:.14,h:.1,l:'Khay cơm',idle:'Cơm, canh rau muống, một miếng cá khô. Ăn lẹ, một giờ vô ca.'}]},
+    ngu:{house:'xngu',door:.1,ten:'Phòng ngủ tổ 3',img:'x2-phong-ngu',npc:[],lamx:.3,
       objs:[{id:'giuong',x:.35,y:.6,w:.2,h:.14,l:'Giường tầng của mình',idle:'Giường tầng, nệm mỏng. Dưới gầm có chỗ giấu đồ.'},{id:'hanhlang',x:.88,y:.45,w:.08,h:.4,l:'Hành lang ra buồng tắm',go:'tam',goc:''}]},
     tam:{house:'xngu',nodoor:1,back:'ngu',ten:'Buồng tắm',img:'x2-buong-tam',lamx:.4,objs:[{id:'thung',x:.6,y:.62,w:.14,h:.16,l:'Thùng nước',idle:'Thùng nước lạnh. Đáy thùng có vết băng keo cũ.'}]},
-    bep:{house:'xbep',door:.55,ten:'Bếp',img:'x2-bep',npc:['loc'],npos:[.7],lamx:.25,objs:[{id:'tubep',x:.75,y:.25,w:.12,h:.3,l:'Tủ bếp',idle:'Tủ bếp cao. Trên nóc có gì đó bọc bao tải.'}]},
-    vp:{house:'xvp',door:.62,ten:'Văn phòng lầu ba',c:'co:x_chia',img:'x2-tang3',lamx:.3,objs:[{id:'bantang3',x:.4,y:.55,w:.2,h:.14,l:'Bàn quản lý',idle:'Bàn quản lý. Ngăn kéo có khóa. Trưa thì không ai ngồi.'}]}};
+    bep:{house:'xbep',door:.78,ten:'Bếp',img:'x2-bep',npc:['loc'],npos:[.7],lamx:.25,objs:[{id:'tubep',x:.75,y:.25,w:.12,h:.3,l:'Tủ bếp',idle:'Tủ bếp cao. Trên nóc có gì đó bọc bao tải.'}]},
+    vp:{house:'xvp',door:.45,ten:'Văn phòng lầu ba',c:'co:x_chia',img:'x2-tang3',lamx:.3,objs:[{id:'bantang3',x:.4,y:.55,w:.2,h:.14,l:'Bàn quản lý',idle:'Bàn quản lý. Ngăn kéo có khóa. Trưa thì không ai ngồi.'}]}};
   Object.defineProperty(R2.an,'npc',{get:present(['bay','nhi','toan','hue','ti','thuy','ngan','loc']),enumerable:true});
   Object.defineProperty(R2.an,'npos',{get(){ return this.npc.map((_,i)=>.9-i*.12); },enumerable:true});
   const ROOMS2=Object.assign({},P1R,{taphoa,vp12:Object.assign({},P1R.vp12,{nodoor:1})},R2);

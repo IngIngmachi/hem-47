@@ -60,7 +60,12 @@ function facade(k,night){ const P=TRAI_SPEC[k]; const c=document.createElement('
   q.strokeStyle='rgba(30,30,32,.9)'; q.lineWidth=2; for(let x=4;x<P.w;x+=18){ q.beginPath(); q.arc(x,top-16,9,0,Math.PI*2); q.stroke(); }
   q.fillStyle='rgba(0,0,0,.18)'; q.fillRect(0,P.h-14,P.w,14);
   return c; }
-async function trainImgs(){ for(const hk of TRAI_ORDER){ const k=hk.slice(4); const im=await p2Img(hk); if(!im){ IMG[hk]=facade(k,false); IMG[hk+'-dem']=facade(k,true); } } }
+/* đồ vật đặt trong sân trại (xe, thùng, phuy, bao cát, đèn) · h: dãy nhà, u: vị trí 0–1, hh: cao, f: lật */
+const TPROP=[{k:'el2-jeep',h:'xcong',u:.78,hh:185},{k:'el2-den',h:'xcong',u:.99,hh:195},{k:'el2-van',h:'xmay',u:.6,hh:200,f:-1},{k:'el2-sedan',h:'xmay',u:.86,hh:135},
+  {k:'el2-xemay',h:'xan',u:.1,hh:100},{k:'el2-rao',h:'xngu',u:.78,hh:92},{k:'el2-phuy',h:'xbep',u:.12,hh:100},{k:'el2-thung',h:'xbep',u:.97,hh:108},{k:'el2-baocat',h:'xvp',u:.06,hh:78},{k:'el2-den',h:'xvp',u:.97,hh:195}];
+function drawTProps(){ TPROP.forEach(p=>{ const im=IMG[p.k]; if(!im||!A[p.h]) return; const w=im.width*p.hh/im.height, x=at(p.h,p.u);
+  g.save(); g.fillStyle='rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(x,NFEET-10,w*.5,10,0,0,7); g.fill(); g.translate(x,NFEET-10); g.scale(p.f||1,1); g.drawImage(im,-w/2,-p.hh,w,p.hh); g.restore(); }); }
+async function trainImgs(){ await Promise.all([...new Set(TPROP.map(p=>p.k))].map(k=>p2Img(k))); for(const hk of TRAI_ORDER){ const k=hk.slice(4); const im=await p2Img(hk); if(!im){ IMG[hk]=facade(k,false); IMG[hk+'-dem']=facade(k,true); } } }
 
 /* ---------------- bản đồ: hẻm 47 hoặc trại ---------------- */
 let P1MAP=null;
@@ -197,6 +202,7 @@ function frameTrai(){ const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.cl
   { const x0=A.xvp.x+A.xvp.w+10; g.fillStyle='#2b3a44'; g.fillRect(x0+60,GROUND-120,MR,140); g.strokeStyle='rgba(180,180,170,.6)'; g.lineWidth=1.5; for(let x=x0;x<x0+MR;x+=22){ g.beginPath(); g.moveTo(x,GROUND+10); g.lineTo(x+22,GROUND-150); g.moveTo(x+22,GROUND+10); g.lineTo(x,GROUND-150); g.stroke(); }
     g.fillStyle='#3a3c42'; for(let x=x0;x<x0+MR;x+=110) g.fillRect(x,GROUND-170,6,180); if(hasF('x_rao')){ g.fillStyle='rgba(10,12,16,.85)'; g.fillRect(x0+130,GROUND-110,40,120); } }
   g.fillStyle='rgba(30,34,40,.6)'; g.fillRect(0,GROUND-300,ML-30,320); g.font='600 22px "Oswald","Arial Narrow",sans-serif'; g.fillStyle='#cfd2d6'; g.textAlign='center'; g.fillText('CỔNG RA',(ML-30)/2,GROUND-240); g.textAlign='left';
+  drawTProps();
   const D=[];
   for(const k in NPC){ if(npcInRoom(k)) continue; const n=NS[k]; if(n&&n.alpha>0) D.push({y:NFEET,f:()=>drawChar(g,k,n.x,NFEET,n.face,{walk:n.walk,ph:n.ph,t:tsec+k.length,alpha:n.alpha})}); }
   D.push({y:FEET,f:()=>drawChar(g,MEK,PL.x,FEET,PL.face,{walk:PL.walk,ph:PL.ph,t:tsec+1,crouch:PL.hidden})});

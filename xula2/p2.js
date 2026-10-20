@@ -147,7 +147,8 @@ function p2Install(){ if(P2INST) return; P2INST=true; const D=P2DATA;
 
 /* ---------------- những chỗ của khung Phần 1 cần đổi khi chơi Phần 2 ---------------- */
 const hotspots1=hotspots;
-hotspots=function(){ if(!P2.on||P2.map!=='trai'||S.scene!=='street') return hotspots1();
+hotspots=function(){ if(P2.on&&P2.map==='trai'&&S.scene==='in'){ const L=hotspots1(); L.forEach(h=>{ if(h.kind==='exit'&&h.l==='Ra hẻm') h.l='Ra sân'; }); return L; }
+  if(!P2.on||P2.map!=='trai'||S.scene!=='street') return hotspots1();
   const L=[]; if(SO.on) return L;
   for(const k in NPC){ if(npcInRoom(k)) continue; const n=npcAt(k); if(n) L.push({id:k,x:n.x,w:70,h:HGT[k]||160,l:NPC[k].n,kind:'npc'}); }
   for(const r in ROOMS){ const R=ROOMS[r]; if(!R.house||!A[R.house]||R.nodoor||(R.c&&!cond(R.c))) continue; L.push({id:'room:'+r,x:at(R.house,R.door||.5),w:A[R.house].w*.22,h:300,l:R.ten,kind:'door',room:r}); }
@@ -180,7 +181,7 @@ renderPhone=function(){ if(P2.on&&P2.map==='trai'&&(phTab==='tin'||phTab==='tim'
     $('phBody').innerHTML='<div class="ph-note" style="padding:16px;line-height:1.6">Điện thoại bị thu ở cổng trại. '+(hasF('x_may')?'Cái máy giấu chỉ dám mở trong buồng tắm. ':'')+'Những gì '+ME+' biết thì nhớ trong đầu: mở mục Manh mối.</div>'; return; }
   return renderPhone1(); };
 const hud1=hud;
-hud=function(){ hud1(); if(!P2.on) return; const hn=$('hNghi'); if(hn){ hn.hidden=P2.map!=='trai'&&S.nghi<1; }
+hud=function(){ hud1(); if(!P2.on) return; const xb=$('exitBtn'); if(xb) xb.textContent=P2.map==='trai'?'‹ Ra sân':'‹ Ra hẻm'; const hn=$('hNghi'); if(hn){ hn.hidden=P2.map!=='trai'&&S.nghi<1; }
   document.body.classList.toggle('p2lb',P2.map==='trai'&&busy&&!$('dlg').hidden); };
 
 /* vẽ */
@@ -362,7 +363,8 @@ async function p2Begin(cont,p1){ ac(); P2.on=true; await p2LoadImgs(); await tra
   S=o&&o.p2?Object.assign(fresh(),o):p2Fresh(p1||p2p1()); setME();
   loadNang(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; $('blBtn').hidden=false; setInterval(()=>{ if(!busy&&!SO.on&&!sleeping) save(); },8000);
   p2SetMap(S.map||'hem'); if(P2.map==='trai') putAt('xngu',.35); else { PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); } hud();
-  if(!o){ S.scene='room'; hud(); await runS('x_mo'); hideDlg(); await runS('x_hd'); hideDlg(); S.scene='street'; PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); fade=1.2; toast('Ngày 1 · '+fmtT(S.min)+(S.nhanh==='A'?' · hôm nay bạn là '+ME:'')); hud(); }
+  if(!o&&TESTMODE){ S.scene='street'; hud(); }
+  else if(!o){ S.scene='room'; hud(); await runS('x_mo'); hideDlg(); await runS('x_hd'); hideDlg(); S.scene='street'; PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); fade=1.2; toast('Ngày 1 · '+fmtT(S.min)+(S.nhanh==='A'?' · hôm nay bạn là '+ME:'')); hud(); }
   else if(S.ended){ p2Ending(S.ended); return; }
   else if(S.scene==='room'||S.scene==='place'){ S.scene='street'; S.room=null; }
   save(); await tick(); }

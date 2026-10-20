@@ -378,14 +378,16 @@ setInterval(()=>{ if(P2.on&&!busy&&!sleeping&&!camping&&BGNOW&&$('dlg').hidden&&
 addEventListener('error',e=>{ if(P2.on) toast('Lỗi: '+(e.message||'').slice(0,80)); });
 addEventListener('unhandledrejection',e=>{ if(P2.on) toast('Lỗi: '+String(e.reason&&e.reason.message||e.reason).slice(0,80)); });
 /* nhạc Phần 2: nhac/x2-*.mp3; file nào chưa có (hoặc lỗi) thì dùng nhạc Phần 1 */
-const P2NHAC_FB={'x2-mo-dau':'mo-dau','x2-hem':'hem-dem','x2-trai-ngay':'trong-nha','x2-trai-dem':'hem-dem','x2-di-dem':'truy-duoi','x2-cuu':'truy-duoi','x2-phim':'phim','x2-cang':'cang-thang',
+const P2NHAC_FB={'x2-mo-dau':'mo-dau','x2-hem':'hem-dem','x2-trai-ngay':'trong-nha','x2-trai-dem':'hem-dem','x2-trai-dem2':'x2-trai-dem','x2-di-dem':'truy-duoi','x2-cuu':'truy-duoi','x2-phim':'phim','x2-cang':'cang-thang',
   'x2-ket-cato':'ket-thuong','x2-ket-olai':'ket-tiecnuoi','x2-ket-motminh':'ket-tiecnuoi','x2-ket-bandung':'ket-kichtinh'};
 const nhacMood1=nhacMood;
-nhacMood=function(){ if(!P2.on) return nhacMood1(); const vis=id=>{ const e=$(id); return e&&!e.hidden; };
+nhacMood=function(){ const vis=id=>{ const e=$(id); return e&&!e.hidden; };
+  if(!P2.on){ if(vis('cover')&&$('p2New')&&!NHAC.bad['x2-mo-dau']) return 'x2-mo-dau'; return nhacMood1(); }
   let k; if(S.ended) k={ca_to:'x2-ket-cato',o_lai:'x2-ket-olai',mot_minh:'x2-ket-motminh',ban_dung:'x2-ket-bandung'}[S.ended]||'x2-ket-olai';
   else if(document.querySelector('.dd2')) k=S.hoi>=3?'x2-cuu':'x2-di-dem';
   else if(vis('game')||S.nghi>=70) k='x2-cang';
   else if(document.querySelector('.p2cardfull')||/^x2-(xe-dem|cong-sat|san-diemdanh|phong-toi|bo-song-dem)/.test(String(BGNOW||''))) k='x2-phim';
-  else if(P2.map==='trai'){ const h=hour(); k=h>=6&&h<19?'x2-trai-ngay':'x2-trai-dem'; }
+  else if(SC_NOW.some(x=>/^x_(mo|hd)$/.test(x))) k='x2-mo-dau';
+  else if(P2.map==='trai'){ const h=hour(); k=h>=6&&h<19?'x2-trai-ngay':(S.day%2?'x2-trai-dem':'x2-trai-dem2'); }
   else k='x2-hem';
   while(k&&NHAC.bad[k]&&P2NHAC_FB[k]) k=P2NHAC_FB[k]; return k; };

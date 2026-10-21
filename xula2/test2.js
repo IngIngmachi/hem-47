@@ -40,12 +40,14 @@ tsRender=function(){ if(!P2.on) return tsRender1(); const b=$('tsBody'); const t
       ['sodo','Kéo tên phòng vào sơ đồ trại'],['ghepgiay','Ráp tờ rơi rách'],['lichtuan','Lịch tuần tra (kéo lượt gác, tìm giờ trống)'],['nghetieng','Lọc tiếng nền tin thoại'],['dongtien1','Dòng tiền Anh Hai (Hồi 1)'],['dongtien','Ai cầm lò (Hồi 2)'],['danhsach','Tờ danh sách chuyển đi']];
     b.innerHTML='<label class="ts-c"><input type="checkbox" id="tsAll2"'+(P2TS.all?' checked':'')+'> Cho đủ manh mối Phần 2 trước (để thẻ không bị khóa ???)</label><p class="ts-n">Báo cáo</p>'+Object.keys(BOARDN).map(k=>'<button class="ts-i" data-b="'+k+'"><b>'+esc(BOARDN[k])+'</b><span>bảng '+k+'</span></button>').join('')+
       '<p class="ts-n">Trò chơi</p>'+G.map(g=>'<button class="ts-i" data-g="'+g[0]+'"><b>'+esc(g[1])+'</b><span>'+g[0]+'</span></button>').join('')+
+      '<p class="ts-n">Trò nhỏ ban đêm (vào thẳng, bỏ đoạn lẻn)</p>'+Object.keys(MINI).filter(k=>MUC[k]).map(k=>'<button class="ts-i" data-mg="'+k+'"><b>'+esc(MUC[k].ten)+'</b></button>').join('')+
       '<p class="ts-n">Đi đêm (chọn việc)</p>'+Object.keys(MUC).map(k=>'<button class="ts-i" data-d="'+k+'"><b>'+esc(MUC[k].ten)+'</b><span>'+esc(MUC[k].why)+'</span></button>').join('')+
       '<p class="ts-n">Đêm giải cứu (dẫn người ra sông)</p><button class="ts-i" data-c="ok"><b>Đủ chuẩn bị</b><span>có giờ ập vào 3:00, cửa sau, rào, ghe</span></button><button class="ts-i" data-c="thieu"><b>Thiếu chuẩn bị</b><span>không ai ập vào, chỉ cổng chính, không ghe</span></button>';
     const give=()=>{ if(P2TS.all){ p2GiveAll(); ['x_sodo3','x_tuan0','x_tuan3','x_meo_cailoi'].forEach(setCo); } };
     $('tsAll2').onchange=e=>{ P2TS.all=e.target.checked; };
     b.querySelectorAll('[data-b]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); await board(x.dataset.b); if(SCN['kq_'+x.dataset.b]) await runS('kq_'+x.dataset.b); }));
     b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); const g=x.dataset.g; if(g==='_ca'){ await caNhan(2); return; } if(g==='danhsach') buildDs(); await P2GAMES[g](); }));
+    b.querySelectorAll('[data-mg]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const pr=sneak({mode:'didem',muc:x.dataset.mg,limit:110}); setTimeout(()=>window.__p2sneak&&window.__p2sneak.toi(),120); const r=await pr; toast('Kết quả: '+r.kq); }));
     b.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const r=await sneak({mode:'didem',muc:x.dataset.d,limit:110}); toast('Kết quả: '+r.kq); }));
     b.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>tsRun(async()=>{ buildDs(); const ok=x.dataset.c==='ok'; const groups=dsCon().map(p=>({id:p.id,ten:p.ten,sp:p.id,can:ok?0:(S.tin[p.id]||0)>=2?0:1,after:0}));
       const ex=[{ten:'Cổng chính',f:0,x:60,cost:ok?5:20}]; if(ok){ ex.push({ten:'Cửa sau',f:0,x:930,cost:0}); ex.push({ten:'Rào sau bếp',f:0,x:740,cost:0}); }

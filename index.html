@@ -1076,6 +1076,22 @@ body{font-size-adjust:.5}
 .tlr-st:hover,.tlr-st:focus-visible{transform:rotate(0deg) translateY(-3px) scale(1.03);box-shadow:0 16px 30px rgba(0,0,0,.6);outline:none}
 .cover.solid .tlr-st,#cover[hidden] .tlr-st{display:none}
 @media (max-width:719px){.tlr-st{top:calc(env(safe-area-inset-top,0px) + 16px);right:14px;width:112px;padding:5px 5px 20px}.tlr-st::before{width:48px;height:15px;top:-8px}.tlr-st .pi{top:5px;width:calc(100% - 10px)}.tlr-st .pi i{width:26px;height:26px}.tlr-st .pi i::after{border-left-width:8px;border-top-width:5px;border-bottom-width:5px}.tlr-st span{font-size:11px;bottom:4px}}
+.moi-st{position:absolute;top:286px;right:74px;width:176px;padding:14px 12px 12px;background:#f3ecd9;border:0;border-radius:2px;box-shadow:0 10px 24px rgba(0,0,0,.55);transform:rotate(-4deg);cursor:pointer;z-index:2;font:inherit;color:#2a241b;text-align:center;transition:transform .25s ease,box-shadow .25s ease;background-image:repeating-linear-gradient(transparent 0 23px,rgba(58,90,140,.13) 23px 24px)}
+.moi-st::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:20px;transform:translateX(-50%) rotate(5deg);background:rgba(224,170,85,.55)}
+.moi-st svg{width:34px;height:34px;display:block;margin:0 auto 4px;fill:none;stroke:#7a4b1e;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.moi-st span{display:block;font-family:"Playpen Sans",var(--f-hand);font-size:15px;line-height:1.25;color:#3a3226}
+.moi-st:hover,.moi-st:focus-visible{transform:rotate(0deg) translateY(-3px) scale(1.03);box-shadow:0 16px 30px rgba(0,0,0,.6);outline:none}
+.cover.solid .moi-st,#cover[hidden] .moi-st{display:none}
+@media (max-width:719px){.moi-st{top:calc(env(safe-area-inset-top,0px) + 16px);right:14px;width:112px;padding:9px 6px 7px;transform:rotate(3deg)}.moi-st::before{width:46px;height:14px;top:-7px}.moi-st svg{width:24px;height:24px;margin-bottom:2px}.moi-st span{font-size:11px}
+  #cover.chon-qr .tlr-st,#cover:not(.chon-qr) .moi-st{display:none}}
+#moi{position:fixed;inset:0;z-index:95;background:rgba(5,6,10,.9);display:flex;align-items:center;justify-content:center;padding:16px;padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+#moi[hidden]{display:none}
+#moi .in{width:min(380px,100%);max-height:100%;overflow:auto;background:#141826;border:1px solid rgba(224,170,85,.35);border-radius:16px;padding:20px 18px 16px;color:var(--paper);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#moi h3{margin:0 0 6px;font-family:var(--f-head);font-weight:600;font-size:22px}
+#moi p{margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#c9cdd8}
+#moi img{display:block;width:min(100%,calc((100dvh - 290px) * .83));height:auto;margin:0 auto 10px;border-radius:12px;background:#fff}
+#moi small{display:block;font-size:12.5px;line-height:1.5;color:var(--dim);margin-bottom:14px}
+#moi .go{display:block;margin-left:auto;font:inherit;font-weight:600;font-size:15px;background:var(--amber);color:#1a1408;border:0;border-radius:12px;padding:10px 18px;cursor:pointer}
 #tlr{position:fixed;inset:0;z-index:95;background:rgba(5,6,10,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:12px}
 #tlr[hidden]{display:none}
 #tlr .box{width:min(1100px,100%,calc((100dvh - 120px) * 16 / 9));aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}
@@ -3334,6 +3350,21 @@ cdApply();
   const close=()=>{ box.innerHTML=''; ov.hidden=true; mute(false); st.focus(); };
   st.onclick=open; ov.querySelector('.x').onclick=close;
   ov.addEventListener('click',e=>{ if(e.target===ov) close(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&!ov.hidden) close(); });
+})();
+
+/* ---- Mời chủ hẻm uống nước: miếng dán dưới trailer; điện thoại thì ngẫu nhiên hiện trailer hoặc miếng này ---- */
+(function(){ const cv=document.getElementById('cover'); if(!cv) return;
+  const st=document.createElement('button'); st.type='button'; st.className='moi-st'; st.setAttribute('aria-label','Mời chủ hẻm uống nước');
+  st.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3.5c-.8 1 .8 2 0 3M11 3.5c-.8 1 .8 2 0 3M14 3.5c-.8 1 .8 2 0 3"/></svg><span>Mời chủ hẻm<br>uống nước</span>';
+  cv.appendChild(st);
+  if(Math.random()<.5) cv.classList.add('chon-qr');
+  const ov=document.createElement('div'); ov.id='moi'; ov.hidden=true; ov.setAttribute('role','dialog'); ov.setAttribute('aria-modal','true'); ov.setAttribute('aria-labelledby','moiT');
+  ov.innerHTML='<div class="in"><h3 id="moiT">Mời chủ hẻm uống nước</h3><p>Hẻm 47 do một người viết, vẽ và làm, chơi miễn phí. Nếu bạn thấy vui, mời chủ hẻm ly nước để có sức viết tiếp nha.</p><img src="img2/moi-nuoc.webp" width="982" height="1185" alt="Mã QR chuyển khoản VPBank (VietQR, Napas 247) để mời chủ hẻm uống nước"><small>Mở app ngân hàng, chọn Quét mã. Đang xem trên điện thoại thì chụp màn hình, rồi chọn ảnh QR trong app ngân hàng.</small><button type="button" class="go">Đóng</button></div>';
+  document.body.appendChild(ov);
+  const close=()=>{ ov.hidden=true; st.focus(); };
+  st.onclick=()=>{ ov.hidden=false; ov.querySelector('.go').focus(); };
+  ov.querySelector('.go').onclick=close; ov.addEventListener('click',e=>{ if(e.target===ov) close(); });
   addEventListener('keydown',e=>{ if(e.key==='Escape'&&!ov.hidden) close(); });
 })();
 </script>

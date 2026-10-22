@@ -68,9 +68,10 @@ threadOf=function(r){ const ai=String(r.ai||''); if(P2.on&&r.kieu==='tin'&&ai.st
 
 /* ---------- 2. MÁY GIẤU TRONG TRẠI ---------- */
 const P2LOG=()=>(S.p2log=S.p2log||[]);
-const ALBUM=[['x_so','Ảnh','Chụp trong ngăn kéo văn phòng lầu ba'],['x_giongthat','Ghi âm','Ghi qua khe cửa văn phòng lầu ba'],['x_khaibay','Ghi âm','Ghi lúc Chị Bảy kể chuyện trên lầu ba'],['x_lich','Ảnh','Tờ giấy tự vẽ lịch lính gác, chụp lại cho khỏi quên'],['x_tu','Ảnh','Chụp lén ông Tú lúc qua trại'],['x_vi','Ảnh','Chụp màn hình máy trạm: ví tổng tối Chủ nhật']];
+const ALBUM=[['x_so','Ảnh','Chụp trong ngăn kéo văn phòng lầu ba','x2-album-so'],['x_giongthat','Ghi âm','Ghi qua khe cửa văn phòng lầu ba'],['x_khaibay','Ghi âm','Ghi lúc Chị Bảy kể chuyện trên lầu ba'],['x_lich','Ảnh','Tờ giấy tự vẽ lịch lính gác, chụp lại cho khỏi quên','x2-album-lich'],['x_tu','Ảnh','Chụp lén ông Tú lúc qua trại','x2-album-tu'],['x_vi','Ảnh','Chụp màn hình máy trạm: ví tổng tối Chủ nhật','x2-album-vi']];
+const WAVE='<div aria-hidden="true" style="display:flex;align-items:center;gap:2px;height:34px;margin:6px 0">'+Array.from({length:40},(_,i)=>'<i style="display:block;width:3px;border-radius:2px;background:#f0b25c;opacity:.8;height:'+(6+Math.abs(Math.sin(i*1.7)*Math.cos(i*.4))*26)+'px"></i>').join('')+'</div>';
 const ccText=k=>{ const r=T[IDX['CC_'+k]]; return r?{ten:r.ai,loi:r.loi}:null; };
-function renderMayGiau(tab){ const b=$('phBody'); tabs();
+function renderMayGiau(tab){ const b=$('phBody'); tabs(); b.classList.toggle('wall',tab!=='tin'); b.style.setProperty('--wall','url(img2/x2-maygiau-nen.webp)'); if(tab==='tin'){ b.style.background='linear-gradient(rgba(8,10,16,.78),rgba(8,10,16,.9)),url(img2/x2-maygiau-nen.webp) center/cover'; }
   if(tab==='tin'){ $('phTitle').textContent='Máy giấu'; const L=P2LOG();
     const can=hasF('x_may')&&!hasF('x_cho_xn')&&typeof nextWord==='function'&&nextWord(), tam=S.room==='tam';
     b.innerHTML='<div class="ph-tip">Máy cũ dán dưới đáy thùng nước. Không có tên ai trong danh bạ. Tin vô ra đều giả làm tin rác.</div>'+
@@ -79,11 +80,11 @@ function renderMayGiau(tab){ const b=$('phBody'); tabs();
     const g=$('mgGui'); if(g&&!g.disabled) g.onclick=async()=>{ if(busy) return; closePhone(); busy=true; try{ await P2GAMES.gui(); } finally { busy=false; hud(); } };
     return; }
   if(tab==='anh'){ $('phTitle').textContent='Ảnh & ghi âm'; const L=ALBUM.filter(a=>hasC(a[0])).map(a=>({a,c:ccText(a[0])})).filter(x=>x.c);
-    b.innerHTML='<div class="ph-tip">Chứng cứ đã chụp, đã ghi. Ra được tới ngoài là gửi cho đại úy Vinh.</div>'+(L.length?L.map(({a,c})=>'<div class="card"><b>'+(a[1]==='Ghi âm'?'🎙 ':'📷 ')+esc(c.ten)+'</b>'+esc(c.loi)+'<span class="from">'+esc(a[2])+'</span></div>').join(''):'<div class="ph-note">Chưa chụp, chưa ghi được gì.</div>');
+    b.innerHTML='<div class="ph-tip">Chứng cứ đã chụp, đã ghi. Ra được tới ngoài là gửi cho đại úy Vinh.</div>'+(L.length?L.map(({a,c})=>'<div class="card">'+(a[3]?'<img src="img2/'+a[3]+'.webp" alt="" loading="lazy" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;margin-bottom:8px" onerror="this.remove()">':'')+'<b>'+(a[1]==='Ghi âm'?'🎙 ':'📷 ')+esc(c.ten)+'</b>'+(a[1]==='Ghi âm'?WAVE:'')+esc(c.loi)+'<span class="from">'+esc(a[2])+'</span></div>').join(''):'<div class="ph-note">Chưa chụp, chưa ghi được gì.</div>');
     return; }
   if(tab==='tim'){ $('phTitle').textContent='Tìm'; b.innerHTML='<div class="ph-note" style="padding:16px;line-height:1.6">Không dám lên mạng tra cứu. Trại dò được máy lạ bắt sóng wifi.</div>'; return; } }
 const renderPhone2=renderPhone;
-renderPhone=function(){ if(P2.on&&P2.map==='trai'&&hasF('x_may')&&['tin','anh','tim'].includes(phTab)){ phThread=null; return renderMayGiau(phTab); } return renderPhone2(); };
+renderPhone=function(){ $('phBody').style.background=''; if(P2.on&&P2.map==='trai'&&hasF('x_may')&&['tin','anh','tim'].includes(phTab)){ phThread=null; return renderMayGiau(phTab); } return renderPhone2(); };
 /* ghi lại tin gửi ra, tin rác vô */
 const p2gui1=P2GAMES.gui;
 P2GAMES.gui=async()=>{ const before=S.co.x_cho_xn; const gc=giauChu; let txt='';
@@ -107,9 +108,9 @@ function gMayTram(){ return new Promise(res=>{ let tab='kh', left=45, seen={}, d
     if(tab==='nhom') return '<p class="tip">Nhóm "QL khu B". Chị Bảy quên đăng xuất.</p>'+MT_NHOM.map(([a,t])=>'<div class="p2msg"><b style="color:#f0b25c">'+esc(a)+'</b><br>'+esc(t)+'</div>').join('');
     if(tab==='bang') return '<p class="tip">Bảng chỉ tiêu tuần. Tên dưới 3 đơn tô đỏ.</p>'+[ME].concat(ds.map(p=>p.ten)).slice(0,8).map((n,i)=>{ const v=n===ME?CT():((n.length*7+i*3)%6); return '<div class="p2opt" style="display:flex;justify-content:space-between"><span>'+esc(n)+'</span><b style="color:'+(v<3?'#e2645c':'#5fb37a')+'">'+v+' đơn</b></div>'; }).join('');
     return '<p class="tip">Thùng rác: 1 tệp.</p><div class="p2opt"><b>danhsach_chuyen_thang6.xlsx</b><br>13 dòng đã xóa. Dòng cuối còn đọc được: "Nguyễn Thị Oanh · chuyển bãi K-Kay".</div>'; };
-  const draw=()=>{ p2open('<h3>Máy trạm · Chị Bảy</h3><div class="p2bar" style="margin:0 0 8px"><span class="tip" style="margin:0">Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại</span></div><div class="tbar" style="height:6px;background:#232a3d;border-radius:3px;overflow:hidden;margin-bottom:10px"><b id="mtB" style="display:block;height:100%;width:'+(left/45*100)+'%;background:linear-gradient(90deg,#f0b25c,#e2645c)"></b></div>'+
+  const draw=()=>{ p2open('<div style="position:absolute;inset:0;z-index:0;background:linear-gradient(rgba(10,12,18,.66),rgba(10,12,18,.88)),url(img2/x2-maytram.webp) center/cover;border-radius:inherit;pointer-events:none"></div><div style="position:relative;z-index:1"><h3>Máy trạm · Chị Bảy</h3><div class="p2bar" style="margin:0 0 8px"><span class="tip" style="margin:0">Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại</span></div><div class="tbar" style="height:6px;background:#232a3d;border-radius:3px;overflow:hidden;margin-bottom:10px"><b id="mtB" style="display:block;height:100%;width:'+(left/45*100)+'%;background:linear-gradient(90deg,#f0b25c,#e2645c)"></b></div>'+
       '<div style="display:grid;grid-template-columns:150px 1fr;gap:12px"><nav style="display:flex;flex-direction:column;gap:6px">'+APP.map(([k,l])=>'<button type="button" class="btn'+(tab===k?' p2main':' ghost')+'" data-app="'+k+'" style="text-align:left">'+esc(l)+'</button>').join('')+'</nav><div>'+body()+'</div></div>'+
-      '<div class="p2bar"><span></span><button class="btn p2main" id="mtX2" type="button">Tắt màn hình, đi ra</button></div>',()=>fin(false));
+      '<div class="p2bar"><span></span><button class="btn p2main" id="mtX2" type="button">Tắt màn hình, đi ra</button></div></div>',()=>fin(false));
     document.querySelectorAll('[data-app]').forEach(b=>b.onclick=()=>{ tab=b.dataset.app; draw(); }); $('mtX2').onclick=()=>fin(false); };
   const fin=late=>{ if(done) return; done=true; clearInterval(iv); p2close(); setCo('x_maytram');
     if(seen.nhom&&!hasC('x_vi')) { fx('+cc:x_vi'); toast('Manh mối mới: ví tổng tối Chủ nhật'); }

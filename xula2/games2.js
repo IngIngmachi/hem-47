@@ -151,7 +151,7 @@ function giaiMa(tin,dapan,title,goi,anh){ return new Promise(res=>{ const cau=ti
    '<div class="p2slots" id="gms" hidden></div><div class="p2ans"><input class="p2in" id="gm" autocomplete="off" placeholder="Nhập chữ đọc được…" aria-label="Chữ đọc được"><button class="clr" id="gmc" type="button" aria-label="Xóa">×</button></div>'+
    '<p class="tip" id="gmm" style="text-align:center;min-height:1.4em;margin:4px 0 0"></p>'+
    '<div class="p2bar"><button class="btn ghost" id="gmg" type="button">💡 Gợi ý (0/3)</button><button class="btn ghost" id="gmX" type="button">Để sau</button><button class="btn p2main" id="gmo" type="button">Đọc ra →</button></div>');
-  if(anh){ const im=new Image(); im.onload=()=>{ const ph=$('gmph'); if(ph){ ph.style.backgroundImage='url('+im.src+')'; ph.hidden=false; } }; im.src='img2/'+anh+'.webp'; }
+  if(anh){ const im=new Image(); im.onload=()=>{ const ph=$('gmph'); if(ph){ ph.style.backgroundImage='url('+im.src+')'; ph.hidden=false; } }; im.src='img2/'+anh+'.webp?v=1023'; }
   let thu=0, goiY=0;
   $('gmg').onclick=()=>{ if(goiY>=3) return; goiY++; $('gmg').textContent='💡 Gợi ý ('+goiY+'/3)';
     if(goiY===1) $('gmp').classList.add('hl');
@@ -280,7 +280,7 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
     const draw=extra=>{ p2open('<h3>Ca nhắn tin · máy trạm phòng máy</h3><div class="p2chat"><div class="hd"><div class="av" id="cav">'+esc(k.ten.split(' ').pop()[0])+'</div><div><b>'+esc(k.ten)+'</b><small>'+esc(k.ho)+'</small></div><span class="ct">Chỉ tiêu hôm nay '+CT()+'/3</span></div>'+
       '<div class="bd"><nav class="side">'+TABS.map(t=>'<button type="button" data-tab="'+t[0]+'" class="'+(tab===t[0]?'on':'')+'">'+esc(t[1])+'</button>').join('')+'<p class="info">'+esc(INFO[tab])+'</p></nav>'+
       '<div class="main"><div class="log" id="clog">'+L.join('')+'</div><div class="opts">'+(extra||'')+'</div></div></div></div>',()=>{ thoat=true; if(window.__caPick) window.__caPick('x'); });
-      const im=new Image(); im.onload=()=>{ const a=$('cav'); if(a){ a.style.backgroundImage='url('+im.src+')'; a.textContent=''; } }; im.src=k.face&&typeof faceFor==='function'?faceFor(k.face):'img2/x2-khach-'+khSlug(k.ten)+'.webp';
+      const im=new Image(); im.onload=()=>{ const a=$('cav'); if(a){ a.style.backgroundImage='url('+im.src+')'; a.textContent=''; } }; im.src=k.face&&typeof faceFor==='function'?faceFor(k.face):'img2/x2-khach-'+khSlug(k.ten)+'.webp?v=1023';
       document.querySelectorAll('.p2chat [data-tab]').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; const inf=document.querySelector('.p2chat .info'); document.querySelectorAll('.p2chat [data-tab]').forEach(x=>x.classList.toggle('on',x===b)); if(inf) inf.textContent=INFO[tab]; });
       const lg=$('clog'); if(lg) lg.scrollTop=1e5; };
     const bin=t=>'<div class="b in">'+esc(t)+'<i>'+tm()+'</i></div>', bout=t=>'<div class="b out">'+t+'<i>'+tm()+' · đã gửi</i></div>', bsys=t=>'<div class="b sys">'+t+'</div>';
@@ -353,7 +353,7 @@ function dropGame(o){ /* o: {title,tip,html(slots markup),cards:[{id,t,lock}],ch
       B.querySelectorAll('[data-slot]').forEach(s=>{ if(s.id==='tray') return; const c=o.cards.find(c=>place[c.id]===s.dataset.slot); s.classList.toggle('ok',!!c&&c.ok===s.dataset.slot); s.classList.toggle('bad',!!c&&c.ok!==s.dataset.slot); });
       $('dgm').textContent=typeof r==='string'?r:'Chưa khớp. Ô đỏ là chỗ sai.'; }; };
   render(); }); }
-function p2imgUrl(k){ return (typeof P2REAL!=='undefined'&&P2REAL[k])?'img2/'+k+'.webp':''; }
+function p2imgUrl(k){ return (typeof P2REAL!=='undefined'&&P2REAL[k])?'img2/'+k+'.webp?v=1023':''; }
 async function gSodo(){ const plan=p2imgUrl('x2-trai-matcat');
   const SL=[['mt','Lầu ba · bên phải',.559,.043,.404,.29],['kh','Lầu ba · bên trái',.045,.043,.353,.29],['ng','Lầu hai · dãy ngủ',.045,.36,.353,.27],['bt','Lầu hai · cuối hành lang',.721,.36,.242,.27],['pm','Trệt · bên trái',.045,.66,.353,.285],['be','Trệt · sát sau',.565,.66,.17,.285],['cs','Trệt · cuối',.846,.66,.117,.285]];
   const C=[{id:'pm',t:'Phòng máy',ok:'pm'},{id:'be',t:'Bếp',ok:'be'},{id:'cs',t:'Cửa sau ra sông',ok:'cs'},{id:'ng',t:'Phòng ngủ các tổ',ok:'ng'},{id:'bt',t:'Buồng tắm',ok:'bt'},{id:'mt',t:'Văn phòng quản lý',ok:'mt',lock:!hasF('x_sodo3')},{id:'kh',t:'Kho',ok:'kh',lock:!hasF('x_sodo3')},{id:'x',t:'Phòng giám đốc',ok:'-'}];
@@ -566,7 +566,7 @@ MINI.tuan0=(x,u)=>MINI.tuan(x,u,false); MINI.tuan3=(x,u)=>MINI.tuan(x,u,true);
 function miniDem(host,muc){ return new Promise(res=>{ const box=document.createElement('div'); box.className='mg';
   box.innerHTML='<div class="mgc"><canvas width="1000" height="600"></canvas></div><p class="mgt"></p><div class="mgb"></div>'; host.appendChild(box);
   const cv=box.querySelector('canvas'), x=cv.getContext('2d'), tip=box.querySelector('.mgt'), bar=box.querySelector('.mgb');
-  let bg=null; const k=MGIMG[muc]; if(k){ const i=new Image(); i.onload=()=>bg=i; i.src='img2/'+k+'.webp'; }
+  let bg=null; const k=MGIMG[muc]; if(k){ const i=new Image(); i.onload=()=>bg=i; i.onerror=()=>{ if(!i._r){ i._r=1; i.src='img2/'+k+'.webp?r='+Date.now(); } }; i.src='img2/'+k+'.webp?v=1023'; }
   let over=false, raf, t=0, last=performance.now(), msg='', msgT=0;
   const end=r=>{ if(over) return; over=true; cancelAnimationFrame(raf); box.remove(); window.__p2mini=null; res(r); };
   const btn=(lab,fn,hold,cls)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=lab; if(cls) b.className=cls;

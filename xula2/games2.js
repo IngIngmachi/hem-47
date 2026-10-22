@@ -265,12 +265,12 @@ async function goiVe(){ const B=S.nhanh==='B'; const tu=B?'SONG':'CUA'; const ng
    :[[['Cơm ở đây cũng được '+ng+'.',1],[(ng==='mẹ'?'Mẹ':'Bà')+' có khỏe hông.',0],['Có cái cửa sau ra sông, con hay ra ngồi.',0,1]],
     [['Út nhà mình học sao rồi '+ng+'.',1],['Tháng sau con gửi tiền.',0],['Ở đây đêm hổng ai canh.',0,1]],
     [['Ai hỏi thì '+ng+' nói con khỏe.',1],['Chuyển giùm con năm triệu nha.',0],['Con ngủ lầu hai.',0]]];
-  let ok=0;
+  let ok=0; const bg0=BGNOW; BGNOW='x2-goi-ve'; fade=.7;
   for(let i=0;i<sets.length;i++){ const o=sets[i]; const prog=tu.split('').map((c,j)=>j<i?c:j===i?'['+c+']':'·').join(' ');
     const p=await choose(o.map((x,n)=>({ma:'g'+n,loi:x[0],timer:8,mac:-1})),false,'Chữ cần: '+prog+' · Chị Bảy đứng sau lưng');
     if(!p||p.ma==='_het'){ await say('mota','',ME+' im lặng một giây quá lâu. Người đứng sau lưng gõ nhẹ vào vai.'); fx('+nghi:6'); continue; }
     const pick=o[+p.ma.slice(1)]; await say('thoai',ME,pick[0]); if(pick[1]) ok++; else if(pick[2]){ fx('+nghi:8'); } }
-  hideDlg();
+  hideDlg(); BGNOW=bg0; fade=.5;
   if(ok===sets.length){ setCo('x_goi_ok'); await say('nghi','','Nếu bên kia nghe ra, bên ngoài sẽ có chữ '+tu+'.'); }
   else await say('nghi','','Có câu lệch chữ. Chắc bên kia không đọc ra.'); hideDlg(); }
 

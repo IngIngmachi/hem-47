@@ -307,7 +307,7 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
   const raidOK=hasF('x_tin_3g')&&hasF('x_vinh')&&(S.nhanh==='A'||hasF('x_tin_song')||hasF('x_goi_ok'));
   const raid=raidOK?180+Math.floor((S.lo||0)/25)*15:9999, xe=(S.lo||0)>=25?270:null;
   const groups=dsCon().filter(p=>!(S.nhanh==='A'&&S.ai_vao==='ngan'&&p.id==='ngan')).map(p=>{ const t=S.tin[p.id]||0; return {id:p.id,ten:p.ten,sp:p.id,can:t>=2?0:t===1?1:2,after:p.id==='ngan'&&t<4?240:0}; });
-  const ex=[{ten:'Cổng chính',f:0,x:60,cost:hasF('x_ghe')?5:20}]; if(hasF('x_cua')) ex.push({ten:'Cửa sau',f:0,x:930,cost:hasF('x_ghe')?0:15}); if(hasF('x_rao')) ex.push({ten:'Rào sau bếp',f:0,x:740,cost:hasF('x_ghe')?0:15});
+  const ex=[{ten:'Cổng chính',f:0,x:60,cost:hasF('x_ghe')?5:20}]; if(hasF('x_cua')) ex.push({ten:'Cửa sau',f:0,x:905,cost:hasF('x_ghe')?0:15}); if(hasF('x_rao')) ex.push({ten:'Rào sau bếp',f:0,x:740,cost:hasF('x_ghe')?0:15});
   const res=await sneak({mode:'cuu',groups,exits:ex,raid,xe,end:300,speed:1,siet:false});
   const outIds=res.out.map(g=>g.id), con=groups.filter(g=>!outIds.includes(g.id));
   S.p2ra=outIds; S.p2tong=groups.length; S.p2con=con.map(g=>g.id);

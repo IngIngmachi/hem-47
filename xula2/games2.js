@@ -38,9 +38,9 @@ const P2CSS=`
 .p2slot{min-height:44px;border:2px dashed #4a5168;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:4px;color:#6b7389;font-size:13px;transition:border-color .15s,background .15s}
 .p2slot.hot{border-color:#f0b25c;background:rgba(240,178,92,.08)}
 .p2slot.ok{border-color:#5fb37a;border-style:solid}.p2slot.bad{border-color:#e2645c;border-style:solid}
-.p2plan{position:relative;width:100%;aspect-ratio:16/10;background:#11151f;border-radius:12px;overflow:hidden}
-.p2plan img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
-.p2plan .p2slot{position:absolute;background:rgba(16,19,28,.7)}
+.p2plan{position:relative;width:100%;aspect-ratio:1672/941;background:#11151f;border-radius:12px;overflow:hidden}
+.p2plan img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.9}
+.p2plan .p2slot{position:absolute;background:rgba(10,12,18,.25);border-color:rgba(240,178,92,.55);color:#efe8d8;text-shadow:0 1px 3px #000;align-items:flex-end;padding-bottom:8px}.p2plan .p2slot .p2card{font-size:12px;padding:5px 8px}
 .p2chain{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
 .p2chain .ar{color:#f0b25c;font-size:20px}
 .p2chain .p2slot{min-width:130px}
@@ -292,7 +292,7 @@ function dropGame(o){ /* o: {title,tip,html(slots markup),cards:[{id,t,lock}],ch
   render(); }); }
 function p2imgUrl(k){ return (typeof P2REAL!=='undefined'&&P2REAL[k])?'img2/'+k+'.webp':''; }
 async function gSodo(){ const plan=p2imgUrl('x2-trai-matcat');
-  const SL=[['mt','Lầu ba · bên phải',.55,.06,.4,.24],['kh','Lầu ba · bên trái',.05,.06,.4,.24],['ng','Lầu hai · dãy ngủ',.05,.38,.5,.24],['bt','Lầu hai · cuối hành lang',.62,.38,.33,.24],['pm','Trệt · bên trái',.05,.7,.45,.24],['be','Trệt · sát sau',.55,.7,.2,.24],['cs','Trệt · cuối',.78,.7,.17,.24]];
+  const SL=[['mt','Lầu ba · bên phải',.559,.043,.404,.29],['kh','Lầu ba · bên trái',.045,.043,.353,.29],['ng','Lầu hai · dãy ngủ',.045,.36,.353,.27],['bt','Lầu hai · cuối hành lang',.721,.36,.242,.27],['pm','Trệt · bên trái',.045,.66,.353,.285],['be','Trệt · sát sau',.565,.66,.17,.285],['cs','Trệt · cuối',.846,.66,.117,.285]];
   const C=[{id:'pm',t:'Phòng máy',ok:'pm'},{id:'be',t:'Bếp',ok:'be'},{id:'cs',t:'Cửa sau ra sông',ok:'cs'},{id:'ng',t:'Phòng ngủ các tổ',ok:'ng'},{id:'bt',t:'Buồng tắm',ok:'bt'},{id:'mt',t:'Văn phòng quản lý',ok:'mt',lock:!hasF('x_sodo3')},{id:'kh',t:'Kho',ok:'kh',lock:!hasF('x_sodo3')},{id:'x',t:'Phòng giám đốc',ok:'-'}];
   const html='<div class="p2plan">'+(plan?'<img src="'+plan+'" alt="">':'')+SL.map(s=>'<div class="p2slot" data-slot="'+s[0]+'" data-ph="'+esc(s[1])+'" style="left:'+s[2]*100+'%;top:'+s[3]*100+'%;width:'+s[4]*100+'%;height:'+s[5]*100+'%"></div>').join('')+'</div>';
   const ok=await dropGame({title:'Sơ đồ trại',tip:'Kéo tên từng chỗ vào đúng ô trên sơ đồ ba tầng. Chỗ nào chưa biết thì bỏ trống (thẻ ??? là chưa có ai kể).',html,cards:C,
@@ -374,18 +374,19 @@ async function gDanhSach(){ const can=dsCon().filter(p=>!['ngan','khang','loc'].
    10. ĐI ĐÊM và ĐÊM DẪN NGƯỜI RA SÔNG — bản đồ cắt ngang ba tầng
    ===================================================================== */
 const DMAP={floors:[
-  {ten:'Trệt',rooms:[{x:30,w:400,ten:'Phòng máy'},{x:560,w:180,ten:'Bếp'},{x:850,w:130,ten:'Cửa sau'}],hide:[120,300,620,700]},
-  {ten:'Lầu 2',rooms:[{x:30,w:400,ten:'Phòng ngủ các tổ'},{x:560,w:120,ten:'Phòng Chị Bảy'},{x:720,w:200,ten:'Buồng tắm'}],hide:[90,260,400,780]},
-  {ten:'Lầu 3',rooms:[{x:30,w:260,ten:'Kho'},{x:560,w:400,ten:'Văn phòng quản lý'}],hide:[150,620,880]}],stairs:{x:470,w:60}};
+  {ten:'Trệt',rooms:[{x:45,w:353,ten:'Phòng máy'},{x:565,w:171,ten:'Bếp'},{x:846,w:117,ten:'Cửa sau'}],hide:[120,300,620,700]},
+  {ten:'Lầu 2',rooms:[{x:45,w:353,ten:'Phòng ngủ các tổ'},{x:565,w:147,ten:'Phòng Chị Bảy'},{x:721,w:242,ten:'Buồng tắm'}],hide:[90,260,400,780]},
+  {ten:'Lầu 3',rooms:[{x:45,w:353,ten:'Kho'},{x:559,w:404,ten:'Văn phòng quản lý'}],hide:[150,620,880]}],stairs:{x:450,w:60},
+  feet:[566,378,198], band:[[394,176],[214,168],[28,172]]};
 const MUC={
-  may:{ten:'Lấy cái điện thoại dưới thùng nước',f:1,x:820,why:'Có máy mới gửi tin ra được.',c:()=>hasF('x_biet_may')&&!hasF('x_may'),k:'x_dd_may'},
+  may:{ten:'Lấy cái điện thoại dưới thùng nước',f:1,x:858,why:'Có máy mới gửi tin ra được.',c:()=>hasF('x_biet_may')&&!hasF('x_may'),k:'x_dd_may'},
   gapngan:{ten:'Gặp Ngân ở buồng tắm',f:1,x:840,why:'Nói chuyện riêng, ngoài tầm camera.',thang:1,c:()=>S.nhanh==='B'&&hasF('x_ngan_nghe')&&!hasF('x_ngan_b3')&&(S.tin.ngan||0)>=2,k:'x_nganb3'},
   thuy:{ten:'Gặp Thủy ở buồng tắm',f:1,x:840,why:'Thủy hẹn.',thang:1,c:()=>S.nhanh==='B'&&hasF('x_thuy_biet')&&!hasF('x_thuy_chi'),k:'x_thuygap'},
   tuan0:{ten:'Dò lính gác trệt',f:0,x:900,why:'Ghi giờ lính đi qua cửa sau.',c:()=>!hasF('x_tuan0'),k:'x_dd_tuan0'},
   tuan3:{ten:'Dò lính gác lầu ba',f:2,x:900,why:'Vẽ nốt phần sơ đồ còn thiếu.',c:()=>!hasF('x_tuan3'),k:'x_dd_tuan3'},
   kim:{ten:'Lấy cây kìm trên nóc tủ bếp',f:0,x:650,why:'Cắt được rào ra bờ sông.',c:()=>(hasF('x_biet_kim')||S.day>=12)&&!hasF('x_kim'),k:'x_dd_kim'},
   rao:{ten:'Cắt rào sau bếp',f:0,x:740,why:'Lối thứ hai ra sông.',c:()=>hasF('x_kim')&&!hasF('x_rao'),k:'x_dd_rao'},
-  cua:{ten:'Mở khóa cửa sau',f:0,x:930,why:'Lối gần ghe nhất.',c:()=>hasF('x_chia')&&!hasF('x_cua'),k:'x_dd_cua'},
+  cua:{ten:'Mở khóa cửa sau',f:0,x:905,why:'Lối gần ghe nhất.',c:()=>hasF('x_chia')&&!hasF('x_cua'),k:'x_dd_cua'},
   nghe:{ten:'Nghe lén văn phòng lầu ba',f:2,x:600,why:'Tin thoại của Ông Chủ Lò.',c:()=>S.day>=12&&!hasF('x_nghe_len'),k:'x_dd_nghe'}};
 /* =====================================================================
    10b. TRÒ NHỎ KHI TỚI CHỖ — mỗi việc đi đêm một kiểu
@@ -552,7 +553,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
       if(g){ if(g.can>0&&!g.thuyet){ g.thuyet=true; clock+=3; if(g.can>=2){ say1(g.ten+' không chịu đi. Mất 3 phút mà không nói được.'); g.st='o'; return; } say1('Mất 3 phút nói với '+g.ten+'. Đi.'); } g.st='theo'; lead=g; say1('Đang dẫn: '+g.ten+'. Ra lối xanh, nhớ núp.'); } else say1('Tới chỗ một người đang chờ rồi bấm Dẫn.'); return; }
     const e=exits.find(e=>e.f===P.f&&Math.abs(e.x-P.x)<45); if(e){ lead.st='ra'; out.push(lead); clock+=e.cost||0; say1(lead.ten+' đã ra tới '+e.ten+'.'+(e.cost?' Chờ ghe '+e.cost+' phút.':'')); lead=null; } else say1('Lối ra sông đánh dấu xanh.'); }
   function finish(kq){ if(over) return; over=true; removeEventListener('keydown',kd,true); removeEventListener('keyup',ku,true); p2close(); res({kq,out,lost,clock,groups}); }
-  const ch=(k,px,f,face,o)=>{ const fy=600-f*200-18; x.save(); x.translate(px,fy); x.scale(.62,.62); try{ drawChar(x,k,0,0,face,o); }catch(e){} x.restore(); };
+  const ch=(k,px,f,face,o)=>{ const fy=DMAP.feet[f]; x.save(); x.translate(px,fy); x.scale(.62,.62); try{ drawChar(x,k,0,0,face,o); }catch(e){} x.restore(); };
   let last=performance.now();
   function loop(now){ if(over) return; if(paused){ last=now; requestAnimationFrame(loop); return; } const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt; if(cuu) clock+=dt*(cfg.speed||1);
     const sp=(P.run?190:95)*(lead?.85:1); let mv=0; if(!P.hid){ if(K.L){ P.x=Math.max(20,P.x-sp*dt); P.face=-1; mv=1; } if(K.R){ P.x=Math.min(980,P.x+sp*dt); P.face=1; mv=1; } } if(mv) P.ph+=dt*(P.run?10:7);
@@ -567,14 +568,16 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
       if(clock>=cfg.end||groups.every(g=>g.st!=='cho'&&g.st!=='theo')){ finish('het'); return; } }
     msgT-=dt; draw(raid); requestAnimationFrame(loop); }
   function draw(raid){ x.clearRect(0,0,1000,600);
-    if(bgi&&bgi.complete&&bgi.naturalWidth){ x.globalAlpha=.6; x.drawImage(bgi,0,0,1000,600); x.globalAlpha=1; }
-    for(let f=0;f<3;f++){ const y0=600-(f+1)*200; const fl=DMAP.floors[f]; x.fillStyle=f===P.f?'rgba(40,46,66,.55)':'rgba(16,19,28,.6)'; x.fillRect(0,y0,1000,196);
-      x.fillStyle='rgba(255,255,255,.05)'; fl.rooms.forEach(r=>x.fillRect(r.x,y0+8,r.w,180)); x.fillStyle='#8b93a9'; x.font='14px "Be Vietnam Pro",sans-serif'; fl.rooms.forEach(r=>x.fillText(r.ten,r.x+8,y0+26)); x.fillText(fl.ten,935,y0+26);
-      fl.hide.forEach(h=>{ x.fillStyle='rgba(120,90,50,.55)'; x.fillRect(h-14,y0+110,28,78); });
-      x.fillStyle='rgba(240,178,92,.14)'; x.fillRect(DMAP.stairs.x,y0,DMAP.stairs.w,196); }
-    const Y=f=>600-f*200-18;
+    const bgok=bgi&&bgi.complete&&bgi.naturalWidth; if(bgok) x.drawImage(bgi,0,0,1000,600); else { x.fillStyle='#0b0d14'; x.fillRect(0,0,1000,600); }
+    for(let f=0;f<3;f++){ const [y0,bh]=DMAP.band[f]; const fl=DMAP.floors[f]; x.fillStyle=f===P.f?'rgba(0,0,0,0)':'rgba(5,6,10,.5)'; x.fillRect(0,y0,1000,bh);
+      if(!bgok){ x.fillStyle='rgba(255,255,255,.05)'; fl.rooms.forEach(r=>x.fillRect(r.x,y0+8,r.w,bh-16)); }
+      x.font='600 13px "Be Vietnam Pro",sans-serif'; fl.rooms.forEach(r=>{ const w=x.measureText(r.ten).width+12; x.fillStyle='rgba(8,10,16,.7)'; x.fillRect(r.x+4,y0+6,w,20); x.fillStyle=f===P.f?'#efe8d8':'#8b93a9'; x.fillText(r.ten,r.x+10,y0+21); });
+      x.fillStyle='rgba(8,10,16,.7)'; x.fillRect(944,y0+6,52,20); x.fillStyle='#f0b25c'; x.fillText(fl.ten,950,y0+21);
+      fl.hide.forEach(h=>{ x.strokeStyle=f===P.f?'rgba(240,178,92,.55)':'rgba(240,178,92,.2)'; x.setLineDash([5,4]); x.lineWidth=2; x.strokeRect(h-16,DMAP.feet[f]-80,32,78); x.setLineDash([]); });
+      if(f===P.f){ x.fillStyle='rgba(240,178,92,.10)'; x.fillRect(DMAP.stairs.x,y0,DMAP.stairs.w,bh); } }
+    const Y=f=>DMAP.feet[f];
     if(!cuu&&!got){ const m=MUC[cfg.muc]; x.fillStyle='#f0b25c'; x.beginPath(); x.arc(m.x,Y(m.f)-150,9+Math.sin(t*5)*2,0,7); x.fill(); }
-    if(!cuu&&got){ x.strokeStyle='#5fb37a'; x.lineWidth=3; x.strokeRect(30,208,400,180); }
+    if(!cuu&&got){ x.strokeStyle='#5fb37a'; x.lineWidth=3; x.strokeRect(45,DMAP.band[1][0],353,DMAP.band[1][1]); }
     if(cuu){ x.strokeStyle='rgba(170,190,215,.28)'; x.lineWidth=1.5; x.beginPath(); for(let i=0;i<90;i++){ const rx=(i*137+t*260*(1+i%3*.2))%1060-30, ry=(i*89+t*720)%640-20; x.moveTo(rx,ry); x.lineTo(rx-6,ry+22); } x.stroke(); }
     if(raid){ x.fillStyle='rgba(0,0,0,'+(.38+(Math.sin(t*23)>.86?.3:0))+')'; x.fillRect(0,0,1000,600); if(Math.sin(t*3.1)>0){ x.fillStyle='rgba(80,120,255,.08)'; x.fillRect(0,0,1000,600); } else { x.fillStyle='rgba(255,60,60,.07)'; x.fillRect(0,0,1000,600); } }
     exits.forEach(e=>{ x.fillStyle='#5fb37a'; x.fillRect(e.x-6,Y(e.f)-120,12,116); x.fillStyle='#bfe3c9'; x.fillText(e.ten,e.x-30,Y(e.f)-128); });

@@ -2,20 +2,20 @@
    Chỉ được nạp vào khung khi bấm nút Phần 2 (xem p2Install trong p2.js). */
 'use strict';
 /* cảnh nhỏ cần cho bảng việc */
-X('x_lich_act','Lịch tuần tra',[['~','Nằm trên giường tầng, nhắm mắt, xếp lại từng lượt lính đi qua.'],{game:'lichtuan'}]);
-X('x_dt_act','Ai cầm lò',[['~','Nằm trên giường tầng, xếp lại từng đồng tiền đi đâu.'],{game:'dongtien'}]);
-X('x_gui_act','Gửi tin ra',['{me} chui vô buồng tắm, gỡ cái máy dưới đáy thùng nước. Màn hình nứt một góc.',{game:'gui'}]);
-X('x_muachuoc','Đút lót',['Lính gác đếm tiền trên điện thoại, nhìn đi chỗ khác. Mấy bữa nay hắn sẽ nhìn đi chỗ khác.',{fx:'-tien:500000 -nghi:15'}]);
-X('x_het1','Lên xe',['Bốn giờ sáng. Xe 16 chỗ đậu đầu hẻm, máy nổ, đèn tắt.',{if:'vao:ngan',L:['Ngân bước lên. Không quay lại nhìn.','Lâm đứng ở cột điện đầu hẻm tới khi xe quẹo khỏi đường Fan Xích Vô.']},{if:'!vao:ngan',L:['Lâm bước lên. Trong xe đã có sẵn năm người, không ai nói chuyện.']}]);
-X('x_het2','Đêm mai',['Mưa bắt đầu từ chiều. Tới tối thì gió.',['~','Còn một ngày. Đếm lại người. Đếm lại đường ra.']]);
-X('kq_xocl','Ông Chủ Lò',[{if:'tin_bang_xocl>=3',L:[['~','Đủ. Ra được tới bờ bên kia là gửi cho Hương với đại úy Vinh. Lần này đúng từng chữ.'],{fx:'+co:x_ocl_xong'}]},{if:'tin_bang_xocl<3',L:[['~','Còn chỗ hổng. Viết vầy ra là lại viết sai người.']]}]);
-X('V_gap_1','Chạy Gáp',['Mấy cuốc xe đêm. Mưa lất phất. Một khách nữ ngồi sau khóc suốt đoạn đường mà không nói gì.',{fx:'+tien:250000'}]);
-X('V_gap_2','Chạy Gáp',['Giao mười hai đơn trà sữa cho một văn phòng ở quận 1. Ông bảo vệ cho ly nước.',{fx:'+tien:220000'}]);
-X('V_phu_1','Phụ tạp hóa',['Ngân xếp lại kệ mì gói. Có khách nhận ra cô, bỏ đi không mua.',{fx:'+tien:150000'}]);
-X('V_phu_2','Phụ tạp hóa',['Cô Thoa đưa Ngân sổ ghi nợ. Bà Năm còn thiếu ba chục ngàn từ hồi Tết.',['Cô Thoa','Thôi khỏi đòi. Bả nghèo hơn mình.'],{fx:'+tien:150000 +tin_thoa'}]);
-X('V_xbasau_1','Phụ bà Sáu',['Thay cái bóng đèn cầu thang. Bà Sáu đứng dưới, cầm cái đèn pin rọi lên.',['Bà Sáu','Hồi đó có thằng nhỏ ở phòng 3 cũng thay cho bà. Nó đi rồi.'],{fx:'+tin_ba_sau'}]);
-X('V_xbasau_2','Phụ bà Sáu',['Phơi đồ giùm bà Sáu. Radio phát cải lương, bà hát theo sai lời.',{fx:'+tin_ba_sau'}]);
-X('V_xbin_1','Chạy đơn với Bin',['Bin chở, Lâm cầm hàng. Hai đứa chạy tới khuya.',['Bin','Anh tính đi thiệt hả. Đi rồi ai chạy đơn với em.'],{fx:'+tin_bin +tien:120000'}]);
+X('x_lich_act','Lịch tuần tra',[['~','Nằm trên giường sắt nhắm mắt lại, nhẩm tính khớp từng khung giờ đi tuần của đám lính gác.'],{game:'lichtuan'}]);
+X('x_dt_act','Ai cầm lò',[['~','Nằm trên giường sắt xâu chuỗi lại toàn bộ đường đi của dòng tiền lừa đảo.'],{game:'dongtien'}]);
+X('x_gui_act','Gửi tin ra',['{me} lẻn vô buồng tắm, thò tay dưới đáy thùng nước gỡ cái đt màn hình nứt ra.',{game:'gui'}]);
+X('x_muachuoc','Đút lót',['Nhét lẹ tờ tiền giấu trong lai quần qua tay thằng lính gác. Nó liếc nhìn rồi tự động quay mặt đi chỗ khác. Đủ mua sự đui mù của nó trong vài ngày.',{fx:'-tien:500000 -nghi:15'}]);
+X('x_het1','Lên xe',['4h sáng. Chiếc 16 chỗ đậu im lìm đầu hẻm, máy nổ rì rầm nhưng tắt sạch đèn.',{if:'vao:ngan',L:['Ngân xách giỏ bước lên xe, không ngoái đầu nhìn lại.','Lâm đứng nép sau cột điện đầu hẻm nhìn theo cho tới khi chiếc xe quẹo khuất khỏi đường Fan Xích Vô.']},{if:'!vao:ngan',L:['Lâm cúi đầu bước lên xe. Băng ghế sau đã có 5 người ngồi sẵn, ai cũng im thin thít.']}]);
+X('x_het2','Đêm mai',['Trời đổ mưa từ xế chiều, tới tối thì gió nổi lên ầm ầm.',['~','Chỉ còn đúng 1 ngày nữa. Nhẩm đếm lại quân số, rà lại đường rút lần cuối.']]);
+X('kq_xocl','Ông Chủ Lò',[{if:'tin_bang_xocl>=3',L:[['~','Chứng cứ vầy là cứng ngắc rồi. Chỉ cần sống sót qua tới bờ sông bên kia là giao tận tay Hương với đại úy Vinh. Lần này không thể sai một chữ nào.'],{fx:'+co:x_ocl_xong'}]},{if:'tin_bang_xocl<3',L:[['~','Chuỗi bằng chứng vẫn còn chỗ hở. Kết luận vội vàng kiểu này coi chừng lại đổ oan sai như năm ngoái.']]}]);
+X('V_gap_1','Chạy Gáp',['Chạy thêm mấy cuốc xe đêm kiếm tiền. Trời mưa lất phất, con bé khách ngồi sau cứ khóc thút thít suốt dọc đường.',{fx:'+tien:250000'}]);
+X('V_gap_2','Chạy Gáp',['Chạy giao 12 ly trà sữa cho một công ty ở Quận 1. Chú bảo vệ thấy ướt mưa nên rót cho ly trà đá.',{fx:'+tien:220000'}]);
+X('V_phu_1','Phụ tạp hóa',['Ngân ngồi xếp lại mấy thùng mì gói ngoài tiệm. Có người đi ngang nhận ra mặt cô trên mạng, liền quay ngoắt bỏ đi không mua nữa.',{fx:'+tien:150000'}]);
+X('V_phu_2','Phụ tạp hóa',['Cô Thoa đưa cuốn sổ nợ cho Ngân coi. Bà Năm đầu xóm còn thiếu 30 ngàn tiền gạo muối từ hồi Tết tới giờ.',['Cô Thoa','Thôi gạch bỏ luôn đi con. Bả còn nghèo rớt mồng tơi hơn mẹ con mình.'],{fx:'+tien:150000 +tin_thoa'}]);
+X('V_xbasau_1','Phụ bà Sáu',['Bắc ghế thay lại cái bóng đèn cầu thang. Bà Sáu đứng dưới chân thang cầm đèn pin rọi lên cho.',['Bà Sáu','Hồi trước cái thằng nhỏ ở phòng số 3 cũng đứng thay bóng đèn chỗ này cho bà nè. Giờ nó đi mất tiêu rồi.'],{fx:'+tin_ba_sau'}]);
+X('V_xbasau_2','Phụ bà Sáu',['Phụ bà Sáu đem thau đồ lên sân thượng phơi. Cái radio cũ mở cải lương, bà vừa kẹp áo vừa ca theo trật nhịp hết trơn.',{fx:'+tin_ba_sau'}]);
+X('V_xbin_1','Chạy đơn với Bin',['Bin cầm lái, Lâm ngồi sau ôm thùng hàng. Hai anh em quần thảo giao đơn tới tận khuya.',['Bin','Anh tính đi qua bển thiệt hả anh Lâm? Anh đi rồi lấy ai phụ chạy đơn với em.'],{fx:'+tin_bin +tien:120000'}]);
 
 const P2REAL={};
 const P2DATA=(()=>{
@@ -74,7 +74,7 @@ const P2DATA=(()=>{
     {id:'x_a_cainhau',...H1,d:[6,7],w:[19,23.5],who:'phong',k:'x_a_cainhau',t:'Chốt ai vào trại',c:'nhanh:A co:x_sodo co:x_vinh !co:x_chot',cost:60},
     // nhánh B
     {id:'x_b_basau',...H1,d:[1,4],who:'basau',k:'x_b_basau',t:'Ngồi với bà Sáu',c:'nhanh:B',cost:40},
-    {id:'x_b_tratin',...H1,d:[1,7],who:'o:laptop',k:'x_b_tratin',t:'Tra khu Bavet dời đi đâu',c:'nhanh:B !cc:x_siha',cost:45},
+    {id:'x_b_tratin',...H1,d:[1,7],who:'o:laptop',k:'x_b_tratin',t:'Tra khu Ba Vẹt dời đi đâu',c:'nhanh:B !cc:x_siha',cost:45},
     {id:'x_b_huong',...H1,d:[1,7],w:[8,21],who:'ngo',place:'thaodien',k:'x_b_huong',t:'Gặp Hương ở quán Thảo Điên',c:'nhanh:B cc:x_siha !co:x_vu_ocl',cost:120},
     {id:'x_b_vinh',...H1,d:[2,7],w:[8,17],who:'ngo',place:'congan',k:'x_b_vinh',t:'Gặp đại úy Vinh ở phường',c:'nhanh:B co:x_vu_ocl !co:x_vinh',cost:120},
     {id:'x_b_sodo',...H1,d:[2,7],who:'o:laptop',k:'x_b_sodo',t:'Dò sơ đồ trại',c:'nhanh:B co:x_vinh !co:x_sodo',cost:60},

@@ -164,7 +164,7 @@ roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(S.room==='bep'&&hour()<1
     if(S.room==='phong3'&&(hour()>=18.5||hour()<5.5)&&P2REAL['x2-trong-phong3-dem']) return IMG['x2-trong-phong3-dem'];
     const k=P2ROOMIMG[S.room]; if(k&&P2REAL[k]) return IMG[k]; } return roomIm1(); };
 const faceFor1=faceFor;
-faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(name==='Ông Chủ Lò'||name==='Người tuyển'||name==='Số lạ') return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
+faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(['Ông Chủ Lò','Người tuyển','Số lạ','Cô gái trẻ','Ông chú'].includes(name)) return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
 const setBust1=setBust;
 setBust=function(nm,label,kind){ setBust1(nm,label,kind); if(!P2.on) return; const k=nm&&SPK[nm]; if(k&&P2CH[k]&&!P2FACEOK[k+'-bust']){ const b=$('dBust'); if(!b.hidden) b.querySelector('img').src='img2/'+P2CH[k]+'-bust.webp'; } };
 const evPlan1=evPlan; evPlan=function(){ if(P2.on) return; return evPlan1.apply(this,arguments); };

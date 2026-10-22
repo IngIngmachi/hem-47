@@ -7,33 +7,33 @@ X('z_a_hem','Za Lô · nhóm hẻm',[
  ['@Diễm Nail','ủa con Ngân về rồi hả mấy bà, sáng nay tui thấy ngồi trước tạp hóa'],
  ['@Hạnh Bánh Mì','về rồi thì để yên cho nó thở đi mấy bà, chuyện cũ nhắc hoài'],
  ['@Bà Sáu','Đứa nào nói ra nói vô con nhỏ là bà cạo đầu. Bà Sáu đây.'],
- ['~','Cả nhóm im re. Không ai thả tim, cũng không ai rời nhóm.']]);
+ ['~','Bà Sáu lên tiếng một cái là nguyên nhóm im phăng phắc, hông ai dám bàn ra tán vô nữa.']]);
 X('z_a_huong','Za Lô · Ngân nhắn',[
- ['#Ngân','bữa nay ngày chẵn, tới lượt anh'],
+ ['#Ngân','nay ngày chẵn, tới phiên anh đi đó'],
  ['#Ngân','đi gặp chị Hương đi. chỉ còn giữ hồ sơ vụ Ba Vẹt, có khi biết tụi nó dời đi đâu'],
- ['#> Ngân','Tôi đi liền. Có gì tôi nhắn.']]);
+ ['#> Ngân','Rồi, đang chuẩn bị đi đây. Có tin gì mới tôi nhắn về.']]);
 X('z_a_vi','Za Lô · Hương nhắn',[
  ['#Hương','địa chỉ ví con bé Phương gửi tôi, tôi chuyển qua ông rồi đó'],
- ['#Hương','dò ngược từ mấy lệnh tối Chủ nhật mà lên. đừng ngồi đọc bình luận nữa'],
- ['~','Mở laptop là dò được.']]);
+ ['#Hương','cứ lần ngược từ mấy cái lệnh rút tiền tối Chủ nhật á. bớt ngồi đọc cmt trên mạng lại đi'],
+ ['~','Về phòng mở laptop lên tra thử coi dòng tiền này chảy đi đâu.']]);
 X('z_vinh','Za Lô · đại úy Vinh',[
  ['#Đại úy Vinh','Nhắc lại: vị trí, số người, giờ trống. Đủ 3 cái mới làm được.'],
  ['#Đại úy Vinh','Đừng nhắn tên tôi trong bất kỳ tin nào gửi ra.']]);
 X('z_a_thoa','Za Lô · mẹ nhắn',[
  ['#Cô Thoa','tối về ăn cơm nghen con. mẹ có chuyện muốn nói'],
- ['~','Mẹ ít khi nhắn tin. Mẹ gọi thẳng, hoặc không nói gì hết.']]);
+ ['~','Xưa giờ mẹ hiếm khi nhắn tin kiểu này lắm. Chắc ở nhà có chuyện gì rồi.']]);
 X('z_thoai','Za Lô · Bin nhắn',[
  ['#Bin','anh ơi anh Lộc nói ảnh biết một ông chạy ghe ở bến sát biên'],
  ['#Bin','tên Thoại. ra bến hỏi là ai cũng chỉ, mà ổng chỉ nhận tiền mặt'],
  ['#> Bin','Cảm ơn em. Đừng kể ai nghe nha.'],
  ['#Bin','em có kể ai đâu 🤐']]);
 X('z_gom','Za Lô · nhóm hẻm',[
- ['@Bà Sáu','Thằng ở phòng 3 nhà bà sắp đi làm một chuyện lớn. Cần tiền.'],
- ['@Bà Sáu','Nhà nào dư thì góp, không dư thì thôi. Bà không ép ai.'],
+ ['@Bà Sáu','Thằng nhỏ ở phòng số 3 nhà bà sắp đi có công chuyện hệ trọng. Đang kẹt tiền.'],
+ ['@Bà Sáu','Nhà ai dư dả thì phụ nó chút đỉnh, hổng có thì thôi, bà hổng ép.'],
  ['@Tám Hớt Tóc','chuyện gì mà lớn dữ bà Sáu'],
- ['@Bà Sáu','Chuyện cứu người. Hỏi nữa bà cũng không nói.']]);
+ ['@Bà Sáu','Chuyện đi cứu người ta. Đừng có hỏi tò mò, bà hổng nói thêm đâu.']]);
 X('z_a_chot','Za Lô · Ngân nhắn',[
- ['#Ngân','11h tối nay qua phòng 3. Chốt ai vô.'],
+ ['#Ngân','11h khuya nay tui qua phòng 3. Bàn dứt điểm coi ai là người đi vô trển.'],
  ['#Ngân','đừng có đi ngang tạp hóa, mẹ tui còn thức']]);
 X('z_b_bin','Za Lô · Bin nhắn',[
  ['#Bin','anh Lâm, bà Sáu nói anh tính đi kiếm chị Ngân hả'],
@@ -41,7 +41,7 @@ X('z_b_bin','Za Lô · Bin nhắn',[
  ['#> Bin','Để anh coi đã. Đừng nói bà Sáu là anh nhắn em.']]);
 X('z_b_huong','Za Lô · nhắn Hương',[
  ['#> Hương','Chị cho tôi gặp 15 phút. Chuyện cái trại ở Ba Vẹt.'],
- ['~','Tin đã xem. Nửa tiếng không trả lời.'],
+ ['~','Hiện chữ "Đã xem" nửa tiếng đồng hồ rồi mà cổ vẫn im re.'],
  ['#Hương','8 giờ, Thảo Điên. trễ là tôi về']]);
 X('z_b_vinh','Za Lô · Hương nhắn',[
  ['#Hương','muốn làm thiệt thì lên phường gặp đại úy Vinh'],
@@ -121,7 +121,7 @@ function gMayTram(){ return new Promise(res=>{ let tab='kh', left=45, seen={}, d
 P2GAMES.maytram=async()=>{ const late=await gMayTram(); if(late){ await say('thoai','Chị Bảy','Đứng đây làm gì. Về bàn.'); hideDlg(); } };
 
 /* ---------- 4. LỘ RÕ HƠN: mò thùng nước ban ngày, lén về máy trạm giờ cơm ---------- */
-X('x_mothung_act','Buồng tắm',[['~','Cái thùng nước lạnh. Người ta nói đáy thùng có dán cái gì đó.'],{game:'mothung'}]);
+X('x_mothung_act','Buồng tắm',[['~','Thùng nhựa đựng nước tắm. Nghe tụi nhỏ dặn dưới đáy thùng có dán giấu cái đt cũ.'],{game:'mothung'}]);
 P2DATA.ACT.push({id:'x_mothung',h:2,hx:3,d:[9,19],who:'o:thung',k:'x_mothung_act',t:'Mò dưới đáy thùng nước',sub:'nghe nói có cái máy dán dưới đó',c:'co:x_biet_may !co:x_may',until:'co:x_may',cost:15});
 P2GAMES.mothung=()=>new Promise(res=>{ p2open('<h3>Mò dưới đáy thùng nước</h3><div class="dd2" id="mtHost" style="aspect-ratio:5/3;min-height:240px"></div>',()=>{ const mg=document.querySelector('#mtHost .mg'); if(mg&&window.__p2mini) window.__p2mini.lose(); });
   miniDem($('mtHost'),'may').then(async r=>{ p2close();
@@ -131,3 +131,11 @@ P2GAMES.mothung=()=>new Promise(res=>{ p2open('<h3>Mò dưới đáy thùng nư�
 async function p2LenMayTram(){ if(!P2.on||P2.map!=='trai'||hasF('x_maytram')||S.day<9) return;
   busy=true; const p=await choose([{ma:'y',loi:'Lén về phòng máy',sub:'máy Chị Bảy còn sáng · chừng 45 giây'},{ma:'n',loi:'Ngồi ăn cơm'}],false,'Phòng máy vắng tanh. Máy của Chị Bảy chưa khóa.'); hideDlg(); busy=false;
   if(p.ma==='y'){ await runS('x_maytram_act'); hideDlg(); } }
+
+/* ---------- 5. NHỊP HẺM 47 LÚC 22:00 — cảnh cắt ngắn nối hai bờ sông ---------- */
+X('hem_dem_09','Hẻm 47 · 22:00',[{bg:'x2-taphoa-chieu'},'22:00. Bên này tắt đèn phòng ngủ. Cách đó ba trăm cây số, ở đầu hẻm 47, cô Thoa vừa kéo cửa cuốn xuống một nửa, nhìn cục sạc điện thoại ốp mèo đen đã báo đèn xanh đầy pin.',{bg:''}]);
+X('hem_dem_11','Hẻm 47 · 22:00',[{bg:'x2-hien-basau-dem'},'22:00. Bà Sáu đứng trước bàn thờ thắp ba cây nhang, lâm râm khấn tên 12 đứa nhỏ từng ở trên gác, rồi ngập ngừng khấn thêm tên người thứ 13. Con mèo mun nằm cuộn tròn ngay bậc thềm.',{bg:''}]);
+X('hem_dem_13','Hẻm 47 · 22:00',[{bg:'hem-dem'},'Đầu đường Fan Xích Vô, chú Tám đóng cửa tiệm hớt tóc, cái radio cũ vẫn rỉ rả bản cải lương "Tình anh bán chiếu". Sát vách tiệm chú là mặt bằng tiệm uốn tóc cũ đã sang chủ từ ba năm trước.',{bg:''}]);
+X('hem_dem_16','Hẻm 47 · 22:00',[{bg:'x2-hem-mua'},'Khuya ở hẻm 47. Bin đi giao cuốc hàng cuối về ngang phòng số 3, ngước nhìn cái cửa sổ tối om. Đầu hẻm, xe bánh mì chị Hạnh đã dọn, chỉ còn ngọn đèn vàng hắt xuống mặt đường ướt mưa.',{bg:''}]);
+const NHIP=[{k:'hem_dem_09',c:()=>S.day>=9},{k:'hem_dem_11',c:()=>S.day>=11&&hasF('x_may')},{k:'hem_dem_13',c:()=>S.day>=13&&hasF('khai_xbay')},{k:'hem_dem_16',c:()=>S.day===16}];
+async function p2NhipHem(){ if(!P2.on||P2.map!=='trai') return; const n=NHIP.find(x=>!hasF('nh_'+x.k)&&x.c()); if(!n) return; setCo('nh_'+n.k); await runS(n.k); hideDlg(); }

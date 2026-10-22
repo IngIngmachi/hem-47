@@ -102,7 +102,7 @@ function mdChap(T){ const p1st=T.p1?'Đang dở'+(T.p1.ngay?' · <b>Ngày '+T.p1
 function mdEnds(T){ if(!MD.pick||!T.got.includes(MD.pick)) MD.pick=T.last&&T.got.includes(T.last)?T.last:T.got[0]||'hetgio';
   const rec=T.rec||{};
   const list=Object.keys(MDK).map(k=>{ const [ten,br]=MDK[k]; if(!T.got.includes(k)) return '<div class="mdend locked" aria-disabled="true"><span class="n">???</span><span class="m">Chưa mở · chơi Phần 1 để tìm</span></div>';
-    const m=k===T.last&&rec.chungcu!=null?rec.chungcu+' chứng cứ · '+money(rec.tien||0)+'đ':'đã mở';
+    const sn=mdSnap(k)||(k===T.last?rec:null); const m=sn&&sn.chungcu!=null?sn.chungcu+' chứng cứ · '+money(sn.tien||0)+'đ':'đã mở · chưa lưu bằng chứng';
     return '<button type="button" class="mdend'+(MD.pick===k?' sel':'')+'" data-pick="'+k+'" aria-pressed="'+(MD.pick===k)+'"><span class="n">'+esc(ten)+(k===T.last?'<span class="mdlast">gần nhất</span>':'')+'</span><span class="m">'+esc(m)+'</span><span class="mdbr '+br+'">'+MDBR[br]+'</span></button>'; }).join('');
   const brNote=MDK[MD.pick][1]==='A'?'Ngân trở về hẻm. Bạn chơi xen kẽ Ngân và Lâm.':'Ngân vẫn mất tích. Lâm một mình đi tìm.';
   const warn=T.p2?'<div class="mdwarn">Phần 2 đang dở ở <b>ngày '+T.p2.ngay+'</b>'+(T.p2.ket?' (kết '+esc(mdTen(T.p2.ket))+')':'')+'. Bắt đầu lại sẽ xóa tiến trình này.</div>':'';
@@ -125,7 +125,8 @@ function mdRender(){ const c=$('cover'); if(!c||P2.on||started) return; const in
   box.innerHTML=h; c.classList.toggle('md-p2',T.xong&&(v==='cover'||v==='ends'||v==='tomtat'||v==='gate'));
   box.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>mdGo(b.dataset.go,T));
   box.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ MD.pick=b.dataset.pick; mdRender(); }); }
-function mdP2Rec(k){ const rec=p2p1()||{}; let p=Object.assign({},rec,{ket:k}); if(!rec.ket||rec.ket!==k){ p.co=Object.assign({},rec.co||{}); }
+function mdSnap(k){ try{ return JSON.parse(lsGet('tgl_chuong1_'+k)||'null'); }catch(e){ return null; } }
+function mdP2Rec(k){ const rec=mdSnap(k)||p2p1()||{}; let p=Object.assign({},rec,{ket:k}); p.co=Object.assign({},rec.co||{});
   const ck=id=>$(id)&&$(id).checked; if(ck('p2kl')||ck('p2tu')||ck('p2cg')||ck('p2ph')) p.co=Object.assign({},p.co||{},{khoa_lat:ck('p2kl'),tu_lo:ck('p2tu'),noi_cuocgoi:ck('p2cg'),phat_nhanchung:ck('p2ph')}); return p; }
 async function mdGo(g,T){ const tw=['cover','chap','ends','gate','tomtat']; if(tw.includes(g)){ if(g==='gate') MD.from=MD.view==='cover'?'cover':'chap'; MD.view=g; mdRender(); return; }
   if(g==='p1new'){ if(T.p1&&!confirm('Chơi lại Phần 1 từ ngày 1? Bài đang dở sẽ bị xóa.')) return; $('bNew').click(); return; }

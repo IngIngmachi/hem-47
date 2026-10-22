@@ -87,7 +87,7 @@ X('x_a_giaitin','A · giải tin của số lạ',[
  {if:'co:x_siha',L:[['~','S - I - H - A. Cảng Xi-ha. Tụi nó dời nguyên tổ của mình về dưới đó rồi.'],['~','Đứa nhắn tin là con Nhi. Vậy là nó còn sống, còn cầm máy gõ được.'],
    ['~','Mình tự mò qua đó một mình không nổi. Mà báo công an phường cũng không xong, hồ sơ của mình trên phường còn chưa xóa.'],
    ['~','Lâm. Thằng chả giỏi đào bới thông tin lắm mà.'],{fx:'+co:x_a_tin1 +cc:x_siha'}]},
- {if:'!co:x_siha',L:[['~','Chữ đầu cứ nhảy lung tung, đọc chưa ra. Để lát bình tĩnh đọc lại.']]}]);
+ {if:'!co:x_siha',L:[['~','Đầu óc rối bời quá, ghép chữ hoài chưa ra nghĩa. Để lát bình tĩnh ngồi đọc lại coi.']]}]);
 X('x_a_sodo','A · vẽ lại sơ đồ trại',[
  'Ngân xé đại một tờ giấy trong cuốn tập cũ của Thủy, trải lên mặt quầy.',
  ['~','Tầng trệt là phòng máy, nhà bếp nằm sát cửa sau. Lầu 2 là phòng ngủ, buồng tắm tuốt cuối hành lang. Còn lầu 3... hồi ở trển mình chưa được lên lần nào.'],
@@ -96,7 +96,7 @@ X('x_a_sodo','A · vẽ lại sơ đồ trại',[
   {if:'p1:phat_nhanchung',L:['Sáng ra thấy có cái phong bì nhét dưới khe cửa cuốn. Nét chữ thằng Phát: vẽ sẵn sơ đồ 3 tầng, có luôn cả lầu 3.',['~','Thằng nhỏ nhớ đường đi nước bước còn kỹ hơn mình.'],{fx:'+co:x_sodo3'}]},
   {if:'!p1:phat_nhanchung',L:[['~','Còn lầu 3 bỏ trống. Lên trển rồi tự mò sau vậy.']]},
   {fx:'+co:x_sodo +cc:x_sodo'}]},
- {if:'!co:x_sodo_ok',L:[['~','Vẽ chưa ra hình. Để lát nhớ lại rồi vẽ tiếp.']]}]);
+ {if:'!co:x_sodo_ok',L:[['~','Nhớ lộn xộn hết trơn, vẽ chưa khớp các phòng. Để lát ráng nhớ kỹ lại rồi vẽ tiếp.']]}]);
 X('x_a_moi','A · Ngân tới phòng 3',[
  {bg:'trong-phong3'},
  'Ngân đứng trước phòng 3, gõ cửa cộc cộc.',
@@ -121,7 +121,7 @@ X('x_a_vi','A · lần ví Anh Hai',[
  'Lâm mở lại lịch sử cái group "Hội nạn nhân Ngân Order" cũ, dò ngược lại đường đi của mấy khoản tiền cọc.',
  {if:'co:x_vi_phuong',L:['Có sẵn cái địa chỉ ví của Phương đưa nên bỏ qua được một tầng trung gian.']},
  {game:'dongtien1'},
- {if:'cc:x_vi',L:[['~','Cứ đúng tối Chủ nhật hằng tuần là có một cục tiền lớn bắn về ví tổng, đều đặn như vắt chanh.']]}]);
+ {if:'cc:x_vi',L:[['~','Cứ tối Chủ nhật là tiền lừa đảo gom về 2 ví tổng ở Quận 7. Mà khoan... một trong hai ví này chính là tài khoản giải ngân của cái app vay nặng lãi đã cho anh Lộc vay 5 triệu đẻ thành 40 triệu!']]}]);
 X('x_a_thoa','A · về tạp hóa gặp mẹ',[
  {if:'p1:noi_cuocgoi',L:[['Cô Thoa','Con cầm theo cái máy cũ này đi. Ngày nào mẹ cũng cắm sạc sẵn hết á.'],['Cô Thoa','Thằng Lâm nó qua thú thiệt với mẹ hết rồi. Mẹ hận nó, mà vụ này mẹ tin nó làm thiệt.'],['~','Suốt 19 tháng trời, ngày nào mẹ cũng lụi cụi cắm sạc cái đt này.'],{fx:'+co:x_maycu +tin_thoa'}]},
  {if:'!p1:noi_cuocgoi',L:[['Cô Thoa','Mà con làm gì ở ngoài thì làm, đừng có dắt xác thằng đó bước vô nhà mẹ.'],['Ngân','Mẹ à, giờ có mỗi ổng chịu nhảy vô phụ con thôi.'],['Cô Thoa','...'],['~','Mẹ vẫn chưa tha thứ cho Lâm. Chính mình cũng vậy.']]},
@@ -161,7 +161,7 @@ X('x_a_tin2','A · tin thứ hai',[
  {game:'giaitin2'},
  {if:'co:x_a_tin2_ok',L:[['~','Còn Nhi, chị Huệ, thằng Tí, anh Toàn. Còn con bé Oanh thì... bị bán qua "bãi K-Kay bên Miến" rồi.'],
   'Ngân gõ 4 cái tên lưu vô ghi chú đt, đặt tên mục là "Tổ".']},
- {if:'!co:x_a_tin2_ok',L:[['~','Đọc không ra hết. Chỉ chắc được một điều: chữ đầu là N. Nhi còn sống.']]}]);
+ {if:'!co:x_a_tin2_ok',L:[['~','Chưa ghép ra hết nguyên câu, mới nhìn ra được chữ N đầu tiên. Ít nhất là con Nhi vẫn còn sống.']]}]);
 X('x_a_gom','Gom tiền trong hẻm',[
  'Lâm ghé từng nhà trong hẻm. Không mở miệng xin, chỉ kể thiệt mọi chuyện.',
  {if:'tin_ba_sau>=3',L:[['Bà Sáu','Cầm lấy chút đỉnh đi con. Tiền bà cất kỹ tính để dành mua cái hòm, mà thôi giờ cứu người trước đi.'],{fx:'+tien:1000000'}]},
@@ -221,7 +221,7 @@ X('x_b_sodo','B · dò sơ đồ trại',[
   {fx:'+co:x_sodo_info'}]},
  {game:'sodo'},
  {if:'co:x_sodo_ok',L:[{fx:'+co:x_sodo +cc:x_sodo'}]},
- {if:'!co:x_sodo_ok',L:[['~','Xếp chưa khớp. Để lát coi lại mấy lời người ta kể.']]}]);
+ {if:'!co:x_sodo_ok',L:[['~','Mấy cái phòng xếp chưa khớp nhau rồi. Để coi kỹ lại lời người ta chỉ rồi vẽ lại.']]}]);
 X('x_b_duong','B · tìm đường lên xe',[
  {if:'p1:khoa_lat',L:[['Khoa','Em tính leo lên chuyến xe đợt tới thiệt hả? Anh vẫn còn giữ mối thằng tài xế.'],['Khoa','Thằng Khang em anh đang bị nhốt ở khu đó. Vô trển gặp được nó, nói giùm anh một câu xin lỗi.'],['Khoa','Hồ sơ giả của em đây, học thuộc cái tên mới này đi.'],{fx:'+co:x_duong_khoa +co:x_duong'}]},
  {if:'!p1:khoa_lat',L:[
@@ -269,10 +269,10 @@ X('x_ghep','Tờ rơi ở cột điện',[
  {if:'cc:x_phatdat',L:[['~','"Công ty TNHH Dịch vụ Thương mại Phát Đạt TN." Lại là cái công ty ma ở sát cửa khẩu.'],['~','Về mở laptop tra kỹ lại hồ sơ pháp lý của công ty này mới được.']]}]);
 X('x_tra_phatdat','Tra công ty Phát Đạt TN',[
  'Cổng thông tin doanh nghiệp: Người đại diện pháp luật là bà Trần Thị Mỹ, sinh năm 1966.',
- 'Ngoài Phát Đạt TN, bà Trần Thị Mỹ còn đứng tên luôn công ty Mỹ Hưng Logistics — đăng ký ngành nghề "cung ứng và vận chuyển lao động".',
+ 'Ngoài Phát Đạt TN, bà Trần Thị Mỹ còn đứng tên công ty Mỹ Hưng Logistics và một nhánh tài chính cho vay qua app — chính là bên thuê anh Hào đi đòi nợ ở hẻm 47.',
  {if:'nhanh:A',L:[['~','Trần Thị Mỹ... Nhớ ra rồi, trên trang cá nhân ông Tú từng đăng hình mừng thọ má ổng 60 tuổi: "Cả đời mẹ lo cho con."']]},
  {if:'nhanh:B',L:[['~','Trần Thị Mỹ chính là má ruột ông Tú. Thảo nào trên trang cá nhân ổng từng đăng bài mừng thọ 60 tuổi.']]},
- ['~','Nhưng mới có tên trên giấy phép kinh doanh thôi thì chưa đủ buộc tội bả cầm đầu trại bên Cam. Phải kiếm bằng chứng trực tiếp trong trại.'],
+ ['~','Nhưng mới có tên trên giấy phép kinh doanh thôi thì chưa đủ buộc tội bả cầm đầu khu trại bên kia biên giới. Phải kiếm bằng chứng trực tiếp trong trại.'],
  {fx:'+cc:x_bamy'}]);
 X('x_tra_ghe','Trả tiền ghe',[
  {if:'tien>=1500000',L:[['Tài xế Thoại','Rồi, tiền bạc sòng phẳng. Đêm nào rút ra tới bờ sông thì nhắn tui một chữ.'],{fx:'-tien:1500000 +co:x_ghe +tin_thoai'}]},
@@ -308,24 +308,24 @@ const CC2=[
  ['x_siha','Manh mối','Cảng Xi-ha','Tổ cũ của Ngân đã bị dời về một khu casino bỏ hoang sát bờ sông ở Cảng Xi-ha.'],
  ['x_ocl','Manh mối','"Ông Chủ Lò"','Kẻ cầm đầu cả 3 khu trại. Chưa ai thấy mặt, chỉ toàn chỉ đạo qua tin nhắn thoại bóp giọng.'],
  ['x_sodo','Manh mối','Sơ đồ trại','Tầng trệt: phòng máy, bếp, cửa hậu ra sông. Lầu 2: phòng ngủ, buồng tắm. Lầu 3: văn phòng quản lý.'],
- ['x_vi','Chứng cứ','Dòng tiền tối Chủ nhật','Tiền lừa cọc chạy lòng vòng qua 4 tài khoản rồi gom về 2 ví tổng. Cứ tối Chủ nhật là có lệnh rút tiền lớn.'],
+ ['x_vi','Chứng cứ','Dòng tiền tối Chủ nhật','Tiền lừa cọc gom về 2 ví tổng ở Quận 7 mỗi tối Chủ nhật — dùng chung nguồn tiền với cái app vay nặng lãi đã bẫy anh Lộc ở Hẻm 47.'],
  ['x_giong','Chứng cứ','Tin thoại có tiếng loa phường','File ghi âm của Ông Chủ Lò. Lọc tạp âm nền nghe rõ tiếng loa phường đọc thông báo bằng tiếng Việt.'],
  ['x_phatdat','Manh mối','Con dấu Phát Đạt TN','Mặt sau tờ rơi tuyển dụng ở cột điện có in dấu mộc của Công ty TNHH DV Thương mại Phát Đạt TN.'],
  ['x_bamy','Manh mối','Bà Trần Thị Mỹ','Giám đốc đứng tên cả Phát Đạt TN lẫn Mỹ Hưng Logistics. Là má ruột của Đặng Minh Tú.'],
  ['x_tu','Chứng cứ','Anh Tú gọi "má"','Lời khai của Tú lúc bị triệu tập trên phường: tiền bạc là "má" nắm hết, ổng chỉ đứng tên làm mặt tiền.'],
  ['x_so','Chứng cứ','Sổ chỉ tiêu','Cuốn sổ bìa đen trên lầu 3. Cột "nộp lên" do Chị Bảy ký tắt "B." kèm dấu mộc đỏ của Phát Đạt TN.'],
  ['x_giongthat','Chứng cứ','Giọng thật của Ông Chủ Lò','Khúc cuối ghi âm phần mềm đổi giọng bị tắt 2 giây: lộ giọng thật là một bà già, xưng "má", kêu Tú là "thằng Tú".'],
- ['x_khaibay','Lời khai','Lời khai Chị Bảy','"Bà già đó mỗi lần gọi đều kêu chị là con Bảy. Bả hổng bao giờ bật camera lộ mặt."'],
+ ['x_khaibay','Lời khai','Lời khai Chị Bảy','"Bà già đó kêu chị là con Bảy, hổng bao giờ bật cam. Ba năm trước chị cũng vì bể nợ tiệm tóc đầu đường Fan Xích Vô mà bị lừa qua đây."'],
  ['x_no','Manh mối','Giấy nhận nợ 3.200 USD','Giấy nhận nợ khống 3.200 USD (tiền vé xe, ăn ở, đào tạo). Ai bị lừa vô cổng cũng bị ép ký hết.'],
  ['x_lich','Manh mối','Lịch tuần tra','Bảng giờ đi tuần và giao ca của lính gác từng tầng. Có một khoảng trống không người canh.'],
- ['suy_x_saigon','Suy luận','Ông Chủ Lò ở Sài Gòn','Tiền đổ về ví mở ở Quận 7, ghi âm lại dính tiếng loa phường: kẻ cầm đầu cái lò đang ngồi ngay tại Sài Gòn.'],
- ['suy_x_my','Suy luận','Ông Chủ Lò là bà Trần Thị Mỹ','Tiền đi qua Phát Đạt TN, sổ chỉ tiêu đóng dấu công ty bả, Tú khai tiền "má" giữ, ghi âm lộ giọng đàn bà lớn tuổi: Ông Chủ Lò chính là bà Trần Thị Mỹ.'],
+ ['suy_x_saigon','Suy luận','Ông Chủ Lò ở Sài Gòn','Ví tổng ở Quận 7 nối thẳng với app tín dụng đen ở Hẻm 47, ghi âm lại có tiếng loa phường: kẻ cầm đầu đang ngồi ngay tại Sài Gòn chăn dắt cả hai đầu.'],
+ ['suy_x_my','Suy luận','Ông Chủ Lò là bà Trần Thị Mỹ','Bà Trần Thị Mỹ nắm trọn vòng khép kín: cho vay app đẩy người trong hẻm vào nợ -> mở VP số 12 lùa qua trại -> thu tiền lừa đảo về lại Quận 7.'],
  ['suy_x_khe','Suy luận','Khe hở 3 giờ sáng','Lính tầng trệt và lầu 2 giao ca lúc 3h sáng, bỏ trống cửa hậu ra sông suốt 2 phút.']];
 CC2.forEach(([k,canh,ai,loi])=>M('CC_'+k,'cc',ai,loi,{canh}));
 M('NOI_x_saigon','noi','x_vi + x_giong','Ông Chủ Lò ở Sài Gòn',{sau:'+cc:suy_x_saigon'});
 M('NOI_x_saigon2','noi','x_bamy + x_giong','Ông Chủ Lò ở Sài Gòn',{sau:'+cc:suy_x_saigon'});
 M('NOI_x_khe','noi','x_lich + x_sodo','Khe hở 3 giờ sáng',{sau:'+cc:suy_x_khe +co:x_gio'});
-X('noi_x_saigon','Nối',[['~','Ví tổng mở tại quận 7, ghi âm lại dính tiếng loa phường tiếng Việt. Vậy Ông Chủ Lò đâu có ngồi bên Cam, hắn đang ở ngay Sài Gòn đếm tiền mỗi cuối tuần.']]);
+X('noi_x_saigon','Nối',[['~','Ví tổng mở tại Quận 7 dùng chung dòng tiền với app vay nặng lãi trong hẻm 47, ghi âm lại dính tiếng loa phường. Bà chủ lò tạo ra nguyên một cái bẫy khép kín ngay từ đầu hẻm: cho vay cắt cổ đẩy bà con vô đường cùng, rồi mở VP số 12 hốt qua bên này!']]);
 X('noi_x_saigon2','Nối',[['~','Công ty đăng ký ở Sài Gòn, ghi âm có tiếng loa phường. Kẻ cầm đầu cái lò này đang ngồi ngay tại Việt Nam.']]);
 X('noi_x_khe','Nối',[['~','Đúng 3h sáng, lính tầng trệt bỏ vị trí đi lên lầu 2 bàn giao ca. Cửa hậu sẽ bỏ trống không ai canh suốt 2 phút.'],['~','Thời điểm mở cửa trốn ra sông phải chốt đúng 3h sáng. Mật mã giờ G cần gửi về: 3G.']]);
 
@@ -366,7 +366,7 @@ M('WEB_x_phatdat','web','Phát Đạt TN | Phat Dat TN | Công ty Phát Đạt |
  M('WP_x_phatdat_01','trang','Người đại diện','Người đại diện pháp luật: Trần Thị Mỹ (1966). Đứng tên luôn cả công ty Mỹ Hưng Logistics (chuyên "vận chuyển lao động").');
  M('WP_x_phatdat_02','trang','Bài mừng thọ · trang anh Tú','"60 năm. Cả đời mẹ lo cho con." Ảnh bánh kem ba tầng.');
 M('WEB_x_canhbao','web','việc nhẹ lương cao | lừa qua Cam | tuyển dụng Campuchia | chuyển đối tác','Cổng thông tin Cảnh sát · Cảnh báo "việc nhẹ lương cao"');
- M('WP_x_canhbao_01','trang','Cảnh báo','Hàng loạt nạn nhân bị dụ qua biên giới bằng mồi nhử "việc nhẹ lương cao", bị tịch thu giấy tờ, ép lừa đảo qua mạng và bán trao tay sang tận các đặc khu vùng Tam Giác.');
+ M('WP_x_canhbao_01','trang','Cảnh báo','Hàng loạt nạn nhân bị dụ qua biên giới bằng mồi nhử "việc nhẹ lương cao", qua tới nơi bị tịch thu giấy tờ, nhốt ép lừa đảo qua mạng và bán trao tay sang tận các đặc khu bên Miến Điện.');
  M('WP_x_canhbao_02','trang','Dấu hiệu','Chiêu trò quen thuộc: hứa lương 25-30 triệu không cần bằng cấp, bao trọn gói giấy tờ, hối đi gấp trong tuần, dẫn đi đường tiểu ngạch.');
  M('WP_x_canhbao_03','trang','Khi nghi ngờ','Báo ngay công an nơi gần nhất. Gọi đường dây nóng của Bộ Công an.');
 
@@ -386,7 +386,7 @@ const MUC2=[
  ['c4','Đêm cuối trước khi lên xe: chọn 1 món đồ giấu mang theo.','hoi<2 ngay>=7 !co:x_mon_xong'],
  ['t1','Dò kiếm những người trong tổ cũ. Tranh thủ giờ cơm trưa (12–13h) và giờ nghỉ tối (19–22h) để đi lại bắt chuyện.','hoi>=2 !co:x_to_biet !co:x_thuy_biet'],
  ['t2','Lén đi đêm mò kiếm cái đt giấu trong buồng tắm để có đồ liên lạc ra ngoài.','hoi>=2 !co:x_may co:x_to_biet|co:x_thuy_chi'],
- ['t3','Soạn tin rác giấu chữ đầu câu gửi ra ngoài: báo vị trí (SONG), rồi báo giờ G (3G).','hoi>=2 co:x_may !co:x_tin_3g'],
+ ['t3','Soạn tin rác giấu chữ đầu câu gửi ra ngoài: báo vị trí (SONG), rồi báo giờ G (BAG · ba giờ).','hoi>=2 co:x_may !co:x_tin_3g'],
  ['t4','Đi đêm canh giờ tuần tra của bảo vệ, đem nối với sơ đồ trại để tìm khe hở thoát thân.','hoi>=2 !co:x_gio'],
  ['t5','Chuẩn bị sẵn lối mở ra bờ sông: kiếm chìa khóa mở cửa hậu, hoặc lấy kìm cắt hàng rào kẽm gai sau bếp.','hoi>=2 !co:x_cua !co:x_rao'],
  ['t6','Lật mặt Ông Chủ Lò thực sự: gom đủ {ocl}/5 chứng cứ.','hoi>=2 !cc:suy_x_my']];

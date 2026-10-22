@@ -20,7 +20,7 @@ X('x_canh2','Cảnh 2 · cổng sắt',[
  'Cánh cổng sắt kéo rầm lại sau lưng. Bốn bề là tường bê tông cao vút giăng kẽm gai. Phía bên kia bức tường vọng lại tiếng nước sông chảy.',
  'Bị dẫn vô căn phòng nhỏ có kê cái bàn nhựa. Trên bàn để sẵn tờ giấy in chữ: "Giấy nhận nợ: chi phí vé xe, ăn ở, đào tạo. Tổng cộng: 3.200 USD."',
  ['Chị Bảy','Ký tên vô đi em. Vô đây đứa nào cũng phải ký hết. Chịu khó làm đủ doanh số thì trừ nợ dần, chừng nửa năm là được về.'],
- ['~','Giọng phụ nữ miền Nam. Trời nóng hầm hập mà bả mặc áo tay dài cài nút che kín hai cổ tay.'],
+ ['~','Giọng miền Nam đặc sệt. Ngón tay bả đeo cái nhẫn bạc kiểu cũ nhìn quen mắt kỳ lạ, tay áo dài cài kín cổ tay dù trời nóng hầm hập.'],
  {chon:[
   {t:'Cầm bút ký',sub:'qua được hôm nay',L:[['Chị Bảy','Biết điều vậy là ngoan. Đi lên lầu 2, vô phòng ngủ của tổ 3 đi.']]},
   {t:'Bỏ bút không ký',sub:'đêm đầu ở phòng tối',s:'+nghi:15 +tin_nhi +tin_thuy +tin_toan',L:[['Chị Bảy','...Rồi, muốn cứng đầu thì chiều.'],{bg:'x2-phong-toi'},'Ngay đêm đầu tiên đã bị tống vô phòng biệt giam tối thui. Không đèn đóm, không cửa sổ, quăng cho đúng một chai nước suối.','Sáng hôm sau được thả về phòng ngủ, mấy người trong tổ cứ lén nhìn {me} bằng ánh mắt khác hẳn.']}],q:'Tờ giấy nợ'},
@@ -37,7 +37,7 @@ X('x_ca_mo','Ca sáng',[
  {if:'ngay<9|!co:x_ca1',L:[
   {bg:'x2-phong-may'},{card:'NGÀY 9 · 7:00\nPHÒNG MÁY'},
   'Phòng máy kê 3 dãy bàn dài, mỗi dãy 10 bộ máy tính. Dây mạng chằng chịt dưới sàn. Trên tường treo cái chuông đồng kế bên tấm bảng trắng ghi chỉ tiêu.',
-  ['Chị Bảy','Mỗi đứa phải lừa chốt cọc được 3 khách một ngày. Kịch bản mẫu có sẵn trong máy. Đứa nào khách nổ tiền thì chị rung chuông.'],
+  ['Chị Bảy','Mỗi đứa phải chốt cọc được 3 khách một ngày. Danh sách số đt khách nằm sẵn trên máy — có cả những đầu số lấy từ danh bạ khu Fan Xích Vô, Gò Vướng. Đứa nào khách nổ tiền thì chị rung chuông.'],
   '10h sáng. Tiếng chuông đồng leng keng. Chị Bảy đứng đầu phòng vỗ tay, nguyên phòng máy răm rắp vỗ tay theo.',
   {chon:[{t:'Giơ tay vỗ theo mọi người',L:['Tiếng vỗ tay đều rắp mà mặt ai cũng đờ đẫn.']},
    {t:'Ngồi im nhìn màn hình',s:'+nghi:10 +tin_ngan +co:x_ngoi_im',L:['Chị Bảy đứng trên bục liếc thẳng xuống chỗ {me}.','Tuốt cái bàn góc cuối dãy, có một bóng người cũng đang ngồi im không vỗ tay.']}],q:'Cả phòng đang vỗ tay.',timer:6,mac:0},
@@ -116,7 +116,7 @@ const VX={xnhi:[['Nhi','Ở quê chắc ngoại em vẫn khoe khắp xóm là ch
  xtoan:[['Toàn','Hồi ở nhà tui thiếu nợ app có 30 triệu, bị lừa qua đây tụi nó bắt ký giấy nợ 100 triệu.'],['Toàn','Tui sợ bị lôi vô phòng tối đập lắm rồi. Có tính làm gì thì làm ơn đừng lôi tui vô.']],
  xhue:[['Chị Huệ','Thằng con trai chị ở nhà vay app bị tụi nó gọi khủng bố cơ quan. Chị mới nhắm mắt đi làm xa tính kiếm tiền trả nợ cho nó khỏi mất việc.'],['Chị Huệ','Chị già cả rồi chạy lẹ hổng nổi, mà chị ráng lết theo tụi em được, đừng bỏ chị nghen.']],
  xhue2:[['Chị Huệ','Mấy đêm nay khuya nào thằng Toàn cũng bị kêu lên văn phòng lầu 3. Lúc mò về phòng mặt mũi nó cắt không còn giọt máu.'],{fx:'+co:x_vu3_hue'}],
- xti:[['Tí','Nhắm từ bờ tường này phóng ra sông có xa hông ta? Đêm nào nằm ngủ em cũng nghe tiếng sóng vỗ sát rạt.'],['Tí','Emtia kỹ cái ống nước sau nhà bếp rồi. Đợi khuya nay em đu ống nước leo qua rào...'],['~','Chết dở, thằng nhóc này đang tính liều mạng vượt ngục một mình.'],{chon:[{t:'"Đừng có làm bậy! Ráng nhịn đợi thêm mấy bữa nữa rồi trốn chung nguyên đám."',s:'+tin_ti +co:x_ti_doi',L:[['Tí','...Kêu đợi là đợi tới chừng nào nữa?'],['Lâm','Đang xếp đường rút rồi, tới ngày tôi báo cho em liền.']]},{t:'Im lặng không cản'}],q:'Tí'}],
+ xti:[['Tí','Nhắm từ bờ tường này phóng ra sông có xa hông ta? Đêm nào nằm ngủ em cũng nghe tiếng sóng vỗ sát rạt.'],['Tí','Emtia kỹ cái ống nước sau nhà bếp rồi. Đợi khuya nay em đu ống nước leo qua rào...'],['~','Chết dở, thằng nhóc này đang tính liều mạng vượt ngục một mình.'],{chon:[{t:'"Đừng có làm bậy! Ráng nhịn đợi thêm mấy bữa nữa rồi trốn chung nguyên đám."',s:'+tin_ti +co:x_ti_doi',L:[['Tí','...Kêu đợi là đợi tới chừng nào nữa?'],['{me}','Đang xếp đường rút rồi, tới ngày tôi báo cho em liền.']]},{t:'Im lặng không cản'}],q:'Tí'}],
  xthuy:[['Thủy','Cái phòng số 3 nhà bà Sáu giờ ai dọn vô ở rồi anh? Nhiều đêm nằm đây em cứ mơ thấy cái cửa sổ nhìn thẳng xuống tiệm cô Thoa.']],
  xkhang:[['Khang','Ông Khoa anh tui... ở ngoài giờ sao rồi?'],['Khang','Tui hết trách ổng rồi. Chỉ là giờ có gặp lại cũng chẳng biết mở miệng nói câu gì.']],
  xloc:[['Anh Lộc','Trời đất ơi mò vô tận cái ổ quỷ này thiệt hả? Còn liều mạng hơn cả tui nữa!'],['Anh Lộc','Tui bị phân vô phụ bếp. Trên nóc tủ chén tụi bảo vệ có bỏ quên cây kìm cộng lực cắt kẽm, chừng nào cần lấy thì hú tui.'],{fx:'+co:x_biet_kim'}],
@@ -136,18 +136,18 @@ M('CAU_xbay_02','cau','KHAI_xbay','Trại này có nhốt ai đâu. Đứa nào 
 M('CAU_xbay_03','cau','KHAI_xbay','Chị chưa gặp mặt chủ lò lần nào hết. Nghe giọng trong tin nhắn là đàn ông mà.',{sau:'dung:x_giongthat ok:kh_xbay_3 key'});
 M('CAU_xbay_04','cau','KHAI_xbay','Chị được cất nhắc lên quản lý lầu 3 là nhờ chị làm việc được việc thôi.',{sau:'hoi:kh_xbay_h4'});
 X('kh_xbay_1','Lời khai',['Chị Bảy nhìn chằm chằm vô cột "nộp lên" có chữ ký "B." của chính bả kèm con dấu đỏ.',['Chị Bảy','...Mày lục ở đâu ra cuốn sổ này?'],['Chị Bảy','Ở vị trí của chị không ký tên vô đó thì tụi nó cũng kiếm đứa khác ký thôi.']]);
-X('kh_xbay_2','Lời khai',[['Chị Bảy','Ờ, cái giấy nợ 3.200 đô đó cày tới mục xương cũng không bao giờ trừ hết được. Chị lạ gì, 3 năm trước chị cũng đặt bút ký tờ giấy y hệt vậy mà.']]);
+X('kh_xbay_2','Lời khai',[['Chị Bảy','Ờ, cái giấy nợ 3.200 đô đó cày tới mục xương cũng không trừ hết đâu. Ba năm trước chị cũng kẹt nợ tiền thuê tiệm uốn tóc ngoài đầu đường Fan Xích Vô, nghe lời ngon ngọt ký vô tờ giấy y hệt vậy đó.']]);
 X('kh_xbay_h2','Lời khai',[['Chị Bảy','Cũng có mấy đứa ráng cày trả dứt nợ đó. Xong tụi nó làm thủ tục "chuyển giao đối tác" — tức là tống lên xe bán thẳng qua đặc khu bên Miến Điện. Qua tới trển là khỏi có đường về.']]);
 X('kh_xbay_3','Lời khai',['Đoạn ghi âm lọt giọng thật của bà già vang lên rõ mồn một giữa văn phòng. Chị Bảy quýnh quáng chồm tới bấm tắt, tay run bần bật.',['Chị Bảy','Bà già đó mỗi lần gọi qua đều kêu chị là "con Bảy". Xưa giờ bả chỉ gọi tiếng chứ chưa bao giờ bật camera lộ mặt.'],['~','Vậy "Ông Chủ Lò" thực chất là một bà già!']]);
-X('kh_xbay_h4','Lời khai',['Chị Bảy vô thức kéo nhẹ tay áo dài lên, lộ vết sẹo dài nơi cổ tay, rồi lật đật kéo sụp xuống.',['Chị Bảy','Ba năm trước chị cũng bị lừa qua đây ngồi gõ phím như tụi bây. Làm giỏi thì nó cất nhắc lên làm quản lý, mà bước lên tới lầu 3 này rồi là dơ tay nhúng chàm, hết đường quay đầu.']]);
-X('khai_xbay_xong','Lời khai',[['Chị Bảy','Thôi đi xuống lẹ đi. Coi như nãy giờ chị bị điếc, mà em cũng chưa từng bước vô phòng này.'],['~','Bả chịu nhắm mắt làm ngơ rồi. Không ra mặt giúp, nhưng sẽ không ngáng đường mình nữa.']]);
+X('kh_xbay_h4','Lời khai',['Chị Bảy vô thức kéo nhẹ tay áo lên lộ vết sẹo dài nơi cổ tay. Trong ngăn bàn của bả có tấm ảnh cũ đã ố vàng chụp trước cổng hẻm 47.',['Chị Bảy','Hồi ở nhà chị mở tiệm uốn tóc nhỏ xíu sát bên tiệm hớt tóc ông Tám. Bể nợ hụi nên mới nhắm mắt đi theo cò. Lên tới quản lý lầu 3 này rồi là dơ tay nhúng chàm, có về lại đầu đường Fan Xích Vô cũng không dám nhìn mặt ai.']]);
+X('khai_xbay_xong','Lời khai',[['Chị Bảy','Thôi đi xuống lẹ đi. Chị không cứu được tụi bây đâu... Mà nếu có về lại được cái hẻm đó, coi giùm chị tiệm ông Tám còn mở cải lương không nghen.'],['~','Bả chịu nhắm mắt làm ngơ rồi. Không ra mặt giúp, nhưng sẽ không ngáng đường mình nữa.']]);
 X('khai_xbay_duoi','Lời khai',[['Chị Bảy','Thôi dẹp đi, đi xuống liền cho chị! Ngày mai chị còn thấy em hỏi linh tinh nữa là vô phòng tối nằm nghen.'],{fx:'+nghi:10'}]);
-X('x_xinchia','Chìa cửa sau',[['Chị Bảy','Chị không có đưa chìa khóa gì cho em hết nghen. Đêm nay chị chỉ vô tình bỏ quên chùm chìa khóa trên bàn lầu 3 thôi đó.'],'Sáng thức dậy, {me} mò dưới gối thấy có chiếc chìa khóa lạnh ngắt nhét sẵn từ lúc nào.',{fx:'+co:x_chia'}]);
+X('x_xinchia','Chìa cửa sau',[['Chị Bảy','Chị không có đưa chìa khóa gì cho đứa nào hết. Đêm nay chị chỉ vô tình bỏ quên chùm chìa khóa cửa hậu trên bàn lầu 3 thôi. Ráng mà về lại hẻm 47 nghen.'],'Sáng thức dậy, {me} mò dưới gối thấy có chiếc chìa khóa lạnh ngắt nhét sẵn từ lúc nào.',{fx:'+co:x_chia'}]);
 
 /* ---------- Khang ---------- */
 X('x_khang','Khang',[
  {if:'p1:khoa_lat',L:['Một thằng nhỏ ốm nhom đứng gác ngay chân cầu thang lên lầu 3. Trên ngực áo vẫn còn vết chỉ tháo bảng tên.',['Khang','Ông Khoa nhắn tin mật báo cho tui biết trước rồi. Hai tháng nay tụi quản lý cho tui lên gác cầu thang lầu 3, tụi nó bớt canh tui rồi.'],['Khang','Chìa khóa cửa hậu với chìa khóa văn phòng lầu 3 tui lén đi đánh thêm một bộ nè. Cầm lấy mà xài.'],{fx:'+co:x_chia +tin_khang +tin_khang'}]},
- {if:'!p1:khoa_lat',L:['Dãy phòng phạt tuốt bên trong. Nhìn qua khe cửa sắt, {me} thấy một thằng nhỏ đang ngồi bó gối trong góc tối.',['Khang','Ai ngoài đó?'],['Lâm','Anh Khoa ở ngoài nhờ vô kiếm cậu.'],['Khang','...Ổng ở ngoài còn nhớ tới thằng em này hả?'],['Lâm','Ráng đợi tới đêm rút quân sẽ quay lại mở cửa đón cậu ra.'],{fx:'+tin_khang +tin_khang'}]},
+ {if:'!p1:khoa_lat',L:['Dãy phòng phạt tuốt bên trong. Nhìn qua khe cửa sắt, {me} thấy một thằng nhỏ đang ngồi bó gối trong góc tối.',['Khang','Ai ngoài đó?'],['{me}','Anh Khoa ở ngoài nhờ vô kiếm cậu.'],['Khang','...Ổng ở ngoài còn nhớ tới thằng em này hả?'],['{me}','Ráng đợi tới đêm rút quân sẽ quay lại mở cửa đón cậu ra.'],{fx:'+tin_khang +tin_khang'}]},
  {fx:'+co:x_khang_gap'}]);
 
 /* ---------- vụ 3: ai bán tin ---------- */
@@ -174,14 +174,17 @@ X('x_canh4','Cảnh 4 · sân điểm danh',[
 X('x_canh5','Cảnh 5 · cuộc gọi về nhà',[
  {bg:'x2-tang3'},{card:'NGÀY 14 · 12:30\nCUỘC GỌI VỀ NHÀ'},
  ['Chị Bảy','Mỗi tuần cho gọi video về nhà 1 lần, chị đứng sát bên nghe. Chỉ được phép nói "con khỏe", rồi kêu người nhà gửi tiền qua đóng phạt, nghe rõ chưa?'],
- 'Màn hình kết nối. Khuôn mặt người thân ở quê hiện lên rõ mồn một.',
+ {if:'vao:ngan',L:['Màn hình bật lên. Đầu dây bên kia là góc tiệm tạp hóa quen thuộc của cô Thoa. Cô nhìn thấy mặt {me} ốm rộc thì khựng lại, ráng lấy tay quẹt mắt rồi giả bộ hỏi chuyện ăn uống bình thường để quản lý đứng sau không nghi.']},
+ {if:'!vao:ngan',L:['Màn hình bật lên. Đầu dây bên kia là cái võng trước hiên nhà bà Sáu. Bà nhìn thấy mặt {me} ốm rộc thì khựng lại, ráng lấy tay quẹt mắt rồi giả bộ hỏi chuyện ăn uống bình thường để quản lý đứng sau không nghi.']},
  ['~','Ráng lựa lời sao cho chữ cái đầu tiên của mỗi câu ghép lại thành địa điểm. Mong sao ở nhà nghe xong nhận ra điểm bất thường.'],
  {game:'goive'},
- 'Hết giờ. Chị Bảy bấm tắt phụp một cái rồi thu lại đt.',{bg:''}]);
+ {if:'co:x_goi_ok vao:ngan',L:['Chị Bảy bấm tắt cuộc gọi. Trước khi màn hình tối hẳn, ở đầu dây bên kia cô Thoa vẫn kịp gật đầu nhẹ một cái: ở nhà đã hiểu mật mã chữ đầu câu.']},
+ {if:'co:x_goi_ok !vao:ngan',L:['Chị Bảy bấm tắt cuộc gọi. Trước khi màn hình tối hẳn, ở đầu dây bên kia bà Sáu vẫn kịp gật đầu nhẹ một cái: ở nhà đã hiểu mật mã chữ đầu câu.']},
+ {if:'!co:x_goi_ok',L:['Hết giờ. Chị Bảy bấm tắt phụp một cái rồi thu lại đt.']},{bg:''}]);
 /* ---------- cảnh 6: danh sách ---------- */
 X('x_canh6','Cảnh 6 · danh sách',[
  {bg:'x2-phong-ngu'},{card:'NGÀY 16 · 22:40\nDANH SÁCH'},
- 'Đêm khuya, Chị Bảy đem tờ giấy dán lên cánh cửa phòng ngủ. Có 2 cái tên trong tổ nằm dưới dòng chữ: "Thứ Sáu chuyển giao qua công ty đối tác."',
+ 'Đêm khuya, Chị Bảy đem tờ giấy dán lên cánh cửa phòng ngủ. Có 2 cái tên trong tổ nằm dưới dòng chữ: "Thứ Sáu chuyển giao đối tác · Đặc khu Miến Điện."',
  {game:'danhsach'},
  ['~','Tụi nó bắt đầu xé lẻ người đem bán qua bãi khác rồi. Phải hành động ngay đêm trước thứ Sáu, không chần chừ được nữa.'],{fx:'+lo:10'},{bg:''}]);
 /* ---------- cảnh 7: người trốn hụt ---------- */
@@ -236,7 +239,7 @@ X('x_phongtoi','Phòng tối',[{bg:'x2-phong-toi'},{card:'PHÒNG TỐI'},'Thằn
 /* ---------- lục soát lầu ba (dùng khung lục soát của Phần 1) ---------- */
 X('soat_xvp','Lục văn phòng lầu ba',['Tranh thủ giờ ăn trưa lầu 3 vắng tanh, dùng chìa khóa lẻn vô văn phòng. Chỉ có đúng 3 phút lục soát trước khi lính gác quay lại.']);
 X('soat_xvp_ngan','Lục văn phòng',['Trong hộc bàn có cuốn sổ bìa đen ghi chỉ tiêu từng tổ. Cột cuối cùng ghi "nộp lên", ký tắt chữ "B." và đóng mộc đỏ của Công ty Phát Đạt TN.',{fx:'+cc:x_so'}]);
-X('soat_xvp_tu','Lục văn phòng',['Trong két sắt để xấp giấy sao kê: tiền thu mỗi tuần đều được chuyển khoản vào tối Chủ nhật về một ví điện tử đăng ký tại Quận 7, Sài Gòn.',{fx:'+cc:x_vi'}]);
+X('soat_xvp_tu','Lục văn phòng',['Trong két sắt để xấp sao kê chuyển tiền mỗi tối Chủ nhật về Quận 7, kẹp chung với hợp đồng thuê mặt bằng "Văn phòng số 12 · Hẻm 47 Fan Xích Vô" và danh sách con nợ app.',{fx:'+cc:x_vi'}]);
 X('soat_xvp_cam','Lục văn phòng',['Màn hình chia 4 góc camera. Ngay mép dưới màn hình có dán tờ giấy ghi chi tiết giờ đổi ca của lính gác từng tầng.',{fx:'+cc:x_lich +co:x_tuan3'}]);
 X('soat_xvp_rac','Lục văn phòng',['Trong sọt rác toàn giấy nháp kịch bản lừa đảo, lẫn một tờ lệnh "Chuyển giao đối tác đợt 3 · Đặc khu Miến Điện · Thứ Sáu" còn bỏ trống chỗ điền tên.']);
 X('soat_xvp_dt','Lục văn phòng',['Trên bàn có cái đt bàn. Bấm coi lịch sử cuộc gọi thấy số liên lạc gần nhất lưu tên "Má" — đầu số cố định ở Sài Gòn.',{fx:'+co:x_so_ma'}]);
@@ -246,7 +249,7 @@ X('x_tinvao','Tin rác',['Nửa đêm, cái đt giấu trong người rung nhẹ
 X('x_tinvao_ok','Tin rác',[['~','Ghép chữ đầu ra chữ O - K. Vậy là ở ngoài đã giải mã được tin của mình rồi!'],{if:'nhanh:B tin_ngan>=3 !co:x_ngan_lich',L:[['Ngân','Anh gửi tin lọt ra ngoài thiệt rồi hả?'],['Ngân','Vậy cầm luôn tờ giấy này đi. Lịch đổi ca của bảo vệ nguyên trại đó, tui ráng nhìn trộm từ bàn của Chị Bảy rồi chép lại.'],{fx:'+tin_ngan +cc:x_lich +co:x_tuan0 +co:x_tuan3 +co:x_ngan_lich'}]}]);
 
 /* ---------- nhánh A: người bên ngoài ---------- */
-X('x_ngoai1','Bờ bên này',[{bg:'x2-bo-ben-nay'},'Bờ sông bên này. {ban} ngồi thu lu trên mũi ghe của ông Thoại ngó qua bên kia sông. Đèn pha trên chòi canh quét đều đặn cứ 40 giây một vòng.','Lầu 2 có một ô cửa sổ vẫn còn sáng đèn. Chẳng biết người bên trong đang thức hay ngủ.',{bg:''}]);
+X('x_ngoai1','Bờ bên này',[{bg:'x2-bo-ben-nay'},'Bờ sông bên này. {ban} ngồi thu lu trên mũi ghe của ông Thoại ngó qua bên kia sông. Đèn pha trên chòi canh quét đều đặn cứ 40 giây một vòng.','Lầu 2 bên kia sông có một ô cửa sổ vẫn sáng đèn. Còn ở đầu hẻm 47 giờ này, chắc cái đt ốp mèo đen trong ngăn kéo cô Thoa vẫn đang cắm sạc chờ tin.',{bg:''}]);
 X('x_ngoai2','Bờ bên này',[{bg:'x2-bo-ben-nay'},'Đt reo. Hương gọi tới, giọng hối hả.',['Hương','Người của tôi bên kia xác nhận đúng tọa độ khu casino đó rồi! Giờ đại úy Vinh chỉ còn đợi tin báo giờ G từ bên trong gửi ra là chốt lệnh thôi.'],'{ban} nhìn đăm đăm qua bên kia bờ sông. Giờ tất cả phụ thuộc vào tin nhắn báo giờ giao ca từ trong trại.',{bg:''}]);
 X('x_ngoai3','Bờ bên này',[{bg:'x2-bo-ben-nay'},'Đêm xuống. {ban} ngồi bấm đồng hồ đếm từng lượt đèn pha quét qua mặt nước. Đúng 40 giây một lần.','Tin nhắn rác cuối cùng {ban} soạn gửi vô trại: "Sale lớn lúc 2 giờ sáng. Ở nhà cũng nhận được quà. Nhớ kiểm đủ số lượng." (Đèn hiệu chờ sẵn lúc 2h sáng ngoài sông).',{bg:''}]);
 

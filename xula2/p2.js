@@ -283,6 +283,7 @@ night=async function(){ if(!P2.on) return night1(); if(sleeping) return; sleepin
     if(P2.map==='trai'){
       if(hasF('x_cho_xn')){ delete S.co.x_cho_xn; await runS('x_tinvao'); hideDlg(); }
       if(S.day===17&&!hasF('x_canh7_xem')){ setCo('x_canh7_xem'); await runS('x_canh7'); hideDlg(); }
+      if(typeof p2NhipHem==='function') await p2NhipHem();
       if(S.day>=8&&S.day<19) await p2DiDem();
       if(S.nghi>=100){ await runS('x_phongtoi'); hideDlg(); const p=dsCon().filter(x=>!['ngan','khang'].includes(x.id))[0]; if(p) effects('mat:'+p.id); S.nghi=55; }
       S.nghi=Math.max(0,S.nghi-1); }

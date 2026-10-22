@@ -176,18 +176,20 @@ function chamTin(txt,tu){ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,''
 const MANH={S:['Sáng nay trời mưa quá mẹ ơi.','Sắp tới con được lên lương.'],O:['Ở đây ăn uống cũng đủ.','Ông chủ nói tháng sau có thưởng.'],N:['Nhớ nhà quá mà chưa về được.','Nay con mới mua đôi dép mới.'],G:['Gửi lời thăm cả xóm giùm con.','Giờ con đi làm tiếp nha.'],
  C:['Có gì mẹ nhắn con nha.','Còn mấy tháng nữa là đủ tiền.'],U:['Út nhà mình học hành sao rồi mẹ.','Uống thuốc đều nghen mẹ.'],A:['Anh hai đi làm có mệt hông.','Ai hỏi thì nói con khỏe.'],
  '3':['3 tháng nữa con gửi tiền về.','3 đứa trong phòng ai cũng mập ra.'],K:['Không có gì đâu mẹ.','Khi nào rảnh con gọi.'],T:['Tối nay phòng con có tiệc nhỏ.','Tháng này con ráng làm thêm.']};
+const MANH2={SONG:{chuan:['Sale lớn cuối tuần giảm giá mạnh.','Ôm trọn bộ quà tặng gia đình.','Nhận ưu đãi ngay trong hôm nay.','Giao hàng miễn phí toàn quốc.'],nhieu:['Chúc mừng quý khách trúng thưởng.','Tặng voucher mua sắm một triệu.','Mua một tặng một duy nhất hôm nay.']},
+ BAG:{chuan:['Bán trả góp lãi suất không phần trăm.','An tâm bảo hành chính hãng mười hai tháng.','Gọi ngay tổng đài để giữ suất.'],nhieu:['Hai giờ sáng đóng cổng chương trình.','Năm giờ sáng mở bán đợt mới.']}};
 function giauChu(tu,goi){ return new Promise(res=>{ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,''); let de=!!S.p2de;
   p2open('<h3>Tin giấu chữ · cần ghép ra: <span style="color:#f0b25c">'+esc(can)+'</span></h3><p class="tip">Gõ một tin bình thường gửi về nhà. Mỗi câu một dòng hoặc ngắt bằng dấu chấm. Chữ đầu mỗi câu ghép lại phải ra <b>'+esc(can)+'</b>. '+esc(goi||'Quản lý đọc lướt mọi tin: câu cụt, câu mở đầu giống nhau, hay chữ nhạy cảm là bị để ý.')+'</p>'+
    '<div class="p2acr" id="acr"></div><textarea class="p2ta" id="gt" placeholder="Sáng nay trời mưa quá mẹ ơi.&#10;Ở đây ăn uống cũng đủ…"></textarea><div id="gl"></div><div class="p2frag" id="frag"></div>'+
    '<div class="p2bar"><button class="btn ghost" id="gde" type="button"></button><button class="btn ghost" id="gx" type="button">Để sau</button><button class="btn p2main" id="gs" type="button">Gửi ➤</button></div>');
   const ta=$('gt');
   const upd=()=>{ const r=chamTin(ta.value,tu); let h=''; for(let i=0;i<can.length;i++){ const c=r.dau[i]; h+='<span class="'+(c==null?'need':c===can[i]?'ok':'no')+'">'+(c||can[i])+'</span>'; } if(r.dau.length>can.length) h+='<span class="no">+'+(r.dau.length-can.length)+'</span>'; $('acr').innerHTML=h; $('gl').innerHTML=r.loi.map(x=>'<p class="p2bad">'+esc(x)+'</p>').join(''); };
-  const frag=()=>{ $('gde').textContent=de?'Tự gõ hết':'Dễ: có câu gợi ý'; const f=$('frag'); if(!de){ f.innerHTML=''; return; } let h=''; [...new Set(can.split(''))].forEach(c=>(MANH[c]||[]).forEach(m=>{ h+='<button type="button" data-m="'+esc(m)+'"><b>'+esc(m[0])+'</b>'+esc(m.slice(1))+'</button>'; })); f.innerHTML=h; f.querySelectorAll('button').forEach(b=>b.onclick=()=>{ ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+b.dataset.m; upd(); }); };
+  const frag=()=>{ $('gde').textContent=de?'Tự gõ hết':'Dễ: có câu gợi ý'; const f=$('frag'); if(!de){ f.innerHTML=''; return; } let h=''; const M2=MANH2[can]; const L=M2?M2.chuan.concat(M2.nhieu).sort(()=>Math.random()-.5):[]; if(!M2) [...new Set(can.split(''))].forEach(c=>(MANH[c]||[]).forEach(m=>L.push(m))); L.forEach(m=>{ h+='<button type="button" data-m="'+esc(m)+'"><b>'+esc(m[0])+'</b>'+esc(m.slice(1))+'</button>'; }); f.innerHTML=h; f.querySelectorAll('button').forEach(b=>b.onclick=()=>{ ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+b.dataset.m; upd(); }); };
   ta.oninput=upd; upd(); frag();
   $('gde').onclick=()=>{ de=!de; S.p2de=de; frag(); };
   $('gx').onclick=()=>{ p2close(); res(null); };
   $('gs').onclick=()=>{ const r=chamTin(ta.value,tu); if(!r.cau.length){ toast('Chưa gõ gì.'); return; } p2close(); res(r); }; }); }
-function nextWord(){ if(S.nhanh==='B'&&!hasF('x_tin_song')&&!hasF('x_goi_ok')) return 'SONG'; if(!hasF('x_tin_3g')&&hasF('x_gio')) return '3G'; return ''; }
+function nextWord(){ if(S.nhanh==='B'&&!hasF('x_tin_song')&&!hasF('x_goi_ok')) return 'SONG'; if(!hasF('x_tin_3g')&&hasF('x_gio')) return 'BAG'; return ''; }
 
 /* =====================================================================
    3. CA NHẮN TIN LỪA (khách hư cấu từ các vụ đã lên báo)
@@ -218,21 +220,78 @@ const KHACH=[
   {k:'sao lại đóng nữa em',d:'Dạ quy định sàn anh, ai cũng đóng hết, đóng xong là tiền về tài khoản anh trong mười phút…',l:'Dạ em cũng hông rõ anh.',w:['mười phút','mươi phút']},
   {k:'thôi anh đóng, rút giùm anh nha',d:'Dạ anh chuyển vô số tài khoản bên dưới, ghi nội dung là mã của anh, em duyệt liền…',l:'Dạ anh đừng đóng nữa anh.',w:['duyệt','duyêt']}]}];
 const CT=()=>(S.p2ct&&S.p2ct.d===S.day)?S.p2ct.n:0; const ctAdd=n=>{ if(!S.p2ct||S.p2ct.d!==S.day) S.p2ct={d:S.day,n:0}; S.p2ct.n+=n; };
+
+/* khách có kịch bản riêng (người quen hẻm 47, vụ báo chí): 3 lựa chọn đúng kịch bản · cài lỗi · tin lạnh */
+const KHACH2=[
+ {id:'mai',d:9,ca:'sa',ten:'Cô Mai',ho:'làm nhiệm vụ mạng, đang lo tiền trọ cho con gái',kieu:'Nhiệm vụ thả tim · gói VIP',
+  luot:[{k:'em ơi cô bấm thả tim đủ 3 clip rồi, hồi nãy nhận được 50 ngàn thiệt nè. giờ làm sao kiếm thêm tiền đóng tiền trọ cho con gái cô?',
+   d:'Dạ cô lên gói Nhiệm Vụ Kim Cương nha! Nạp trước 5 triệu, bấm 10 đơn là rút về liền 6 triệu rưỡi cả gốc lẫn lời trong 15 phút...',
+   c:'Dạ cô lên gói Kim Cương nha! Phải nạp trước mới nhận thưởng, cô [chuyễn] 5 triệu vô [tài khỏan] công ty cửa khẩu này nha...',
+   l:'Hôm nay hết nhiệm vụ miễn phí rồi cô, cô rút 50 ngàn đó xài đi đừng nạp thêm.'}],
+  ket:{d:'Cô Mai vay nóng hàng xóm nạp 5 triệu. Hệ thống báo "sai cú pháp", ép nạp thêm 15 triệu mới cho rút.',c:'ủa sao chữ chuyển viết kỳ vậy, lại còn công ty cửa khẩu? thôi cô sợ bị lừa lắm, cô nghỉ làm nha',l:''},
+  so:'Cô Mai · làm nhiệm vụ mạng · mất 5 triệu, bị ép nạp thêm 15 triệu',hoc:1},
+ {id:'hanh',d:10,ca:'sa',face:'Hạnh Bánh Mì',ten:'Chị Hạnh',ho:'xe bánh mì đầu hẻm 47',kieu:'Quỹ hỗ trợ tiểu thương giả',
+  luot:[{k:'em ơi bên quỹ hỗ trợ tiểu thương của em cho vay 20tr lãi 0% thiệt hả? chị bán bánh mì đầu hẻm 47 nè, thủ tục sao em?',
+   d:'Dạ đúng rồi chị, bên em giải ngân trong ngày luôn, chị chụp CCCD gửi qua cho em nha...',
+   c:'Dạ đúng rồi chị, bên em giải ngân trong ngày luôn, chị chụp CCCD gửi qua cho bên em làm hồ sơ [chuyễn] duyệt nha...',
+   l:'Thủ tục rườm rà lắm chị ơi, không có giấy phép kinh doanh không vay được đâu.',
+   rk:'(Chị Hạnh gửi ảnh căn cước. Địa chỉ ghi: hẻm 47 Fan Xích Vô.)'},
+   {k:'chị gửi hình căn cước rồi đó. giờ chừng nào nhận được 20tr vậy em, chị đang kẹt tiền đóng học cho thằng Bo',
+   d:'Hồ sơ duyệt rồi nha chị! Giờ chị chuyển trước 2 triệu tiền phí bảo hiểm vô số tài khoản này là hệ thống bắn 20 triệu về liền...',
+   c:'Hồ sơ duyệt rồi nha chị! Giờ chị [chuyễn] trước 2 triệu tiền phí vô [tài khỏan] công ty ở Tây Ninh này là nhận được tiền...',
+   l:'Bên em đang bảo trì hệ thống rồi, chị ra ngân hàng ngoài đường lớn hỏi thử đi.'}],
+  ket:{d:'Chị Hạnh chuyển 2 triệu, tiền bán bánh mì cả tuần, rồi bị chặn số.',c:'ủa sao lại chuyển vô công ty ở Tây Ninh, còn viết sai chính tả y như cái vụ thằng Tùng kể vậy? thôi chị ko vay nữa đâu!',l:''},
+  fx:{d:'-nghi:3',l:'+nghi:8'},so:'Chị Hạnh · xe bánh mì đầu hẻm 47 · mất 2 triệu'},
+ {id:'tam',d:11,ca:'ch',face:'Tám Hớt Tóc',ten:'Chú Tám',ho:'tiệm hớt tóc hẻm 47',kieu:'Tri ân người cao tuổi · quà trúng thưởng',
+  luot:[{k:'alo con ơi, chú Tám hớt tóc nè. hồi sáng có tin nhắn báo chú trúng cái máy đấm lưng với phần quà 10 triệu, thiệt hông con?',
+   d:'Dạ thiệt đó chú ơi! Chú có tên trong danh sách khách hàng may mắn tháng này, chú xác nhận địa chỉ để con gửi quà về nha...',
+   c:'Dạ thiệt đó chú ơi! Chú xác nhận địa chỉ để bên con làm lệnh [chuyễn] quà từ kho Ba Vẹt về cho chú nha...',
+   l:'Tin nhắn gửi nhầm số rồi chú ơi, không có trúng thưởng gì đâu.',
+   rk:'trời đất ơi hên dữ vậy, cái lưng chú đứng cắt tóc đau muốn gãy mấy tháng nay'},
+   {k:'nhà chú ở hẻm 47 Fan Xích Vô á con. mà sao nhận quà đây, chú già rồi hông rành bấm đt đâu',
+   d:'Dạ chú chỉ cần nhờ người ra tiệm chuyển 1 triệu rưỡi tiền phí xuất kho vô số tài khoản này là chiều mai bưu tá giao tận tiệm hớt tóc luôn...',
+   c:'Dạ chú đừng nhờ thằng Bin nha, cứ tự ra ngoài [chuyễn] 1 triệu rưỡi vô [tài khỏan] này để ủy quyền nhận quà tại Tây Ninh...',
+   l:'Quà hết hạn nhận rồi chú ơi, chú tắt máy đi.'}],
+  ket:{d:'Chú Tám gom hết tiền lẻ cắt tóc cả tháng chuyển 1 triệu rưỡi, rồi bị khóa máy.',c:'ủa sao kêu đừng hỏi thằng Bin, lại còn ủy quyền Tây Ninh nghe quen dữ vậy? Để chú kêu thằng Bin qua coi thử!',l:''},
+  so:'Chú Tám · tiệm hớt tóc hẻm 47 · mất 1,5 triệu'},
+ {id:'ngoc',d:12,ca:'sa',ten:'Chị Ngọc',ho:'quen qua mạng',kieu:'Nuôi tình cảm · rủ góp vốn sàn vàng',
+  luot:[{k:'anh ơi sao em kêu gọi video nhìn mặt cái mà anh cứ nói bên đó sóng yếu hoài vậy? anh kêu em nạp 30 triệu vô sàn vàng này có chắc rút ra được hông?',
+   d:'Anh đang ở ngoài giàn khoan bảo mật quân sự sao bật cam được em. Em rút thử 1 triệu hôm qua được rồi đó, giờ nạp 30 triệu ăn sóng lớn với anh...',
+   c:'Anh hông bật cam được đâu. Em cứ [chuyễn] 30 triệu vô [tài khỏan] sàn đi, chừng nào sàn bảo trì khóa rút thì tính sau...',
+   l:'Em không tin anh thì thôi, giữ tiền trong ngân hàng mà xài đi.'}],
+  ket:{d:'Chị Ngọc mềm lòng nạp 30 triệu tiền tiết kiệm. Sàn khóa tính năng rút tiền.',c:'gì mà sàn bảo trì khóa rút, lại còn gõ sai chính tả y như văn mẫu copy vậy? Đồ lừa đảo!',l:''},
+  so:'Chị Ngọc · quen qua mạng · mất 30 triệu tiền tiết kiệm'},
+ {id:'thao',d:15,ca:'ch',ten:'Bé Thảo',ho:'ở quê, đang tìm việc gửi tiền lên viện cho má',kieu:'Tuyển việc nhẹ lương cao',
+  luot:[{k:'anh chị ơi em thấy tin tuyển nhân viên gõ máy tính 25 triệu/tháng bao ăn ở, đi làm liền trong tuần. chị hai em đi làm xa mất liên lạc rồi, giờ má em nằm viện em cần tiền gấp lắm...',
+   d:'Đúng chỗ rồi đó em! Không cần kinh nghiệm, công ty lo hết giấy tờ từ A tới Z, sáng mai em bắt xe lên Sài Gòn rồi có xe 16 chỗ rước đi liền nha...',
+   c:'Công việc ngồi phòng máy 12 tiếng, lương cao bất thường, [chuyễn] qua bên kia biên giới làm, đi rồi là mất liên lạc luôn như chị hai em đó...',
+   l:'Bên anh tuyển đủ người rồi em ơi, ở quê kiếm việc khác làm đi đừng lên đây.'}],
+  ket:{d:'Con bé mừng rỡ đặt vé xe đò lên Sài Gòn.',c:'trời đất ơi... sao anh chị biết chuyện chị hai em mất liên lạc? Vậy là ổ lừa người rồi, em báo công an xã liền!',l:'(Con bé cảm ơn rồi đi tìm chỗ khác.)'},
+  fx:{c:'+tin_thuy +tin_thuy',l:'+tin_thuy +tin_thuy'},cuu:'Tối đó kể lại cho Thủy nghe. Thủy ngồi im rất lâu.',so:'Bé Thảo · em gái Thủy · đặt vé lên Sài Gòn'}];
+KHACH2.forEach(k=>{ k.vao=k.luot[0].k; });
+const caHom=()=>{ const ca=hour()<12?'sa':'ch'; return KHACH2.find(k=>k.d===S.day&&k.ca===ca&&!(S.p2kh&&S.p2kh[k.id])); };
+const loiSpan=t=>esc(t).replace(/\[([^\]]+)\]/g,'<span class="p2w loi">$1</span>');
 const khSlug=t=>bo(t).toLowerCase().replace(/[^a-z0-9]+/g,'-');
 function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo:0}; let thoat=false;
-  for(let i=0;i<so&&!thoat;i++){ const k=KHACH[(S.day*5+i*3+(S.so||[]).length)%KHACH.length]; const L=[]; let tab='kh', mm=34+i*7;
+  for(let i=0;i<so&&!thoat;i++){ const kh2=i===0?caHom():null; const k=kh2||KHACH[(S.day*5+i*3+(S.so||[]).length)%KHACH.length]; if(kh2){ (S.p2kh=S.p2kh||{})[kh2.id]=1; } const L=[]; let tab='kh', mm=34+i*7;
     const meo=hasF('x_meo_cailoi'); const tm=()=>{ mm+=1+Math.floor(Math.random()*2); return '10:'+String(mm%60).padStart(2,'0'); };
     const INFO={kh:k.ho,kb:'Kịch bản: '+k.kieu+'. Đi theo từng bước, khách hỏi gì cũng kéo về chuyện tiền.',mt:'Chỉ tiêu: chốt 3 khách mỗi ngày. Thiếu thì bị phạt, Chị Bảy ghi tên.',ng:'Gõ sai một dấu ở chữ quan trọng. Người tinh ý sẽ khựng lại, tưởng bị lừa, rồi bỏ đi. Quản lý chỉ thấy lỗi gõ.'};
     const TABS=[['kh','Thông tin khách'],['kb','Kịch bản'],['mt','Mục tiêu hôm nay']].concat(meo?[['ng','Ghi chú của Ngân']]:[]);
     const draw=extra=>{ p2open('<h3>Ca nhắn tin · máy trạm phòng máy</h3><div class="p2chat"><div class="hd"><div class="av" id="cav">'+esc(k.ten.split(' ').pop()[0])+'</div><div><b>'+esc(k.ten)+'</b><small>'+esc(k.ho)+'</small></div><span class="ct">Chỉ tiêu hôm nay '+CT()+'/3</span></div>'+
       '<div class="bd"><nav class="side">'+TABS.map(t=>'<button type="button" data-tab="'+t[0]+'" class="'+(tab===t[0]?'on':'')+'">'+esc(t[1])+'</button>').join('')+'<p class="info">'+esc(INFO[tab])+'</p></nav>'+
       '<div class="main"><div class="log" id="clog">'+L.join('')+'</div><div class="opts">'+(extra||'')+'</div></div></div></div>',()=>{ thoat=true; if(window.__caPick) window.__caPick('x'); });
-      const im=new Image(); im.onload=()=>{ const a=$('cav'); if(a){ a.style.backgroundImage='url('+im.src+')'; a.textContent=''; } }; im.src='img2/x2-khach-'+khSlug(k.ten)+'.webp';
+      const im=new Image(); im.onload=()=>{ const a=$('cav'); if(a){ a.style.backgroundImage='url('+im.src+')'; a.textContent=''; } }; im.src=k.face&&typeof faceFor==='function'?faceFor(k.face):'img2/x2-khach-'+khSlug(k.ten)+'.webp';
       document.querySelectorAll('.p2chat [data-tab]').forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; const inf=document.querySelector('.p2chat .info'); document.querySelectorAll('.p2chat [data-tab]').forEach(x=>x.classList.toggle('on',x===b)); if(inf) inf.textContent=INFO[tab]; });
       const lg=$('clog'); if(lg) lg.scrollTop=1e5; };
     const bin=t=>'<div class="b in">'+esc(t)+'<i>'+tm()+'</i></div>', bout=t=>'<div class="b out">'+t+'<i>'+tm()+' · đã gửi</i></div>', bsys=t=>'<div class="b sys">'+t+'</div>';
     L.push(bin(k.vao)); let loi=false, lanh=false;
     for(let t=0;t<k.luot.length&&!lanh&&!thoat;t++){ const R=k.luot[t]; if(t>0) L.push(bin(R.k));
+      if(kh2){ draw('<div class="op ok"><div><small>✓ Đúng kịch bản · đủ chỉ tiêu, khách mất tiền</small>'+esc(R.d)+'</div><button class="snd" id="oD" type="button" aria-label="Gửi tin đúng kịch bản">➤</button></div><div class="op" style="border-color:#f0b25c;background:#f0b25c12"><div><small style="color:#f0b25c">Cài lỗi · khách tỉnh ra, dễ bị Chị Bảy soi</small>'+loiSpan(R.c)+'</div><button class="snd" id="oC" type="button" aria-label="Gửi tin cài lỗi" style="background:#f0b25c">➤</button></div><div class="op"><div><small>Tin lạnh · khách bỏ đi, thiếu chỉ tiêu</small>'+esc(R.l)+'</div><button class="snd" id="oL" type="button" aria-label="Gửi tin lạnh">➤</button></div>'+(k.hoc?'<p class="tip" style="margin:0">Tin cài lỗi có chữ gõ sai dấu (gạch đỏ). Người tinh ý đọc thấy sẽ khựng lại.</p>':''));
+        const pk2=await new Promise(r=>{ window.__caPick=r; $('oD').onclick=()=>r('d'); $('oC').onclick=()=>r('c'); $('oL').onclick=()=>r('l'); }); window.__caPick=null;
+        if(pk2==='x') break;
+        if(pk2==='l'){ L.push(bout(esc(R.l))); lanh=true; break; }
+        if(pk2==='c'){ loi=true; L.push(bout(loiSpan(R.c))); } else L.push(bout(esc(R.d)));
+        if(R.rk) L.push(bin(R.rk)); draw(); await sleep(450); continue; }
       const dw=esc(R.d).replace(esc(R.w[0]),meo?'<span class="p2w" id="ww">'+esc(R.w[0])+'</span>':esc(R.w[0]));
       draw('<div class="op ok"><div><small>✓ Đúng kịch bản</small>'+dw+'</div><button class="snd" id="oD" type="button" aria-label="Gửi tin đúng kịch bản">➤</button></div><div class="op"><div><small>Tin lạnh · khách bỏ đi, thiếu chỉ tiêu</small>'+esc(R.l)+'</div><button class="snd" id="oL" type="button" aria-label="Gửi tin lạnh">➤</button></div>'+(meo?'<p class="tip" style="margin:0">Chạm chữ gạch vàng để gõ sai một dấu.</p>':''));
       let sai=false; const ww=$('ww'); if(ww) ww.onclick=()=>{ sai=!sai; ww.textContent=sai?R.w[1]:R.w[0]; ww.classList.toggle('loi',sai); };
@@ -241,7 +300,11 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
       if(pk==='l'){ L.push(bout(esc(R.l))); lanh=true; break; }
       if(sai) loi=true; L.push(bout(esc(sai?R.d.replace(R.w[0],R.w[1]):R.d))); draw(); await sleep(450); }
     if(thoat){ out.bo+=so-i; break; }
-    let kq; if(lanh){ kq='bo'; L.push(bsys(esc(k.ten)+' đã rời cuộc trò chuyện.')); }
+    let kq; if(kh2&&!thoat){ const F=kh2.fx||{};
+      if(lanh){ kq='bo'; L.push(kh2.ket.l?bsys(esc(kh2.ket.l)):bsys(esc(k.ten)+' đã rời cuộc trò chuyện.')); if(F.l) fx(F.l); if(kh2.cuu) toast(kh2.cuu); }
+      else if(loi){ kq='tinh'; L.push(bin(kh2.ket.c)+bsys(esc(k.ten)+' đã chặn bạn. Tiền còn nguyên.')); if(F.c) fx(F.c); if(kh2.cuu) toast(kh2.cuu); }
+      else { kq='chot'; L.push(bsys('🔔 Chuông chốt đơn. '+esc(kh2.ket.d))); (S.so=S.so||[]).push(kh2.so); ctAdd(1); if(F.d) fx(F.d); } }
+    else if(lanh){ kq='bo'; L.push(bsys(esc(k.ten)+' đã rời cuộc trò chuyện.')); }
     else if(loi){ kq='tinh'; L.push(bin('ủa sao chữ này viết kỳ vậy… thôi để hỏi con cái rồi tính')+bsys(esc(k.ten)+' đã chặn bạn. Tiền còn nguyên.')); }
     else { kq='chot'; L.push(bin('đã chuyển rồi nha')+bsys('🔔 Chuông chốt đơn. '+esc(k.ten)+' vừa mất tiền.')); (S.so=S.so||[]).push(k.ten+' · '+k.ho); ctAdd(1); }
     out[kq]++;
@@ -249,7 +312,7 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
     draw('<div class="p2bar" style="margin:0;justify-content:flex-end"><button class="btn p2main" id="oN" type="button">'+(i<so-1?'Khách kế →':'Hết ca')+'</button></div>'); await new Promise(r=>{ window.__caPick=r; $('oN').onclick=r; }); window.__caPick=null; }
   if(thoat){ await sleep(10); }
   p2close(); if(thoat){ await say('nghi','','Bỏ dở ca. Chỉ tiêu hụt, Chị Bảy sẽ ghi tên.'); hideDlg(); fx('+nghi:5'); } res(out); }); }
-async function caCa(so){ if(S.day>=11){ busy=true; const p=await choose([{ma:'d',loi:'Nhắn đúng kịch bản cả ca',sub:'đủ chỉ tiêu, có người mất tiền'},{ma:'l',loi:'Cài lỗi vào hết',sub:'khách tỉnh ra, thiếu chỉ tiêu, có thể bị nghi',dis:!hasF('x_meo_cailoi')},{ma:'n',loi:'Ngồi nhắn từng khách',sub:'chơi đủ ca'}],false,'Tiếng gõ phím. Lại một ca.'); hideDlg();
+async function caCa(so){ if(S.day>=11&&!caHom()){ busy=true; const p=await choose([{ma:'d',loi:'Nhắn đúng kịch bản cả ca',sub:'đủ chỉ tiêu, có người mất tiền'},{ma:'l',loi:'Cài lỗi vào hết',sub:'khách tỉnh ra, thiếu chỉ tiêu, có thể bị nghi',dis:!hasF('x_meo_cailoi')},{ma:'n',loi:'Ngồi nhắn từng khách',sub:'chơi đủ ca'}],false,'Tiếng gõ phím. Lại một ca.'); hideDlg();
     if(p.ma==='d'){ for(let j=0;j<so;j++){ const k=KHACH[(S.day+j)%KHACH.length]; (S.so=S.so||[]).push(k.ten+' · '+k.ho); } ctAdd(so); return {chot:so,tinh:0,bo:0}; }
     if(p.ma==='l'){ if(Math.random()<.5&&(S.tin.bay||0)<3) fx('+nghi:12'); return {chot:0,tinh:so,bo:0}; } }
   return caNhan(so); }
@@ -257,21 +320,21 @@ async function caCa(so){ if(S.day>=11){ busy=true; const p=await choose([{ma:'d'
 /* =====================================================================
    4. CUỘC GỌI VỀ NHÀ — chọn câu có đồng hồ, chữ đầu ghép ra chữ cần gửi
    ===================================================================== */
-async function goiVe(){ const B=S.nhanh==='B'; const tu=B?'SONG':'CUA'; const ng=(S.nhanh==='A'&&S.ai_vao==='ngan')?'mẹ':'bà';
-  const sets=B?[[['Sáng nay ở đây mưa quá '+ng+' ơi.',1],['Con khỏe, '+ng+' đừng lo.',0],['Mấy bữa nay con ăn được lắm.',0]],
-    [['Ở đây ai cũng tốt với con hết.',1],['Tụi con được nghỉ trưa.',0],['Ở trển có cái chùa hay lắm.',0,1]],
-    [['Nghe nói tháng sau con được lên lương.',1],['Còn lâu con mới về.',0],['Ngày nào con cũng ra bờ sông ngồi.',0,1]],
-    [['Gửi giùm con năm triệu nha, đóng tiền nợ.',1],[(ng==='mẹ'?'Mẹ':'Bà')+' giữ sức khỏe nha.',0],['Gần bờ sông ở đây gió lắm.',0,1]]]
-   :[[['Cơm ở đây cũng được '+ng+'.',1],[(ng==='mẹ'?'Mẹ':'Bà')+' có khỏe hông.',0],['Có cái cửa sau ra sông, con hay ra ngồi.',0,1]],
-    [['Út nhà mình học sao rồi '+ng+'.',1],['Tháng sau con gửi tiền.',0],['Ở đây đêm hổng ai canh.',0,1]],
-    [['Ai hỏi thì '+ng+' nói con khỏe.',1],['Chuyển giùm con năm triệu nha.',0],['Con ngủ lầu hai.',0]]];
+async function goiVe(){ const tu='XIHA'; const ng=(S.nhanh==='A'&&S.ai_vao==='ngan')?'mẹ':'bà'; const Ng=ng==='mẹ'?'Mẹ':'Bà'; const nguoi=ng==='mẹ'?'Cô Thoa':'Bà Sáu';
+  /* [câu, đúng chữ, câu dễ bị nghi, câu lộ (Chị Bảy ngắt máy)] */
+  const sets=[[['Xin lỗi ở nhà vì con đi làm xa hổng báo trước.',1],['Con khỏe, '+ng+' đừng lo.',0],['Mấy bữa nay con ăn được lắm.',0]],
+    [['Im lặng bữa giờ là tại chỗ làm mới chưa quen việc.',1],['Ở đây ai cũng tốt với con hết.',0],['Tụi con được nghỉ trưa.',0]],
+    [['Hôm nay con khỏe lắm, ở nhà gửi qua cho con ba ngàn đô đóng phí nghen.',1],[Ng+' ơi ở nhà khỏe không, con nhớ nhà lắm.',0],['Con đang bị nhốt ở cảng Xi-ha, cứu con với!',0,0,1]],
+    [['Ai trong hẻm hỏi thăm thì cứ nói con vẫn bình thường.',1],['Ngày nào con cũng ra bờ sông ngồi.',0,1],['Còn lâu con mới về.',0]]];
+  sets.forEach(o=>o.sort(()=>Math.random()-.5));
   let ok=0; const bg0=BGNOW; BGNOW='x2-goi-ve'; fade=.7;
   for(let i=0;i<sets.length;i++){ const o=sets[i]; const prog=tu.split('').map((c,j)=>j<i?c:j===i?'['+c+']':'·').join(' ');
     const p=await choose(o.map((x,n)=>({ma:'g'+n,loi:x[0],timer:8,mac:-1})),false,'Chữ cần: '+prog+' · Chị Bảy đứng sau lưng');
     if(!p||p.ma==='_het'){ await say('mota','',ME+' im lặng một giây quá lâu. Người đứng sau lưng gõ nhẹ vào vai.'); fx('+nghi:6'); continue; }
-    const pick=o[+p.ma.slice(1)]; await say('thoai',ME,pick[0]); if(pick[1]) ok++; else if(pick[2]){ fx('+nghi:8'); } }
+    const pick=o[+p.ma.slice(1)]; await say('thoai',ME,pick[0]); if(pick[3]){ fx('+nghi:25'); await say('thoai','Chị Bảy','Đủ rồi.'); await say('mota','','Chị Bảy giật cái máy, bấm tắt. Cả phòng im phăng phắc.'); ok=-9; break; } if(pick[1]) ok++; else if(pick[2]){ fx('+nghi:8'); } }
   hideDlg(); BGNOW=bg0; fade=.5;
-  if(ok===sets.length){ setCo('x_goi_ok'); await say('nghi','','Nếu bên kia nghe ra, bên ngoài sẽ có chữ '+tu+'.'); }
+  if(ok===sets.length){ setCo('x_goi_ok'); await say('thoai',nguoi,'Ừ, ở trển ráng giữ sức khỏe nghen con, để ở nhà xoay tiền gửi qua.'); await say('nghi','','Nếu bên kia nghe ra, bên ngoài sẽ có chữ '+tu+'.'); }
+  else if(ok<0){ await say('nghi','','Lỡ miệng. Không còn đường gửi chữ qua cuộc gọi này nữa.'); }
   else await say('nghi','','Có câu lệch chữ. Chắc bên kia không đọc ra.'); hideDlg(); }
 
 /* =====================================================================

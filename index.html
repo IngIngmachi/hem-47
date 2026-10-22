@@ -3236,13 +3236,16 @@ boot();
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   if(own&&'serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   if(!own||standalone) return;
-  const b=$('bInstall'); let ev=null; const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); ev=e; b.hidden=false; });
-  if(ios) b.hidden=false;
+  const b=$('bInstall'); let ev=null; const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const and=/android/i.test(navigator.userAgent), macSaf=/Macintosh/.test(navigator.userAgent)&&/Safari/.test(navigator.userAgent)&&!/Chrome|Chromium|Edg/.test(navigator.userAgent);
+  addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); ev=e; });
+  b.hidden=false; /* luôn hiện khi chưa mở bằng app; trình duyệt không hỗ trợ cài nhanh thì hiện hướng dẫn */
   const show=h=>{ $('instTx').innerHTML=h+'<p style="margin:12px 0 0;text-align:right"><button class="btn" type="button" id="instOk">Hiểu rồi</button></p>'; $('inst').hidden=false; $('instOk').onclick=()=>{ $('inst').hidden=true; }; };
   b.onclick=async()=>{ if(ev){ ev.prompt(); const r=await ev.userChoice; if(r.outcome==='accepted') b.hidden=true; ev=null; return; }
     if(ios) show('<b>Thêm Hẻm 47 vào màn hình chính</b><br>1. Mở trang này bằng <b>Safari</b>.<br>2. Bấm nút <b>Chia sẻ</b> (ô vuông có mũi tên lên) ở thanh dưới.<br>3. Kéo xuống, chọn <b>Thêm vào MH chính</b>.<br>4. Bấm <b>Thêm</b>. Từ giờ mở game từ biểu tượng, chơi toàn màn hình.');
-    else show('<b>Thêm Hẻm 47 vào màn hình chính</b><br>Bấm nút <b>⋮</b> góc trên trình duyệt, chọn <b>Thêm vào màn hình chính</b> hoặc <b>Cài đặt ứng dụng</b>.'); };
+    else if(macSaf) show('<b>Thêm Hẻm 47 vào Dock</b><br>Trên thanh menu Safari, chọn <b>Tệp</b> → <b>Thêm vào Dock</b>.');
+    else if(and) show('<b>Thêm Hẻm 47 vào màn hình chính</b><br>Bấm nút <b>⋮</b> góc trên trình duyệt, chọn <b>Cài đặt ứng dụng</b> hoặc <b>Thêm vào màn hình chính</b>.');
+    else show('<b>Cài Hẻm 47 thành app</b><br>Trên Chrome hoặc Edge, bấm biểu tượng <b>cài đặt</b> (màn hình có mũi tên) ở cuối thanh địa chỉ, hoặc nút <b>⋮</b> → <b>Truyền, lưu và chia sẻ</b> → <b>Cài đặt trang dưới dạng ứng dụng</b>.<br><small>Nếu máy đã cài rồi thì mở app Hẻm 47 trong danh sách ứng dụng.</small>'); };
 })();
 
 /* ================= NHẠC NỀN =================

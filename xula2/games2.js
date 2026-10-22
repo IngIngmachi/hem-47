@@ -82,7 +82,7 @@ body.p2lb::before{top:0}body.p2lb::after{bottom:0}
 .p2note{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin:6px 0 14px}
 .p2note .paper{position:relative;background:#e8dcc0 repeating-linear-gradient(transparent 0 33px,rgba(90,70,40,.22) 33px 34px);color:#2a2219;border-radius:4px;padding:18px 20px 16px 46px;transform:rotate(-1.2deg);box-shadow:0 10px 24px rgba(0,0,0,.5),inset 0 0 40px rgba(120,90,40,.25);font-family:Georgia,"Noto Serif",serif;font-size:19px;line-height:34px}
 .p2note .paper::before{content:"";position:absolute;left:30px;top:0;bottom:0;width:2px;background:rgba(190,70,60,.35)}
-.p2note .paper .f{display:inline-block;min-width:.7em;transition:background .3s,color .3s}
+.p2note .paper .f{transition:background .3s,color .3s}
 .p2note .paper.hl .f{background:#f0b25c;color:#1d1d1d;border-radius:3px;padding:0 2px;font-weight:700}
 .p2note .photo{width:150px;aspect-ratio:3/4;background:#222 center/cover;border:6px solid #e9e4d8;border-bottom-width:22px;transform:rotate(4deg);box-shadow:0 8px 20px rgba(0,0,0,.6)}
 @media(max-width:560px){.p2note{grid-template-columns:1fr}.p2note .photo{display:none}.p2note .paper{font-size:17px}}

@@ -16,7 +16,7 @@ function X(key,canh,L,o){ o=o||{}; let n=0;
   const walk=(L,h)=>{ for(const l of L){
     if(typeof l==='string') push({kieu:'mota',loi:l,hien:h});
     else if(Array.isArray(l)){ const [who,txt,e={}]=l; let kieu='thoai', ai=who;
-      if(who==='') kieu='mota'; else if(who[0]==='~'){ kieu='nghi'; ai=''; } else if(who[0]==='#'){ kieu='tin'; ai=who.slice(1); }
+      if(who==='') kieu='mota'; else if(who[0]==='~'){ kieu='nghi'; ai=''; } else if(who[0]==='#'){ kieu='tin'; ai=who.slice(1); } else if(who[0]==='@'){ kieu='nhom'; ai=who.slice(1); }
       push({kieu,ai,loi:txt,hien:H(h,e.h),sau:e.s||'',bg:e.bg}); }
     else if(l.card!=null) push({kieu:'the',loi:l.card,hien:H(h,l.h),bg:l.bg});
     else if(l.chon){ const ids=[]; l.chon.forEach(c=>{ const r=push({kieu:'chon',loi:c.t,sub:c.sub||'',sau:c.s||'',hien:H(h,c.h),disc:c.dis||'',timer:l.timer||0,mac:l.mac==null?-1:l.mac,q:l.q||''}); ids.push(r.ma); });

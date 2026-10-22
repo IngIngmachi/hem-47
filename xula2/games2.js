@@ -379,15 +379,15 @@ const DMAP={floors:[
   {ten:'Lầu 3',rooms:[{x:45,w:353,ten:'Kho'},{x:559,w:404,ten:'Văn phòng quản lý'}],hide:[150,620,880]}],stairs:{x:450,w:60},
   feet:[566,378,198], band:[[394,176],[214,168],[28,172]]};
 const MUC={
-  may:{ten:'Lấy cái điện thoại dưới thùng nước',f:1,x:858,why:'Có máy mới gửi tin ra được.',c:()=>hasF('x_biet_may')&&!hasF('x_may'),k:'x_dd_may'},
+  may:{noi:'Thùng nước',ten:'Lấy cái điện thoại dưới thùng nước',f:1,x:858,why:'Có máy mới gửi tin ra được.',c:()=>hasF('x_biet_may')&&!hasF('x_may'),k:'x_dd_may'},
   gapngan:{ten:'Gặp Ngân ở buồng tắm',f:1,x:840,why:'Nói chuyện riêng, ngoài tầm camera.',thang:1,c:()=>S.nhanh==='B'&&hasF('x_ngan_nghe')&&!hasF('x_ngan_b3')&&(S.tin.ngan||0)>=2,k:'x_nganb3'},
   thuy:{ten:'Gặp Thủy ở buồng tắm',f:1,x:840,why:'Thủy hẹn.',thang:1,c:()=>S.nhanh==='B'&&hasF('x_thuy_biet')&&!hasF('x_thuy_chi'),k:'x_thuygap'},
-  tuan0:{ten:'Dò lính gác trệt',f:0,x:900,why:'Ghi giờ lính đi qua cửa sau.',c:()=>!hasF('x_tuan0'),k:'x_dd_tuan0'},
-  tuan3:{ten:'Dò lính gác lầu ba',f:2,x:900,why:'Vẽ nốt phần sơ đồ còn thiếu.',c:()=>!hasF('x_tuan3'),k:'x_dd_tuan3'},
-  kim:{ten:'Lấy cây kìm trên nóc tủ bếp',f:0,x:650,why:'Cắt được rào ra bờ sông.',c:()=>(hasF('x_biet_kim')||S.day>=12)&&!hasF('x_kim'),k:'x_dd_kim'},
-  rao:{ten:'Cắt rào sau bếp',f:0,x:740,why:'Lối thứ hai ra sông.',c:()=>hasF('x_kim')&&!hasF('x_rao'),k:'x_dd_rao'},
-  cua:{ten:'Mở khóa cửa sau',f:0,x:905,why:'Lối gần ghe nhất.',c:()=>hasF('x_chia')&&!hasF('x_cua'),k:'x_dd_cua'},
-  nghe:{ten:'Nghe lén văn phòng lầu ba',f:2,x:600,why:'Tin thoại của Ông Chủ Lò.',c:()=>S.day>=12&&!hasF('x_nghe_len'),k:'x_dd_nghe'}};
+  tuan0:{noi:'Khe cửa sau',ten:'Dò lính gác trệt',f:0,x:900,why:'Ghi giờ lính đi qua cửa sau.',c:()=>!hasF('x_tuan0'),k:'x_dd_tuan0'},
+  tuan3:{noi:'Khe cửa lầu ba',ten:'Dò lính gác lầu ba',f:2,x:900,why:'Vẽ nốt phần sơ đồ còn thiếu.',c:()=>!hasF('x_tuan3'),k:'x_dd_tuan3'},
+  kim:{noi:'Tủ bếp',ten:'Lấy cây kìm trên nóc tủ bếp',f:0,x:650,why:'Cắt được rào ra bờ sông.',c:()=>(hasF('x_biet_kim')||S.day>=12)&&!hasF('x_kim'),k:'x_dd_kim'},
+  rao:{noi:'Rào sau bếp',ten:'Cắt rào sau bếp',f:0,x:740,why:'Lối thứ hai ra sông.',c:()=>hasF('x_kim')&&!hasF('x_rao'),k:'x_dd_rao'},
+  cua:{noi:'Cửa sau',ten:'Mở khóa cửa sau',f:0,x:905,why:'Lối gần ghe nhất.',c:()=>hasF('x_chia')&&!hasF('x_cua'),k:'x_dd_cua'},
+  nghe:{noi:'Cửa văn phòng',ten:'Nghe lén văn phòng lầu ba',f:2,x:600,why:'Tin thoại của Ông Chủ Lò.',c:()=>S.day>=12&&!hasF('x_nghe_len'),k:'x_dd_nghe'}};
 /* =====================================================================
    10b. TRÒ NHỎ KHI TỚI CHỖ — mỗi việc đi đêm một kiểu
    ===================================================================== */
@@ -563,7 +563,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
       if(raid||g.f!==P.f||P.hid) return; const dx=(P.x-g.x)*g.d; const noise=P.run&&Math.abs(P.x-g.x)<130; if((dx>0&&dx<150+(cfg.siet?20:0))||noise) seen=true; });
     P.sus=seen?P.sus+dt*(P.run?2.4:1.6):Math.max(0,P.sus-dt*.7);
     if(P.sus>=1){ if(!cuu){ finish('bat'); return; } P.sus=0; clock+=20; if(lead){ lead.st='bat'; lost.push(lead); say1('Bị thấy! '+lead.ten+' bị lôi về. Mất 20 phút.'); lead=null; } else say1('Bị thấy! Phải núp trong kho 20 phút.'); P.hid=true; }
-    if(!cuu){ if(t>(cfg.limit||110)){ finish(got?'xong_tre':'het'); return; } }
+    if(!cuu){ if(t>(cfg.limit||110)){ finish(got?'xong_tre':'het'); return; } const m=MUC[cfg.muc]; if(!got&&!paused&&!P.hid&&P.f===m.f&&Math.abs(P.x-m.x)<40&&MINI[cfg.muc]&&!P.autoT){ P.autoT=1; act(); } if(P.autoT&&!paused&&!got&&Math.abs(P.x-m.x)>60) P.autoT=0; }
     else { if(cfg.xe&&clock>=cfg.xe&&!cfg.xeDone){ cfg.xeDone=1; groups.filter(g=>g.st==='cho').forEach(g=>{ g.st='xe'; lost.push(g); }); say1('Xe tới chở những người còn lại đi trước giờ.'); }
       if(clock>=cfg.end||groups.every(g=>g.st!=='cho'&&g.st!=='theo')){ finish('het'); return; } }
     msgT-=dt; draw(raid); requestAnimationFrame(loop); }
@@ -576,7 +576,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
       fl.hide.forEach(h=>{ x.strokeStyle=f===P.f?'rgba(240,178,92,.55)':'rgba(240,178,92,.2)'; x.setLineDash([5,4]); x.lineWidth=2; x.strokeRect(h-16,DMAP.feet[f]-80,32,78); x.setLineDash([]); });
       if(f===P.f){ x.fillStyle='rgba(240,178,92,.10)'; x.fillRect(DMAP.stairs.x,y0,DMAP.stairs.w,bh); } }
     const Y=f=>DMAP.feet[f];
-    if(!cuu&&!got){ const m=MUC[cfg.muc]; x.fillStyle='#f0b25c'; x.beginPath(); x.arc(m.x,Y(m.f)-150,9+Math.sin(t*5)*2,0,7); x.fill(); }
+    if(!cuu&&!got){ const m=MUC[cfg.muc]; x.fillStyle='#f0b25c'; x.beginPath(); x.arc(m.x,Y(m.f)-150,9+Math.sin(t*5)*2,0,7); x.fill(); const lb=MUC[cfg.muc].noi||'Tới đây'; x.font='600 14px "Be Vietnam Pro",sans-serif'; const lw=x.measureText(lb).width+14; x.fillStyle='rgba(8,10,16,.8)'; x.fillRect(m.x-lw/2,Y(m.f)-186,lw,22); x.fillStyle='#f0b25c'; x.textAlign='center'; x.fillText(lb,m.x,Y(m.f)-170); x.textAlign='left'; }
     if(!cuu&&got){ x.strokeStyle='#5fb37a'; x.lineWidth=3; x.strokeRect(45,DMAP.band[1][0],353,DMAP.band[1][1]); }
     if(cuu){ x.strokeStyle='rgba(170,190,215,.28)'; x.lineWidth=1.5; x.beginPath(); for(let i=0;i<90;i++){ const rx=(i*137+t*260*(1+i%3*.2))%1060-30, ry=(i*89+t*720)%640-20; x.moveTo(rx,ry); x.lineTo(rx-6,ry+22); } x.stroke(); }
     if(raid){ x.fillStyle='rgba(0,0,0,'+(.38+(Math.sin(t*23)>.86?.3:0))+')'; x.fillRect(0,0,1000,600); if(Math.sin(t*3.1)>0){ x.fillStyle='rgba(80,120,255,.08)'; x.fillRect(0,0,1000,600); } else { x.fillStyle='rgba(255,60,60,.07)'; x.fillRect(0,0,1000,600); } }
@@ -592,7 +592,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     const tb=$('ktb'); if(tb) tb.style.width=(cuu?Math.min(100,clock/(cfg.end||300)*100):Math.min(100,t/(cfg.limit||110)*100))+'%';
     x.textAlign='left'; const a=atS(); $('kU').disabled=!a||P.f>=2; $('kD').disabled=!a||P.f<=0; $('kH').textContent=P.hid?'Ra':'Núp'; }
   window.__p2sneak={toi:()=>{ if(!cuu){ const m=MUC[cfg.muc]; P.f=m.f; P.x=m.x; act(); } },win:()=>{ if(cuu){ groups.forEach(g=>{ if(g.st==='cho'&&g.can<2){ g.st='ra'; out.push(g); } }); finish('het'); } else { got=true; finish('xong'); } },lose:()=>finish(cuu?'het':'bat')};
-  say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Tới chấm vàng rồi bấm Lấy. Núp ở khung vàng khi đèn pin quét tới.');
+  say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
   requestAnimationFrame(loop); }); }
 
 /* đi đêm: chọn việc, chơi, chạy cảnh kết quả */

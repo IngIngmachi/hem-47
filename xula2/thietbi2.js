@@ -119,3 +119,15 @@ function gMayTram(){ return new Promise(res=>{ let tab='kh', left=45, seen={}, d
   const iv=setInterval(()=>{ left=Math.max(0,45-Math.floor((performance.now()-T0)/1000)); const t=$('mtT'), bb=$('mtB'); if(t) t.textContent=left; if(bb) bb.style.width=(left/45*100)+'%'; if(left<=0){ toast('Tiếng dép ngoài hành lang. Lủi ra không kịp, Chị Bảy thấy mình đứng gần máy.'); fin(true); } },500);
   draw(); }); }
 P2GAMES.maytram=async()=>{ const late=await gMayTram(); if(late){ await say('thoai','Chị Bảy','Đứng đây làm gì. Về bàn.'); hideDlg(); } };
+
+/* ---------- 4. LỘ RÕ HƠN: mò thùng nước ban ngày, lén về máy trạm giờ cơm ---------- */
+X('x_mothung_act','Buồng tắm',[['~','Cái thùng nước lạnh. Người ta nói đáy thùng có dán cái gì đó.'],{game:'mothung'}]);
+P2DATA.ACT.push({id:'x_mothung',h:2,hx:3,d:[9,19],who:'o:thung',k:'x_mothung_act',t:'Mò dưới đáy thùng nước',sub:'nghe nói có cái máy dán dưới đó',c:'co:x_biet_may !co:x_may',until:'co:x_may',cost:15});
+P2GAMES.mothung=()=>new Promise(res=>{ p2open('<h3>Mò dưới đáy thùng nước</h3><div class="dd2" id="mtHost" style="aspect-ratio:5/3;min-height:240px"></div>',()=>{ const mg=document.querySelector('#mtHost .mg'); if(mg&&window.__p2mini) window.__p2mini.lose(); });
+  miniDem($('mtHost'),'may').then(async r=>{ p2close();
+    if(r.kq==='ok'){ await runS('x_dd_may'); hideDlg(); }
+    else if(r.kq==='on'){ effects('+nghi:'+Math.round((r.n||.5)*20)); await say('nghi','',(r.m||'Có tiếng động.')+' Rút tay ra, lau khô, đi ra như không có gì.'); hideDlg(); }
+    res(); }); });
+async function p2LenMayTram(){ if(!P2.on||P2.map!=='trai'||hasF('x_maytram')||S.day<9) return;
+  busy=true; const p=await choose([{ma:'y',loi:'Lén về phòng máy',sub:'máy Chị Bảy còn sáng · chừng 45 giây'},{ma:'n',loi:'Ngồi ăn cơm'}],false,'Phòng máy vắng tanh. Máy của Chị Bảy chưa khóa.'); hideDlg(); busy=false;
+  if(p.ma==='y'){ await runS('x_maytram_act'); hideDlg(); } }

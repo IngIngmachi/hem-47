@@ -658,10 +658,23 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
   requestAnimationFrame(loop); }); }
 
+/* việc đi đêm có trò riêng: mở thẳng trò nhỏ, không đi bản đồ nữa */
+function miniThang(muc){ return new Promise(async res=>{ let lan=0, done=false;
+  const fin=k=>{ if(done) return; done=true; p2close(); res({kq:k}); };
+  p2open('<h3>'+esc('Đi đêm · '+MUC[muc].ten)+'</h3><div class="dd2" id="mtHost" style="height:min(72vh,660px)"></div>',()=>{ const b=document.querySelector('#mtHost [data-bo]'); if(b) b.click(); else fin('het'); });
+  while(!done){ const r=await miniDem($('mtHost'),muc); if(done) return;
+    if(r.kq==='ok'){ fin('xong'); return; }
+    if(r.kq==='bo'){ fin('het'); return; }
+    if(r.kq==='on'){ lan++; if(r.n>=.9||lan>=2){ fin('bat'); return; }
+      await sayOver((r.m||'Có tiếng động.')+' Nín thở núp một hồi… không ai ra. Làm lại, lần này nhẹ tay.'); continue; }
+    await sayOver(r.m||'Chưa được. Thử lại.'); } }); }
+function sayOver(m){ return new Promise(r=>{ const h=$('mtHost'); if(!h){ r(); return; } const d=document.createElement('div'); d.className='mg'; d.style.cssText+='align-items:center;justify-content:center;padding:24px;text-align:center';
+  d.innerHTML='<p style="font-size:18px;line-height:1.6;max-width:560px;color:#efe8d8">'+esc(m)+'</p><div class="mgb"><button type="button" class="main">Làm lại</button></div>'; h.appendChild(d); d.querySelector('button').onclick=()=>{ d.remove(); r(); }; }); }
+
 /* đi đêm: chọn việc, chơi, chạy cảnh kết quả */
 async function p2DiDem(){ const L=Object.keys(MUC).filter(k=>MUC[k].c()); if(!L.length) return;
   busy=true; const p=await choose([...L.map(k=>({ma:k,loi:MUC[k].ten,sub:MUC[k].why})),{ma:'_',loi:'Ngủ',sub:'mai còn ca sáng'}],false,(hasF('x_siet')?'Trại đang siết, tuần tra gấp đôi. ':'')+'Đi đêm?'); hideDlg(); busy=false;
-  if(p.ma==='_') return; if(MUC[p.ma].thang){ await say('mota','','Lẻn qua hành lang lầu hai lúc mọi người ngủ say. Buồng tắm cuối dãy, vòi nước để chảy cho át tiếng.'); hideDlg(); await runS(MUC[p.ma].k); hideDlg(); return; } const r=await sneak({mode:'didem',muc:p.ma,siet:hasF('x_siet')&&S.day<=18,limit:hasF('x_siet')?90:110});
+  if(p.ma==='_') return; if(MUC[p.ma].thang){ await say('mota','','Lẻn qua hành lang lầu hai lúc mọi người ngủ say. Buồng tắm cuối dãy, vòi nước để chảy cho át tiếng.'); hideDlg(); await runS(MUC[p.ma].k); hideDlg(); return; } const r=MINI[p.ma]?await miniThang(p.ma):await sneak({mode:'didem',muc:p.ma,siet:hasF('x_siet')&&S.day<=18,limit:hasF('x_siet')?90:110});
   if(r.kq==='bat'){ await runS('x_dd_bat'); effects('+nghi:20'); return; }
   if(r.kq==='het'){ await say('mota','','Trời hửng sáng. Phải quay về trước điểm danh, tay không.'); hideDlg(); return; }
   if(r.kq==='xong_tre'){ await say('mota','','Về tới phòng thì vừa kịp tiếng chuông. Mồ hôi ướt áo.'); effects('+nghi:5'); }

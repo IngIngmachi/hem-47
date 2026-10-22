@@ -47,7 +47,7 @@ tsRender=function(){ if(!P2.on) return tsRender1(); const b=$('tsBody'); const t
     $('tsAll2').onchange=e=>{ P2TS.all=e.target.checked; };
     b.querySelectorAll('[data-b]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); await board(x.dataset.b); if(SCN['kq_'+x.dataset.b]) await runS('kq_'+x.dataset.b); }));
     b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); const g=x.dataset.g; if(g==='_ca'){ await caNhan(2); return; } if(g==='danhsach') buildDs(); await P2GAMES[g](); }));
-    b.querySelectorAll('[data-mg]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const pr=sneak({mode:'didem',muc:x.dataset.mg,limit:110}); setTimeout(()=>window.__p2sneak&&window.__p2sneak.toi(),120); const r=await pr; toast('Kết quả: '+r.kq); }));
+    b.querySelectorAll('[data-mg]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const r=await miniThang(x.dataset.mg); toast('Kết quả: '+r.kq); }));
     b.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const r=await sneak({mode:'didem',muc:x.dataset.d,limit:110}); toast('Kết quả: '+r.kq); }));
     b.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>tsRun(async()=>{ buildDs(); const ok=x.dataset.c==='ok'; const groups=dsCon().map(p=>({id:p.id,ten:p.ten,sp:p.id,can:ok?0:(S.tin[p.id]||0)>=2?0:1,after:0}));
       const ex=[{ten:'Cổng chính',f:0,x:60,cost:ok?5:20}]; if(ok){ ex.push({ten:'Cửa sau',f:0,x:930,cost:0}); ex.push({ten:'Rào sau bếp',f:0,x:740,cost:0}); }

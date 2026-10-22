@@ -3360,7 +3360,7 @@ cdApply();
   cv.appendChild(st);
   if(Math.random()<.5) cv.classList.add('chon-qr');
   const ov=document.createElement('div'); ov.id='moi'; ov.hidden=true; ov.setAttribute('role','dialog'); ov.setAttribute('aria-modal','true'); ov.setAttribute('aria-labelledby','moiT');
-  ov.innerHTML='<div class="in"><h3 id="moiT">Mời chủ hẻm uống nước</h3><p>Hẻm 47 do một người viết, vẽ và làm, chơi miễn phí. Nếu bạn thấy vui, mời chủ hẻm ly nước để có sức viết tiếp nha.</p><img src="img2/moi-nuoc.webp" width="982" height="1185" alt="Mã QR chuyển khoản VPBank (VietQR, Napas 247) để mời chủ hẻm uống nước"><small>Mở app ngân hàng, chọn Quét mã. Đang xem trên điện thoại thì chụp màn hình, rồi chọn ảnh QR trong app ngân hàng.</small><button type="button" class="go">Đóng</button></div>';
+  ov.innerHTML='<div class="in"><h3 id="moiT">Mời chủ hẻm uống nước</h3><p>Hẻm 47 do một người viết, vẽ và làm, chơi miễn phí. Nếu bạn thấy vui, mời chủ hẻm ly nước để có sức viết tiếp nha.</p><img src="img2/moi-nuoc-2.webp" width="982" height="1185" alt="Mã QR chuyển khoản VPBank (VietQR, Napas 247) để mời chủ hẻm uống nước"><small>Mở app ngân hàng, chọn Quét mã. Đang xem trên điện thoại thì chụp màn hình, rồi chọn ảnh QR trong app ngân hàng.</small><button type="button" class="go">Đóng</button></div>';
   document.body.appendChild(ov);
   const close=()=>{ ov.hidden=true; st.focus(); };
   st.onclick=()=>{ ov.hidden=false; ov.querySelector('.go').focus(); };

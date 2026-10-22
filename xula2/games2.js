@@ -49,11 +49,11 @@ const P2CSS=`
 .p2tl .cell{height:40px;border-radius:6px;background:#171b28;border:1px solid #232a3d}
 .p2tl .cell.g{background:#7a3a36;border-color:#e2645c}
 .p2tl .col{cursor:pointer}.p2tl .col.pick{outline:2px solid #5fb37a}
-.p2paper{display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:min(270px,100%);aspect-ratio:3/4;margin:0 auto;background:#1a1f2c;border-radius:6px;overflow:hidden}
-.p2paper .p2slot{border-radius:0;border-width:1px;min-height:0}
+.p2paper{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:0;width:min(270px,100%);aspect-ratio:3/4;margin:0 auto;background:#1a1f2c;border-radius:6px;overflow:hidden}
+.p2paper .p2slot{border-radius:0;border-width:1px;min-height:0;min-width:0;padding:0;overflow:hidden}
 .p2piece{touch-action:none;width:96px;aspect-ratio:3/4;border-radius:3px;background-size:300% 200%;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.5)}
 .p2piece.drag{position:fixed;z-index:99999;pointer-events:none}
-.p2paper .p2piece{width:100%;height:100%;box-shadow:none;border-radius:0}
+.p2paper .p2piece{width:100%;height:100%;aspect-ratio:auto;box-shadow:none;border-radius:0}
 .p2wave{width:100%;height:120px;background:#0f121b;border-radius:10px;display:block}
 .p2rng{width:100%;margin:12px 0}
 .p2timer{height:4px;background:#e2645c;border-radius:2px;transition:width linear;margin:0 0 6px}
@@ -128,12 +128,12 @@ body.p2lb::before{top:0}body.p2lb::after{bottom:0}
 const P2XIDS=['dgX','gpX','ltX','ngX','gx','gmX','caX'];
 const p2open=(html,onX)=>{ hideDlg(); if(typeof phAuto!=='undefined'&&phAuto) closePhone(); const g=$('game'); g.hidden=false; const box=$('gameBox'); box.innerHTML='<div class="p2g"><button class="p2x" id="p2x" type="button">✕ Để sau</button>'+html+'</div>'; box.scrollTop=0;
   $('p2x').onclick=()=>{ if(onX){ onX(); return; } const t=P2XIDS.map(i=>$(i)).find(Boolean); if(t) t.click(); };
-  if(!onX&&!P2XIDS.some(i=>$(i))) $('p2x').remove(); return box; };
+  if(!onX&&!P2XIDS.some(i=>$(i))) $('p2x').remove(); else P2XIDS.forEach(i=>{ const e=$(i); if(e) e.style.display='none'; }); return box; };
 const p2close=()=>{ $('game').hidden=true; $('gameBox').innerHTML=''; };
 const fx=s=>effects(s);
 
 /* ---------------- kéo thả chung (chuột lẫn cảm ứng) ---------------- */
-function dragKit(root,onDrop){ let cur=null, ghost=null, ox=0, oy=0, hot=null;
+function dragKit(root,onDrop){ root=(root&&root.querySelector&&root.querySelector(':scope > .p2g'))||root; let cur=null, ghost=null, ox=0, oy=0, hot=null;
   const slotAt=(x,y)=>{ ghost&&(ghost.style.display='none'); const el=document.elementFromPoint(x,y); ghost&&(ghost.style.display=''); return el&&el.closest('[data-slot]'); };
   root.addEventListener('pointerdown',e=>{ const c=e.target.closest('[data-card]'); if(!c||c.classList.contains('lock')) return; e.preventDefault(); cur=c; const r=c.getBoundingClientRect(); ox=e.clientX-r.left; oy=e.clientY-r.top;
     ghost=c.cloneNode(true); ghost.classList.add('drag'); ghost.style.width=r.width+'px'; ghost.style.height=r.height+'px'; ghost.style.left=(e.clientX-ox)+'px'; ghost.style.top=(e.clientY-oy)+'px'; document.body.appendChild(ghost); c.style.opacity='.3'; try{ root.setPointerCapture(e.pointerId); }catch(_){} });
@@ -527,7 +527,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   p2open('<h3>'+esc(cuu?'Đêm mưa · dẫn người ra sông':'Đi đêm · '+MUC[cfg.muc].ten)+'</h3><div class="dd2"><canvas id="dc" width="1000" height="600"></canvas><div class="ctl"><div class="g"><button id="kL" type="button" aria-label="Sang trái">◀</button><button id="kR" type="button" aria-label="Sang phải">▶</button></div><div class="g"><button id="kU" type="button">▲ Lên</button><button id="kD" type="button">▼ Xuống</button><button id="kH" type="button">Núp</button><button id="kA" class="go" type="button">'+(cuu?'Dẫn':'Lấy')+'</button><button id="kS" type="button">Chạy</button></div></div><div class="tbar"><b id="ktb"></b></div></div>',cuu?null:()=>finish(got?'xong_tre':'het'));
   if(cuu){ const xb=$('p2x'); if(xb) xb.remove(); }
   const cv=$('dc'), x=cv.getContext('2d'); const bgk=p2imgUrl('x2-trai-matcat'); let bgi=null; if(bgk){ bgi=new Image(); bgi.src=bgk; }
-  const P={f:1,x:cuu?240:200,hid:false,run:false,sus:0,ph:0,face:1}; const G=guards(cfg.siet,cuu);
+  const M0=!cuu&&MUC[cfg.muc]; const P={f:M0?M0.f:1,x:cuu?240:(M0?(M0.x>DMAP.stairs.x?DMAP.stairs.x-40:DMAP.stairs.x+DMAP.stairs.w+40):200),hid:false,run:false,sus:0,ph:0,face:M0&&M0.x<DMAP.stairs.x?-1:1}; const G=guards(cfg.siet,cuu);
   let K={L:0,R:0}, paused=false, over=false, t=0, msg='', msgT=0, got=false, clock=cuu?60:0;
   const groups=cuu?cfg.groups.map((g,i)=>Object.assign({},g,{x:60+i*48,f:1,st:'cho'})):[]; let lead=null; const out=[], lost=[]; const exits=cuu?cfg.exits:[];
   const say1=m=>{ msg=m; msgT=3; };
@@ -546,7 +546,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   function act(){
     if(!cuu){ const m=MUC[cfg.muc]; if(P.f===m.f&&Math.abs(P.x-m.x)<45&&!got){ if(paused) return; if(!MINI[cfg.muc]){ got=true; tone(520,.06,.03,'triangle'); say1('Xong. Về phòng ngủ: lầu hai, bên trái.'); return; }
         paused=true; K.L=K.R=0; miniDem(cv.parentNode,cfg.muc).then(r=>{ paused=false; last=performance.now(); if(over) return;
-          if(r.kq==='ok'){ got=true; tone(520,.06,.03,'triangle'); say1('Xong. Về phòng ngủ: lầu hai, bên trái.'); }
+          if(r.kq==='ok'){ got=true; tone(520,.06,.03,'triangle'); say1('Xong. Lẻn về giường.'); setTimeout(()=>finish('xong'),900); }
           else if(r.kq==='on'){ P.sus=r.n>=1?1:Math.min(.95,P.sus+r.n); say1((r.m||'Có tiếng động.')+' Núp ngay!'); }
           else if(r.kq==='hong') say1(r.m||'Chưa được. Thử lại.'); else say1('Rút ra trước. Bấm Lấy để làm lại.'); }); } else if(got&&P.f===1&&P.x<430) finish('xong'); else say1(got?'Về phòng ngủ ở lầu hai, bên trái.':'Chưa tới chỗ. Chấm vàng là chỗ cần tới.'); return; }
     if(!lead){ const g=groups.find(g=>g.st==='cho'&&g.f===P.f&&Math.abs(g.x-P.x)<40); if(g&&g.after&&clock<g.after){ say1(g.ten+': "Tui đi sau cùng. Dẫn tụi nhỏ trước."'); return; }
@@ -592,7 +592,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     const tb=$('ktb'); if(tb) tb.style.width=(cuu?Math.min(100,clock/(cfg.end||300)*100):Math.min(100,t/(cfg.limit||110)*100))+'%';
     x.textAlign='left'; const a=atS(); $('kU').disabled=!a||P.f>=2; $('kD').disabled=!a||P.f<=0; $('kH').textContent=P.hid?'Ra':'Núp'; }
   window.__p2sneak={toi:()=>{ if(!cuu){ const m=MUC[cfg.muc]; P.f=m.f; P.x=m.x; act(); } },win:()=>{ if(cuu){ groups.forEach(g=>{ if(g.st==='cho'&&g.can<2){ g.st='ra'; out.push(g); } }); finish('het'); } else { got=true; finish('xong'); } },lose:()=>finish(cuu?'het':'bat')};
-  say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Chấm vàng là chỗ cần tới. Núp ở ô nâu khi đèn pin quét tới.');
+  say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Tới chấm vàng rồi bấm Lấy. Núp ở khung vàng khi đèn pin quét tới.');
   requestAnimationFrame(loop); }); }
 
 /* đi đêm: chọn việc, chơi, chạy cảnh kết quả */
@@ -607,7 +607,7 @@ async function p2DiDem(){ const L=Object.keys(MUC).filter(k=>MUC[k].c()); if(!L.
 /* ---------------- gọi trò chơi từ lời thoại ---------------- */
 const P2GAMES={
   giaitin:async()=>{ const ok=await giaiMa('Sáng nay trời mưa quá chị ơi.\nÍt bữa nữa em mua dép mới.\nHôm qua tụi em được ăn thịt.\nAi cũng nhớ chị hết á.','SIHA','Tin của số lạ',null,'x2-tin-siha'); if(ok) setCo('x_siha'); },
-  giaitin2:async()=>{ await giaiMa('Nhi còn đây.\nHuệ đau lưng hoài.\nÍt khi được ngủ.\nTí ốm.\nOanh đi rồi.\nAnh Toàn ổn.','NHITOA','Tin thứ hai',null,'x2-tin-nhi'); },
+  giaitin2:async()=>{ const ok=await giaiMa('Nhi còn đây.\nHuệ đau lưng hoài.\nÍt khi được ngủ.\nTí ốm.\nOanh đi rồi.\nAnh Toàn ổn.','NHITOA','Tin thứ hai',null,'x2-tin-nhi'); if(ok) setCo('x_a_tin2_ok'); },
   tinvao:async()=>{ const ok=await giaiMa('Ông bà mình dạy ở hiền gặp lành.\nKhuyến mãi tháng này giảm 30%.','OK','Tin rác','Đọc chữ đầu mỗi câu.','x2-tin-rac'); if(ok){ effects('-lo:5'); await runS('x_tinvao_ok'); } },
   giauchu:async()=>{ const r=await giauChu('SONG','Bin đóng vai quản lý, đọc lướt.'); if(r&&r.dung&&!r.vung) setCo('x_tap_ok'); },
   gui:async()=>{ const w=nextWord(); if(!w) return; const r=await giauChu(w,S.mon==='sim'&&hasF('x_giu')?'Gửi bằng SIM riêng, quản lý ít đọc.':'Quản lý đọc lướt mọi tin gửi ra.');

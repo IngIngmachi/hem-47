@@ -61,9 +61,9 @@ const P2DATA=(()=>{
   const H1={h:1,hx:1}, H2={h:2,hx:3};
   const ACT=[
     // nhánh A
-    {id:'x_a_giaitin',...H1,d:[1,7],who:'o:maycu_thoa',k:'x_a_giaitin',t:'Đọc tin của số lạ',c:'nhanh:A vai:ngan !co:x_a_tin1',w:[6,23.5],cost:30},
+    {id:'x_a_giaitin',...H1,d:[1,7],who:'o:maycu_thoa',k:'x_a_giaitin',t:'Đọc tin của số lạ',c:'nhanh:A vai:ngan !co:x_a_tin1',until:'co:x_a_tin1',w:[6,23.5],cost:30},
     {id:'x_a_moi',...H1,d:[1,7],who:'lam',k:'x_a_moi',t:'Đưa Lâm coi tin nhắn',c:'nhanh:A vai:ngan co:x_a_tin1 !co:x_hop',cost:40},
-    {id:'x_a_sodo',...H1,d:[1,7],who:'o:ban_quay',k:'x_a_sodo',t:'Vẽ lại sơ đồ trại cũ',c:'nhanh:A vai:ngan co:x_hop !co:x_sodo',cost:60},
+    {id:'x_a_sodo',...H1,d:[1,7],who:'o:ban_quay',k:'x_a_sodo',t:'Vẽ lại sơ đồ trại cũ',c:'nhanh:A vai:ngan co:x_hop !co:x_sodo',until:'co:x_sodo',cost:60},
     {id:'x_a_huong',...H1,d:[2,7],w:[8,21],who:'ngo',place:'thaodien',k:'x_a_huong',t:'Gặp Hương ở quán Thảo Điên',c:'nhanh:A vai:lam !co:x_vu_ocl',cost:120},
     {id:'x_a_vi',...H1,d:[2,7],who:'o:laptop',k:'x_a_vi',t:'Lần dòng tiền của Anh Hai',c:'nhanh:A vai:lam co:x_vu_ocl !cc:x_vi',until:'cc:x_vi',cost:60},
     {id:'x_a_thoa',...H1,d:[3,7],who:'thoa',k:'x_a_thoa',t:'Nói chuyện với mẹ',c:'nhanh:A vai:ngan',sau:'+co:x_a_thoa_xong',cost:40},
@@ -77,7 +77,7 @@ const P2DATA=(()=>{
     {id:'x_b_tratin',...H1,d:[1,7],who:'o:laptop',k:'x_b_tratin',t:'Tra khu Ba Vẹt dời đi đâu',c:'nhanh:B !cc:x_siha',cost:45},
     {id:'x_b_huong',...H1,d:[1,7],w:[8,21],who:'ngo',place:'thaodien',k:'x_b_huong',t:'Gặp Hương ở quán Thảo Điên',c:'nhanh:B cc:x_siha !co:x_vu_ocl',cost:120},
     {id:'x_b_vinh',...H1,d:[2,7],w:[8,17],who:'ngo',place:'congan',k:'x_b_vinh',t:'Gặp đại úy Vinh ở phường',c:'nhanh:B co:x_vu_ocl !co:x_vinh',cost:120},
-    {id:'x_b_sodo',...H1,d:[2,7],who:'o:laptop',k:'x_b_sodo',t:'Dò sơ đồ trại',c:'nhanh:B co:x_vinh !co:x_sodo',cost:60},
+    {id:'x_b_sodo',...H1,d:[2,7],who:'o:laptop',k:'x_b_sodo',t:'Dò sơ đồ trại',c:'nhanh:B co:x_vinh !co:x_sodo',until:'co:x_sodo',cost:60},
     {id:'x_b_duong',...H1,d:[3,7],w:[8,16],who:'ngo',place:'trai_giam',k:'x_b_duong',t:'Thăm Khoa, xin đường lên xe',c:'nhanh:B p1:khoa_lat co:x_vinh !co:x_duong',cost:150},
     {id:'x_b_duong2',...H1,d:[3,7],w:[8,17],who:'ngo',place:'vpkhac',k:'x_b_duong',t:'Nộp hồ sơ ở văn phòng quận khác',sub:'phí 1.000.000đ',c:'nhanh:B !p1:khoa_lat co:x_vinh !co:x_duong',need:'tien>=1000000',why:'Cần 1.000.000đ phí hồ sơ.',cost:120},
     {id:'x_kham',...H1,d:[4,7],w:[7,11],who:'ngo',place:'kham',k:'x_kham',t:'Đi khám sức khỏe đi làm',c:'nhanh:B co:x_duong !co:x_kham',cost:120},

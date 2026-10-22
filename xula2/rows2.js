@@ -83,19 +83,20 @@ X('x_hd','Phần 2 · hướng dẫn',[
 X('x_a_giaitin','A · giải tin của số lạ',[
  'Ngân lấy cái đt cũ dưới ngăn kéo quầy ra, đọc lại tin nhắn lúc 2h sáng.',
  ['~','Chính mình chỉ cho tụi nhỏ trong tổ cách này. Đừng đọc nguyên câu, ghép chữ đầu mỗi câu lại.'],
- {game:'giaitin',s:'+co:x_a_tin1'},
- {if:'co:x_siha',L:[['~','S - I - H - A. Cảng Xi-ha. Tụi nó dời nguyên tổ của mình về dưới đó rồi.'],['~','Đứa nhắn tin là con Nhi. Vậy là nó còn sống, còn cầm máy gõ được.']]},
- {if:'!co:x_siha',L:[['~','Ghép mấy chữ đầu lại ra chữ Xi... Xi Ha. Chắc là Cảng Xi-ha rồi.'],{fx:'+co:x_siha'}]},
- ['~','Mình tự mò qua đó một mình không nổi. Mà báo công an phường cũng không xong, hồ sơ của mình trên phường còn chưa xóa.'],
- ['~','Lâm. Thằng chả giỏi đào bới thông tin lắm mà.'],
- {fx:'+cc:x_siha'}]);
+ {game:'giaitin'},
+ {if:'co:x_siha',L:[['~','S - I - H - A. Cảng Xi-ha. Tụi nó dời nguyên tổ của mình về dưới đó rồi.'],['~','Đứa nhắn tin là con Nhi. Vậy là nó còn sống, còn cầm máy gõ được.'],
+   ['~','Mình tự mò qua đó một mình không nổi. Mà báo công an phường cũng không xong, hồ sơ của mình trên phường còn chưa xóa.'],
+   ['~','Lâm. Thằng chả giỏi đào bới thông tin lắm mà.'],{fx:'+co:x_a_tin1 +cc:x_siha'}]},
+ {if:'!co:x_siha',L:[['~','Chữ đầu cứ nhảy lung tung, đọc chưa ra. Để lát bình tĩnh đọc lại.']]}]);
 X('x_a_sodo','A · vẽ lại sơ đồ trại',[
  'Ngân xé đại một tờ giấy trong cuốn tập cũ của Thủy, trải lên mặt quầy.',
  ['~','Tầng trệt là phòng máy, nhà bếp nằm sát cửa sau. Lầu 2 là phòng ngủ, buồng tắm tuốt cuối hành lang. Còn lầu 3... hồi ở trển mình chưa được lên lần nào.'],
  {game:'sodo'},
- {if:'p1:phat_nhanchung',L:['Sáng ra thấy có cái phong bì nhét dưới khe cửa cuốn. Nét chữ thằng Phát: vẽ sẵn sơ đồ 3 tầng, có luôn cả lầu 3.',['~','Thằng nhỏ nhớ đường đi nước bước còn kỹ hơn mình.'],{fx:'+co:x_sodo3'}]},
- {if:'!p1:phat_nhanchung',L:[['~','Còn lầu 3 bỏ trống. Lên trển rồi tự mò sau vậy.']]},
- {fx:'+co:x_sodo +cc:x_sodo'}]);
+ {if:'co:x_sodo_ok',L:[
+  {if:'p1:phat_nhanchung',L:['Sáng ra thấy có cái phong bì nhét dưới khe cửa cuốn. Nét chữ thằng Phát: vẽ sẵn sơ đồ 3 tầng, có luôn cả lầu 3.',['~','Thằng nhỏ nhớ đường đi nước bước còn kỹ hơn mình.'],{fx:'+co:x_sodo3'}]},
+  {if:'!p1:phat_nhanchung',L:[['~','Còn lầu 3 bỏ trống. Lên trển rồi tự mò sau vậy.']]},
+  {fx:'+co:x_sodo +cc:x_sodo'}]},
+ {if:'!co:x_sodo_ok',L:[['~','Vẽ chưa ra hình. Để lát nhớ lại rồi vẽ tiếp.']]}]);
 X('x_a_moi','A · Ngân tới phòng 3',[
  {bg:'trong-phong3'},
  'Ngân đứng trước phòng 3, gõ cửa cộc cộc.',
@@ -158,8 +159,9 @@ X('x_a_thoai','A · gặp Tài xế Thoại',[
 X('x_a_tin2','A · tin thứ hai',[
  'Nửa đêm. Con Nhi lại lén gửi về thêm một tin nhắn nữa, dài hơn tin trước.',
  {game:'giaitin2'},
- ['~','Còn Nhi, chị Huệ, thằng Tí, anh Toàn. Còn con bé Oanh thì... bị bán qua "bãi K-Kay bên Miến" rồi.'],
- 'Ngân gõ 4 cái tên lưu vô ghi chú đt, đặt tên mục là "Tổ".']);
+ {if:'co:x_a_tin2_ok',L:[['~','Còn Nhi, chị Huệ, thằng Tí, anh Toàn. Còn con bé Oanh thì... bị bán qua "bãi K-Kay bên Miến" rồi.'],
+  'Ngân gõ 4 cái tên lưu vô ghi chú đt, đặt tên mục là "Tổ".']},
+ {if:'!co:x_a_tin2_ok',L:[['~','Đọc không ra hết. Chỉ chắc được một điều: chữ đầu là N. Nhi còn sống.']]}]);
 X('x_a_gom','Gom tiền trong hẻm',[
  'Lâm ghé từng nhà trong hẻm. Không mở miệng xin, chỉ kể thiệt mọi chuyện.',
  {if:'tin_ba_sau>=3',L:[['Bà Sáu','Cầm lấy chút đỉnh đi con. Tiền bà cất kỹ tính để dành mua cái hòm, mà thôi giờ cứu người trước đi.'],{fx:'+tien:1000000'}]},
@@ -213,10 +215,13 @@ X('x_b_vinh','B · gặp đại úy Vinh',[
  {if:'p1:tu_lo',L:[['Đại úy Vinh','À, nhìn qua cái này đi. Lời khai của Đặng Minh Tú lúc bị triệu tập lên phường: "Tiền bạc là má tôi giữ hết."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_b_sodo','B · dò sơ đồ trại',[
- {if:'p1:phat_nhanchung',L:['5h sáng, Phát hẹn gặp ngoài bến sông. Nó lấy bút vẽ nguệch ngoạc lên mặt sau tờ lịch: tòa nhà 3 tầng, cầu thang chính giữa, cửa hậu thông ra bờ sông.',['Phát','Lầu 3 là văn phòng tụi sếp. Sổ sách chỉ tiêu cất hết trên đó, mà cửa khóa kỹ lắm, quản lý giữ chìa.'],['Phát','Vô trển rồi ráng giữ cái mạng nha anh, đừng có làm anh hùng mà chết oan.'],{fx:'+co:x_sodo3'}]},
- {if:'!p1:phat_nhanchung',L:['Lâm mò vô group "Hội người trốn về từ bên kia". Kiếm mãi mới có một người chịu nghe máy, nhưng tắt camera.','"Tầng trệt là phòng máy. Lầu 2 là chỗ ngủ. Còn lầu 3 có lính canh suốt, tui chưa bén mảng lên đó bao giờ."',['~','Chưa biết cấu trúc lầu 3 ra sao. Đành phải vô trển tự mò vậy.']]},
+ {if:'!co:x_sodo_info',L:[
+  {if:'p1:phat_nhanchung',L:['5h sáng, Phát hẹn gặp ngoài bến sông. Nó lấy bút vẽ nguệch ngoạc lên mặt sau tờ lịch: tòa nhà 3 tầng, cầu thang chính giữa, cửa hậu thông ra bờ sông.',['Phát','Lầu 3 là văn phòng tụi sếp. Sổ sách chỉ tiêu cất hết trên đó, mà cửa khóa kỹ lắm, quản lý giữ chìa.'],['Phát','Vô trển rồi ráng giữ cái mạng nha anh, đừng có làm anh hùng mà chết oan.'],{fx:'+co:x_sodo3'}]},
+  {if:'!p1:phat_nhanchung',L:['Lâm mò vô group "Hội người trốn về từ bên kia". Kiếm mãi mới có một người chịu nghe máy, nhưng tắt camera.','"Tầng trệt là phòng máy. Lầu 2 là chỗ ngủ. Còn lầu 3 có lính canh suốt, tui chưa bén mảng lên đó bao giờ."',['~','Chưa biết cấu trúc lầu 3 ra sao. Đành phải vô trển tự mò vậy.']]},
+  {fx:'+co:x_sodo_info'}]},
  {game:'sodo'},
- {fx:'+co:x_sodo +cc:x_sodo'}]);
+ {if:'co:x_sodo_ok',L:[{fx:'+co:x_sodo +cc:x_sodo'}]},
+ {if:'!co:x_sodo_ok',L:[['~','Xếp chưa khớp. Để lát coi lại mấy lời người ta kể.']]}]);
 X('x_b_duong','B · tìm đường lên xe',[
  {if:'p1:khoa_lat',L:[['Khoa','Em tính leo lên chuyến xe đợt tới thiệt hả? Anh vẫn còn giữ mối thằng tài xế.'],['Khoa','Thằng Khang em anh đang bị nhốt ở khu đó. Vô trển gặp được nó, nói giùm anh một câu xin lỗi.'],['Khoa','Hồ sơ giả của em đây, học thuộc cái tên mới này đi.'],{fx:'+co:x_duong_khoa +co:x_duong'}]},
  {if:'!p1:khoa_lat',L:[

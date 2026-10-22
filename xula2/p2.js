@@ -330,13 +330,33 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
   else L.push('Khu dời đi trước giờ ập vào.','Xe tải chạy trong mưa. Không ai biết nó chạy về đâu.','Ba tuần sau, tài khoản cũ của Ngân nhận được một tin rác.','Ghép chữ đầu câu, ra một cái tên: L. A. M.');
   if(k!=='ca_to'&&!my) L.push('Ở một nơi khác, một bà già sáu mươi tuổi tắt ứng dụng đổi giọng, rót trà, rồi gọi cho con trai: "Mấy đứa đó để má lo."');
   let got=[]; try{ got=JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){} if(!got.includes(k)) got.push(k); lsSet('tgl_chuong2_ket',JSON.stringify(got));
-  hideDlg(); closePhone();
-  const e=document.createElement('div'); e.className='p2end'; const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k]; if(EB&&P2REAL[EB]) e.style.background='linear-gradient(rgba(7,8,13,.78),rgba(7,8,13,.94)),url(img2/'+EB+'.webp) center/cover fixed'; e.innerHTML='<div class="in" id="p2eIn"></div>'; document.body.appendChild(e); const inn=e.querySelector('#p2eIn');
-  for(const l of L){ const p=document.createElement('p'); p.className='l'; inn.appendChild(p); for(let i=0;i<=l.length;i+=2){ p.textContent=l.slice(0,i); await sleep(16); } p.textContent=l; await sleep(500); }
-  inn.insertAdjacentHTML('beforeend','<h2>'+esc((ENDS[k]||['',''])[1])+'</h2><div class="sum"><div><b>'+(S.p2ra||[]).length+'/'+(S.p2tong||0)+'</b><span>người ra tới sông</span></div><div><b>'+ocl()+'/5</b><span>chứng cứ về Ông Chủ Lò</span></div><div><b>'+(S.so||[]).length+'</b><span>người mất tiền vì tin bạn gửi</span></div><div><b>'+got.length+'/4</b><span>kết đã mở</span></div></div>'+
-   ((S.so||[]).length?'<p class="tag">SỔ NẠN NHÂN</p><ol>'+S.so.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>':'')+((S.p2log||[]).length?'<p class="tag">GHI CHÉP</p><ol>'+S.p2log.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>':'')+
-   '<p class="tag" style="margin-top:20px">Thủ đoạn trong game hư cấu từ các vụ việc báo chí và cơ quan chức năng đã công bố. Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, hãy báo công an nơi gần nhất.</p><p class="tag">© Jesuising Studio</p><div class="row"><button class="btn" id="p2Again" type="button">Chơi lại Phần 2</button><button class="btn ghost" id="p2Home" type="button">Về màn đầu</button></div>');
-  e.querySelector('#p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; e.querySelector('#p2Home').onclick=()=>location.reload(); }
+  hideDlg(); closePhone(); const name=(ENDS[k]||['',''])[1];
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];
+  /* 1. chữ chạy, cùng kiểu kết Phần 1 */
+  await new Promise(res=>{ let el=$('typeEnd'); if(!el){ el=document.createElement('div'); el.id='typeEnd'; document.body.appendChild(el); }
+    el.innerHTML='<div class="te-in"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">HẺM 47 · PHẦN 2 · XỨ LẠ</div><div class="te-n">'+esc(name)+'</div><div class="te-s">Kết '+got.length+'/4</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
+    el.style.background='linear-gradient(rgba(5,6,10,.78),rgba(5,6,10,.92)),#05060a '+(EB&&P2REAL[EB]?'url(img2/'+EB+'.webp) center/cover':'');
+    el.hidden=false; const tx=$('teTx'); let skip=false, li=0, ci=0, cur=null, done=false;
+    const fin=()=>{ if(done) return; done=true; tx.innerHTML=L.map((l,i)=>'<p'+(i===L.length-1?' class="te-last"':'')+'>'+esc(l)+'</p>').join(''); $('teSkip').hidden=true; setTimeout(()=>{ $('teC2').hidden=false; tone(110,1.6,.05,'sine'); tone(165,1.6,.03,'sine',.05); setTimeout(()=>{ $('teGo').hidden=false; },1400); },700); };
+    el.onclick=e=>{ if(e.target.id==='teGo'){ el.hidden=true; res(); return; } if(!done) skip=true; };
+    const step=()=>{ if(skip||li>=L.length){ fin(); return; }
+      if(ci===0){ cur=document.createElement('p'); if(li===L.length-1) cur.className='te-last'; tx.appendChild(cur); }
+      const line=L[li]; ci+=2; cur.textContent=line.slice(0,ci); if(ci>=line.length){ cur.textContent=line; li++; ci=0; setTimeout(step,650); } else setTimeout(step,22); };
+    step(); });
+  /* 2. thẻ tổng kết trên màn bìa, cùng khung kết Phần 1 */
+  S.scene='place'; S.place=null; BGNOW=(EB&&P2REAL[EB])?EB:BGNOW; fade=1; hud();
+  const c=$('cover'); c.hidden=false; c.classList.add('solid');
+  const so=S.so||[], mat=(S.ds||[]).filter(p=>!p.con).map(p=>p.ten);
+  const allK=['ca_to','o_lai','mot_minh','ban_dung'];
+  c.querySelector('.in').innerHTML='<div class="sub">KẾT THÚC PHẦN 2 · NGÀY '+S.day+'</div><h2 class="cl">'+esc(name)+'</h2>'+
+    '<div class="sum"><div><b>'+(S.p2ra||[]).length+'/'+(S.p2tong||0)+'</b><span>người ra tới sông</span></div><div><b>'+ocl()+'/5</b><span>chứng cứ Ông Chủ Lò</span></div><div><b>'+so.length+'</b><span>người mất tiền vì tin bạn gửi</span></div></div>'+
+    '<p class="sub">'+allK.map(x=>got.includes(x)?esc(ENDS[x][1]):'???').join(' · ')+'</p>'+
+    (so.length?'<details class="p2sod"><summary>Sổ nạn nhân · '+so.length+' người</summary><ol>'+so.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
+    (mat.length?'<details class="p2sod"><summary>Bị chuyển đi · '+mat.length+' người</summary><ol>'+mat.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
+    '<p class="p2">Thủ đoạn trong game hư cấu từ các vụ việc báo chí và cơ quan chức năng đã công bố. Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, hãy báo công an nơi gần nhất.</p>'+
+    '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button></div>';
+  if(!$('p2sodCss')){ const st=document.createElement('style'); st.id='p2sodCss'; st.textContent='.p2sod{max-width:520px;margin:10px auto;text-align:left;color:#b9b3a6;font-size:14px}.p2sod summary{cursor:pointer;color:#efe8d8;padding:6px 0}.p2sod ol{margin:6px 0 0 18px;line-height:1.7}'; document.head.appendChild(st); }
+  $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); }
 const ending1=ending, finale1=finale;
 finale=async function(){ if(!P2.on) return finale1(); };
 ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };
@@ -374,7 +394,7 @@ window.P2JUMP=async d=>{ if(!P2.on) return; if(d>=8){ buildDs(); S.hoi=d>=19?3:2
 /* thành tựu Phần 1 không chấm khi đang chơi Phần 2 */
 const ttCheck1=ttCheck; ttCheck=function(){ if(P2.on) return; return ttCheck1.apply(this,arguments); };
 /* chống kẹt: hết cảnh mà nền phim còn treo thì gỡ; lỗi thì báo lên màn hình để tác giả chụp gửi */
-setInterval(()=>{ if(P2.on&&!busy&&!sleeping&&!camping&&BGNOW&&$('dlg').hidden&&$('game').hidden&&!document.querySelector('.p2cardfull')){ BGNOW=null; fade=.5; } },1500);
+setInterval(()=>{ if(P2.on&&!S.ended&&!busy&&!sleeping&&!camping&&BGNOW&&$('dlg').hidden&&$('game').hidden&&!document.querySelector('.p2cardfull')){ BGNOW=null; fade=.5; } },1500);
 addEventListener('error',e=>{ if(P2.on) toast('Lỗi: '+(e.message||'').slice(0,80)); });
 addEventListener('unhandledrejection',e=>{ if(P2.on) toast('Lỗi: '+String(e.reason&&e.reason.message||e.reason).slice(0,80)); });
 /* nhạc Phần 2: nhac/x2-*.mp3; file nào chưa có (hoặc lỗi) thì dùng nhạc Phần 1 */

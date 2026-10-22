@@ -101,3 +101,33 @@ const p2Menu1=p2Menu;
 p2Menu=function(){ p2Menu1(); if(typeof isAdmin!=='function'||!isAdmin()) return; const row=document.querySelector('#cover .in .row'); if(!row||$('p2Ts')) return;
   const b=document.createElement('button'); b.className='btn ghost'; b.id='p2Ts'; b.type='button'; b.textContent='Phòng thử Phần 2'; row.appendChild(b);
   b.onclick=async()=>{ const v=$('p2k').value; const p1=Object.assign({},p2p1()||{},{ket:v||((p2p1()||{}).ket)||'hetgio'}); TESTMODE=true; document.body.classList.add('testing'); await p2Begin(false,p1); tsTab='tt'; $('test').hidden=false; tsRender(); toast('Phòng thử Phần 2 · không lưu vào bản chơi thật'); }; };
+
+/* Phòng thử Phần 2: chạy cảnh ở đúng chỗ nó xảy ra (phòng, nơi chốn) để nền khớp với cảnh */
+const P2TS_PRE=[[/^x_ca_|^x_canhngan_ok/,'may'],[/^x_dd_(may|gapngan|thuy)|^x_gui|^x_nganb3|^x_thuygap/,'tam'],[/^x_dd_(kim|rao|cua)/,'bep'],
+  [/^x_dd_nghe|^soat_xvp|^x_bay_goi|^kh_xbay|^khai_xbay|^x_xinchia/,'vp'],[/^x_(thuy|nganb1|canhngan|thuylai|nguoiban)/,'an'],
+  [/^x_dd_|^x_tinvao|^x_lich|^x_dt|^kq_xocl|^x_phongtoi|^x_canh|^x_khamphong|^x_tutai|^x_tocu|^x_vu3|^x_khang|^x_ngay19|^x_het2|^x_cuu/,'ngu'],
+  [/^V_phu/,'taphoa'],[/^x_a_thoa|^x_a_giaitin|^x_a_giong|^x_a_sodo|^x_a_tin2/,'taphoa']];
+function p2tsWhere(key){ const D=P2DATA, R=D.ROOMS;
+  const houseRoom=h=>Object.keys(R).find(id=>R[id].house===h&&!R[id].back);
+  const objRoom=o=>Object.keys(R).find(id=>(R[id].objs||[]).some(x=>x.id===o));
+  const npcRoom=(k,hh,camp)=>{ const n=camp?D.NPC_TRAI[k]:D.NPC_HEM[k]; if(!n||!n.at) return null; let p=null; try{ p=n.at(hh); }catch(e){} return p&&p.u?houseRoom(p.u[0]):null; };
+  const a=D.ACT.find(x=>x.k===key);
+  if(a){ if(a.place) return {place:a.place}; if(a.who&&a.who.startsWith('o:')){ const r=objRoom(a.who.slice(2)); if(r) return {room:r}; }
+    if(a.who&&a.who!=='ngo'&&a.who!=='phong'){ const r=npcRoom(a.who,a.w?a.w[0]+.5:(a.h>=2?20:10),a.h>=2); if(r) return {room:r}; } if(a.who==='phong') return {room:a.h>=2?'ngu':'phong3'}; }
+  for(const [re,r] of P2TS_PRE) if(re.test(key)&&R[r]) return {room:r};
+  if(/^V_x(nhi|toan|hue|ti|thuy|khang|loc|ngan)/.test(key)) return {street:'trai'};
+  if(/^V_(gap|xbin)|^x_ghep|^x_het1/.test(key)) return {street:'hem'};
+  if(/^V_xbasau/.test(key)){ const r=npcRoom('basau',10,false); if(r) return {room:r}; }
+  if(/^x_b_khoa/.test(key)) return {place:'trai_giam'};
+  if(/^x_ban_dung/.test(key)) return {room:'ngu'};
+  if(/^x_demcuoi/.test(key)&&R.phong3) return {room:'phong3'};
+  return {}; }
+const tsPlay1=tsPlay;
+tsPlay=function(key){ if(!P2.on) return tsPlay1(key);
+  return tsRun(async()=>{ const back={scene:S.scene,place:S.place,room:S.room,map:P2.map,min:S.min}; const w=p2tsWhere(key); if(/^x_dd_|^x_tinvao|^x_phongtoi|^x_nganb3|^x_thuygap|^x_cuu/.test(key)) S.min=23*60; else if(/^V_x/.test(key)) S.min=20*60;
+    if(w.place){ S.scene='place'; S.place=w.place; }
+    else if(w.street){ if(w.street!==P2.map) p2SetMap(w.street); S.scene='street'; S.room=null; }
+    else if(w.room){ const camp=String(P2DATA.ROOMS[w.room].house||'').startsWith('x'); const m=camp?'trai':'hem'; if(m!==P2.map) p2SetMap(m); RPAN=0; S.scene='in'; S.room=w.room; }
+    BGNOW=null; fade=.6; hud();
+    try{ await runS(key); }
+    finally{ S.min=back.min; if(P2.map!==back.map) p2SetMap(back.map); S.scene=back.scene==='place'?'street':back.scene; S.place=back.scene==='place'?null:back.place; S.room=back.room; BGNOW=null; fade=.5; hud(); } }); };

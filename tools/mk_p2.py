@@ -34,6 +34,22 @@ rep("$('dNm').textContent=title||'Lâm'", "$('dNm').textContent=title||ME", 1)
 rep(",false,h.l,'Lâm')", ",false,h.l,ME)")
 rep(",npc?h.l:'Lâm')", ",npc?h.l:ME)", 1)
 
+# lời Phần 1 đang chờ duyệt: chỉ áp trên trang thử (xula2/p1_thu.json: mã -> lời mới)
+import json as _json
+_ov = ROOT / 'xula2' / 'p1_thu.json'
+if _ov.exists():
+    OV = _json.loads(_ov.read_text(encoding='utf-8'))
+    i = s.index('/*ROWS*/') + 8; j = s.index('\n', i)
+    line = s[i:j]; tail = ''
+    while line and line[-1] in ' ;\r': tail = line[-1] + tail; line = line[:-1]
+    rows = _json.loads(line); n = 0
+    for r in rows:
+        if r.get('ma') in OV: r['loi'] = OV[r['ma']]; n += 1
+    miss = set(OV) - {r.get('ma') for r in rows}
+    if miss: sys.exit('p1_thu.json có mã không thấy: ' + ', '.join(sorted(miss)))
+    s = s[:i] + _json.dumps(rows, ensure_ascii=False) + tail + s[j:]
+    print('Áp lời thử Phần 1:', n)
+
 # trang thử: không cho máy tìm kiếm lập chỉ mục, tiêu đề riêng
 rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">', 1)
 

@@ -37,7 +37,7 @@ X('x_mo','Phần 2 · mở đầu',[
  {if:'nhanh:A',L:[
   {bg:'x2-taphoa-chieu'},{card:'BA THÁNG SAU\nHẺM 47 · FAN XÍCH VÔ'},
   'Ngân ngồi trên ghế nhựa trước tạp hóa của mẹ. Tóc cắt ngắn như con trai, chưa kịp dài ra.',
-  'Phường vẫn kêu lên làm việc mỗi tuần. Trên mạng người ta vẫn réo tên cô là "con lừa đảo ôm 1 tỷ 2".',
+  'Cơ quan điều tra vẫn mời lên bổ sung lời khai mỗi tuần. Trên mạng, người ta vẫn réo tên cô là "con lừa đảo ôm 1 tỷ 2".',
   {if:'p1:ngan_bv',L:['Trên giấy tờ ghi cô là nạn nhân bị ép buộc. Ít ra hồ sơ ghi vậy.']},
   {if:'!p1:ngan_bv',L:['Hồ sơ vẫn treo đó. Chưa có gì chứng minh được cô bị ép.']},
   '2 giờ sáng. Cái đt cũ ốp mèo đen sáng màn hình. Số lạ, đầu số bên kia biên giới.',
@@ -85,7 +85,7 @@ X('x_a_giaitin','A · giải tin của số lạ',[
  ['~','Chính mình chỉ cho tụi nhỏ trong tổ cách này. Đừng đọc nguyên câu, ghép chữ đầu mỗi câu lại.'],
  {game:'giaitin'},
  {if:'co:x_siha',L:[['~','S - I - H - A. Cảng Xi-ha. Tụi nó dời nguyên tổ của mình về dưới đó rồi.'],['~','Đứa nhắn tin là con Nhi. Vậy là nó còn sống, còn cầm máy gõ được.'],
-   ['~','Mình tự mò qua đó một mình không nổi. Mà báo công an phường cũng không xong, hồ sơ của mình trên phường còn chưa xóa.'],
+   ['~','Mình không thể tự vượt biên qua đó. Mà hồ sơ của mình bên cơ quan điều tra còn chưa khép lại, giờ đi trình báo ai tin.'],
    ['~','Lâm. Thằng chả giỏi đào bới thông tin lắm mà.'],{fx:'+co:x_a_tin1 +cc:x_siha'}]},
  {if:'!co:x_siha',L:[['~','Đầu óc rối bời quá, ghép chữ hoài chưa ra nghĩa. Để lát bình tĩnh ngồi đọc lại coi.']]}]);
 X('x_a_sodo','A · vẽ lại sơ đồ trại',[
@@ -125,7 +125,7 @@ X('x_a_vi','A · lần ví Anh Hai',[
 X('x_a_thoa','A · về tạp hóa gặp mẹ',[
  {if:'p1:noi_cuocgoi',L:[['Cô Thoa','Con cầm theo cái máy cũ này đi. Ngày nào mẹ cũng cắm sạc sẵn hết á.'],['Cô Thoa','Thằng Lâm nó qua thú thiệt với mẹ hết rồi. Mẹ hận nó, mà vụ này mẹ tin nó làm thiệt.'],['~','Suốt 19 tháng trời, ngày nào mẹ cũng lụi cụi cắm sạc cái đt này.'],{fx:'+co:x_maycu +tin_thoa'}]},
  {if:'!p1:noi_cuocgoi',L:[['Cô Thoa','Mà con làm gì ở ngoài thì làm, đừng có dắt xác thằng đó bước vô nhà mẹ.'],['Ngân','Mẹ à, giờ có mỗi ổng chịu nhảy vô phụ con thôi.'],['Cô Thoa','...'],['~','Mẹ vẫn chưa tha thứ cho Lâm. Chính mình cũng vậy.']]},
- {if:'!p1:ngan_bv',L:['Ra tới đầu hẻm, Ngân kéo sụp nón kết xuống. Hồ sơ bên công an phường vẫn còn đang treo tên cô.',{fx:'+lo:5'}]}]);
+ {if:'!p1:ngan_bv',L:['Ra tới đầu hẻm, Ngân kéo sụp vành nón. Hồ sơ bên cơ quan điều tra vẫn chưa khép lại hoàn toàn.',{fx:'+lo:5'}]}]);
 X('x_a_giong','A · nghe tin thoại',[
  'Nhi lén chuyển tiếp về được một file ghi âm lấy từ máy quản lý. Giọng đàn ông nghe rè rè, đều rang như robot.',
  ['Ông Chủ Lò','Tổ con mèo tháng này hụt doanh số. Tháng sau còn thiếu nữa là tao sang tay nguyên đám qua bãi khác. Tin để lâu là thiu.'],
@@ -135,10 +135,10 @@ X('x_a_giong','A · nghe tin thoại',[
  {if:'cc:x_giong',L:[['~','Tiếng loa phường đọc thông báo bằng tiếng Việt? Vậy cái người ghi âm câu này đang ngồi ngay ở Việt Nam!']]}]);
 X('x_a_vinh','A · gặp đại úy Vinh',[
  ['Đại úy Vinh','Lại là cậu hả. Ngồi đi.'],
- ['Đại úy Vinh','Tôi nói thẳng: qua khỏi biên giới là ngoài thẩm quyền của phường. Muốn bên kia xuất quân phối hợp thì phải có tin báo chính xác từ bên trong trại gửi ra.'],
- ['Đại úy Vinh','Tôi cần đúng 3 thứ: vị trí cụ thể, số lượng người, và khung giờ trống. Thiếu 1 trong 3 là chịu.'],
- ['Đại úy Vinh','Cậu nhắn ra bằng cách nào thì tùy, miễn đừng để tụi quản lý đánh hơi được. Giả dạng tin rác là êm nhất.'],
- {if:'p1:tu_lo',L:[['Đại úy Vinh','Còn tờ giấy này là bản ghi lời khai của Đặng Minh Tú lúc bị triệu tập lên phường. Đang cho tại ngoại để bên tôi câu nhử cái đuôi lớn hơn.'],'"Tôi không phải chủ lò. Tôi chỉ đứng mũi chịu sào ngoài mặt thôi. Tiền bạc là má tôi nắm hết."',['~','Má của ông Tú — bà Trần Thị Mỹ. Đúng cái tên đứng chức giám đốc cả hai công ty.'],{fx:'+cc:x_tu'}]},
+ ['Đại úy Vinh','Tôi nói rõ: qua khỏi cột mốc biên giới là ngoài lãnh thổ Việt Nam. Công an mình không thể tự qua nước bạn bắt người. Muốn giải cứu thì Bộ Công an phải đề nghị cảnh sát nước bạn phối hợp.'],
+ ['Đại úy Vinh','Bên đó có người canh gác có vũ trang. Phía bạn chỉ ra quân khi có đủ 3 thứ: vị trí chính xác chỗ giữ người, bao nhiêu người Việt bên trong, và khung giờ lính gác đổi ca.'],
+ ['Đại úy Vinh','Cậu truyền tin ra bằng cách nào thì tùy, tuyệt đối không để lộ kênh liên lạc. Ngụy trang thành tin nhắn rác quảng cáo là an toàn nhất.'],
+ {if:'p1:tu_lo',L:[['Đại úy Vinh','Còn đây là biên bản lời khai của Đặng Minh Tú tại cơ quan điều tra. Ổng đang bị cấm đi khỏi nơi cư trú. Tụi tôi thả dây dài để lần ra người cầm tiền phía trên.'],'"Tôi không phải chủ lò. Tôi chỉ đứng mũi chịu sào ngoài mặt thôi. Tiền bạc là má tôi nắm hết."',['~','Má của ông Tú — bà Trần Thị Mỹ. Đúng cái tên đứng chức giám đốc cả hai công ty.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_a_khoa','A · thăm Khoa',[
  'Phòng thăm gặp trại giam. Khoa ốm rộc, đầu húi cua, gặp người vẫn giữ thói quen chắp tay.',
@@ -159,7 +159,7 @@ X('x_a_thoai','A · gặp Tài xế Thoại',[
 X('x_a_tin2','A · tin thứ hai',[
  'Nửa đêm. Con Nhi lại lén gửi về thêm một tin nhắn nữa, dài hơn tin trước.',
  {game:'giaitin2'},
- {if:'co:x_a_tin2_ok',L:[['~','Còn Nhi, chị Huệ, thằng Tí, anh Toàn. Còn con bé Oanh thì... bị bán qua "bãi K-Kay bên Miến" rồi.'],
+ {if:'co:x_a_tin2_ok',L:[['~','Còn Nhi, chị Huệ, Tí, anh Toàn. Riêng con bé Oanh hụt chỉ tiêu hai tuần liền… đã bị bán qua bên Miến Điện rồi.'],
   'Ngân gõ 4 cái tên lưu vô ghi chú đt, đặt tên mục là "Tổ".']},
  {if:'!co:x_a_tin2_ok',L:[['~','Chưa ghép ra hết nguyên câu, mới nhìn ra được chữ N đầu tiên. Ít nhất là con Nhi vẫn còn sống.']]}]);
 X('x_a_gom','Gom tiền trong hẻm',[
@@ -206,13 +206,13 @@ X('x_b_huong','B · gặp Hương',[
  ['Hương','Nguồn tin của tôi bên kia kêu kẻ cầm đầu cả 3 trại là "Ông Chủ Lò". Chỉ toàn ra lệnh qua tin nhắn thoại chứ không ai biết mặt.'],
  {fx:'+co:x_vu_ocl +cc:x_ocl +cc:x_siha'}]);
 X('x_b_vinh','B · gặp đại úy Vinh',[
- ['Đại úy Vinh','Cậu tính tự chui đầu vô ổ tụi nó thiệt hả?'],
- ['Lâm','Ở ngoài đâu ai định vị được chỗ nhốt người. Phải có người vô tận nơi báo ra.'],
- ['Đại úy Vinh','Tôi cảnh cáo trước: cậu bước qua đó là thành con tin thứ 13 chứ chẳng giúp ích gì đâu. Chuyện giải cứu là nghiệp vụ của công an.'],
+ ['Đại úy Vinh','Cậu tính tự mình vượt biên vô cái ổ đó thiệt hả?'],
+ ['Lâm','Từ bên ngoài không thể định vị được chỗ giữ người. Phải có người từ bên trong gửi vị trí ra.'],
+ ['Đại úy Vinh','Tôi cảnh báo trước: qua đó bằng đường tiểu ngạch là cậu tự đặt mình ra ngoài tầm với của tụi tôi, thành con tin thứ 13. Giải cứu là việc của lực lượng chức năng.'],
  ['Lâm','Vậy anh chỉ cho tôi cách thức liên lạc ra ngoài đi.'],
- ['Đại úy Vinh','...Dùng tin rác quảng cáo. Ghép chữ cái đầu tiên của mỗi câu lại thành mật mã. Khi nào bên tôi nhắn vô cũng sẽ xài đúng cách đó.'],
- ['Đại úy Vinh','Tôi cần đủ 3 thông tin: vị trí chính xác, số lượng con tin, và giờ giao ca. Thiếu 1 cái tôi cũng không ký lệnh phối hợp được.'],
- {if:'p1:tu_lo',L:[['Đại úy Vinh','À, nhìn qua cái này đi. Lời khai của Đặng Minh Tú lúc bị triệu tập lên phường: "Tiền bạc là má tôi giữ hết."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
+ ['Đại úy Vinh','...Ngụy trang bằng tin rác quảng cáo. Ghép chữ cái đầu mỗi câu thành mật mã. Khi bên tôi nhắn vô cũng dùng đúng quy tắc đó.'],
+ ['Đại úy Vinh','Muốn đề nghị phía bạn phối hợp đột kích, tôi phải có đủ 3 thông tin từ bên trong: vị trí giữ người, số người, và giờ giao ca. Thiếu một thứ là không làm được.'],
+ {if:'p1:tu_lo',L:[['Đại úy Vinh','Nhìn qua biên bản này đi. Lời khai của Đặng Minh Tú tại cơ quan điều tra: "Tiền bạc là má tôi giữ hết."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_b_sodo','B · dò sơ đồ trại',[
  {if:'!co:x_sodo_info',L:[
@@ -272,7 +272,7 @@ X('x_tra_phatdat','Tra công ty Phát Đạt TN',[
  'Ngoài Phát Đạt TN, bà Trần Thị Mỹ còn đứng tên công ty Mỹ Hưng Logistics và một nhánh tài chính cho vay qua app — chính là bên thuê anh Hào đi đòi nợ ở hẻm 47.',
  {if:'nhanh:A',L:[['~','Trần Thị Mỹ... Nhớ ra rồi, trên trang cá nhân ông Tú từng đăng hình mừng thọ má ổng 60 tuổi: "Cả đời mẹ lo cho con."']]},
  {if:'nhanh:B',L:[['~','Trần Thị Mỹ chính là má ruột ông Tú. Thảo nào trên trang cá nhân ổng từng đăng bài mừng thọ 60 tuổi.']]},
- ['~','Nhưng mới có tên trên giấy phép kinh doanh thôi thì chưa đủ buộc tội bả cầm đầu khu trại bên kia biên giới. Phải kiếm bằng chứng trực tiếp trong trại.'],
+ ['~','Nhưng chỉ đứng tên trên giấy phép kinh doanh thì chưa đủ căn cứ buộc tội bà Mỹ điều hành cái trại đó. Phải lấy được chứng cứ gốc ngay bên trong trại.'],
  {fx:'+cc:x_bamy'}]);
 X('x_tra_ghe','Trả tiền ghe',[
  {if:'tien>=1500000',L:[['Tài xế Thoại','Rồi, tiền bạc sòng phẳng. Đêm nào rút ra tới bờ sông thì nhắn tui một chữ.'],{fx:'-tien:1500000 +co:x_ghe +tin_thoai'}]},
@@ -298,25 +298,25 @@ X('x_demcuoi','Đêm cuối ở Sài Gòn',[
  {if:'p1:loc_o',L:['3h sáng, anh Lộc đã nổ máy xe chờ sẵn đầu hẻm. Ổng làm thinh đưa cái nón bảo hiểm qua.']},
  {bg:''}]);
 X('kq_xvinh','Kế hoạch gửi đại úy Vinh',[
- {if:'tin_bang_xvinh>=3',L:[['#Đại úy Vinh','Tôi nhận được kế hoạch rồi. Rất rõ ràng. Bên kia biên giới đã có người của tôi ém sẵn, chỉ đợi tín hiệu giờ G của cậu.'],{fx:'+co:x_vinh_ok'}]},
- {if:'tin_bang_xvinh<3',L:[['#Đại úy Vinh','Thông tin kiểu này còn chung chung quá, tôi chưa trình ký phương án phối hợp được. Ráng dò kỹ lại rồi gửi sau.'],{fx:'+lo:5'}]}]);
+ {if:'tin_bang_xvinh>=3',L:[['#Đại úy Vinh','Đã nhận đủ thông tin. Phía bạn đồng ý phối hợp, lực lượng đã vào vị trí. Chỉ chờ tín hiệu giờ G từ bên trong.'],{fx:'+co:x_vinh_ok'}]},
+ {if:'tin_bang_xvinh<3',L:[['#Đại úy Vinh','Thông tin còn mơ hồ quá, chưa đủ để đề nghị phía bạn ra quân. Xác minh lại rồi gửi ra sau.'],{fx:'+lo:5'}]}]);
 
 /* =====================================================================
    BẢNG: manh mối, nối, báo cáo, mục tiêu, tìm kiếm
    ===================================================================== */
 const CC2=[
- ['x_siha','Manh mối','Cảng Xi-ha','Tổ cũ của Ngân đã bị dời về một khu casino bỏ hoang sát bờ sông ở Cảng Xi-ha.'],
+ ['x_siha','Manh mối','Cảng Xi-ha','Tổ cũ của Ngân đã bị dời về một khu casino bỏ hoang sát sông ở Cảng Xi-ha, có bảo vệ vũ trang canh gác.'],
  ['x_ocl','Manh mối','"Ông Chủ Lò"','Kẻ cầm đầu cả 3 khu trại. Chưa ai thấy mặt, chỉ toàn chỉ đạo qua tin nhắn thoại bóp giọng.'],
  ['x_sodo','Manh mối','Sơ đồ trại','Tầng trệt: phòng máy, bếp, cửa hậu ra sông. Lầu 2: phòng ngủ, buồng tắm. Lầu 3: văn phòng quản lý.'],
  ['x_vi','Chứng cứ','Dòng tiền tối Chủ nhật','Tiền lừa cọc gom về 2 ví tổng ở Quận 7 mỗi tối Chủ nhật — dùng chung nguồn tiền với cái app vay nặng lãi đã bẫy anh Lộc ở Hẻm 47.'],
  ['x_giong','Chứng cứ','Tin thoại có tiếng loa phường','File ghi âm của Ông Chủ Lò. Lọc tạp âm nền nghe rõ tiếng loa phường đọc thông báo bằng tiếng Việt.'],
  ['x_phatdat','Manh mối','Con dấu Phát Đạt TN','Mặt sau tờ rơi tuyển dụng ở cột điện có in dấu mộc của Công ty TNHH DV Thương mại Phát Đạt TN.'],
  ['x_bamy','Manh mối','Bà Trần Thị Mỹ','Giám đốc đứng tên cả Phát Đạt TN lẫn Mỹ Hưng Logistics. Là má ruột của Đặng Minh Tú.'],
- ['x_tu','Chứng cứ','Anh Tú gọi "má"','Lời khai của Tú lúc bị triệu tập trên phường: tiền bạc là "má" nắm hết, ổng chỉ đứng tên làm mặt tiền.'],
+ ['x_tu','Chứng cứ','Anh Tú gọi "má"','Biên bản lời khai của Tú tại cơ quan điều tra: tiền bạc là "má" nắm hết, ổng chỉ đứng tên làm mặt tiền.'],
  ['x_so','Chứng cứ','Sổ chỉ tiêu','Cuốn sổ bìa đen trên lầu 3. Cột "nộp lên" do Chị Bảy ký tắt "B." kèm dấu mộc đỏ của Phát Đạt TN.'],
  ['x_giongthat','Chứng cứ','Giọng thật của Ông Chủ Lò','Khúc cuối ghi âm phần mềm đổi giọng bị tắt 2 giây: lộ giọng thật là một bà già, xưng "má", kêu Tú là "thằng Tú".'],
  ['x_khaibay','Lời khai','Lời khai Chị Bảy','"Bà già đó kêu chị là con Bảy, hổng bao giờ bật cam. Ba năm trước chị cũng vì bể nợ tiệm tóc đầu đường Fan Xích Vô mà bị lừa qua đây."'],
- ['x_no','Manh mối','Giấy nhận nợ 3.200 USD','Giấy nhận nợ khống 3.200 USD (tiền vé xe, ăn ở, đào tạo). Ai bị lừa vô cổng cũng bị ép ký hết.'],
+ ['x_no','Manh mối','Giấy nhận nợ 3.200 USD','Hợp đồng nhận nợ khống 3.200 USD (chi phí vượt biên, ăn ở, đào tạo). Bẫy nợ cưỡng bức lao động, không bao giờ trả hết.'],
  ['x_lich','Manh mối','Lịch tuần tra','Bảng giờ đi tuần và giao ca của lính gác từng tầng. Có một khoảng trống không người canh.'],
  ['suy_x_saigon','Suy luận','Ông Chủ Lò ở Sài Gòn','Ví tổng ở Quận 7 nối thẳng với app tín dụng đen ở Hẻm 47, ghi âm lại có tiếng loa phường: kẻ cầm đầu đang ngồi ngay tại Sài Gòn chăn dắt cả hai đầu.'],
  ['suy_x_my','Suy luận','Ông Chủ Lò là bà Trần Thị Mỹ','Bà Trần Thị Mỹ nắm trọn vòng khép kín: cho vay app đẩy người trong hẻm vào nợ -> mở VP số 12 lùa qua trại -> thu tiền lừa đảo về lại Quận 7.'],
@@ -366,9 +366,9 @@ M('WEB_x_phatdat','web','Phát Đạt TN | Phat Dat TN | Công ty Phát Đạt |
  M('WP_x_phatdat_01','trang','Người đại diện','Người đại diện pháp luật: Trần Thị Mỹ (1966). Đứng tên luôn cả công ty Mỹ Hưng Logistics (chuyên "vận chuyển lao động").');
  M('WP_x_phatdat_02','trang','Bài mừng thọ · trang anh Tú','"60 năm. Cả đời mẹ lo cho con." Ảnh bánh kem ba tầng.');
 M('WEB_x_canhbao','web','việc nhẹ lương cao | lừa qua Cam | tuyển dụng Campuchia | chuyển đối tác','Cổng thông tin Cảnh sát · Cảnh báo "việc nhẹ lương cao"');
- M('WP_x_canhbao_01','trang','Cảnh báo','Hàng loạt nạn nhân bị dụ qua biên giới bằng mồi nhử "việc nhẹ lương cao", qua tới nơi bị tịch thu giấy tờ, nhốt ép lừa đảo qua mạng và bán trao tay sang tận các đặc khu bên Miến Điện.');
+ M('WP_x_canhbao_01','trang','Cảnh báo','Hàng loạt nạn nhân bị dụ ra biên giới bằng mồi "việc nhẹ lương cao", bị khống chế đưa vào các khu phức hợp, ép lừa đảo qua mạng và bị bán qua lại giữa các trại, kể cả sang Miến Điện.');
  M('WP_x_canhbao_02','trang','Dấu hiệu','Chiêu trò quen thuộc: hứa lương 25-30 triệu không cần bằng cấp, bao trọn gói giấy tờ, hối đi gấp trong tuần, dẫn đi đường tiểu ngạch.');
- M('WP_x_canhbao_03','trang','Khi nghi ngờ','Báo ngay công an nơi gần nhất. Gọi đường dây nóng của Bộ Công an.');
+ M('WP_x_canhbao_03','trang','Khi nghi ngờ','Không chuyển tiền chuộc theo yêu cầu của người bên kia biên giới. Trình báo ngay cho công an nơi gần nhất hoặc gọi 113.');
 
 /* mục tiêu */
 const MUC2=[

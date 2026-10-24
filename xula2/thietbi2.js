@@ -17,7 +17,7 @@ X('z_a_vi','Za Lô · Hương nhắn',[
  ['#Hương','cứ lần ngược từ mấy cái lệnh rút tiền tối Chủ nhật á. bớt ngồi đọc cmt trên mạng lại đi'],
  ['~','Về phòng mở laptop lên tra thử coi dòng tiền này chảy đi đâu.']]);
 X('z_vinh','Za Lô · đại úy Vinh',[
- ['#Đại úy Vinh','Nhắc lại: vị trí, số người, giờ trống. Đủ 3 cái mới làm được.'],
+ ['#Đại úy Vinh','Nhắc lại: vị trí giữ người, số người, giờ trống. Đủ 3 thứ tôi mới đề nghị phía bạn phối hợp được.'],
  ['#Đại úy Vinh','Đừng nhắn tên tôi trong bất kỳ tin nào gửi ra.']]);
 X('z_a_thoa','Za Lô · mẹ nhắn',[
  ['#Cô Thoa','tối về ăn cơm nghen con. mẹ có chuyện muốn nói'],
@@ -44,7 +44,7 @@ X('z_b_huong','Za Lô · nhắn Hương',[
  ['~','Hiện chữ "Đã xem" nửa tiếng đồng hồ rồi mà cổ vẫn im re.'],
  ['#Hương','8 giờ, Thảo Điên. trễ là tôi về']]);
 X('z_b_vinh','Za Lô · Hương nhắn',[
- ['#Hương','muốn làm thiệt thì lên phường gặp đại úy Vinh'],
+ ['#Hương','muốn làm thiệt thì ra công an phường gặp đại úy Vinh. ổng bên hình sự thành phố, đang làm ở phường'],
  ['#Hương','tôi gọi trước cho ổng rồi. ổng không ưa ông đâu, nói ngắn thôi']]);
 X('z_b_tap','Za Lô · Bin nhắn',[
  ['#Bin','anh muốn tập nhắn kiểu chị Ngân thì tối qua em'],
@@ -107,7 +107,7 @@ function gMayTram(){ return new Promise(res=>{ let tab='kh', left=45, seen={}, d
     if(tab==='kh') return '<p class="tip">Danh sách khách tổ 3 đã "chốt" tháng này.</p>'+(KH.length?KH.map(k=>'<div class="p2opt"><b>'+esc(k.ten)+'</b><br><span style="color:#9aa2b5">'+esc(k.ho||'')+'</span> · <span style="color:#e2645c">đã chuyển tiền</span></div>').join(''):'<div class="p2opt">Tháng này tổ 3 chưa chốt được ai. Dòng của mình tô đỏ.</div>')+'<p class="tip">Cuối bảng: "Tổ con mèo · 31 khách · tháng 7".</p>';
     if(tab==='nhom') return '<p class="tip">Nhóm "QL khu B". Chị Bảy quên đăng xuất.</p>'+MT_NHOM.map(([a,t])=>'<div class="p2msg"><b style="color:#f0b25c">'+esc(a)+'</b><br>'+esc(t)+'</div>').join('');
     if(tab==='bang') return '<p class="tip">Bảng chỉ tiêu tuần. Tên dưới 3 đơn tô đỏ.</p>'+[ME].concat(ds.map(p=>p.ten)).slice(0,8).map((n,i)=>{ const v=n===ME?CT():((n.length*7+i*3)%6); return '<div class="p2opt" style="display:flex;justify-content:space-between"><span>'+esc(n)+'</span><b style="color:'+(v<3?'#e2645c':'#5fb37a')+'">'+v+' đơn</b></div>'; }).join('');
-    return '<p class="tip">Thùng rác: 1 tệp.</p><div class="p2opt"><b>danhsach_chuyen_thang6.xlsx</b><br>13 dòng đã xóa. Dòng cuối còn đọc được: "Nguyễn Thị Oanh · chuyển bãi K-Kay".</div>'; };
+    return '<p class="tip">Thùng rác: 1 tệp.</p><div class="p2opt"><b>danhsach_chuyen_thang6.xlsx</b><br>13 dòng đã xóa. Dòng cuối còn đọc được: "Nguyễn Thị Oanh · chuyển giao đối tác (Miến Điện)".</div>'; };
   const draw=()=>{ p2open('<div style="position:absolute;inset:0;z-index:0;background:linear-gradient(rgba(10,12,18,.66),rgba(10,12,18,.88)),url(img2/x2-maytram.webp) center/cover;border-radius:inherit;pointer-events:none"></div><div style="position:relative;z-index:1"><h3>Máy trạm · Chị Bảy</h3><div class="p2bar" style="margin:0 0 8px"><span class="tip" style="margin:0">Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại</span></div><div class="tbar" style="height:6px;background:#232a3d;border-radius:3px;overflow:hidden;margin-bottom:10px"><b id="mtB" style="display:block;height:100%;width:'+(left/45*100)+'%;background:linear-gradient(90deg,#f0b25c,#e2645c)"></b></div>'+
       '<div style="display:grid;grid-template-columns:150px 1fr;gap:12px"><nav style="display:flex;flex-direction:column;gap:6px">'+APP.map(([k,l])=>'<button type="button" class="btn'+(tab===k?' p2main':' ghost')+'" data-app="'+k+'" style="text-align:left">'+esc(l)+'</button>').join('')+'</nav><div>'+body()+'</div></div>'+
       '<div class="p2bar"><span></span><button class="btn p2main" id="mtX2" type="button">Tắt màn hình, đi ra</button></div></div>',()=>fin(false));

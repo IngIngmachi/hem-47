@@ -77,3 +77,71 @@ sneak=function(cfg){ const ob=window.__p2bg; window.__p2bg=cfg&&cfg.mode==='cuu'
 const boardUi=board;
 board=function(vu){ const ob=window.__p2bg; window.__p2bg=vu==='xocl'?'x2-phong-ngu':'trong-phong3-dem'; return Promise.resolve(boardUi(vu)).finally(()=>{ window.__p2bg=ob; }); };
 if(typeof caNhan==='function'){ const caNhanUi=caNhan; caNhan=function(...a){ const ob=window.__p2bg; window.__p2bg='x2-phong-may'; return Promise.resolve(caNhanUi.apply(this,a)).finally(()=>{ window.__p2bg=ob; }); }; }
+
+/* =====================================================================
+   Khung chơi Phần 2 (máy tính): thanh trạng thái, thẻ mục tiêu, nút hành động có biểu tượng,
+   thẻ người trong phòng xếp một hàng dưới, thanh dưới có vị trí + phím.
+   Chỉ bật khi đang chơi Phần 2 (body.p2on); điện thoại dọc giữ giao diện cũ.
+   ===================================================================== */
+(()=>{ const ic=d=>"url(\"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg>')+"\")";
+  const I={run:ic('<circle cx="14" cy="4" r="2"/><path d="M13 7l-3 5 4 3v6M10 12l-4 1M13 7l3 4 4 1M10 17l-3 4"/>'),clock:ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),bed:ic('<path d="M3 18V7M3 13h18v5M21 13v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10" r="2"/>'),phone:ic('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>'),doc:ic('<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6"/>'),pin:ic('<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>')};
+  const st=document.createElement('style'); st.textContent=`
+@media (min-width:900px) and (orientation:landscape){
+body.p2on .hud{max-width:560px;gap:10px}
+body.p2on .chips{flex-wrap:nowrap;white-space:nowrap}
+body.p2on .chips{background:rgba(10,12,18,.78);border:1px solid rgba(239,232,216,.12);border-radius:10px;padding:6px 4px;gap:0;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);align-self:flex-start}
+body.p2on .chip{background:none;border:none;border-right:1px solid rgba(239,232,216,.16);border-radius:0;padding:0 12px;font-size:14px;color:#e6dfcf}
+body.p2on .chip:last-child{border-right:none}
+body.p2on .chip.m{color:#f0b25c;font-weight:600}
+body.p2on .chip.nghi b{display:inline-block;width:90px;height:7px;border-radius:4px;background:rgba(239,232,216,.2);vertical-align:middle;margin-left:8px;overflow:hidden}
+body.p2on .chip.nghi b i{display:block;height:100%;background:#f0b25c}
+body.p2on #hObj.p2o{width:440px;max-width:440px!important;box-sizing:border-box;background:rgba(10,12,18,.8);border:1px solid rgba(239,232,216,.14);border-radius:12px;padding:0;font-size:15px;line-height:1.55;color:#e6dfcf;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer;white-space:normal;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+body.p2on #hObj.p2o .oh{display:grid;grid-template-columns:28px 1fr 20px;gap:10px;align-items:center;padding:12px 14px 10px;border-bottom:1px solid rgba(239,232,216,.12)}
+body.p2on #hObj.p2o .oh i{width:24px;height:28px;background:#e6c98f;-webkit-mask:${I.doc} center/contain no-repeat;mask:${I.doc} center/contain no-repeat}
+body.p2on #hObj.p2o .oh b{display:block;font-family:"Newsreader",Georgia,serif;font-size:19px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:#efe8d8;line-height:1.1}
+body.p2on #hObj.p2o .oh small{display:block;font-size:12.5px;color:#9aa2b5}
+body.p2on #hObj.p2o .oh em{font-style:normal;color:#9aa2b5;font-size:18px;transition:transform .2s;text-align:center}
+body.p2on #hObj.p2o.min .oh em{transform:rotate(90deg)}
+body.p2on #hObj.p2o .ob{padding:10px 16px 6px}
+body.p2on #hObj.p2o .ob p{margin:0 0 8px}
+body.p2on #hObj.p2o ul{list-style:none;margin:0;padding:4px 16px 12px;border-top:1px solid rgba(239,232,216,.08)}
+body.p2on #hObj.p2o li{position:relative;padding:6px 0 6px 30px}
+body.p2on #hObj.p2o li::before{content:"";position:absolute;left:0;top:9px;width:16px;height:16px;border-radius:50%;border:2px solid rgba(239,232,216,.55)}
+body.p2on #hObj.p2o li.on{color:#f0b25c}
+body.p2on #hObj.p2o li.on::before{border-color:#f0b25c;background:radial-gradient(#f0b25c 0 4px,transparent 5px)}
+body.p2on #hObj.p2o.min .ob,body.p2on #hObj.p2o.min ul{display:none}
+body.p2on .tbtns{top:12px;right:150px;gap:0;background:rgba(10,12,18,.8);border:1px solid rgba(239,232,216,.14);border-radius:12px;padding:5px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.p2on .tbtns button{display:flex;align-items:center;gap:9px;font-size:15px;padding:9px 16px;border:1px solid transparent;border-radius:9px;background:none;color:#e6dfcf}
+body.p2on .tbtns button+button{border-left-color:rgba(239,232,216,.12);border-radius:0 9px 9px 0}
+body.p2on .tbtns button::before{content:"";width:20px;height:20px;background:currentColor;flex:none}
+body.p2on #exitBtn{color:#f0b25c!important;border-color:#f0b25c!important;background:rgba(240,178,92,.1)!important;border-radius:9px!important}
+body.p2on #exitBtn::before{-webkit-mask:${I.run} center/contain no-repeat;mask:${I.run} center/contain no-repeat}
+body.p2on #waitBtn::before{-webkit-mask:${I.clock} center/contain no-repeat;mask:${I.clock} center/contain no-repeat}
+body.p2on #sleepBtn::before{-webkit-mask:${I.bed} center/contain no-repeat;mask:${I.bed} center/contain no-repeat}
+body.p2on .tbtns button:hover{background:rgba(239,232,216,.08)}
+body.p2on #phoneBtn{top:12px;right:12px;display:flex;align-items:center;gap:8px;font-size:15px;padding:12px 16px;border-radius:12px;background:rgba(10,12,18,.8);border-color:rgba(239,232,216,.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.p2on #phoneBtn::before{content:"";width:18px;height:20px;background:#e6c98f;-webkit-mask:${I.phone} center/contain no-repeat;mask:${I.phone} center/contain no-repeat}
+body.p2on .keys{display:flex;align-items:center;gap:22px;flex-wrap:wrap;border-top:1px solid rgba(239,232,216,.1);padding-top:10px;color:#cfc8b8;font-size:13.5px}
+body.p2on .keys .loc{display:flex;align-items:center;gap:8px;font-size:17px;color:#efe8d8;margin-right:auto;font-family:"Newsreader",Georgia,serif}
+body.p2on .keys .loc::before{content:"";width:18px;height:22px;background:#f0b25c;-webkit-mask:${I.pin} center/contain no-repeat;mask:${I.pin} center/contain no-repeat}
+body.p2on .keys .k{display:flex;align-items:center;gap:8px}
+body.p2on .keys kbd{border:1px solid rgba(239,232,216,.4);border-radius:5px;padding:2px 7px;font:500 12px "Be Vietnam Pro",sans-serif;color:#efe8d8;background:rgba(239,232,216,.06);margin:0 1px}
+}`; document.head.appendChild(st); })();
+
+const UI2_KEYS='<span class="k"><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> Di chuyển</span><span class="k"><kbd>E</kbd> Tương tác</span><span class="k"><kbd>1</kbd>–<kbd>6</kbd> Chọn</span><span class="k"><kbd>P</kbd> Điện thoại</span><span class="k"><kbd>Space</kbd> Tiếp tục</span><span class="k"><kbd>Esc</kbd> Đóng / rút</span>';
+const UI2_DESK=()=>matchMedia('(min-width:900px) and (orientation:landscape)').matches;
+function ui2Loc(){ if(S.scene==='in'&&S.room&&ROOMS[S.room]) return ROOMS[S.room].ten; if(S.scene==='place') return 'Ngoài đường'; return P2.map==='trai'?'Sân trại':'Hẻm 47 · Fan Xích Vô'; }
+function ui2Obj(){ const el=$('hObj'); if(!el||el.hidden) return; const dock=$('dock'); if(dock&&dock.dataset.on){ el.classList.remove('p2o'); return; }
+  const txt=el.textContent; if(el.dataset.src===txt&&el.classList.contains('p2o')) return; const L=txt.split('\n').map(s=>s.trim()).filter(Boolean); if(!L.length) return;
+  let title='Việc cần làm', sub=($('hAct')&&$('hAct').textContent)||''; if(/^(Ca sáng|Giờ cơm|Ca chiều|Giờ ra sân|Tắt đèn|Đêm)/.test(L[0])){ const p=L.shift().split(' · '); title=p[0]; sub=p[1]||''; }
+  const isChk=s=>/chỗ có việc chính|Bấm người|Việc ban đêm/.test(s); const body=L.filter(s=>!isChk(s)), chk=L.filter(isChk);
+  el.innerHTML='<div class="oh"><i></i><div><b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</div><em>›</em></div>'+(body.length?'<div class="ob">'+body.map(s=>'<p>'+esc(s)+'</p>').join('')+'</div>':'')+(chk.length?'<ul>'+chk.map((s,i)=>'<li class="'+(i===0?'on':'')+'">'+esc(s)+'</li>').join('')+'</ul>':'');
+  el.dataset.src=txt; el.classList.add('p2o'); }
+const hudUi=hud;
+hud=function(){ hudUi(); document.body.classList.toggle('p2on',!!(P2&&P2.on)); if(!P2||!P2.on) return; const desk=UI2_DESK();
+  const k=document.querySelector('.keys'); if(k&&desk){ const h='<span class="loc">'+esc(ui2Loc())+'</span>'+UI2_KEYS; if(k.innerHTML!==h) k.innerHTML=h; }
+  const xb=$('exitBtn'); if(xb&&desk&&xb.textContent.startsWith('‹ ')) xb.textContent=xb.textContent.slice(2);
+  const el=$('hObj'); if(el){ el.dataset.src=''; if(desk) ui2Obj(); else el.classList.remove('p2o'); } };
+/* thẻ người trong phòng: một hàng ở góc dưới bên trái */
+const CARD0={w:CARD.w,h:CARD.h,y:CARD.y}; const cardXUi=cardX;
+cardX=function(R,i){ if(!P2||!P2.on||!UI2_DESK()){ Object.assign(CARD,CARD0); return cardXUi(R,i); } CARD.w=116; CARD.h=150; CARD.y=VH-CARD.h-30; const pres=(R.npc||[]).filter(k=>npcInRoom(k)===R.house||R.always); const j=Math.max(0,pres.indexOf((R.npc||[])[i])); return 34+CARD.w/2+j*(CARD.w+14); };

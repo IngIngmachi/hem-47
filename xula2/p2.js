@@ -25,7 +25,7 @@ const P2FACEOK={};
 function p2Img(name){ return new Promise(res=>{ if(IMG[name]&&P2REAL[name]){ res(IMG[name]); return; } const i=new Image();
   i.onload=()=>{ IMG[name]=i; P2REAL[name]=1; res(i); };
   i.onerror=()=>{ const fb=P2FB[name]; if(!fb){ res(null); return; } if(IMG[fb]){ IMG[name]=IMG[fb]; res(IMG[fb]); return; } const j=new Image(); j.onload=()=>{ IMG[fb]=IMG[name]=j; res(j); }; j.onerror=()=>res(null); j.src='img2/'+fb+'.webp'; };
-  i.src='img2/'+name+'.webp?v=1023'; }); }
+  i.src='img2/'+name+'.webp?v=1025'; }); }
 function p2LoadImgs(){ const L=Object.keys(P2FB).map(p2Img);
   const ch=Object.keys(P2CH).map(k=>Promise.all(['full','bust','face'].map(sfx=>new Promise(r=>{ const i=new Image(); i.onload=()=>{ IMG[k+'-'+sfx]=i; P2FACEOK[k+'-'+sfx]=1; r(); };
     i.onerror=()=>{ if(sfx==='face'&&!i._f1){ i._f1=1; i.onload=()=>{ IMG[k+'-face']=i; P2FACEOK[k+'-face1']=1; r(); }; i.src='img2/face-'+k+'-1.webp'; return; } const al=P2CH[k]; if(IMG[al+'-'+sfx]){ IMG[k+'-'+sfx]=IMG[al+'-'+sfx]; r(); return; } const j=new Image(); j.onload=()=>{ IMG[k+'-'+sfx]=j; r(); }; j.onerror=()=>r(); j.src='img2/'+al+'-'+sfx+'.webp'; }; i.src='img2/'+k+'-'+sfx+'.webp'; }))));
@@ -162,7 +162,7 @@ hotspots=function(){ if(P2.on&&P2.map==='trai'&&S.scene==='in'){ const L=hotspot
 const roomIm1=roomIm;
 const P2ROOMIMG={hottoc:'x2-trong-hottoc',nail:'x2-trong-nail',taphoa:'x2-trong-taphoa',phong3:'x2-trong-phong3'};
 roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(S.room==='bep'&&hour()<18&&P2REAL['x2-bep-ngay']) return IMG['x2-bep-ngay']; if(R&&R.img) return IMG[R.img]||null;
-    if(S.room==='phong3'&&(hour()>=18.5||hour()<5.5)&&P2REAL['x2-trong-phong3-dem']) return IMG['x2-trong-phong3-dem'];
+    if(S.room==='phong3'&&(hour()>=18.5||hour()<5.5)){ if(P2REAL['x2-trong-phong3-dem']) return IMG['x2-trong-phong3-dem']; if(!roomIm._ld){ roomIm._ld=1; p2Img('x2-trong-phong3-dem'); } }
     const k=P2ROOMIMG[S.room]; if(k&&P2REAL[k]) return IMG[k]; } return roomIm1(); };
 const faceFor1=faceFor;
 faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(['Ông Chủ Lò','Người tuyển','Số lạ','Cô gái trẻ','Ông chú'].includes(name)) return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };

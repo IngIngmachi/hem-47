@@ -126,10 +126,10 @@ body.p2lb::before{top:0}body.p2lb::after{bottom:0}
 `;
 (()=>{ const st=document.createElement('style'); st.textContent=P2CSS; document.head.appendChild(st); })();
 const P2XIDS=['dgX','gpX','ltX','ngX','gx','gmX','caX'];
-const p2open=(html,onX)=>{ hideDlg(); if(typeof phAuto!=='undefined'&&phAuto) closePhone(); const g=$('game'); g.hidden=false; const box=$('gameBox'); box.innerHTML='<div class="p2g"><button class="p2x" id="p2x" type="button">✕ Để sau</button>'+html+'</div>'; box.scrollTop=0;
+const p2open=(html,onX)=>{ hideDlg(); if(typeof phAuto!=='undefined'&&phAuto) closePhone(); const g=$('game'); g.hidden=false; g.classList.add('p2full'); const bk=window.__p2bg; g.style.setProperty('--p2bg',bk?'url(img2/'+bk+'.webp?v=1023)':'none'); const box=$('gameBox'); box.innerHTML='<div class="p2g"'+(window.__p2g?' data-g="'+window.__p2g+'"':'')+'><button class="p2x" id="p2x" type="button">✕ Để sau</button>'+html+'</div>'; box.scrollTop=0;
   $('p2x').onclick=()=>{ if(onX){ onX(); return; } const t=P2XIDS.map(i=>$(i)).find(Boolean); if(t) t.click(); };
   if(!onX&&!P2XIDS.some(i=>$(i))) $('p2x').remove(); else P2XIDS.forEach(i=>{ const e=$(i); if(e) e.style.display='none'; }); return box; };
-const p2close=()=>{ $('game').hidden=true; $('gameBox').innerHTML=''; };
+const p2close=()=>{ const g=$('game'); g.hidden=true; g.classList.remove('p2full'); $('gameBox').innerHTML=''; };
 const fx=s=>effects(s);
 
 /* ---------------- kéo thả chung (chuột lẫn cảm ứng) ---------------- */
@@ -150,7 +150,7 @@ function giaiMa(tin,dapan,title,goi,anh){ return new Promise(res=>{ const cau=ti
    '<div class="p2note"><div class="paper" id="gmp">'+cau.map(line).join('<br>')+'</div><div class="photo" id="gmph" hidden></div></div>'+
    '<div class="p2slots" id="gms" hidden></div><div class="p2ans"><input class="p2in" id="gm" autocomplete="off" placeholder="Nhập chữ đọc được…" aria-label="Chữ đọc được"><button class="clr" id="gmc" type="button" aria-label="Xóa">×</button></div>'+
    '<p class="tip" id="gmm" style="text-align:center;min-height:1.4em;margin:4px 0 0"></p>'+
-   '<div class="p2bar"><button class="btn ghost" id="gmg" type="button">💡 Gợi ý (0/3)</button><button class="btn ghost" id="gmX" type="button">Để sau</button><button class="btn p2main" id="gmo" type="button">Đọc ra →</button></div>');
+   '<div class="p2bar"><button class="btn ghost" id="gmg" type="button">Gợi ý (0/3)</button><button class="btn ghost" id="gmX" type="button">Để sau</button><button class="btn p2main" id="gmo" type="button">Đọc ra →</button></div>');
   if(anh){ const im=new Image(); im.onload=()=>{ const ph=$('gmph'); if(ph){ ph.style.backgroundImage='url('+im.src+')'; ph.hidden=false; } }; im.src='img2/'+anh+'.webp?v=1023'; }
   let thu=0, goiY=0;
   $('gmg').onclick=()=>{ if(goiY>=3) return; goiY++; $('gmg').textContent='💡 Gợi ý ('+goiY+'/3)';
@@ -340,8 +340,8 @@ async function goiVe(){ const tu='XIHA'; const ng=(S.nhanh==='A'&&S.ai_vao==='ng
 /* =====================================================================
    5. KÉO THẺ VÀO Ô (dùng cho sơ đồ, dòng tiền)
    ===================================================================== */
-function dropGame(o){ /* o: {title,tip,html(slots markup),cards:[{id,t,lock}],check:map=>bool|'msg',hint} */ return new Promise(res=>{ const place={};
-  const render=()=>{ const B=p2open('<h3>'+esc(o.title)+'</h3><p class="tip">'+esc(o.tip)+'</p>'+o.html+'<div class="p2trayhd"><span>Các lựa chọn · kéo vô ô</span><button type="button" id="dgR">↺ Xóa tất cả</button></div><div class="p2tray" data-slot="tray" id="tray"></div><p class="tip" id="dgm" style="text-align:center;min-height:1.4em"></p><div class="row"><button class="btn ghost" id="dgX" type="button">Để sau</button><button class="btn p2main" id="dgOk" type="button">Xong</button></div>');
+function dropGame(o){ /* o: {title,tip,html(slots markup),cards:[{id,t,lock}],check:map=>bool|'msg',hint} */ return new Promise(res=>{ const place={}; let hints=0;
+  const render=()=>{ const B=p2open('<h3>'+esc(o.title)+'</h3><p class="tip">'+esc(o.tip)+'</p>'+o.html+'<div class="p2trayhd"><span>Các lựa chọn · kéo vô ô</span><span><button type="button" id="dgH">Gợi ý ('+(3-hints)+'/3)</button> <button type="button" id="dgR">↺ Xóa tất cả</button></span></div><div class="p2tray" data-slot="tray" id="tray"></div><p class="tip" id="dgm" style="text-align:center;min-height:1.4em"></p><div class="row"><button class="btn ghost" id="dgX" type="button">Để sau</button><button class="btn p2main" id="dgOk" type="button">Xong</button></div>');
     const cardH=c=>'<div class="p2card'+(c.lock?' lock':'')+'" data-card="'+c.id+'" title="'+(c.lock?'Chưa có manh mối này':'')+'">'+esc(c.lock?'???':c.t)+'</div>';
     B.querySelectorAll('[data-slot]').forEach(s=>{ if(s.id==='tray') return; const id=s.dataset.slot; const c=o.cards.find(c=>place[c.id]===id); s.innerHTML=c?cardH(c):esc(s.dataset.ph||''); });
     $('tray').innerHTML=o.cards.filter(c=>!place[c.id]).map(cardH).join('');
@@ -349,6 +349,7 @@ function dropGame(o){ /* o: {title,tip,html(slots markup),cards:[{id,t,lock}],ch
       for(const k in place) if(place[k]===sid) delete place[k]; place[id]=sid; tone(440,.05,.02,'triangle'); render(); });
     $('dgX').onclick=()=>{ p2close(); res(false); };
     $('dgR').onclick=()=>{ for(const k in place) delete place[k]; render(); };
+    $('dgH').disabled=hints>=3; $('dgH').onclick=()=>{ if(hints>=3) return; const c=o.cards.find(c=>!c.lock&&c.ok&&c.ok!=='-'&&place[c.id]!==c.ok); if(!c){ $('dgm').textContent='Các thẻ đã nằm đúng chỗ. Bấm Xong.'; return; } hints++; render(); const cd=B.querySelector('[data-card="'+c.id+'"]'), sl=B.querySelector('[data-slot="'+c.ok+'"]'); [cd,sl].forEach(e=>{ if(e){ e.classList.add('p2hint'); setTimeout(()=>e.classList.remove('p2hint'),2200); } }); $('dgm').textContent='Thẻ đang sáng thuộc về ô đang sáng.'; };
     $('dgOk').onclick=()=>{ const r=o.check(place); if(r===true){ chime(); p2close(); res(true); return; } tone(200,.2,.03,'sawtooth');
       B.querySelectorAll('[data-slot]').forEach(s=>{ if(s.id==='tray') return; const c=o.cards.find(c=>place[c.id]===s.dataset.slot); s.classList.toggle('ok',!!c&&c.ok===s.dataset.slot); s.classList.toggle('bad',!!c&&c.ok!==s.dataset.slot); });
       $('dgm').textContent=typeof r==='string'?r:'Chưa khớp. Ô đỏ là chỗ sai.'; }; };
@@ -480,20 +481,27 @@ const MGIMG={may:'x2-mg-thung',tuan0:'x2-mg-khe',tuan3:'x2-mg-khe',kim:'x2-mg-tu
 const mgT=(x,s,px,py,o)=>{ o=o||{}; x.font=(o.b?'600 ':'')+Math.round((o.s||18)*1.6)+'px "Be Vietnam Pro",sans-serif'; x.fillStyle=o.c||'#efe8d8'; x.textAlign=o.a||'center'; x.fillText(s,px,py); x.textAlign='left'; };
 const mgBar=(x,px,py,w,v,c,lab)=>{ x.fillStyle='rgba(255,255,255,.1)'; x.fillRect(px,py,w,16); x.fillStyle=c; x.fillRect(px,py,w*Math.max(0,Math.min(1,v)),16); if(lab) mgT(x,lab,px,py-8,{s:14,a:'left',c:'#9aa2b5'}); };
 const mgPanel=(x,px,py,w,h,a)=>{ x.fillStyle='rgba(8,10,16,'+(a==null?.72:a)+')'; x.beginPath(); x.roundRect?x.roundRect(px,py,w,h,14):x.rect(px,py,w,h); x.fill(); };
+const mgK=x=>Math.min(1.9,Math.max(1,620/(x.canvas.clientWidth||1000)));
+const mgWave=(x,px,py,w,h,v,t,lab)=>{ const k=mgK(x); if(k>1){ w*=1.15; h*=k*.8; py=600-h-10; px=10; } mgPanel(x,px,py,w,h,.6); x.strokeStyle='rgba(239,232,216,.25)'; x.lineWidth=1.5; x.beginPath(); x.roundRect?x.roundRect(px,py,w,h,14):x.rect(px,py,w,h); x.stroke(); mgT(x,lab,px+18,py+32*mgK(x),{s:15*mgK(x),a:'left',c:'#cfc8b8'});
+  const n=30, bw=(w-36)/n; for(let i=0;i<n;i++){ const on=i/n<v; const hh=6+Math.abs(Math.sin(i*1.7+t*(on?9:3)))*(on?(h-60)*.9:(h-60)*.35); x.fillStyle=on?(v>.7?'#e2645c':'#f0b25c'):'rgba(239,232,216,.35)'; x.fillRect(px+18+i*bw,py+h-18-hh,bw*.55,hh); } };
+const mgNote=(x,px,py,w,h,txt,rot)=>{ const k=mgK(x); if(k>1){ w*=1.25; h*=1.35; px=1000-w-14; py=14; } x.save(); x.translate(px+w/2,py+h/2); x.rotate(rot||.05); x.fillStyle='rgba(0,0,0,.45)'; x.fillRect(-w/2+8,-h/2+10,w,h); x.fillStyle='#e6dbc0'; x.fillRect(-w/2,-h/2,w,h); x.fillStyle='rgba(230,220,185,.7)'; x.fillRect(-28,-h/2-10,56,20);
+  x.fillStyle='#3a2f22'; const fs=Math.round(26*k); x.font='400 '+fs+'px "Playpen Sans","Comic Sans MS",cursive'; x.textAlign='left'; const words=String(txt).split(' '); let line='', y=-h/2+fs+18; for(const wd of words){ const tl=line?line+' '+wd:wd; if(x.measureText(tl).width>w-36){ x.fillText(line,-w/2+18,y); line=wd; y+=fs*1.35; } else line=tl; } if(line) x.fillText(line,-w/2+18,y); x.restore(); };
 const MINI={
   /* 1. mò điện thoại dưới đáy thùng nước rồi gỡ băng keo */
-  may(x,u){ let ph='mo', noise=0, tens=0, prog=0, pull=0; const a0=Math.random()*6.28, r0=40+Math.random()*150; const P={x:501+Math.cos(a0)*r0,y:300+Math.sin(a0)*r0*.95}; const rip=[]; let hint='Chạm vào mặt nước để mò.';
+  may(x,u){ let ph='mo', noise=0, tens=0, prog=0, pull=0; const a0=Math.random()*6.28, r0=40+Math.random()*150; const P={x:501+Math.cos(a0)*r0,y:300+Math.sin(a0)*r0*.95}; const rip=[]; let hint='Chạm vào mặt nước để mò. Đèn pin soi được ba lần.';
     u.tip('Mò dưới đáy thùng. Bọt càng nhiều là càng gần. Mò nhiều quá nước sẽ óc ách.');
     u.cv.onpointerdown=e=>{ if(ph!=='mo') return; const p=u.pt(e); if(Math.hypot(p.x-501,p.y-300)>235) return; const d=Math.hypot(p.x-P.x,p.y-P.y); rip.push({x:p.x,y:p.y,r:4,b:Math.max(0,1-d/380)});
       tone(240+Math.random()*80,.12,.02,'sine'); noise+=.11;
-      if(d<62){ ph='keo'; tone(640,.08,.03,'triangle'); u.tip('Đụng rồi: cái máy dán băng keo dưới đáy. Giữ nút Kéo để gỡ, buông ra trước khi thanh căng đỏ.'); b.hidden=false; return; }
+      if(d<62){ ph='keo'; tone(640,.08,.03,'triangle'); u.tip('Đụng rồi: cái máy dán băng keo dưới đáy. Giữ nút Kéo để gỡ, buông ra trước khi thanh căng đỏ.'); b.hidden=false; bD.hidden=true; return; }
       hint=d<150?'Có gì cứng cứng ngay đây.':d<280?'Lạnh tay. Hình như gần rồi.':'Chỉ có rong rêu.';
       if(noise>=1) u.end({kq:'on',n:.55,m:'Nước óc ách. Có ai trở mình.'}); };
+    let lamp=0, den=3; const bD=u.btn('Bật đèn ('+den+')',()=>{ if(ph!=='mo'||den<=0) return; den--; lamp=1.1; noise+=.06; tone(1200,.03,.012,'square'); bD.textContent='Bật đèn ('+den+')'; bD.disabled=den<=0; });
     const b=u.btn('Kéo',v=>pull=v,true,'main'); b.hidden=true;
     return dt=>{ if(!u.bg()){ x.fillStyle='#0d1820'; x.beginPath(); x.arc(501,300,280,0,7); x.fill(); }
       rip.forEach(r=>{ r.r+=dt*60; x.strokeStyle='rgba(170,210,230,'+Math.max(0,.7-r.r/140)+')'; x.lineWidth=2.5; x.beginPath(); x.arc(r.x,r.y,r.r,0,7); x.stroke(); for(let i=0;i<r.b*9;i++){ x.fillStyle='rgba(210,235,245,.6)'; x.beginPath(); x.arc(r.x+Math.sin(i*2.3)*r.b*30,r.y-r.r*.6-i*6,2+r.b*3,0,7); x.fill(); } });
-      mgPanel(x,20,20,250,70); mgBar(x,40,62,210,noise,'#e2645c','Tiếng nước');
-      if(ph==='mo'){ mgPanel(x,300,530,400,52); mgT(x,hint,500,566,{s:16,c:'#dfe8ec'}); return; }
+      if(lamp>0){ lamp-=dt; const g=x.createRadialGradient(P.x,P.y,4,P.x,P.y,140); g.addColorStop(0,'rgba(255,236,170,'+(.45*Math.min(1,lamp))+')'); g.addColorStop(1,'rgba(255,236,170,0)'); x.fillStyle=g; x.beginPath(); x.arc(P.x,P.y,140,0,7); x.fill(); }
+      mgWave(x,20,440,330,140,noise,performance.now()/1000,'Tiếng nước');
+      if(ph==='mo'){ mgNote(x,760,90,220,250,hint,.06); return; }
       if(pull){ prog+=dt*.3; tens+=dt*.95; } else tens=Math.max(0,tens-dt*1.3);
       if(tens>=1){ noise+=.4; tens=0; prog=Math.max(0,prog-.15); tone(180,.25,.04,'sawtooth'); u.say('Rẹt! Băng keo giật, nước văng ra ngoài.'); if(noise>=1){ u.end({kq:'on',n:.6,m:'Nước văng tung tóe. Có tiếng người hỏi vọng ra.'}); return; } }
       x.save(); x.translate(P.x,P.y); x.rotate(-.2); x.fillStyle='rgba(20,24,30,.92)'; x.fillRect(-70,-40,140,80); x.strokeStyle='#5a6470'; x.lineWidth=3; x.strokeRect(-70,-40,140,80); x.fillStyle='rgba(225,212,165,'+(1-prog)+')'; x.fillRect(-90,-14,180*(1-prog),26); x.restore();

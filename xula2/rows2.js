@@ -75,6 +75,8 @@ X('x_hd','Phần 2 · hướng dẫn',[
  {if:'nhanh:A',L:['Nhánh này chơi song song 2 người: ngày lẻ là Ngân, ngày chẵn là Lâm. Có 7 ngày chuẩn bị trước khi một trong hai người lên xe vô trại.']},
  {if:'nhanh:B',L:['7 ngày ở ngoài phải làm cho xong: dò coi trại dời đi đâu, kiếm đường lên xe, gom tiền thuê ghe, tập nhắn tin giấu chữ.']},
  'Cơ chế mới ở Phần 2: ghép giấy rách, vẽ sơ đồ trại, nhắn tin giấu chữ đầu câu, lén đi đêm, và dẫn người trốn ra sông.',
+ 'Vô trại rồi thì sau 22:00 chọn việc đi đêm là vô thẳng trò nhỏ. Việc ban đêm mới mở sẽ có thông báo và hiện trong khung mục tiêu.',
+ 'Trên máy tính: ← → đi, E đọc tiếp, 1–6 chọn, P điện thoại. Trong trò nhỏ, Space bấm hoặc giữ nút vàng, Esc để rút. Dòng phím tắt luôn nằm dưới khung chơi.',
  'Dấu ! vàng là việc chính. Bấm nút vàng dưới khung mục tiêu để đi thẳng tới việc kế tiếp.']);
 
 /* =====================================================================

@@ -197,3 +197,12 @@ objective=function(){ const o=objective2(); if(!P2.on||P2.map!=='trai'||S.ended)
 const hud2=hud;
 hud=function(){ hud2(); if(!P2.on||P2.map!=='trai') return; const seen=S.mucSeen||(S.mucSeen={}); const moi=mucMo().filter(k=>!seen[k]); if(!moi.length) return;
   moi.forEach(k=>seen[k]=1); toast('Việc mới cho ban đêm: '+moi.map(k=>MUC[k].ten.toLowerCase()).join(', ')); };
+
+/* ---------------- dòng phím tắt dưới khung chơi: bản Phần 2 ---------------- */
+const KEYS_P2='<kbd>←</kbd><kbd>→</kbd> đi · bấm vào người, cửa, đồ vật · <kbd>E</kbd> đọc tiếp / làm việc gần nhất · <kbd>1</kbd>–<kbd>6</kbd> chọn · <kbd>P</kbd> điện thoại · <kbd>Esc</kbd> đóng · trò nhỏ: <kbd>Space</kbd> nút vàng (giữ được), <kbd>Esc</kbd> rút · đêm giải cứu: <kbd>↑</kbd><kbd>↓</kbd> cầu thang, <kbd>Space</kbd> núp, <kbd>E</kbd> dẫn, <kbd>Shift</kbd> chạy';
+let KEYS_P1=null;
+const hud3=hud;
+hud=function(){ hud3(); const k=document.querySelector('.keys'); if(!k) return; if(KEYS_P1===null) KEYS_P1=k.innerHTML; const want=P2.on?KEYS_P2:KEYS_P1; if(k.innerHTML!==want) k.innerHTML=want; };
+/* nút ? ở Phần 2 mở hướng dẫn Phần 2 */
+const tutorial1=tutorial;
+tutorial=function(){ if(!P2.on) return tutorial1(); return (async()=>{ if(typeof busy!=='undefined'&&busy) return; busy=true; try{ await runS('x_hd'); } finally{ hideDlg(); busy=false; } })(); };

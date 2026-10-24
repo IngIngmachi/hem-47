@@ -88,13 +88,6 @@ if(typeof caNhan==='function'){ const caNhanUi=caNhan; caNhan=function(...a){ co
   const st=document.createElement('style'); st.textContent=`
 @media (min-width:900px) and (orientation:landscape){
 body.p2on .hud{max-width:560px;gap:10px}
-body.p2on .chips{flex-wrap:nowrap;white-space:nowrap}
-body.p2on .chips{background:rgba(10,12,18,.78);border:1px solid rgba(239,232,216,.12);border-radius:10px;padding:6px 4px;gap:0;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);align-self:flex-start}
-body.p2on .chip{background:none;border:none;border-right:1px solid rgba(239,232,216,.16);border-radius:0;padding:0 12px;font-size:14px;color:#e6dfcf}
-body.p2on .chip:last-child{border-right:none}
-body.p2on .chip.m{color:#f0b25c;font-weight:600}
-body.p2on .chip.nghi b{display:inline-block;width:90px;height:7px;border-radius:4px;background:rgba(239,232,216,.2);vertical-align:middle;margin-left:8px;overflow:hidden}
-body.p2on .chip.nghi b i{display:block;height:100%;background:#f0b25c}
 body.p2on #hObj.p2o{width:440px;max-width:440px!important;box-sizing:border-box;background:rgba(10,12,18,.8);border:1px solid rgba(239,232,216,.14);border-radius:12px;padding:0;font-size:15px;line-height:1.55;color:#e6dfcf;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer;white-space:normal;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 body.p2on #hObj.p2o .oh{display:grid;grid-template-columns:28px 1fr 20px;gap:10px;align-items:center;padding:12px 14px 10px;border-bottom:1px solid rgba(239,232,216,.12)}
 body.p2on #hObj.p2o .oh i{width:24px;height:28px;background:#e6c98f;-webkit-mask:${I.doc} center/contain no-repeat;mask:${I.doc} center/contain no-repeat}
@@ -145,3 +138,6 @@ hud=function(){ hudUi(); document.body.classList.toggle('p2on',!!(P2&&P2.on)); i
 /* thẻ người trong phòng: một hàng ở góc dưới bên trái */
 const CARD0={w:CARD.w,h:CARD.h,y:CARD.y}; const cardXUi=cardX;
 cardX=function(R,i){ if(!P2||!P2.on||!UI2_DESK()){ Object.assign(CARD,CARD0); return cardXUi(R,i); } CARD.w=116; CARD.h=150; CARD.y=VH-CARD.h-30; const pres=(R.npc||[]).filter(k=>npcInRoom(k)===R.house||R.always); const j=Math.max(0,pres.indexOf((R.npc||[])[i])); return 34+CARD.w/2+j*(CARD.w+14); };
+/* đang có hộp thoại thì ẩn hàng thẻ người, khỏi bị hộp thoại che nửa chừng */
+const npcCardUi=npcCard;
+npcCard=function(k,cx,hov){ if(P2&&P2.on&&UI2_DESK()){ const d=$('dlg'); if(d&&!d.hidden) return; } return npcCardUi(k,cx,hov); };

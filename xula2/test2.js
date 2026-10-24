@@ -124,10 +124,11 @@ function p2tsWhere(key){ const D=P2DATA, R=D.ROOMS;
   return {}; }
 const tsPlay1=tsPlay;
 tsPlay=function(key){ if(!P2.on) return tsPlay1(key);
-  return tsRun(async()=>{ const back={scene:S.scene,place:S.place,room:S.room,map:P2.map,min:S.min}; const w=p2tsWhere(key); if(/^x_dd_|^x_tinvao|^x_phongtoi|^x_nganb3|^x_thuygap|^x_cuu/.test(key)) S.min=23*60; else if(/^V_x/.test(key)) S.min=20*60;
+  return tsRun(async()=>{ const back={scene:S.scene,place:S.place,room:S.room,map:P2.map,min:S.min,day:S.day,hoi:S.hoi}; const w=p2tsWhere(key); if(/^x_dd_|^x_tinvao|^x_phongtoi|^x_nganb3|^x_thuygap|^x_cuu/.test(key)) S.min=23*60; else if(/^V_x/.test(key)) S.min=20*60;
     if(w.place){ S.scene='place'; S.place=w.place; }
     else if(w.street){ if(w.street!==P2.map) p2SetMap(w.street); S.scene='street'; S.room=null; }
     else if(w.room){ const camp=String(P2DATA.ROOMS[w.room].house||'').startsWith('x'); const m=camp?'trai':'hem'; if(m!==P2.map) p2SetMap(m); RPAN=0; S.scene='in'; S.room=w.room; }
+    if(P2.map==='trai'&&S.day<9){ S.day=9; if(S.hoi<2) S.hoi=2; } if(/^x_ca_/.test(key)) S.min=7*60;
     BGNOW=null; fade=.6; hud();
     try{ await runS(key); }
-    finally{ S.min=back.min; if(P2.map!==back.map) p2SetMap(back.map); S.scene=back.scene==='place'?'street':back.scene; S.place=back.scene==='place'?null:back.place; S.room=back.room; BGNOW=null; fade=.5; hud(); } }); };
+    finally{ S.min=back.min; S.day=back.day; S.hoi=back.hoi; if(P2.map!==back.map) p2SetMap(back.map); S.scene=back.scene==='place'?'street':back.scene; S.place=back.scene==='place'?null:back.place; S.room=back.room; BGNOW=null; fade=.5; hud(); } }); };

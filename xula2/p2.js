@@ -224,6 +224,7 @@ const show1=show;
 show=async function(r){ if(!P2.on) return show1(r);
   if(r.bg!=null){ BGNOW=r.bg||null; fade=.7; }
   if(r.kieu==='fx') return;
+  if(r.kieu==='mota'&&typeof r.loi==='string'){ const m=r.loi.match(/^(\d{1,2})(?:h|:(\d{2})|\s*giờ)(\d{2})?\s*(sáng|trưa|chiều|tối|khuya)?[.,\s]/); if(m){ let h=+m[1]; const mm=+(m[2]||m[3]||0), b=m[4]; if((b==='chiều'||b==='tối'||(b==='khuya'&&h>=9))&&h<12) h+=12; if(h>=5&&h<=23) at2(h*60+mm); } }
   if(r.kieu==='the'){ hideDlg(); await p2Card(p2t(r.loi)); return; }
   return show1(Object.assign({},r,{loi:p2t(r.loi),ai:p2t(r.ai)})); };
 const choose1=choose;

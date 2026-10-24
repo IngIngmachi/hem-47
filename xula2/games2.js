@@ -40,7 +40,7 @@ const P2CSS=`
 .p2slot.ok{border-color:#5fb37a;border-style:solid}.p2slot.bad{border-color:#e2645c;border-style:solid}
 .p2plan{position:relative;width:100%;aspect-ratio:1672/941;background:#11151f;border-radius:12px;overflow:hidden}
 .p2plan img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.9}
-.p2plan .p2slot{position:absolute;background:rgba(10,12,18,.25);border-color:rgba(240,178,92,.55);color:#efe8d8;text-shadow:0 1px 3px #000;align-items:flex-end;padding-bottom:8px}.p2plan .p2slot .p2card{font-size:12px;padding:5px 8px}
+.p2plan .p2slot{position:absolute;background:rgba(14,17,25,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:rgba(240,178,92,.55);color:#efe8d8;text-shadow:0 1px 3px #000;align-items:flex-end;padding-bottom:8px}.p2plan .p2slot .p2card{font-size:12px;padding:5px 8px}
 .p2chain{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
 .p2chain .ar{color:#f0b25c;font-size:20px}
 .p2chain .p2slot{min-width:130px}
@@ -67,7 +67,7 @@ body.p2lb::before{top:0}body.p2lb::after{bottom:0}
 .dd2 .ctl{display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap}
 .dd2 .ctl .g{display:flex;gap:6px;flex-wrap:wrap}
 .dd2 button{font:inherit;font-size:15px;min-width:52px;min-height:46px;background:#20263a;color:#efe8d8;border:1px solid #2e3549;border-radius:10px;cursor:pointer;touch-action:manipulation}
-.dd2 .mg{position:absolute;inset:0;z-index:5;background:#05060a;border-radius:10px;display:flex;flex-direction:column;gap:8px;padding:0 0 8px}.dd2 .mg .mgc{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}.dd2 .mg canvas{max-height:100%;width:auto;max-width:100%}.dd2 .mg .mgt{margin:0;padding:0 10px;font-size:14px;line-height:1.4;color:#cfc8b8;text-align:center}.dd2 .mg .mgb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 8px}.dd2 .mg button.main{background:#f0b25c;color:#1d1d1d;border-color:#f0b25c;font-weight:700;min-width:120px}.dd2 .mg button.ghost{background:transparent}
+.dd2 .mg{position:absolute;inset:0;z-index:5;background:#121621;border-radius:12px;display:flex;flex-direction:column;gap:10px;padding:0 0 10px}.dd2 .mg .mgc{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}.dd2 .mg canvas{max-height:100%;width:auto;max-width:100%;border-radius:12px;box-shadow:0 0 0 1px #2e3549}.dd2 .mg .mgt{margin:0 auto;max-width:640px;padding:8px 14px;font-size:14.5px;line-height:1.5;color:#e6dfcf;text-align:center;background:rgba(240,178,92,.08);border-radius:10px}.dd2 .mg .mgb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 8px}.dd2 .mg button.main{background:#f0b25c;color:#1d1d1d;border-color:#f0b25c;font-weight:700;min-width:120px}.dd2 .mg button.ghost{background:transparent}#mtHost .mg button[data-bo]{display:none}#mtHost{margin-top:4px}
 .dd2 button:disabled{opacity:.35}.dd2 button.on{background:#f0b25c;color:#1d1d1d}
 .p2end{position:fixed;inset:0;z-index:9500;background:#07080d;color:#efe8d8;overflow:auto;padding:48px 16px}
 .p2end .in{max-width:640px;margin:0 auto}
@@ -360,7 +360,7 @@ async function gSodo(){ const plan=p2imgUrl('x2-trai-matcat');
   const html='<div class="p2plan">'+(plan?'<img src="'+plan+'" alt="">':'')+SL.map(s=>'<div class="p2slot" data-slot="'+s[0]+'" data-ph="'+esc(s[1])+'" style="left:'+s[2]*100+'%;top:'+s[3]*100+'%;width:'+s[4]*100+'%;height:'+s[5]*100+'%"></div>').join('')+'</div>';
   const ok=await dropGame({title:'Sơ đồ trại',tip:'Kéo tên từng chỗ vào đúng ô trên sơ đồ ba tầng. Chỗ nào chưa biết thì bỏ trống (thẻ ??? là chưa có ai kể).',html,cards:C,
     check:p=>{ const need=C.filter(c=>!c.lock&&c.ok!=='-'); if(p.x) return 'Ở đây hổng có phòng giám đốc. Không ai được thấy mặt ông chủ.'; const bad=need.filter(c=>p[c.id]!==c.ok); return bad.length?'Còn '+bad.length+' chỗ sai hoặc chưa xếp.':true; }});
-  if(ok){ setCo('x_sodo_ok'); toast('Sơ đồ xong'); } }
+  if(ok){ setCo('x_sodo_ok'); if(plan) await new Promise(r=>{ p2open('<h3>Sơ đồ trại</h3><p class="tip">Ráp xong. Giờ đã biết phòng nào nằm ở đâu.</p><div class="p2plan"><img src="'+plan+'" alt="Mặt cắt trại ba tầng"></div><div class="row"><button class="btn" type="button" id="sdOk">Cất sơ đồ</button></div>',()=>{ p2close(); r(); }); $('sdOk').onclick=()=>{ p2close(); r(); }; }); toast('Sơ đồ xong'); } }
 async function gDongTien(lan){ const A=lan===1;
   const st=(n,inner)=>'<div class="st"><i>'+n+'</i>'+inner+'</div>', ar='<span class="ar">→</span>';
   const html='<div class="p2steps">'+st(1,'<span class="p2fixed">Tiền cọc của nạn nhân</span>')+ar+st(2,'<div class="p2slot" data-slot="s1" data-ph="bước 1"></div>')+ar+st(3,'<div class="p2slot" data-slot="s2" data-ph="bước 2"></div>')+ar+st(4,'<div class="p2slot" data-slot="s3" data-ph="'+(A?'mỗi tối Chủ nhật':'người cầm tiền')+'"></div>')+'</div>';
@@ -412,15 +412,35 @@ function gLich(){ return new Promise(res=>{ const H=['0:00','0:30','1:00','1:30'
 /* =====================================================================
    8. LỌC TIẾNG
    ===================================================================== */
-function gNghe(){ return new Promise(res=>{ const B=p2open('<h3>Nghe kỹ tin thoại</h3><p class="tip">Kéo thanh lọc qua lại. Tới đúng chỗ, tiếng nói chìm xuống và tiếng nền nổi lên.</p><canvas class="p2wave" id="wv" width="900" height="160"></canvas><input type="range" class="p2rng" id="rg" min="0" max="100" value="10" aria-label="Lọc tiếng"><p class="p2msg" id="nt" style="text-align:center;min-height:2em">…</p><div class="row"><button class="btn" id="ngOk" type="button">Nghe ra rồi</button><button class="btn ghost" id="ngX" type="button">Để sau</button></div>');
-  const cv=$('wv'), q=cv.getContext('2d'); const T='…loa phường… thông báo… lịch tiêm phòng… khu phố 3… phường…'; const tgt=73; let t=0, raf;
+/* âm thanh tin thoại: tiếng nói rè (to khi chưa lọc) + loa phường phía sau (nổi lên khi lọc đúng) */
+function ngheAm(){ const a=ac(); if(!a||!CD.hieu) return null; const vol=CD.hieu/80; const out=a.createGain(); out.gain.value=.9*vol; out.connect(a.destination);
+  const nb=a.createBuffer(1,a.sampleRate*2,a.sampleRate), nd=nb.getChannelData(0); for(let i=0;i<nd.length;i++) nd[i]=Math.random()*2-1;
+  const hiss=a.createBufferSource(); hiss.buffer=nb; hiss.loop=true; const hg=a.createGain(); hg.gain.value=.025; const hf=a.createBiquadFilter(); hf.type='highpass'; hf.frequency.value=3000; hiss.connect(hf); hf.connect(hg); hg.connect(out); hiss.start();
+  // giọng nói: răng cưa qua 2 bộ lọc formant, nhịp âm tiết
+  const vo=a.createOscillator(); vo.type='sawtooth'; vo.frequency.value=210; const f1=a.createBiquadFilter(), f2=a.createBiquadFilter(); f1.type=f2.type='bandpass'; f1.Q.value=f2.Q.value=6; const sy=a.createGain(); sy.gain.value=0; const vg=a.createGain(); vg.gain.value=.22;
+  vo.connect(f1); vo.connect(f2); f1.connect(sy); f2.connect(sy); sy.connect(vg); vg.connect(out); vo.start();
+  // loa phường: giọng dội qua loa, lọc dải hẹp, có tiếng vang
+  const lo=a.createOscillator(); lo.type='square'; lo.frequency.value=150; const lf=a.createBiquadFilter(); lf.type='bandpass'; lf.frequency.value=1400; lf.Q.value=3; const ls=a.createGain(); ls.gain.value=0; const dl=a.createDelay(); dl.delayTime.value=.23; const fb=a.createGain(); fb.gain.value=.45; const lg=a.createGain(); lg.gain.value=0;
+  lo.connect(lf); lf.connect(ls); ls.connect(lg); ls.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(lg); lg.connect(out); lo.start();
+  const V=[[700,1200],[400,2000],[300,2300],[600,1000],[500,1700]]; let on=true;
+  const tick=()=>{ if(!on) return; const t=a.currentTime, v=V[Math.floor(Math.random()*V.length)];
+    f1.frequency.setTargetAtTime(v[0],t,.02); f2.frequency.setTargetAtTime(v[1],t,.02); vo.frequency.setTargetAtTime(190+Math.random()*60,t,.05);
+    const g=Math.random()<.18?0:1; sy.gain.setTargetAtTime(g,t,.015); sy.gain.setTargetAtTime(0,t+.11,.03);
+    lo.frequency.setTargetAtTime(120+Math.random()*50,t,.04); ls.gain.setTargetAtTime(Math.random()<.25?0:.5,t,.02); ls.gain.setTargetAtTime(0,t+.16,.04);
+    setTimeout(tick,150+Math.random()*90); }; tick();
+  let ding=0;
+  return { set(clear){ const t=a.currentTime; vg.gain.setTargetAtTime(.24*(1-clear*.85),t,.08); lg.gain.setTargetAtTime(.5*clear,t,.08);
+      if(clear>.6&&t-ding>6){ ding=t; tone(784,.5,.035,'sine'); tone(659,.7,.03,'sine',.45); } },
+    stop(){ on=false; try{ out.gain.setTargetAtTime(0,a.currentTime,.05); setTimeout(()=>{ [hiss,vo,lo].forEach(n=>{ try{ n.stop(); }catch(e){} }); out.disconnect(); },300); }catch(e){} } }; }
+function gNghe(){ return new Promise(res=>{ const B=p2open('<h3>Nghe kỹ tin thoại</h3><p class="tip">Bật loa lên nghe. Kéo thanh lọc qua lại. Tới đúng chỗ, tiếng nói chìm xuống và tiếng nền nổi lên.</p><canvas class="p2wave" id="wv" width="900" height="160"></canvas><input type="range" class="p2rng" id="rg" min="0" max="100" value="10" aria-label="Lọc tiếng"><p class="p2msg" id="nt" style="text-align:center;min-height:2em">…</p><div class="row"><button class="btn" id="ngOk" type="button">Nghe ra rồi</button><button class="btn ghost" id="ngX" type="button">Để sau</button></div>');
+  const cv=$('wv'), q=cv.getContext('2d'); const T='…loa phường… thông báo… lịch tiêm phòng… khu phố 3… phường…'; const tgt=73; let t=0, raf, snd=null; const startSnd=()=>{ if(!snd) snd=ngheAm(); }; $('rg').addEventListener('pointerdown',startSnd); $('rg').addEventListener('input',startSnd); $('rg').addEventListener('keydown',startSnd);
   const draw=()=>{ if(!$('rg')) return; t+=.05; const v=+$('rg').value; const d=Math.abs(v-tgt); const clear=Math.max(0,1-d/14);
     q.fillStyle='#0f121b'; q.fillRect(0,0,900,160); q.strokeStyle='rgba(240,178,92,'+(.9-clear*.6)+')'; q.lineWidth=2; q.beginPath(); for(let x=0;x<900;x+=3){ const y=80+Math.sin(x*.05+t*4)*40*(1-clear*.7)*Math.sin(x*.004+t)+Math.sin(x*.21+t*7)*10; x?q.lineTo(x,y):q.moveTo(x,y); } q.stroke();
     q.strokeStyle='rgba(95,179,122,'+clear+')'; q.beginPath(); for(let x=0;x<900;x+=3){ const y=80+Math.sin(x*.012+t*2)*22; x?q.lineTo(x,y):q.moveTo(x,y); } q.stroke();
-    const n=Math.round(T.length*clear); $('nt').textContent=clear<.15?'(tiếng nói đều đều, rè rè)':T.split('').map((ch,i)=>i<n||ch===' '?ch:'·').join(''); raf=requestAnimationFrame(draw); };
+    if(snd) snd.set(clear); const n=Math.round(T.length*clear); $('nt').textContent=clear<.15?'(tiếng nói đều đều, rè rè)':T.split('').map((ch,i)=>i<n||ch===' '?ch:'·').join(''); raf=requestAnimationFrame(draw); };
   draw();
-  $('ngX').onclick=()=>{ cancelAnimationFrame(raf); p2close(); res(false); };
-  $('ngOk').onclick=()=>{ if(Math.abs(+$('rg').value-tgt)<=5){ cancelAnimationFrame(raf); chime(); p2close(); fx('+cc:x_giong'); res(true); } else { toast('Chưa nghe rõ. Kéo tiếp.'); } }; }); }
+  $('ngX').onclick=()=>{ cancelAnimationFrame(raf); if(snd) snd.stop(); p2close(); res(false); };
+  $('ngOk').onclick=()=>{ if(Math.abs(+$('rg').value-tgt)<=5){ cancelAnimationFrame(raf); if(snd) snd.stop(); chime(); p2close(); fx('+cc:x_giong'); res(true); } else { toast('Chưa nghe rõ. Kéo tiếp.'); } }; }); }
 
 /* =====================================================================
    9. DANH SÁCH CHUYỂN ĐI (cảnh 6)
@@ -592,12 +612,12 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   const cv=$('dc'), x=cv.getContext('2d'); const bgk=p2imgUrl('x2-trai-matcat'); let bgi=null; if(bgk){ bgi=new Image(); bgi.src=bgk; }
   const M0=!cuu&&MUC[cfg.muc]; const P={f:M0?M0.f:1,x:cuu?240:(M0?(M0.x>DMAP.stairs.x?DMAP.stairs.x-40:DMAP.stairs.x+DMAP.stairs.w+40):200),hid:false,run:false,sus:0,ph:0,face:M0&&M0.x<DMAP.stairs.x?-1:1}; const G=guards(cfg.siet,cuu);
   let K={L:0,R:0}, paused=false, over=false, t=0, msg='', msgT=0, got=false, clock=cuu?60:0;
-  const groups=cuu?cfg.groups.map((g,i)=>Object.assign({},g,{x:60+i*48,f:1,st:'cho'})):[]; let lead=null; const out=[], lost=[]; const exits=cuu?cfg.exits:[];
+  const groups=cuu?cfg.groups.map((g,i)=>Object.assign({},g,{x:60+i*48,f:1,st:'cho'})):[]; let lead=null; const team=[]; const TMAX=3; const out=[], lost=[]; const exits=cuu?cfg.exits:[];
   const say1=m=>{ msg=m; msgT=3; };
   const hold=(id,k)=>{ const b=$(id); const on=e=>{ e.preventDefault(); K[k]=1; }, off=()=>{ K[k]=0; }; b.addEventListener('pointerdown',on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,off)); };
   hold('kL','L'); hold('kR','R');
   const atS=()=>Math.abs(P.x-(DMAP.stairs.x+DMAP.stairs.w/2))<40;
-  const spot=()=>DMAP.floors[P.f].hide.find(h=>Math.abs(h-P.x)<30);
+  const spot=()=>{ let b=null,bd=60; DMAP.floors[P.f].hide.forEach(h=>{ const d=Math.abs(h-P.x); if(d<bd){ bd=d; b=h; } }); return b; };
   $('kU').onclick=()=>{ if(atS()&&P.f<2&&!P.hid){ P.f++; P.x=DMAP.stairs.x+DMAP.stairs.w/2; } };
   $('kD').onclick=()=>{ if(atS()&&P.f>0&&!P.hid){ P.f--; P.x=DMAP.stairs.x+DMAP.stairs.w/2; } };
   $('kH').onclick=()=>{ if(P.hid){ P.hid=false; return; } const s=spot(); if(s!=null){ P.hid=true; P.x=s; } else say1('Không có chỗ núp ở đây.'); };
@@ -612,20 +632,21 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
           if(r.kq==='ok'){ got=true; tone(520,.06,.03,'triangle'); say1('Xong. Lẻn về giường.'); setTimeout(()=>finish('xong'),900); }
           else if(r.kq==='on'){ P.sus=r.n>=1?1:Math.min(.95,P.sus+r.n); say1((r.m||'Có tiếng động.')+' Núp ngay!'); }
           else if(r.kq==='hong') say1(r.m||'Chưa được. Thử lại.'); else say1('Rút ra trước. Bấm Lấy để làm lại.'); }); } else if(got&&P.f===1&&P.x<430) finish('xong'); else say1(got?'Về phòng ngủ ở lầu hai, bên trái.':'Chưa tới chỗ. Chấm vàng là chỗ cần tới.'); return; }
-    if(!lead){ const g=groups.find(g=>g.st==='cho'&&g.f===P.f&&Math.abs(g.x-P.x)<40); if(g&&g.after&&clock<g.after){ say1(g.ten+': "Tui đi sau cùng. Dẫn tụi nhỏ trước."'); return; }
-      if(g){ if(g.can>0&&!g.thuyet){ g.thuyet=true; clock+=3; if(g.can>=2){ say1(g.ten+' không chịu đi. Mất 3 phút mà không nói được.'); g.st='o'; return; } say1('Mất 3 phút nói với '+g.ten+'. Đi.'); } g.st='theo'; lead=g; say1('Đang dẫn: '+g.ten+'. Ra lối xanh, nhớ núp.'); } else say1('Tới chỗ một người đang chờ rồi bấm Dẫn.'); return; }
-    const e=exits.find(e=>e.f===P.f&&Math.abs(e.x-P.x)<45); if(e){ lead.st='ra'; out.push(lead); clock+=e.cost||0; say1(lead.ten+' đã ra tới '+e.ten+'.'+(e.cost?' Chờ ghe '+e.cost+' phút.':'')); lead=null; } else say1('Lối ra sông đánh dấu xanh.'); }
+    const e0=lead&&exits.find(e=>e.f===P.f&&Math.abs(e.x-P.x)<45);
+    if(!e0&&team.length<TMAX){ const g=groups.find(g=>g.st==='cho'&&g.f===P.f&&Math.abs(g.x-P.x)<40); if(!g&&lead){ say1('Đang dẫn '+team.map(x=>x.ten).join(', ')+'. Ra lối xanh, hoặc gom thêm người (tối đa '+TMAX+').'); return; } if(g&&g.after&&clock<g.after){ say1(g.ten+': "Tui đi sau cùng. Dẫn tụi nhỏ trước."'); return; }
+      if(g){ if(g.can>0&&!g.thuyet){ g.thuyet=true; clock+=3; if(g.can>=2){ say1(g.ten+' không chịu đi. Mất 3 phút mà không nói được.'); g.st='o'; return; } say1('Mất 3 phút nói với '+g.ten+'. Đi.'); } g.st='theo'; team.push(g); lead=team[0]; say1('Đang dẫn: '+team.map(x=>x.ten).join(', ')+'.'+(team.length<TMAX?' Gom thêm người hoặc ra lối xanh.':' Đủ người, ra lối xanh.')); } else say1('Tới chỗ một người đang chờ rồi bấm Dẫn.'); return; }
+    const e=e0||exits.find(e=>e.f===P.f&&Math.abs(e.x-P.x)<45); if(e&&lead){ team.forEach(g=>{ g.st='ra'; out.push(g); }); clock+=e.cost||0; say1(team.map(x=>x.ten).join(', ')+' đã ra tới '+e.ten+'.'+(e.cost?' Chờ ghe '+e.cost+' phút.':'')); team.length=0; lead=null; } else say1(team.length>=TMAX?'Đủ người rồi. Ra lối xanh.':'Lối ra sông đánh dấu xanh.'); }
   function finish(kq){ if(over) return; over=true; removeEventListener('keydown',kd,true); removeEventListener('keyup',ku,true); p2close(); res({kq,out,lost,clock,groups}); }
   const ch=(k,px,f,face,o)=>{ const fy=DMAP.feet[f]; x.save(); x.translate(px,fy); x.scale(.62,.62); try{ drawChar(x,k,0,0,face,o); }catch(e){} x.restore(); };
   let last=performance.now();
   function loop(now){ if(over) return; if(paused){ last=now; requestAnimationFrame(loop); return; } const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt; if(cuu) clock+=dt*(cfg.speed||1);
-    const sp=(P.run?190:95)*(lead?.85:1); let mv=0; if(!P.hid){ if(K.L){ P.x=Math.max(20,P.x-sp*dt); P.face=-1; mv=1; } if(K.R){ P.x=Math.min(980,P.x+sp*dt); P.face=1; mv=1; } } if(mv) P.ph+=dt*(P.run?10:7);
-    if(lead){ lead.f=P.f; lead.x+=(P.x-34*P.face-lead.x)*Math.min(1,dt*4); }
+    const sp=(P.run?190:95)*(lead?(1-.06*team.length):1); let mv=0; if(!P.hid){ if(K.L){ P.x=Math.max(20,P.x-sp*dt); P.face=-1; mv=1; } if(K.R){ P.x=Math.min(980,P.x+sp*dt); P.face=1; mv=1; } } if(mv) P.ph+=dt*(P.run?10:7);
+    team.forEach((g,k)=>{ g.f=P.f; g.x+=(P.x-34*(k+1)*P.face-g.x)*Math.min(1,dt*4); });
     const raid=cuu&&clock>=cfg.raid; let seen=false; if(raid&&!cfg.hoDone){ cfg.hoDone=1; say1('“Công an đây! Ngồi xuống hết!” · Đèn trại tắt phụt.'); tone(300,.6,.05,'sawtooth'); }
     G.forEach(g=>{ if(raid&&!g.chay){ g.chay=1; g.v*=1.6; } g.x+=g.v*g.d*dt; if(g.x>g.b){ g.x=g.b; g.d=-1; } if(g.x<g.a){ g.x=g.a; g.d=1; } g.ph=(g.ph||0)+dt*6;
       if(raid||g.f!==P.f||P.hid) return; const dx=(P.x-g.x)*g.d; const noise=P.run&&Math.abs(P.x-g.x)<130; if((dx>0&&dx<150+(cfg.siet?20:0))||noise) seen=true; });
     P.sus=seen?P.sus+dt*(P.run?2.4:1.6):Math.max(0,P.sus-dt*.7);
-    if(P.sus>=1){ if(!cuu){ finish('bat'); return; } P.sus=0; clock+=20; if(lead){ lead.st='bat'; lost.push(lead); say1('Bị thấy! '+lead.ten+' bị lôi về. Mất 20 phút.'); lead=null; } else say1('Bị thấy! Phải núp trong kho 20 phút.'); P.hid=true; }
+    if(P.sus>=1){ if(!cuu){ finish('bat'); return; } P.sus=0; clock+=20; if(lead){ const g=team.pop(); g.st='bat'; lost.push(g); say1('Bị thấy! '+g.ten+' bị lôi về. Mất 20 phút.'); lead=team[0]||null; } else say1('Bị thấy! Phải núp trong kho 20 phút.'); P.hid=true; }
     if(!cuu){ if(t>(cfg.limit||110)){ finish(got?'xong_tre':'het'); return; } const m=MUC[cfg.muc]; if(!got&&!paused&&!P.hid&&P.f===m.f&&Math.abs(P.x-m.x)<40&&MINI[cfg.muc]&&!P.autoT){ P.autoT=1; act(); } if(P.autoT&&!paused&&!got&&Math.abs(P.x-m.x)>60) P.autoT=0; }
     else { if(cfg.xe&&clock>=cfg.xe&&!cfg.xeDone){ cfg.xeDone=1; groups.filter(g=>g.st==='cho').forEach(g=>{ g.st='xe'; lost.push(g); }); say1('Xe tới chở những người còn lại đi trước giờ.'); }
       if(clock>=cfg.end||groups.every(g=>g.st!=='cho'&&g.st!=='theo')){ finish('het'); return; } }
@@ -655,7 +676,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     const tb=$('ktb'); if(tb) tb.style.width=(cuu?Math.min(100,clock/(cfg.end||300)*100):Math.min(100,t/(cfg.limit||110)*100))+'%';
     x.textAlign='left'; const a=atS(); $('kU').disabled=!a||P.f>=2; $('kD').disabled=!a||P.f<=0; $('kH').textContent=P.hid?'Ra':'Núp'; }
   window.__p2sneak={toi:()=>{ if(!cuu){ const m=MUC[cfg.muc]; P.f=m.f; P.x=m.x; act(); } },win:()=>{ if(cuu){ groups.forEach(g=>{ if(g.st==='cho'&&g.can<2){ g.st='ra'; out.push(g); } }); finish('het'); } else { got=true; finish('xong'); } },lose:()=>finish(cuu?'het':'bat')};
-  say1(cuu?'Bấm Dẫn chỗ một người, đưa ra lối xanh. Cầu thang ở giữa.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
+  say1(cuu?'Bấm Dẫn chỗ từng người, gom tối đa 3 người một lượt rồi đưa ra lối xanh. Cầu thang ở giữa.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
   requestAnimationFrame(loop); }); }
 
 /* việc đi đêm có trò riêng: mở thẳng trò nhỏ, không đi bản đồ nữa */
@@ -664,7 +685,7 @@ function miniThang(muc){ return new Promise(async res=>{ let lan=0, done=false;
   p2open('<h3>'+esc('Đi đêm · '+MUC[muc].ten)+'</h3><div class="dd2" id="mtHost" style="height:min(72vh,660px)"></div>',()=>{ const b=document.querySelector('#mtHost [data-bo]'); if(b) b.click(); else fin('het'); });
   while(!done){ const r=await miniDem($('mtHost'),muc); if(done) return;
     if(r.kq==='ok'){ fin('xong'); return; }
-    if(r.kq==='bo'){ fin('het'); return; }
+    if(r.kq==='bo'){ fin('bo'); return; }
     if(r.kq==='on'){ lan++; if(r.n>=.9||lan>=2){ fin('bat'); return; }
       await sayOver((r.m||'Có tiếng động.')+' Nín thở núp một hồi… không ai ra. Làm lại, lần này nhẹ tay.'); continue; }
     await sayOver(r.m||'Chưa được. Thử lại.'); } }); }
@@ -674,8 +695,10 @@ function sayOver(m){ return new Promise(r=>{ const h=$('mtHost'); if(!h){ r(); r
 /* đi đêm: chọn việc, chơi, chạy cảnh kết quả */
 async function p2DiDem(){ const L=Object.keys(MUC).filter(k=>MUC[k].c()); if(!L.length) return;
   busy=true; const p=await choose([...L.map(k=>({ma:k,loi:MUC[k].ten,sub:MUC[k].why})),{ma:'_',loi:'Ngủ',sub:'mai còn ca sáng'}],false,(hasF('x_siet')?'Trại đang siết, tuần tra gấp đôi. ':'')+'Đi đêm?'); hideDlg(); busy=false;
-  if(p.ma==='_') return; if(MUC[p.ma].thang){ await say('mota','','Lẻn qua hành lang lầu hai lúc mọi người ngủ say. Buồng tắm cuối dãy, vòi nước để chảy cho át tiếng.'); hideDlg(); await runS(MUC[p.ma].k); hideDlg(); return; } const r=MINI[p.ma]?await miniThang(p.ma):await sneak({mode:'didem',muc:p.ma,siet:hasF('x_siet')&&S.day<=18,limit:hasF('x_siet')?90:110});
+  if(p.ma==='_') return; await diDemViec(p.ma); }
+async function diDemViec(ma){ const p={ma}; if(MUC[p.ma].thang){ await say('mota','','Lẻn qua hành lang lầu hai lúc mọi người ngủ say. Buồng tắm cuối dãy, vòi nước để chảy cho át tiếng.'); hideDlg(); await runS(MUC[p.ma].k); hideDlg(); return; } const r=MINI[p.ma]?await miniThang(p.ma):await sneak({mode:'didem',muc:p.ma,siet:hasF('x_siet')&&S.day<=18,limit:hasF('x_siet')?90:110});
   if(r.kq==='bat'){ await runS('x_dd_bat'); effects('+nghi:20'); return; }
+  if(r.kq==='bo'){ await say('mota','','Rút về giường. Để đêm khác.'); hideDlg(); return; }
   if(r.kq==='het'){ await say('mota','','Trời hửng sáng. Phải quay về trước điểm danh, tay không.'); hideDlg(); return; }
   if(r.kq==='xong_tre'){ await say('mota','','Về tới phòng thì vừa kịp tiếng chuông. Mồ hôi ướt áo.'); effects('+nghi:5'); }
   await runS(MUC[p.ma].k); hideDlg(); }

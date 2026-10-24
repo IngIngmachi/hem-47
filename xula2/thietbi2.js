@@ -139,3 +139,61 @@ X('hem_dem_13','Hẻm 47 · 22:00',[{bg:'hem-dem'},'Đầu đường Fan Xích V
 X('hem_dem_16','Hẻm 47 · 22:00',[{bg:'x2-hem-mua'},'Khuya ở hẻm 47. Bin đi giao cuốc hàng cuối về ngang phòng số 3, ngước nhìn cái cửa sổ tối om. Đầu hẻm, xe bánh mì chị Hạnh đã dọn, chỉ còn ngọn đèn vàng hắt xuống mặt đường ướt mưa.',{bg:''}]);
 const NHIP=[{k:'hem_dem_09',c:()=>S.day>=9},{k:'hem_dem_11',c:()=>S.day>=11&&hasF('x_may')},{k:'hem_dem_13',c:()=>S.day>=13&&hasF('khai_xbay')},{k:'hem_dem_16',c:()=>S.day===16}];
 async function p2NhipHem(){ if(!P2.on||P2.map!=='trai') return; const n=NHIP.find(x=>!hasF('nh_'+x.k)&&x.c()); if(!n) return; setCo('nh_'+n.k); await runS(n.k); hideDlg(); }
+
+/* ---------------- bảng kế hoạch / báo cáo Phần 2: trình bày như tờ giấy thật ---------------- */
+(function(){ const st=document.createElement('style'); st.textContent=`
+.p2g .kh{display:block;background-color:#efe6d2!important;color:#2a241a;border-radius:4px;padding:26px 26px 22px;box-shadow:0 18px 40px rgba(0,0,0,.45);font-family:"Newsreader",Georgia,serif;max-width:720px;margin:6px auto 0;position:relative;background-image:repeating-linear-gradient(transparent 0 31px,rgba(60,80,120,.13) 31px 32px)}
+.kh .kh-hd{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:2px solid #2a241a;padding-bottom:8px;margin-bottom:14px}
+.kh .kh-hd b{font:700 22px "Oswald","Arial Narrow",sans-serif;letter-spacing:.06em}
+.kh .kh-hd span{font:13px "IBM Plex Mono",monospace;color:#5a5040;text-align:right;line-height:1.5}
+.kh .kh-sec{display:grid;grid-template-columns:28px 1fr;gap:4px 10px;padding:8px 0}
+.kh .kh-no{font:600 18px "Oswald",sans-serif;color:#8a2f25}
+.kh .kh-tt{font:600 12px "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6b5f4a}
+.kh .kh-ln{grid-column:2;font-size:19px;line-height:1.5}
+.kh .kh-ln u{text-decoration:none;border-bottom:2px dashed #8a2f25;padding:0 4px;color:#8a2f25;font-family:"Playpen Sans","Comic Sans MS",cursive;font-size:17px}
+.kh .kh-ln u.empty{color:#9a8f7a;border-color:#9a8f7a}
+.kh .kh-ops{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.kh .kh-ops button{font:14px "Be Vietnam Pro",sans-serif;background:#fff8ea;color:#2a241a;border:1px solid #b9ab8e;border-radius:999px;padding:6px 12px;cursor:pointer}
+.kh .kh-ops button.on{background:#8a2f25;color:#fff;border-color:#8a2f25}
+.kh .kh-ops button:disabled{opacity:.45;cursor:not-allowed;font-style:italic}
+.kh .kh-ky{display:flex;justify-content:flex-end;margin-top:10px;font:15px "Playpen Sans",cursive;color:#5a5040}
+.kh .kh-stamp{position:absolute;right:28px;bottom:40px;border:3px solid #b3322a;color:#b3322a;font:700 20px "Oswald",sans-serif;padding:4px 12px;transform:rotate(-8deg);opacity:0;transition:opacity .3s,transform .3s}
+.kh .kh-stamp.on{opacity:.85;transform:rotate(-8deg) scale(1.05)}
+.khbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+@media (max-width:560px){.kh{padding:18px 14px}.kh .kh-ln{font-size:17px}}`; document.head.appendChild(st); })();
+const KH_DOC={
+  xvinh:{loai:'KẾ HOẠCH',gui:'Kính gửi: Đại úy Vinh',tt:['Vị trí trại','Bên trong trại','Đường tin ra','Đường người ra'],ok:'ĐÃ GỬI'},
+  xocl:{loai:'BÁO CÁO',gui:'Gửi đại úy Vinh · viết sẵn',tt:['Người cầm lò','Dòng tiền','Bằng chứng nặng nhất'],ok:'ĐÃ GHI'}};
+const board1=board;
+board=function(vu){ if(!P2.on||!KH_DOC[vu]) return board1(vu); return new Promise(res=>{ hideDlg(); if(typeof phAuto!=='undefined'&&phAuto) closePhone();
+  const D=KH_DOC[vu]; const sents=metaRows('bang').filter(r=>r.ai===vu);
+  T.filter(r=>r.kieu==='tu'&&String(r.ai).startsWith('BANG_'+vu+'_')).forEach(r=>{ delete S.ch[r.ma]; delete S.ch[r.ma.replace(/(_[a-z])\d+$/,'$1')]; });
+  const OP=sents.map(s=>{ const opts=[], seen=new Set(); T.filter(r=>r.kieu==='tu'&&r.ai===s.ma).forEach(r=>{ const ok=cond(r.hien); if(seen.has(r.loi)){ const o=opts.find(x=>x.loi===r.loi); if(ok&&!o.ok){ o.ok=true; o.ma=r.ma; } return; } seen.add(r.loi); opts.push({ma:r.ma,loi:r.loi,ok}); }); return opts; });
+  const sel={}; let sent=false;
+  const draw=()=>{ const all=sents.every(s=>sel[s.ma]);
+    const box=p2open('<h3>'+esc(BOARDN[vu]||D.loai)+'</h3><p>Chọn chữ điền vô từng chỗ trống. Chữ mờ là chưa có manh mối, đi hỏi thêm rồi quay lại viết.</p>'+
+      '<div class="kh"><div class="kh-hd"><b>'+D.loai+'</b><span>'+esc(D.gui)+'<br>Ngày '+(S.day||1)+' · người lập: '+esc(ME)+'</span></div>'+
+      sents.map((s,i)=>{ const parts=esc(s.loi).split('{}'); const o=OP[i].find(x=>x.ma===sel[s.ma]);
+        return '<div class="kh-sec"><span class="kh-no">'+(i+1)+'.</span><span class="kh-tt">'+esc(D.tt[i]||'')+'</span><div class="kh-ln">'+parts[0]+'<u class="'+(o?'':'empty')+'">'+(o?esc(o.loi):'………………')+'</u>'+(parts[1]||'')+'</div>'+
+          (sent?'':'<div class="kh-ops">'+OP[i].map(x=>'<button type="button" data-s="'+s.ma+'" data-o="'+x.ma+'"'+(sel[s.ma]===x.ma?' class="on"':'')+(x.ok?'':' disabled')+'>'+(x.ok?esc(x.loi):'??? chưa có manh mối')+'</button>').join('')+'</div>')+'</div>'; }).join('')+
+      '<div class="kh-ky">'+esc(ME)+'</div><div class="kh-stamp'+(sent?' on':'')+'">'+D.ok+'</div></div>'+
+      '<div class="khbar"><button class="btn" type="button" id="bdOk"'+(all&&!sent?'':' disabled')+'>'+(vu==='xvinh'?'Gửi kế hoạch':'Lưu báo cáo')+'</button><button class="pbtn" type="button" id="bdX">Để sau, chưa đủ manh mối</button></div>',()=>$('bdX').click());
+    box.querySelectorAll('.kh-ops button').forEach(b=>b.onclick=()=>{ sel[b.dataset.s]=b.dataset.o; draw(); });
+    $('bdX').onclick=()=>{ p2close(); res(-1); };
+    $('bdOk').onclick=()=>{ let sc=0; for(const s of sents){ const id=sel[s.ma]; const r=T[IDX[id]]; if(r&&r.sau==='dung') sc++; S.ch[id]=1; S.ch[id.replace(/(_[a-z])\d+$/,'$1')]=1; }
+      S.tin['bang_'+vu]=sc; setCo('bao_'+vu); save(); sent=true; draw(); try{ tone(180,.15,.05,'square'); }catch(e){}
+      setTimeout(()=>{ p2close(); toast('Đúng '+sc+'/'+sents.length); res(sc); },1300); }; };
+  draw(); }); };
+
+/* ---------------- việc ban đêm: cho người chơi biết việc nào mở ra, nghe từ đâu ---------------- */
+const MUC_NGUON={may:'Thủy với tổ 3 kể: có cái điện thoại dán dưới đáy thùng nước buồng tắm.',tuan0:'Muốn tính đường ra thì phải biết giờ lính đi qua cửa sau.',tuan3:'Sơ đồ trại còn thiếu lầu ba.',
+  kim:'Anh Lộc nói tụi bảo vệ bỏ quên cây kìm trên nóc tủ chén.',rao:'Có kìm rồi, cắt được rào sau bếp.',cua:'Đã có chìa cửa sau từ Chị Bảy.',nghe:'Đêm đêm văn phòng lầu ba có tiếng nghe tin thoại.',
+  gapngan:'Ngân hẹn ở buồng tắm.',thuy:'Thủy hẹn ở buồng tắm.'};
+Object.keys(MUC).forEach(k=>{ if(MUC_NGUON[k]) MUC[k].why=MUC[k].why+' '+MUC_NGUON[k]; });
+function mucMo(){ return Object.keys(MUC).filter(k=>{ try{ return MUC[k].c(); }catch(e){ return false; } }); }
+const objective2=objective;
+objective=function(){ const o=objective2(); if(!P2.on||P2.map!=='trai'||S.ended) return o; const L=mucMo(); if(!L.length) return o;
+  return o+'\nViệc ban đêm (sau 22:00): '+L.map(k=>MUC[k].noi||MUC[k].ten).join(', ')+'.'; };
+const hud2=hud;
+hud=function(){ hud2(); if(!P2.on||P2.map!=='trai') return; const seen=S.mucSeen||(S.mucSeen={}); const moi=mucMo().filter(k=>!seen[k]); if(!moi.length) return;
+  moi.forEach(k=>seen[k]=1); toast('Việc mới cho ban đêm: '+moi.map(k=>MUC[k].ten.toLowerCase()).join(', ')); };

@@ -12,7 +12,7 @@ const p2t=s=>String(s==null?'':s).replace(/\{me\}/g,ME).replace(/\{ban\}/g,BAN()
 
 /* ---------------- ảnh: thử img2/<tên>.webp, không có thì mượn ảnh cũ ---------------- */
 const P2FB={
-  'x2-xe-dem':'ky-uc-2','x2-cong-sat':'trong-vp12','x2-phong-may':'trong-vp12','x2-san-diemdanh':'hem-dem',
+  'x2-xe-dem':'ky-uc-2','x2-xe-hem':'hem-dem','x2-cong-sat':'trong-vp12','x2-phong-may':'trong-vp12','x2-san-diemdanh':'hem-dem',
   'x2-nha-an':'trong-banhmi','x2-phong-ngu':'trong-phong3-dem','x2-buong-tam':'trong-phong3-dem','x2-tang3':'trong-vp12','x2-phong-toi':'trong-phong3-dem',
   'x2-bep':'trong-banhmi','x2-bo-song-dem':'ngoai-ben','x2-bo-ben-nay':'ngoai-ben','x2-taphoa-chieu':'nha-taphoa','x2-van-phong-lam':'trong-vp12',
   'x2-hien-basau-dem':'hem-dem','x2-quan-thaodien':'ngoai-cafe','x2-congan':'ngoai-congan','x2-ben-ghe':'ngoai-ben','x2-trai-giam':'ngoai-congan',
@@ -106,6 +106,7 @@ effects=function(s){ if(!P2.on) return effects1(s); s=String(s||'').trim(); if(!
   for(const t of s.split(/[\s,;]+/).filter(Boolean)){ let m;
     if((m=t.match(/^([+-])nghi:(\d+)$/))){ const v=(m[1]==='+'?1:-1)*(+m[2])*(m[1]==='+'?CDK().nghi:1); S.nghi=Math.max(0,Math.min(100,Math.round(S.nghi+v))); if(v>0) toast(P2.map==='trai'?'Quản lý để ý '+ME+' hơn':'Có người để ý '+ME+' hơn'); }
     else if((m=t.match(/^([+-])lo:(\d+)$/))){ S.lo=Math.max(0,Math.min(100,(S.lo||0)+(m[1]==='+'?1:-1)*(+m[2]))); if(m[1]==='+') toast('Nguy cơ lộ tin tăng'); }
+    else if((m=t.match(/^[+-]tin_(\w+)$/))&&(m[1]===S.vai||(m[1]==='ngan'&&(S.nhanh==='A'||P2.map!=='trai')))){ /* người không có mặt hoặc chính mình: bỏ qua */ }
     else if((m=t.match(/^mon:(\w+)$/))) S.mon=m[1];
     else if((m=t.match(/^vao:(\w+)$/))) S.ai_vao=m[1];
     else if((m=t.match(/^mat:(\w+)$/))){ const p=(S.ds||[]).find(x=>x.id===m[1]); if(p&&p.con){ p.con=false; (S.p2log=S.p2log||[]).push(p.ten+' bị chuyển đi.'); toast(p.ten+' bị chuyển đi'); } }
@@ -220,12 +221,19 @@ function frameTrai(){ const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.cl
 /* lời thoại: thẻ chữ lớn, dòng hiệu ứng, đổi nền, {me}/{ban} */
 function p2Card(text){ return new Promise(res=>{ const d=document.createElement('div'); d.className='p2cardfull'; d.innerHTML='<p>'+esc(text)+'</p>'; document.body.appendChild(d); requestAnimationFrame(()=>d.classList.add('on')); try{ tone(110,.6,.04,'sine'); }catch(e){}
   let done=false; const end=()=>{ if(done) return; done=true; d.classList.remove('on'); setTimeout(()=>{ d.remove(); res(); },600); }; setTimeout(()=>{ d.onclick=end; },400); setTimeout(end,3000); }); }
+/* thẻ "NGÀY 9 · 7:00": khớp với ngày giờ thật đang chơi */
+function cardSync(t){ const m=String(t).match(/^NGÀY (\d+)(?: · (\d{1,2}):(\d{2})( SÁNG)?)?/); if(!m||!S.day) return t;
+  let d=+m[1], hm=m[2]!=null?(+m[2])*60+(+m[3]):null; const nowD=S.day, nowM=S.min;
+  if(hm!=null&&d===nowD+1&&hm<5*60){ return t; }            // qua nửa đêm của đêm hôm nay
+  let head='NGÀY '+nowD;
+  if(hm!=null){ if(hm>=nowM-30){ at2(hm); head+=' · '+m[2]+':'+m[3]+(m[4]||''); } }
+  return head+t.slice(m[0].length); }
 const show1=show;
 show=async function(r){ if(!P2.on) return show1(r);
   if(r.bg!=null){ BGNOW=r.bg||null; fade=.7; }
   if(r.kieu==='fx') return;
   if(r.kieu==='mota'&&typeof r.loi==='string'){ const m=r.loi.match(/^(\d{1,2})(?:h|:(\d{2})|\s*giờ)(\d{2})?\s*(sáng|trưa|chiều|tối|khuya)?[.,\s]/); if(m){ let h=+m[1]; const mm=+(m[2]||m[3]||0), b=m[4]; if((b==='chiều'||b==='tối'||(b==='khuya'&&h>=9))&&h<12) h+=12; if(h>=5&&h<=23) at2(h*60+mm); } }
-  if(r.kieu==='the'){ hideDlg(); await p2Card(p2t(r.loi)); return; }
+  if(r.kieu==='the'){ hideDlg(); await p2Card(cardSync(p2t(r.loi))); return; }
   return show1(Object.assign({},r,{loi:p2t(r.loi),ai:p2t(r.ai)})); };
 const choose1=choose;
 choose=function(set,inPhone,title,face){ if(!P2.on) return choose1(set,inPhone,title,face);

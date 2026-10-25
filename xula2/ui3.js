@@ -172,6 +172,31 @@ body.u3d .top>.chips #hNghi{color:var(--u3cream)!important}
 body.u3d .top>.chips #hNghi::after{content:"";order:-1}
 body.u3d .top>.chips #hNghi b{width:150px!important;height:12px!important;border-radius:3px!important;border:1px solid rgba(226,69,60,.7);background:rgba(226,69,60,.12)!important}
 body.u3d .top>.chips #hNghi i{background:repeating-linear-gradient(90deg,#d8382b 0 30px,transparent 30px 33px)!important}
+body.u3d{overflow-x:hidden}
+body.u3d .top{flex-wrap:nowrap!important;min-width:0}
+body.u3d .top>.chips{flex:0 1 auto!important;min-width:0;overflow:hidden}
+body.u3d .top .r{margin-left:auto;gap:2px!important;flex-wrap:nowrap!important;flex:none}
+body.u3d .top .r #tsBtn,body.u3d .top .r #edBtn{flex-direction:row!important;min-width:0!important;height:32px!important;padding:0 10px!important;font:400 12.5px/1 "Be Vietnam Pro",sans-serif!important;color:var(--u3dim)!important;border:1px dashed rgba(236,228,210,.25)!important;align-self:center}
+body.u3d .top .r #acctBtn .tx{display:none!important}
+body.u3d .top .r #acctBtn::after{content:"Tài khoản"}
+body.u3d #btvPill{top:auto;bottom:84px;right:16px}
+@media (max-width:1500px){
+ body.u3d .top{padding:0 16px!important}
+ body.u3d .top h1.tua img{height:38px!important}
+ body.u3d .top>.chips{margin-left:14px!important}
+ body.u3d .top>.chips .chip{padding:4px 11px!important;font-size:15.5px!important;gap:7px}
+ body.u3d .top .r>button{min-width:56px!important;font-size:12px!important}
+}
+@media (max-width:1500px){ body.u3d .keys{gap:16px!important;padding-left:36%!important;font-size:13.5px!important} body.u3d .keys kbd{padding:3px 7px!important;font-size:12.5px!important} }
+@media (max-width:1500px){ body.u3d .keys .k:nth-child(n+6){display:none!important} }
+@media (max-width:1100px){ body.u3d .keys .k:nth-child(n+4){display:none!important} body.u3d .top h1.tua img{height:32px!important} }
+@media (max-width:1280px){
+ body.u3d #app .top .r>button .lb,body.u3d #app .top .r #musBtn::after,body.u3d #app .top .r #acctBtn::after{display:none!important;content:none!important}
+ body.u3d #app .top .r>button{min-width:42px!important;height:44px!important}
+ body.u3d .top .r>button{min-width:42px!important;height:44px!important}
+ body.u3d .top .r #phoneBtn{font-size:0!important}
+ body.u3d .top>.chips #hHoi{display:none}
+}
 body.u3d .top .r{margin-left:auto;gap:4px!important}
 body.u3d .top .r #hAct{display:none}
 body.u3d .top .r>button{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:auto!important;min-width:76px;height:56px!important;padding:0 8px!important;background:none!important;border:0!important;color:var(--u3cream)!important;font:400 13.5px/1 Newsreader,Georgia,serif!important;position:relative;border-radius:6px!important}
@@ -415,6 +440,8 @@ function u3sys(title,sub,err){ const b=document.createElement('div'); b.classNam
 toast=function(s){ s=String(s||''); try{ $('toast').textContent=s; }catch(e){} const m=s.match(/^(Thành tựu mới|Lỗi|Việc mới[^:]*):\s*(.+)$/);
   const err=/^(Lỗi|Không |Chưa |Hết |Đợi )/.test(s)||/không được|không đủ/i.test(s);
   if(m) u3sys(m[1],m[2],m[1]==='Lỗi'); else u3sys(s,'',err); };
+/* máy tính: thanh trạng thái luôn nằm trên thanh trên */
+const placeChipsU3=placeChips; placeChips=function(){ if(MODE==='d'){ const c=document.querySelector('.chips'), top=document.querySelector('#app .top'); if(c&&top&&c.parentNode!==top){ const h1=top.querySelector('h1'); top.insertBefore(c,h1?h1.nextSibling:top.firstChild); } return; } placeChipsU3(); };
 hudvObj=function(){};
 layout(); try{ hud(); }catch(e){}
 })();

@@ -180,18 +180,18 @@ body.u3d .top .r #tsBtn,body.u3d .top .r #edBtn{flex-direction:row!important;min
 body.u3d .top .r #acctBtn .tx{display:none!important}
 body.u3d .top .r #acctBtn::after{content:"Tài khoản"}
 body.u3d #btvPill{top:auto;bottom:84px;right:16px}
-@media (max-width:1500px){
- body.u3d .top{padding:0 16px!important}
+
+ body.u3d.u3w15 .top{padding:0 16px!important
  body.u3d .top h1.tua img{height:38px!important}
  body.u3d .top>.chips{margin-left:14px!important}
  body.u3d .top>.chips .chip{padding:4px 11px!important;font-size:15.5px!important;gap:7px}
  body.u3d .top .r>button{min-width:56px!important;font-size:12px!important}
 }
-@media (max-width:1500px){ body.u3d .keys{gap:16px!important;padding-left:36%!important;font-size:13.5px!important} body.u3d .keys kbd{padding:3px 7px!important;font-size:12.5px!important} }
-@media (max-width:1500px){ body.u3d .keys .k:nth-child(n+6){display:none!important} }
-@media (max-width:1100px){ body.u3d .keys .k:nth-child(n+4){display:none!important} body.u3d .top h1.tua img{height:32px!important} }
-@media (max-width:1280px){
- body.u3d #app .top .r>button .lb,body.u3d #app .top .r #musBtn::after,body.u3d #app .top .r #acctBtn::after{display:none!important;content:none!important}
+ body.u3d.u3w15 .keys{gap:16px!important;padding-left:36%!important;font-size:13.5px!important} body.u3d.u3w15 .keys kbd{padding:3px 7px!important;font-size:12.5px!important} 
+ body.u3d.u3w15 .keys .k:nth-child(n+6){display:none!important} 
+ body.u3d.u3w11 .keys .k:nth-child(n+4){display:none!important} body.u3d.u3w11 .top h1.tua img{height:32px!important} 
+
+ body.u3d.u3w13 #app .top .r>button .lb,body.u3d.u3w13 #app .top .r #musBtn::after,body.u3d.u3w13 #app .top .r #acctBtn::after{display:none!important;content:none!important
  body.u3d #app .top .r>button{min-width:42px!important;height:44px!important}
  body.u3d .top .r>button{min-width:42px!important;height:44px!important}
  body.u3d .top .r #phoneBtn{font-size:0!important}
@@ -479,6 +479,8 @@ function tgUpd(){ const on=MODE==='d'&&typeof btvOn==='function'&&btvOn(); docum
   const L=(typeof BTV_CUR!=='undefined'?BTV_CUR:[])||[]; const k=L.map(r=>r.ma).join(',');
   if(k!==tgKey){ tgKey=k; tg.querySelector('.tg-cur').innerHTML=L.length?L.map(r=>'<div class="m">'+esc(r.ma)+' · '+esc(r.kieu||'')+(r.ai?' · '+esc(r.ai):'')+'</div><div class="t">'+esc(tpl?tpl(r.loi):r.loi)+'</div>').join(''):'<div class="e">Chưa có câu nào đang hiện. Chạy tới một đoạn thoại là câu đó hiện ở đây, bấm "Sửa câu này" để sửa ngay bên cột này.</div>'; } }
 setInterval(()=>{ try{ tgUpd(); }catch(e){} },400);
+function u3w(){ const w=($('app')&&$('app').clientWidth)||innerWidth, B=document.body.classList; B.toggle('u3w15',w<1500); B.toggle('u3w13',w<1280); B.toggle('u3w11',w<1100); }
+addEventListener('resize',u3w); setInterval(u3w,700); u3w();
 hudvObj=function(){};
 layout(); try{ hud(); }catch(e){}
 })();

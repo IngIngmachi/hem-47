@@ -47,13 +47,13 @@ const P2DATA=(()=>{
   const present=L=>function(){ return L.filter(k=>NPC[k]&&(()=>{ const p=NPC[k].at(hour()); return p&&p.in; })()); };
   const R2={
     may:{house:'xmay',door:.09,ten:'Phòng máy',img:'x2-phong-may',npc:['bay'],npos:[.7],lamx:.25,
-      objs:[{id:'bang',x:.5,y:.2,w:.18,h:.2,l:'Bảng chỉ tiêu',idle:'Bảng trắng ghi tên từng người. Tên ai thiếu chỉ tiêu thì tô đỏ.'},{id:'chuong',x:.86,y:.16,w:.06,h:.1,l:'Cái chuông đồng',idle:'Cái chuông đồng. Mỗi lần reo là có một người mất tiền.'}]},
-    an:{house:'xan',door:.45,ten:'Nhà ăn',img:'x2-nha-an',lamx:.2,objs:[{id:'khay',x:.3,y:.62,w:.14,h:.1,l:'Khay cơm',idle:'Cơm, canh rau muống, một miếng cá khô. Ăn lẹ, một giờ vô ca.'}]},
+      objs:[{id:'bang',x:.815,y:.38,w:.1,h:.26,l:'Bảng chỉ tiêu',idle:'Bảng trắng ghi tên từng người. Tên ai thiếu chỉ tiêu thì tô đỏ.'},{id:'chuong',x:.89,y:.29,w:.06,h:.12,l:'Cái chuông đồng',idle:'Cái chuông đồng. Mỗi lần reo là có một người mất tiền.'}]},
+    an:{house:'xan',door:.45,ten:'Nhà ăn',img:'x2-nha-an',lamx:.2,objs:[{id:'khay',x:.62,y:.52,w:.18,h:.12,l:'Khay cơm',idle:'Cơm, canh rau muống, một miếng cá khô. Ăn lẹ, một giờ vô ca.'}]},
     ngu:{house:'xngu',door:.1,ten:'Phòng ngủ tổ 3',img:'x2-phong-ngu',npc:[],lamx:.3,
-      objs:[{id:'giuong',x:.35,y:.6,w:.2,h:.14,l:'Giường tầng của mình',idle:'Giường tầng, nệm mỏng. Dưới gầm có chỗ giấu đồ.'},{id:'hanhlang',x:.88,y:.45,w:.08,h:.4,l:'Hành lang ra buồng tắm',go:'tam',goc:''}]},
-    tam:{house:'xngu',nodoor:1,back:'ngu',ten:'Buồng tắm',img:'x2-buong-tam',lamx:.4,objs:[{id:'thung',x:.6,y:.62,w:.14,h:.16,l:'Thùng nước',idle:'Thùng nước lạnh. Đáy thùng có vết băng keo cũ.'}]},
-    bep:{house:'xbep',door:.78,ten:'Bếp',img:'x2-bep',npc:['loc'],npos:[.7],lamx:.25,objs:[{id:'tubep',x:.75,y:.25,w:.12,h:.3,l:'Tủ bếp',idle:'Tủ bếp cao. Trên nóc có gì đó bọc bao tải.'}]},
-    vp:{house:'xvp',door:.45,ten:'Văn phòng lầu ba',c:'co:x_chia',img:'x2-tang3',lamx:.3,objs:[{id:'bantang3',x:.4,y:.55,w:.2,h:.14,l:'Bàn quản lý',idle:'Bàn quản lý. Ngăn kéo có khóa. Trưa thì không ai ngồi.'}]}};
+      objs:[{id:'giuong',x:.35,y:.6,w:.2,h:.14,l:'Giường tầng của mình',idle:'Giường tầng, nệm mỏng. Dưới gầm có chỗ giấu đồ.'},{id:'hanhlang',x:.43,y:.47,w:.08,h:.42,l:'Hành lang ra buồng tắm',go:'tam',goc:''}]},
+    tam:{house:'xngu',nodoor:1,back:'ngu',ten:'Buồng tắm',img:'x2-buong-tam',lamx:.4,objs:[{id:'thung',x:.47,y:.62,w:.14,h:.26,l:'Thùng nước',idle:'Thùng nước lạnh. Đáy thùng có vết băng keo cũ.'}]},
+    bep:{house:'xbep',door:.78,ten:'Bếp',img:'x2-bep',npc:['loc'],npos:[.7],lamx:.25,objs:[{id:'tubep',x:.65,y:.36,w:.22,h:.24,l:'Tủ bếp',idle:'Tủ bếp cao. Trên nóc có gì đó bọc bao tải.'}]},
+    vp:{house:'xvp',door:.45,ten:'Văn phòng lầu ba',c:'co:x_chia',img:'x2-tang3',lamx:.3,objs:[{id:'bantang3',x:.62,y:.8,w:.3,h:.16,l:'Bàn quản lý',idle:'Bàn quản lý. Ngăn kéo có khóa. Trưa thì không ai ngồi.'}]}};
   Object.defineProperty(R2.an,'npc',{get:present(['bay','nhi','toan','hue','ti','thuy','ngan','loc']),enumerable:true});
   Object.defineProperty(R2.an,'npos',{get(){ return this.npc.map((_,i)=>.9-i*.12); },enumerable:true});
   const ROOMS2=Object.assign({},P1R,{taphoa,vp12:Object.assign({},P1R.vp12,{nodoor:1})},R2);

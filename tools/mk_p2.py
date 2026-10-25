@@ -54,7 +54,7 @@ if _ov.exists():
 rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">', 1)
 
 # gắn Phần 2 sau script chính
-tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script>'
+tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script>'
 import time
 tag = tag.replace('__V__', str(int(time.time())))
 i = s.rfind('</body>')

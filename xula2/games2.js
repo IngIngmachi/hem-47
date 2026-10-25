@@ -509,37 +509,38 @@ const MINI={
       if(prog>=1){ chime(); u.end({kq:'ok'}); } }; },
 
   /* 2. nằm sát sàn nhìn qua khe cửa, ghi giờ lính đi ngang */
-  tuan(x,u,f3){ const PASS=[3,9,15,21,27,30]; let clk=0, rec=[], bad=0, q=false; const sp=.8;
+  tuan(x,u,f3){ const PASS=[3,9,15,21,27,30,32.4,36,39]; let clk=0, rec=[], bad=0, q=false; const sp=.8;
     u.tip('Nhìn qua khe dưới cửa. Lính đi ngang thì bấm Ghi. Ghi lộn ba lần là phải làm lại.');
     const vis=()=>PASS.findIndex(p=>clk>=p&&clk<p+2.4);
     u.btn('Ghi giờ',()=>{ if(q) return; const i=vis(); if(i>=0&&!rec.includes(i)){ rec.push(i); tone(880,.05,.02,'triangle'); } else { bad++; tone(200,.08,.02); if(bad>=3) u.end({kq:'hong',m:'Ghi lộn xộn quá, hổng tin được. Mai làm lại.'}); } },false,'main');
     const ask=()=>{ q=true; u.clear(); u.tip('Ghi được '+rec.length+'/'+PASS.length+' lượt. Lúc nào cầu thang trống?');
       if(rec.length<4){ u.end({kq:'hong',m:'Ghi sót nhiều quá. Mai nằm lại.'}); return; }
-      [['2:45',0],['3:00',1],['3:06',0]].forEach(([s,ok])=>u.btn(s,()=>u.end(ok?{kq:'ok'}:{kq:'hong',m:'Sai giờ. Coi lại tờ ghi chép.'}))); };
-    return dt=>{ if(!q){ clk+=dt/sp; if(clk>=40) ask(); }
+      [['2:57 – 2:59',0],['3:00 – 3:02',1],['3:06 – 3:08',0]].forEach(([s,ok])=>u.btn(s,()=>u.end(ok?{kq:'ok'}:{kq:'hong',m:'Sai giờ. Coi lại tờ ghi chép.'}))); };
+    return dt=>{ if(!q){ clk+=dt/sp; if(clk>=42) ask(); }
       if(!u.bg()){ x.fillStyle='#07080c'; x.fillRect(0,0,1000,600); x.fillStyle='#2a2e38'; x.fillRect(60,220,880,280); }
       const i=vis(); if(i>=0&&!q){ const p=(clk-PASS[i])/2.4; const gx=60+880*(i===5?1-p:p); x.save(); x.beginPath(); x.rect(40,222,920,290); x.clip(); x.fillStyle='rgba(255,230,140,.12)'; x.fillRect(gx-160,222,320,290); x.translate(gx,495); x.scale(.95,.95); try{ drawChar(x,'seo',0,0,i===5?-1:1,{walk:true,ph:clk*8,t:clk}); }catch(e){} x.restore(); }
       const m=30+Math.floor(clk), hh=m>=60?3:2, mm=m%60;
       mgPanel(x,24,20,200,110); mgT(x,hh+':'+String(mm).padStart(2,'0'),124,84,{s:36,c:'#f0b25c'}); mgT(x,(f3?'Lầu ba':'Trệt')+' · khe cửa',124,116,{s:12,c:'#9aa2b5'});
-      mgPanel(x,700,20,276,190); mgT(x,'Sổ ghi',720,52,{s:13,c:'#9aa2b5',a:'left'});
-      x.font='22px "IBM Plex Mono",monospace'; x.fillStyle='#efe8d8'; rec.slice().sort((a,b)=>a-b).forEach((r,j)=>{ const tm=30+PASS[r]; x.fillText((tm>=60?'3:':'2:')+String(tm%60).padStart(2,'0')+(r===5?'  lên lầu':'  đi ngang'),720,84+j*26); });
-      mgT(x,'Ghi lộn: '+bad+'/3',838,200,{s:12,c:'#9aa2b5'}); }; },
+      mgPanel(x,700,20,276,250); mgT(x,'Sổ ghi',720,52,{s:13,c:'#9aa2b5',a:'left'});
+      x.font='22px "IBM Plex Mono",monospace'; x.fillStyle='#efe8d8'; rec.slice().sort((a,b)=>a-b).forEach((r,j)=>{ const tm=Math.floor(30+PASS[r]); x.fillText((tm>=60?'3:':'2:')+String(tm%60).padStart(2,'0')+(r===5?'  lên lầu':r===6?'  ca mới xuống':'  đi ngang'),720,84+j*22); });
+      mgT(x,'Ghi lộn: '+bad+'/3',838,262,{s:12,c:'#9aa2b5'}); }; },
 
   /* 3. chồng thùng nhựa, giữ thăng bằng, với lên nóc tủ */
   kim(x,u){ let ph='chong', n=0, off=0, a=0, av=0, r=0, L=0, R=0, sw=0; const CX=300;
     u.tip('Bấm Đặt khi thùng ở ngay giữa khung vàng. Chồng lệch thì lúc leo lên dễ đổ.');
-    const bD=u.btn('Đặt thùng',()=>{ if(ph!=='chong') return; const o=Math.sin(sw)*200; off+=Math.abs(o); n++; tone(300,.08,.03,'square'); if(n>=3){ ph='leo'; a=(Math.random()<.5?-1:1)*Math.min(.45,off/500); bD.hidden=true; bL.hidden=bR.hidden=false; u.tip('Leo lên. Giữ ◀ ▶ cho chồng thùng đứng thẳng, tay sẽ tự với lên nóc tủ.'); } },false,'main');
+    const bD=u.btn('Đặt thùng',()=>{ if(ph!=='chong') return; const o=Math.sin(sw)*200; off+=Math.abs(o); n++; tone(300,.08,.03,'square'); if(n>=3){ ph='leo'; a=(Math.random()<.5?-1:1)*Math.min(.25,off/700); bD.hidden=true; bL.hidden=bR.hidden=false; u.tip('Leo lên. Giữ ◀ ▶ cho chồng thùng đứng thẳng, tay sẽ tự với lên nóc tủ.'); } },false,'main');
     const bL=u.btn('◀ Nghiêng trái',v=>L=v,true), bR=u.btn('Nghiêng phải ▶',v=>R=v,true); bL.hidden=bR.hidden=true;
     const crate=(px,py)=>{ x.fillStyle='rgba(47,95,138,.95)'; x.fillRect(px-80,py-76,160,76); x.strokeStyle='rgba(20,40,60,.9)'; x.lineWidth=3; x.strokeRect(px-80,py-76,160,76); x.fillStyle='rgba(20,40,60,.6)'; for(let k=0;k<3;k++) x.fillRect(px-60+k*45,py-60,24,8); };
     return dt=>{ if(!u.bg()){ x.fillStyle='#14110d'; x.fillRect(0,0,1000,600); x.fillStyle='#3a2f24'; x.fillRect(560,0,380,600); }
       x.fillStyle='rgba(0,0,0,.35)'; x.fillRect(0,0,1000,600);
       x.fillStyle='rgba(240,178,92,.9)'; x.beginPath(); x.moveTo(700,18); x.lineTo(760,18); x.lineTo(752,34); x.lineTo(708,34); x.fill(); mgT(x,'cây kìm',730,58,{s:12,c:'#f0b25c'});
       if(ph==='chong'){ sw+=dt*2.6; for(let i=0;i<n;i++) crate(CX,596-i*80); crate(CX+Math.sin(sw)*200,170); x.strokeStyle='rgba(240,178,92,.7)'; x.setLineDash([8,6]); x.strokeRect(CX-90,84,180,96); x.setLineDash([]); return; }
-      av+=(a*2.2+(Math.random()-.5)*1.4+(L?-2.6:0)+(R?2.6:0))*dt; av*=.985; a+=av*dt;
-      if(Math.abs(a)<.3) r+=dt/6;
-      if(Math.abs(a)>1){ tone(120,.5,.06,'sawtooth'); u.end({kq:'on',n:.9,m:'Rầm! Chồng thùng đổ. Cả bếp dội tiếng.'}); return; }
+      av+=(a*1.1+(Math.random()-.5)*.7+(L?-2.4:0)+(R?2.4:0))*dt; av*=.96; a+=av*dt;
+      if(Math.abs(a)<.4) r+=dt/4.5;
+      if(Math.abs(a)>1.2){ tone(120,.5,.06,'sawtooth'); u.end({kq:'on',n:.9,m:'Rầm! Chồng thùng đổ. Cả bếp dội tiếng.'}); return; }
       x.save(); x.translate(CX,596); x.rotate(a*.5); for(let i=0;i<3;i++) crate(0,-i*80); x.fillStyle='#d8cfbf'; x.fillRect(-14,-380,28,140); x.strokeStyle='#d8cfbf'; x.lineWidth=12; x.lineCap='round'; x.beginPath(); x.moveTo(0,-360); x.lineTo(70+r*300,-380-r*150); x.stroke(); x.restore();
-      mgPanel(x,20,20,280,130); mgBar(x,40,62,240,Math.abs(a),Math.abs(a)>.6?'#e2645c':'#f0b25c','Nghiêng'); mgBar(x,40,122,240,r,'#5fb37a','Với tới kìm');
+      if(Math.abs(a)>.2){ const bl=.5+.5*Math.sin(performance.now()/120); mgT(x,a>0?'◀':'▶',a>0?CX-170:CX+170,330,{s:44,c:'rgba(240,178,92,'+bl+')',b:1}); }
+      mgPanel(x,20,20,280,130); mgBar(x,40,62,240,Math.abs(a)/1.2,Math.abs(a)>.75?'#e2645c':'#f0b25c','Nghiêng'); mgBar(x,40,122,240,r,'#5fb37a','Với tới kìm');
       if(r>=1){ chime(); u.end({kq:'ok'}); } }; },
 
   /* 4. cắt rào giữa hai lượt đèn pha */
@@ -639,6 +640,9 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   const say1=m=>{ msg=m; msgT=3; };
   const hold=(id,k)=>{ const b=$(id); const on=e=>{ e.preventDefault(); K[k]=1; }, off=()=>{ K[k]=0; }; b.addEventListener('pointerdown',on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,off)); };
   hold('kL','L'); hold('kR','R');
+  /* chạm vào tranh để đi tới đó; khác tầng thì tự đi ra cầu thang */
+  cv.addEventListener('pointerdown',e=>{ if(paused||over) return; const r=cv.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width*1000, py=(e.clientY-r.top)/r.height*600;
+    let f=DMAP.band.findIndex(([y0,bh])=>py>=y0&&py<y0+bh); if(f<0) f=P.f; P.hid=false; P.goal={f,x:Math.max(20,Math.min(980,px))}; });
   const atS=()=>Math.abs(P.x-(DMAP.stairs.x+DMAP.stairs.w/2))<40;
   const spot=()=>{ let b=null,bd=60; DMAP.floors[P.f].hide.forEach(h=>{ const d=Math.abs(h-P.x); if(d<bd){ bd=d; b=h; } }); return b; };
   $('kU').onclick=()=>{ if(atS()&&P.f<2&&!P.hid){ P.f++; P.x=DMAP.stairs.x+DMAP.stairs.w/2; } };
@@ -663,12 +667,17 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
   const ch=(k,px,f,face,o)=>{ const fy=DMAP.feet[f]; x.save(); x.translate(px,fy); x.scale(.62,.62); try{ drawChar(x,k,0,0,face,o); }catch(e){} x.restore(); };
   let last=performance.now();
   function loop(now){ if(over) return; if(paused){ last=now; requestAnimationFrame(loop); return; } const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt; if(cuu) clock+=dt*(cfg.speed||1);
-    const sp=(P.run?190:95)*(lead?(1-.06*team.length):1); let mv=0; if(!P.hid){ if(K.L){ P.x=Math.max(20,P.x-sp*dt); P.face=-1; mv=1; } if(K.R){ P.x=Math.min(980,P.x+sp*dt); P.face=1; mv=1; } } if(mv) P.ph+=dt*(P.run?10:7);
+    const sp=(P.run?190:95)*(lead?(1-.06*team.length):1); let mv=0; if(K.L||K.R) P.goal=null;
+    if(!P.hid&&P.goal){ const sx=DMAP.stairs.x+DMAP.stairs.w/2, tx=P.goal.f!==P.f?sx:P.goal.x, d=tx-P.x;
+      if(Math.abs(d)<4){ if(P.goal.f!==P.f){ P.f+=Math.sign(P.goal.f-P.f); P.x=sx; } else P.goal=null; } else { P.x+=Math.sign(d)*Math.min(Math.abs(d),sp*dt); P.face=Math.sign(d); mv=1; } }
+    if(!P.hid){ if(K.L){ P.x=Math.max(20,P.x-sp*dt); P.face=-1; mv=1; } if(K.R){ P.x=Math.min(980,P.x+sp*dt); P.face=1; mv=1; } } if(mv) P.ph+=dt*(P.run?10:7);
     team.forEach((g,k)=>{ g.f=P.f; g.x+=(P.x-34*(k+1)*P.face-g.x)*Math.min(1,dt*4); });
+    if(cuu&&!P.hid&&!paused){ const ex=lead&&exits.find(e=>e.f===P.f&&Math.abs(e.x-P.x)<40);
+      if(ex) act(); else if(team.length<TMAX){ const gw=groups.find(g=>g.st==='cho'&&g.f===P.f&&Math.abs(g.x-P.x)<30&&!g.auto&&!(g.after&&clock<g.after)); if(gw){ gw.auto=1; act(); } } }
     const raid=cuu&&clock>=cfg.raid; let seen=false; if(raid&&!cfg.hoDone){ cfg.hoDone=1; say1('“Công an đây! Ngồi xuống hết!” · Đèn trại tắt phụt.'); tone(300,.6,.05,'sawtooth'); }
     G.forEach(g=>{ if(raid&&!g.chay){ g.chay=1; g.v*=1.6; } g.x+=g.v*g.d*dt; if(g.x>g.b){ g.x=g.b; g.d=-1; } if(g.x<g.a){ g.x=g.a; g.d=1; } g.ph=(g.ph||0)+dt*6;
-      if(raid||g.f!==P.f||P.hid) return; const dx=(P.x-g.x)*g.d; const noise=P.run&&Math.abs(P.x-g.x)<130; if((dx>0&&dx<150+(cfg.siet?20:0))||noise) seen=true; });
-    P.sus=seen?P.sus+dt*(P.run?2.4:1.6):Math.max(0,P.sus-dt*.7);
+      if(raid||g.f!==P.f||P.hid) return; const dx=(P.x-g.x)*g.d; const noise=P.run&&Math.abs(P.x-g.x)<(cuu?100:130); if((dx>0&&dx<(cuu?120:150)+(cfg.siet?20:0))||noise) seen=true; });
+    P.sus=seen?P.sus+dt*(P.run?(cuu?2:2.4):(cuu?1.1:1.6)):Math.max(0,P.sus-dt*(cuu?1:.7));
     if(P.sus>=1){ if(!cuu){ finish('bat'); return; } P.sus=0; clock+=20; if(lead){ const g=team.pop(); g.st='bat'; lost.push(g); say1('Bị thấy! '+g.ten+' bị lôi về. Mất 20 phút.'); lead=team[0]||null; } else say1('Bị thấy! Phải núp trong kho 20 phút.'); P.hid=true; }
     if(!cuu){ if(t>(cfg.limit||110)){ finish(got?'xong_tre':'het'); return; } const m=MUC[cfg.muc]; if(!got&&!paused&&!P.hid&&P.f===m.f&&Math.abs(P.x-m.x)<40&&MINI[cfg.muc]&&!P.autoT){ P.autoT=1; act(); } if(P.autoT&&!paused&&!got&&Math.abs(P.x-m.x)>60) P.autoT=0; }
     else { if(cfg.xe&&clock>=cfg.xe&&!cfg.xeDone){ cfg.xeDone=1; groups.filter(g=>g.st==='cho').forEach(g=>{ g.st='xe'; lost.push(g); }); say1('Xe tới chở những người còn lại đi trước giờ.'); }
@@ -690,6 +699,9 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     exits.forEach(e=>{ x.fillStyle='#5fb37a'; x.fillRect(e.x-6,Y(e.f)-120,12,116); x.fillStyle='#bfe3c9'; x.fillText(e.ten,e.x-30,Y(e.f)-128); });
     groups.forEach(g=>{ if(['ra','bat','xe'].includes(g.st)) return; x.globalAlpha=g.st==='o'?.4:1; ch(g.sp||g.id,g.x,g.f,g.x<P.x?1:-1,{walk:g.st==='theo'&&!P.hid,ph:P.ph,t}); x.globalAlpha=1; x.fillStyle='#cfc8b8'; x.fillText(g.ten,g.x-14,Y(g.f)-118); });
     G.forEach(g=>{ if(!raid){ x.fillStyle='rgba(255,230,140,.14)'; x.beginPath(); x.moveTo(g.x,Y(g.f)-70); x.lineTo(g.x+g.d*170,Y(g.f)-110); x.lineTo(g.x+g.d*170,Y(g.f)); x.closePath(); x.fill(); } ch('seo',g.x,g.f,g.d,{walk:true,ph:g.ph,t}); });
+    if(cuu&&!raid){ let tg=null; if(lead) tg=exits.filter(e=>e.f===P.f).sort((a,b)=>Math.abs(a.x-P.x)-Math.abs(b.x-P.x))[0]; else if(team.length<TMAX) tg=groups.filter(g=>g.st==='cho').sort((a,b)=>(a.f!==P.f)-(b.f!==P.f)||Math.abs(a.x-P.x)-Math.abs(b.x-P.x))[0];
+      if(tg){ const ty=Y(tg.f)-150+Math.sin(t*5)*5; x.fillStyle=lead?'#5fb37a':'#f0b25c'; x.beginPath(); x.moveTo(tg.x-11,ty-14); x.lineTo(tg.x+11,ty-14); x.lineTo(tg.x,ty); x.closePath(); x.fill(); } }
+    if(P.goal){ x.strokeStyle='rgba(240,178,92,.6)'; x.lineWidth=2; x.beginPath(); x.ellipse(P.goal.x,Y(P.goal.f)-2,16,5,0,0,7); x.stroke(); }
     x.globalAlpha=P.hid?.45:1; ch(MEK,P.x,P.f,P.face,{walk:!!(K.L||K.R)&&!P.hid,ph:P.ph,t,crouch:P.hid}); x.globalAlpha=1;
     if(P.sus>0){ x.fillStyle='#e2645c'; x.fillRect(P.x-20,Y(P.f)-120,40*P.sus,5); }
     x.fillStyle='#efe8d8'; x.font='15px "IBM Plex Mono",monospace'; x.textAlign='center';
@@ -699,7 +711,7 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     const tb=$('ktb'); if(tb) tb.style.width=(cuu?Math.min(100,clock/(cfg.end||300)*100):Math.min(100,t/(cfg.limit||110)*100))+'%';
     x.textAlign='left'; const a=atS(); $('kU').disabled=!a||P.f>=2; $('kD').disabled=!a||P.f<=0; $('kH').textContent=P.hid?'Ra':'Núp'; }
   window.__p2sneak={toi:()=>{ if(!cuu){ const m=MUC[cfg.muc]; P.f=m.f; P.x=m.x; act(); } },win:()=>{ if(cuu){ groups.forEach(g=>{ if(g.st==='cho'&&g.can<2){ g.st='ra'; out.push(g); } }); finish('het'); } else { got=true; finish('xong'); } },lose:()=>finish(cuu?'het':'bat')};
-  say1(cuu?'Bấm Dẫn chỗ từng người, gom tối đa 3 người một lượt rồi đưa ra lối xanh. Cầu thang ở giữa.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
+  say1(cuu?'Chạm chỗ muốn tới để đi. Đi ngang người đang chờ là dẫn theo, tối đa 3 người, rồi đưa ra lối xanh.':'Đi tới chỗ đánh dấu vàng là bắt đầu. Núp ở khung vàng khi đèn pin quét tới.');
   requestAnimationFrame(loop); }); }
 
 /* việc đi đêm có trò riêng: mở thẳng trò nhỏ, không đi bản đồ nữa */

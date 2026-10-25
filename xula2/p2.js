@@ -165,7 +165,17 @@ roomIm=function(){ if(P2.on){ const R=ROOMS[S.room]; if(S.room==='bep'&&hour()<1
     if(S.room==='phong3'&&(hour()>=18.5||hour()<5.5)){ if(P2REAL['x2-trong-phong3-dem']) return IMG['x2-trong-phong3-dem']; if(!roomIm._ld){ roomIm._ld=1; p2Img('x2-trong-phong3-dem'); } }
     const k=P2ROOMIMG[S.room]; if(k&&P2REAL[k]) return IMG[k]; } return roomIm1(); };
 const faceFor1=faceFor;
-faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(['Ông Chủ Lò','Người tuyển','Số lạ','Cô gái trẻ','Ông chú'].includes(name)) return faceFor1('?',n); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
+/* người chưa lộ mặt: bóng người ngược sáng thay cho ô "?" xám */
+const SILF={'Ông Chủ Lò':'m','Người tuyển':'f','Số lạ':'m','Cô gái trẻ':'f','Ông chú':'m','Bà Trần Thị Mỹ':'f','Bà Mỹ':'f','Má':'f'}; const SILC={};
+function silFace(name){ if(SILC[name]) return SILC[name]; const c=document.createElement('canvas'); c.width=c.height=200; const q=c.getContext('2d'); const fem=SILF[name]==='f';
+  const bg=q.createRadialGradient(120,70,10,100,100,150); bg.addColorStop(0,'#4a3420'); bg.addColorStop(.55,'#1c1712'); bg.addColorStop(1,'#08090c'); q.fillStyle=bg; q.fillRect(0,0,200,200);
+  const shape=(dx)=>{ q.beginPath(); q.ellipse(100+dx,82,fem?31:29,fem?36:35,0,0,7); q.fill(); q.fillRect(88+dx,104,24,26);
+    q.beginPath(); q.moveTo(18+dx,200); q.bezierCurveTo(22+dx,150,52+dx,128,100+dx,126); q.bezierCurveTo(148+dx,128,178+dx,150,182+dx,200); q.closePath(); q.fill();
+    if(fem){ q.beginPath(); q.arc(100+dx,42,15,0,7); q.fill(); q.beginPath(); q.ellipse(100+dx,92,36,40,0,Math.PI*.05,Math.PI*.95); q.fill(); } };
+  q.fillStyle='rgba(240,178,92,.55)'; shape(3); q.fillStyle='#050608'; shape(0);
+  const v=q.createLinearGradient(0,120,0,200); v.addColorStop(0,'rgba(5,6,8,0)'); v.addColorStop(1,'rgba(5,6,8,.6)'); q.fillStyle=v; q.fillRect(0,0,200,200);
+  return SILC[name]=c.toDataURL('image/png'); }
+faceFor=function(name,n){ if(P2.on){ if(name==='Lâm'&&P2.map==='trai'&&P2REAL['face-lam-4']) return 'img2/face-lam-4.webp'; if(name==='Ngân'&&S.nhanh==='A'&&P2.map==='hem'&&P2REAL['face-ngan-4']) return 'img2/face-ngan-4.webp'; if(SILF[name]) return silFace(name); const k=SPK[name]; const f=k&&p2Face(k); if(f) return f; } return faceFor1(name,n); };
 const setBust1=setBust;
 setBust=function(nm,label,kind){ setBust1(nm,label,kind); if(!P2.on) return; const k=nm&&SPK[nm]; if(k&&P2CH[k]&&!P2FACEOK[k+'-bust']){ const b=$('dBust'); if(!b.hidden) b.querySelector('img').src='img2/'+P2CH[k]+'-bust.webp'; } };
 const evPlan1=evPlan; evPlan=function(){ if(P2.on) return; return evPlan1.apply(this,arguments); };
@@ -365,9 +375,9 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     (so.length?'<details class="p2sod"><summary>Sổ nạn nhân · '+so.length+' người</summary><ol>'+so.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
     (mat.length?'<details class="p2sod"><summary>Bị chuyển đi · '+mat.length+' người</summary><ol>'+mat.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
     '<p class="p2">Thủ đoạn trong game hư cấu từ các vụ việc báo chí và cơ quan chức năng đã công bố. Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, hãy báo công an nơi gần nhất.</p>'+
-    '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button></div>';
+    '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button><button class="btn alt" type="button" id="p2Kq">Khoe kết quả</button><button class="btn alt" type="button" id="p2Tt">Thành tựu</button></div>';
   if(!$('p2sodCss')){ const st=document.createElement('style'); st.id='p2sodCss'; st.textContent='.p2sod{max-width:520px;margin:10px auto;text-align:left;color:#b9b3a6;font-size:14px}.p2sod summary{cursor:pointer;color:#efe8d8;padding:6px 0}.p2sod ol{margin:6px 0 0 18px;line-height:1.7}'; document.head.appendChild(st); }
-  $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); }
+  $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); $('p2Kq').onclick=()=>kqOpen(k); $('p2Tt').onclick=()=>ttOpen(); ttCheck2(); }
 const ending1=ending, finale1=finale;
 finale=async function(){ if(!P2.on) return finale1(); };
 ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };
@@ -403,7 +413,50 @@ p2Buttons(); new MutationObserver(p2Buttons).observe($('cover'),{childList:true,
 /* nhảy nhanh để thử (gõ trong console): P2JUMP(8) vào trại, P2JUMP(19) */
 window.P2JUMP=async d=>{ if(!P2.on) return; if(d>=8){ buildDs(); S.hoi=d>=19?3:2; setCo('hoi2'); setCo('x_mon_xong'); S.ai_vao=S.ai_vao||'lam'; S.vai=S.ai_vao; setME(); p2SetMap('trai'); S.day=d; S.min=d===8?19*60:7*60; putAt('xngu',.35); hud(); save(); await tick(); } };
 /* thành tựu Phần 1 không chấm khi đang chơi Phần 2 */
-const ttCheck1=ttCheck; ttCheck=function(){ if(P2.on) return; return ttCheck1.apply(this,arguments); };
+const ttCheck1=ttCheck; ttCheck=function(){ if(P2.on) return ttCheck2(); return ttCheck1.apply(this,arguments); };
+/* thành tựu Phần 2: lưu riêng */
+const p2KetGot=()=>{ try{ return JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){ return []; } };
+const TT2=[
+ {k:'p2_trai',t:'Qua biên giới',d:'Vô tới trại.',f:()=>P2.map==='trai'},
+ {k:'p2_may',t:'Máy giấu',d:'Lấy được cái điện thoại dưới thùng nước.',f:()=>hasF('x_may')},
+ {k:'p2_tin',t:'Chữ đầu câu',d:'Gửi được một tin giấu chữ ra ngoài.',f:()=>hasF('x_tin_song')||hasF('x_tin_3g')},
+ {k:'p2_sodo',t:'Thuộc đường',d:'Vẽ đủ sơ đồ trại.',f:()=>hasF('x_sodo3')},
+ {k:'p2_khe',t:'Hai phút',d:'Tìm ra khe hở lúc 3 giờ sáng.',f:()=>hasC('suy_x_khe')},
+ {k:'p2_ocl',t:'Ông Chủ Lò',d:'Gom đủ 5 chứng cứ về Ông Chủ Lò.',an:1,f:()=>ocl()>=5},
+ {k:'p2_sach',t:'Tay sạch',d:'Tới kết mà không ai mất tiền vì tin bạn gửi.',f:()=>!!S.ended&&!(S.so||[]).length},
+ {k:'p2_cato',t:'Cả tổ về',d:'Đưa được cả tổ ra tới sông.',an:1,f:()=>S.ended==='ca_to'},
+ {k:'p2_ket1',t:'Bờ bên kia',d:'Mở một kết bất kỳ của Phần 2.',f:()=>!!S.ended},
+ {k:'p2_ket4',t:'Đủ bốn ngả',d:'Mở đủ 4 kết Phần 2.',f:()=>p2KetGot().length>=4}];
+function ttGot2(){ try{ return JSON.parse(lsGet('tgl_tt2')||'{}')||{}; }catch(e){ return {}; } }
+function ttCheck2(){ if(typeof TESTMODE!=='undefined'&&TESTMODE) return; const g=ttGot2(); let n=0;
+  TT2.forEach(a=>{ if(g[a.k]) return; let ok=false; try{ ok=a.f(); }catch(e){} if(ok){ g[a.k]=Date.now(); n++; setTimeout(()=>toast('Thành tựu mới: '+a.t),400+n*2200); } });
+  if(n) lsSet('tgl_tt2',JSON.stringify(g)); }
+/* bảng thành tựu: hiện cả hai phần */
+ttOpen=function(){ const row=(L,g)=>L.map(a=>{ const on=!!g[a.k], an=a.an&&!on; return '<div class="tt'+(on?' on':'')+'"><i>'+(on?'★':'☆')+'</i><div><b>'+(an?'Thành tựu ẩn':esc(a.t))+'</b><span>'+(an?'Chơi tới đâu sẽ biết tới đó.':esc(a.d))+'</span></div></div>'; }).join('');
+  const g1=ttGot(), g2=ttGot2(), c1=TT.filter(a=>g1[a.k]).length, c2=TT2.filter(a=>g2[a.k]).length;
+  const s1='<p class="ppl-n" style="margin:4px 0 8px">Phần 1 · Thế Giới Lặng · '+c1+'/'+TT.length+'</p>'+row(TT,g1), s2='<p class="ppl-n" style="margin:16px 0 8px">Phần 2 · Xứ Lạ · '+c2+'/'+TT2.length+'</p>'+row(TT2,g2);
+  panel('Thành tựu',P2.on?s2+s1:s1+s2,(c1+c2)+'/'+(TT.length+TT2.length)); };
+/* thẻ khoe kết quả Phần 2 */
+const kqCanvas1=kqCanvas; kqCanvas=async function(k){ if(!P2.on) return kqCanvas1(k);
+  const W=1080,H=1350, c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d');
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];
+  const im=await new Promise(r=>{ if(!EB){ r(null); return; } const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img2/'+EB+'.webp?v=1025'; });
+  g.fillStyle='#0b0d14'; g.fillRect(0,0,W,H);
+  if(im){ const sc=Math.max(W/im.width,H*.62/im.height), w=im.width*sc, h=im.height*sc; g.drawImage(im,(W-w)/2,0,w,h); }
+  let gr=g.createLinearGradient(0,0,0,H); gr.addColorStop(0,'rgba(11,13,20,.55)'); gr.addColorStop(.32,'rgba(11,13,20,.15)'); gr.addColorStop(.58,'rgba(11,13,20,.92)'); gr.addColorStop(1,'#0b0d14'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  try{ await Promise.all([document.fonts.load('600 120px Oswald, "Arial Narrow", sans-serif'),document.fonts.load('400 40px "Be Vietnam Pro", sans-serif')]); }catch(e){}
+  g.textAlign='center';
+  const tua=await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img2/tua.webp'; });
+  if(tua){ const tw=640, th=tw*tua.height/tua.width; g.shadowColor='rgba(0,0,0,.6)'; g.shadowBlur=24; g.drawImage(tua,(W-tw)/2,36,tw,th); g.shadowBlur=0; g.shadowColor='transparent'; }
+  g.fillStyle='#f0b25c'; g.font='600 40px Oswald, "Arial Narrow", sans-serif'; if('letterSpacing' in g) g.letterSpacing='10px'; g.fillText('PHẦN 2 · XỨ LẠ',W/2,tua?36+640*tua.height/tua.width+50:300); if('letterSpacing' in g) g.letterSpacing='0px';
+  g.fillStyle='#a9a493'; g.font='500 30px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='6px'; g.fillText('KẾT THÚC · NGÀY '+S.day,W/2,860); if('letterSpacing' in g) g.letterSpacing='0px';
+  g.fillStyle='#ffffff'; g.font='600 92px Oswald, "Arial Narrow", sans-serif'; g.fillText(String((ENDS[k]||['',''])[1]).toUpperCase(),W/2,965);
+  const st=[[(S.p2ra||[]).length+'/'+(S.p2tong||0),'người ra tới sông'],[ocl()+'/5','chứng cứ Ông Chủ Lò'],[p2KetGot().length+'/4','kết đã mở']];
+  st.forEach(([v,l],i)=>{ const x=W/2+(i-1)*300, y=1065; g.fillStyle='rgba(32,38,58,.85)'; g.strokeStyle='rgba(255,255,255,.12)'; g.lineWidth=2; const rw=270,rh=130; if(g.roundRect){ g.beginPath(); g.roundRect(x-rw/2,y-rh/2,rw,rh,18); g.fill(); g.stroke(); } else g.fillRect(x-rw/2,y-rh/2,rw,rh);
+    g.fillStyle='#efe8d8'; g.font='600 50px Oswald, "Arial Narrow", sans-serif'; g.fillText(v,x,y+8); g.fillStyle='#959cb2'; g.font='400 24px "Be Vietnam Pro", sans-serif'; g.fillText(l,x,y+46); });
+  g.fillStyle='#d9d3c4'; g.font='400 32px "Be Vietnam Pro", sans-serif'; g.fillText('Bạn đưa được bao nhiêu người về?',W/2,1215);
+  g.fillStyle='#f0b25c'; g.font='600 34px "Be Vietnam Pro", sans-serif'; g.fillText('www.hem47.asia',W/2,1270);
+  return c; };
 /* chống kẹt: hết cảnh mà nền phim còn treo thì gỡ; lỗi thì báo lên màn hình để tác giả chụp gửi */
 setInterval(()=>{ if(P2.on&&!S.ended&&!busy&&!sleeping&&!camping&&BGNOW&&$('dlg').hidden&&$('game').hidden&&!document.querySelector('.p2cardfull')){ BGNOW=null; fade=.5; } },1500);
 addEventListener('error',e=>{ if(P2.on) toast('Lỗi: '+(e.message||'').slice(0,80)); });

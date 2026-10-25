@@ -62,7 +62,7 @@
 .mdv .ldx{font-size:12px;color:#959cb2}
 
 /* ==== bìa + chọn chương kiểu mới (theo bản vẽ tác giả 10/2026) ==== */
-#cover:has(.mdx){position:fixed!important;inset:0!important;z-index:40;display:block!important;padding:0!important;overflow-y:auto;border-radius:0!important}
+#cover:not([hidden]):has(.mdx){position:fixed!important;inset:0!important;z-index:40;display:block!important;padding:0!important;overflow-y:auto;border-radius:0!important}
 #cover:has(.mdx) .in{max-width:none!important;width:auto!important;margin:0!important;padding:40px 64px 120px;box-sizing:border-box;min-height:100%;text-align:left}
 #cover:has(.mdx) .tlr-st,#cover:has(.mdx) .moi-st,#cover:has(.mdx) #logoTop,#cover:has(.mdx) #logoBot{display:none!important}
 #cover:has(.mdx-chap){background:linear-gradient(90deg,rgba(5,5,7,.94) 0%,rgba(5,5,7,.78) 40%,rgba(5,5,7,.1) 70%,rgba(5,5,7,.2) 100%),#08090b url(img2/bia.webp) 75% center/cover!important}

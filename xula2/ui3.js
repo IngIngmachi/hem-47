@@ -274,7 +274,9 @@ function objHtml(){ const txt=String(objective()||''); const L=txt.split('\n').m
    '<div class="u3b">'+(ca?'<div class="u3sub">'+esc(ca)+'</div>':'')+(hn?'<div class="u3hint" role="button" tabindex="0"><span>'+esc(hn.t)+'</span></div>':'')+'<ul class="u3bd">'+body.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ul></div>'; }
 ob.addEventListener('click',e=>{ e.stopPropagation(); if(e.target.closest('.u3hint')){ ac&&ac(); const h=hintOf(); if(h&&!busy) tapSpot(h.h); return; }
   if(e.target.closest('.u3h')){ minUser=!ob.classList.contains('min'); ob.classList.toggle('min',minUser); clearTimeout(autoT); } });
+let lastMuc=null;
 function objUpd(){ const html=started&&!S.ended?objHtml():null; if(!html){ ob.hidden=true; return; }
+  try{ const mr=metaRows('muc').find(x=>cond(x.hien)); const mu=mr?tpl(mr.loi).split('\n')[0]:''; if(lastMuc!==null&&mu&&mu!==lastMuc&&!busy) u3sys('Đã cập nhật nhiệm vụ',mu.length>70?mu.slice(0,68)+'…':mu); if(mu) lastMuc=mu; }catch(e){}
   if(ob.dataset.h!==html){ ob.innerHTML=html; ob.dataset.h=html; }
   const k=[typeof P2!=='undefined'&&P2.on?P2.map:'p1',S.scene,S.room||'',S.place||''].join('|');
   if(k!==areaKey){ areaKey=k; minUser=null; }
@@ -330,6 +332,89 @@ drawEdges=function(){ EDGE=[]; if(S.scene!=='street'||busy||SO.on) return; const
     g.beginPath(); g.moveTo(ax+d*16,ay); g.lineTo(ax,ay); g.moveTo(ax+d*7,ay-8); g.lineTo(ax,ay); g.lineTo(ax+d*7,ay+8); g.stroke();
     g.fillStyle='#ece4d2'; g.textBaseline='middle'; g.textAlign='left'; g.fillText(h.l,left?bx+48:bx+22,ay+1); g.restore(); g.textBaseline='alphabetic';
     EDGE.push({x:bx,y,w,h:H,spot:h}); } };
+
+/* ===== hộp thoại theo bản vẽ: chân dung lớn một bên, bảng tên giấy, mỗi người một bên ===== */
+const dcss=`
+body.u3 #dlg.dlg{border:1px solid var(--u3line)!important;border-radius:8px!important;background:rgba(12,12,14,.9)!important;box-shadow:0 14px 40px rgba(0,0,0,.55);min-height:96px;overflow:visible}
+body.u3d #dlg.dlg{left:50%!important;right:auto!important;bottom:22px!important;transform:translateX(-50%);width:min(820px,64%);padding:22px 30px 18px!important;box-sizing:border-box}
+body.u3d #dlg.dlg.menu{width:min(760px,62%)}
+body.u3 #dlg.dlg.u3L{padding-left:178px!important}
+body.u3 #dlg.dlg.u3R{padding-right:178px!important}
+body.u3 #dlg.hasbust #dNm,body.u3 #dlg.thoai #dNm,body.u3 #dlg.nghi #dNm{display:inline-block!important;position:absolute;top:-15px;background:#e6dcc4!important;color:#2a2116!important;font:600 16px/1 Newsreader,Georgia,serif!important;text-transform:none!important;letter-spacing:0!important;padding:7px 18px 6px!important;margin:0!important;clip-path:polygon(2% 0,100% 6%,97% 100%,0 92%);box-shadow:none!important}
+body.u3 #dlg.u3L #dNm{left:166px}
+body.u3 #dlg.u3R #dNm{right:166px;left:auto}
+body.u3 #dlg:not(.u3L):not(.u3R) #dNm{left:24px}
+body.u3 #dMore::after,body.u3 #dMore::before{content:none!important}
+body.u3 #dlg.mota #dNm{display:none!important}
+body.u3 #dlg .ln{font:400 19px/1.55 Newsreader,Georgia,serif!important;color:var(--u3cream)!important}
+body.u3 #dlg.nghi .ln{font-style:italic!important;color:#d6cfbf!important}
+body.u3 #dlg.nghi .ln::before{content:"("}body.u3 #dlg.nghi .ln::after{content:")"}
+body.u3 #dlg.mota .ln{font-style:italic!important;color:#d6cfbf!important;text-align:center}
+body.u3 #dMore{font-size:0!important;color:transparent!important;overflow:hidden;text-indent:-999px;line-height:0!important;position:absolute;right:20px;bottom:14px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid var(--u3cream);animation:u3bob 1.2s ease-in-out infinite;padding:0!important}
+body.u3 #dlg.u3R #dMore{right:auto;left:20px}
+@keyframes u3bob{50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){body.u3 #dMore{animation:none}}
+body.u3 #dlg #dFace{width:96px!important;height:96px!important;border-radius:6px;object-fit:cover;border:1px solid var(--u3line)}
+body.u3 .dbust{width:150px!important;aspect-ratio:4/5;filter:drop-shadow(0 10px 18px rgba(0,0,0,.6))}
+body.u3 .dbust i{display:none}
+body.u3 .dbust img{clip-path:none!important;border-radius:6px 6px 0 0;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+body.u3 .dbust b{display:none}
+body.u3 .dbust.nghi img{filter:saturate(.75) brightness(.85)}
+/* lựa chọn */
+body.u3 #dlg.menu #dNm{position:static!important;display:block!important;background:none!important;clip-path:none;padding:0 0 10px!important;font:italic 400 17px/1.3 Newsreader,Georgia,serif!important;color:var(--u3dim)!important}
+body.u3 #dlg .choices{border:0!important;background:none!important;display:flex;flex-direction:column;gap:8px;margin-top:0}
+body.u3 #dlg .choices button{border:1px solid var(--u3line)!important;border-radius:6px!important;background:rgba(20,20,23,.85)!important;padding:10px 16px 10px 52px!important;font:400 17px/1.35 Newsreader,Georgia,serif!important}
+body.u3 #dlg .choices button:first-child{border-top:1px solid var(--u3line)!important}
+body.u3 #dlg .choices button kbd{left:14px!important;top:50%!important;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:rgba(236,228,210,.1)!important;color:var(--u3dim)!important;display:grid!important;place-items:center;font:500 12px/1 "Be Vietnam Pro",sans-serif!important}
+body.u3 #dlg .choices button:hover,body.u3 #dlg .choices button:focus-visible{border-color:var(--u3gold)!important;background:rgba(227,176,91,.1)!important}
+body.u3 #dlg .choices button:hover kbd,body.u3 #dlg .choices button:focus-visible kbd{background:var(--u3gold)!important;color:#1a1206!important}
+body.u3 #dlg .choices button.cost{box-shadow:none!important}
+body.u3 #dlg .choices button.cost small{color:#d9b06a!important}
+/* hộp hệ thống */
+#u3sys{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:min(420px,calc(100vw - 32px))}
+#u3sys .bx{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:8px;background:rgba(12,12,14,.94);border:1px solid var(--u3gold);box-shadow:0 12px 30px rgba(0,0,0,.5);animation:u3in .25s ease-out}
+#u3sys .bx.err{border-color:#c8392d;background:rgba(40,10,10,.92)}
+#u3sys .bx i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--u3gold);color:#1a1206;display:grid;place-items:center;font:700 16px/1 Newsreader,serif;font-style:normal}
+#u3sys .bx.err i{background:#d8382b;color:#fff}
+#u3sys .bx b{display:block;font:500 16px/1.3 Newsreader,Georgia,serif;color:var(--u3cream)}
+#u3sys .bx.err b{color:#ff8a7c}
+#u3sys .bx span{display:block;font:400 14px/1.3 Newsreader,Georgia,serif;color:var(--u3gold)}
+#u3sys .bx.err span{color:var(--u3dim)}
+#u3sys .bx.out{opacity:0;transition:opacity .3s}
+@keyframes u3in{from{opacity:0;transform:translateY(-6px)}}
+body.u3 #toast{display:none!important}
+/* điện thoại */
+body.u3m #dlg.dlg{padding:20px 16px 16px!important}
+body.u3m #dlg.dlg.u3L{padding-left:104px!important}
+body.u3m #dlg.dlg.u3R{padding-right:104px!important}
+body.u3m .dbust{width:88px!important}
+body.u3m #dlg.u3L #dNm{left:96px}body.u3m #dlg.u3R #dNm{right:96px}
+body.u3m #dlg .ln{font-size:16.5px!important}
+body.u3m #dlg.menu.u3L{padding-left:16px!important}
+body.u3m #u3sys{top:calc(max(10px,env(safe-area-inset-top)) + 46px)}
+`;
+const st3=document.createElement('style'); st3.id='u3dlg'; st3.textContent=dcss; document.head.appendChild(st3);
+const MEN=()=>typeof ME!=='undefined'?ME:'Lâm';
+let side={who:null,R:false}, sideT=0;
+function sideFor(nm){ const now=Date.now(); if(now-sideT>4000) side={who:null,R:false}; sideT=now;
+  let R; if(nm===MEN()) R=true; else if(side.who&&side.who!==nm&&side.who!==MEN()) R=!side.R; else R=false;
+  if(nm===side.who) R=side.R; side={who:nm,R}; return R; }
+bustPos=function(){ const b=$('dBust'), d=$('dlg'); if(b.hidden||d.hidden) return; const r=d.getBoundingClientRect(); const R=d.classList.contains('u3R');
+  b.style.left=(R?r.right-b.offsetWidth-14:r.left+14)+'px'; b.style.bottom=(innerHeight-r.bottom+1)+'px'; };
+const setBustU3=setBust; setBust=function(nm,label,kind){ const d=$('dlg'); d.classList.remove('u3L','u3R');
+  setBustU3(nm,label,kind); const b=$('dBust');
+  if(!b.hidden){ const R=sideFor(nm); d.classList.add(R?'u3R':'u3L'); b.classList.remove('lam'); requestAnimationFrame(bustPos); } };
+const sayU3=say; say=function(kind,name,text){ const p=sayU3(kind,name,text);
+  if(kind==='nghi'){ setBust(MEN(),MEN(),'nghi'); }
+  return p; };
+const chooseU3=choose; choose=function(set,inPhone,title,face){ const p=chooseU3(set,inPhone,title,face); if(!inPhone){ const d=$('dlg'); setBust(face||MEN(),'','menu'); d.classList.add('menu'); } return p; };
+/* hộp hệ thống thay cho dòng thông báo nhỏ */
+const sys=document.createElement('div'); sys.id='u3sys'; sys.setAttribute('role','status'); sys.setAttribute('aria-live','polite'); document.body.appendChild(sys);
+function u3sys(title,sub,err){ const b=document.createElement('div'); b.className='bx'+(err?' err':''); b.innerHTML='<i>'+(err?'!':'i')+'</i><div><b>'+esc(title)+'</b>'+(sub?'<span>'+esc(sub)+'</span>':'')+'</div>';
+  sys.appendChild(b); while(sys.children.length>2) sys.firstChild.remove(); setTimeout(()=>{ b.classList.add('out'); setTimeout(()=>b.remove(),320); },err?2600:2400); }
+toast=function(s){ s=String(s||''); try{ $('toast').textContent=s; }catch(e){} const m=s.match(/^(Thành tựu mới|Lỗi|Việc mới[^:]*):\s*(.+)$/);
+  const err=/^(Lỗi|Không |Chưa |Hết |Đợi )/.test(s)||/không được|không đủ/i.test(s);
+  if(m) u3sys(m[1],m[2],m[1]==='Lỗi'); else u3sys(s,'',err); };
 hudvObj=function(){};
 layout(); try{ hud(); }catch(e){}
 })();

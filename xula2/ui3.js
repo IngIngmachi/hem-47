@@ -442,6 +442,43 @@ toast=function(s){ s=String(s||''); try{ $('toast').textContent=s; }catch(e){} c
   if(m) u3sys(m[1],m[2],m[1]==='Lỗi'); else u3sys(s,'',err); };
 /* máy tính: thanh trạng thái luôn nằm trên thanh trên */
 const placeChipsU3=placeChips; placeChips=function(){ if(MODE==='d'){ const c=document.querySelector('.chips'), top=document.querySelector('#app .top'); if(c&&top&&c.parentNode!==top){ const h1=top.querySelector('h1'); top.insertBefore(c,h1?h1.nextSibling:top.firstChild); } return; } placeChipsU3(); };
+
+/* ===== khu tác giả: cột riêng bên phải, ngoài khung game (chỉ tài khoản tác giả, máy tính) ===== */
+const tgcss=`
+#u3tg{display:none}
+body.u3adm #app{margin-right:var(--tgw)!important;width:auto!important}
+body.u3adm{--tgw:360px}
+body.u3adm #u3tg{display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;width:var(--tgw);z-index:69;background:#0e0e11;border-left:1px solid rgba(236,228,210,.12);color:var(--u3cream);font:400 14px/1.45 "Be Vietnam Pro",sans-serif;box-sizing:border-box}
+#u3tg h4{margin:0;padding:14px 16px 10px;font:600 13px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--u3dim);border-bottom:1px solid rgba(236,228,210,.08)}
+#u3tg .tg-b{display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap;border-bottom:1px solid rgba(236,228,210,.08)}
+#u3tg .tg-b button,#u3tg #btvPill button{font:500 13.5px/1 "Be Vietnam Pro",sans-serif!important;color:var(--u3cream)!important;background:#1a1a1e!important;border:1px solid rgba(236,228,210,.2)!important;border-radius:6px!important;padding:9px 12px!important;cursor:pointer;height:auto!important;min-width:0!important;display:inline-flex!important;flex-direction:row!important;width:auto!important}
+#u3tg .tg-b button:hover,#u3tg #btvPill button:hover{border-color:var(--u3gold)!important}
+#u3tg #btvPill{position:static!important;display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap}
+#u3tg #btvPill button[data-a=e]{background:var(--u3gold)!important;color:#1a1206!important;border-color:var(--u3gold)!important}
+#u3tg .tg-cur{flex:1 1 auto;overflow:auto;padding:4px 16px 16px}
+#u3tg .tg-cur .m{font:500 11.5px/1.3 "IBM Plex Mono",monospace;color:var(--u3dim);margin-top:10px}
+#u3tg .tg-cur .t{font:400 15px/1.45 Newsreader,Georgia,serif;color:var(--u3cream);margin-top:3px}
+#u3tg .tg-cur .e{font-size:13px;color:var(--u3dim);font-style:italic;margin-top:10px}
+body.u3adm #btvBox{flex-direction:column!important;justify-content:flex-start!important;left:auto!important;right:0!important;width:var(--tgw)!important;top:0!important;bottom:0!important;background:#0e0e11!important;padding:0!important;align-items:stretch!important;border-left:1px solid rgba(236,228,210,.12);z-index:97}
+body.u3adm #btvBox .in{width:100%!important;max-height:none!important;height:100%;border:0!important;border-radius:0!important;background:#0e0e11!important;box-sizing:border-box}
+body.u3adm .tsp{left:auto!important;width:var(--tgw);background:none!important}
+body.u3adm .ts-box{width:100%!important;border-left:1px solid rgba(236,228,210,.12)}
+body.u3adm #cover:not([hidden]){right:var(--tgw)!important}
+body.u3adm #u3sys{left:calc((100vw - var(--tgw))/2)}
+body.u3adm .top .r #tsBtn,body.u3adm .top .r #edBtn{display:none!important}
+`;
+const st4=document.createElement('style'); st4.id='u3tgcss'; st4.textContent=tgcss; document.head.appendChild(st4);
+const tg=document.createElement('aside'); tg.id='u3tg'; tg.setAttribute('aria-label','Công cụ tác giả');
+tg.innerHTML='<h4>Tác giả</h4><div class="tg-b"><button type="button" data-t="ts">Phòng thử</button><button type="button" data-t="ed">Bảng lời thoại</button></div><h4>Câu đang hiện</h4><div class="tg-pill"></div><div class="tg-cur"></div>';
+document.body.appendChild(tg);
+tg.querySelector('[data-t=ts]').onclick=()=>{ const b=$('tsBtn'); if(b) b.click(); };
+tg.querySelector('[data-t=ed]').onclick=()=>{ const b=$('edBtn'); if(b) b.click(); };
+let tgKey='';
+function tgUpd(){ const on=MODE==='d'&&typeof btvOn==='function'&&btvOn(); document.body.classList.toggle('u3adm',on); if(!on) return;
+  const pl=$('btvPill'), hold=tg.querySelector('.tg-pill'); if(pl&&pl.parentNode!==hold) hold.appendChild(pl);
+  const L=(typeof BTV_CUR!=='undefined'?BTV_CUR:[])||[]; const k=L.map(r=>r.ma).join(',');
+  if(k!==tgKey){ tgKey=k; tg.querySelector('.tg-cur').innerHTML=L.length?L.map(r=>'<div class="m">'+esc(r.ma)+' · '+esc(r.kieu||'')+(r.ai?' · '+esc(r.ai):'')+'</div><div class="t">'+esc(tpl?tpl(r.loi):r.loi)+'</div>').join(''):'<div class="e">Chưa có câu nào đang hiện. Chạy tới một đoạn thoại là câu đó hiện ở đây, bấm "Sửa câu này" để sửa ngay bên cột này.</div>'; } }
+setInterval(()=>{ try{ tgUpd(); }catch(e){} },400);
 hudvObj=function(){};
 layout(); try{ hud(); }catch(e){}
 })();

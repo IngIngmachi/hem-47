@@ -446,9 +446,9 @@ const kqCanvas1=kqCanvas; kqCanvas=async function(k){ if(!P2.on) return kqCanvas
   let gr=g.createLinearGradient(0,0,0,H); gr.addColorStop(0,'rgba(11,13,20,.55)'); gr.addColorStop(.32,'rgba(11,13,20,.15)'); gr.addColorStop(.58,'rgba(11,13,20,.92)'); gr.addColorStop(1,'#0b0d14'); g.fillStyle=gr; g.fillRect(0,0,W,H);
   try{ await Promise.all([document.fonts.load('600 120px Oswald, "Arial Narrow", sans-serif'),document.fonts.load('400 40px "Be Vietnam Pro", sans-serif')]); }catch(e){}
   g.textAlign='center';
-  const tua=await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img2/tua.webp'; });
-  let ly=300; if(tua){ const sh=tua.height*.73, tw=640, th=tw*sh/tua.width; g.shadowColor='rgba(0,0,0,.6)'; g.shadowBlur=24; g.drawImage(tua,0,0,tua.width,sh,(W-tw)/2,40,tw,th); g.shadowBlur=0; g.shadowColor='transparent'; ly=40+th+62; }
-  g.fillStyle='#e2584b'; g.font='600 52px Oswald, "Arial Narrow", sans-serif'; if('letterSpacing' in g) g.letterSpacing='16px'; g.fillText('XỨ LẠ',W/2+8,ly); if('letterSpacing' in g) g.letterSpacing='0px';
+  const tua=await new Promise(r=>{ const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img2/tua2.webp'; });
+  let ly=300; if(tua){ const sh=tua.height, tw=640, th=tw*sh/tua.width; g.shadowColor='rgba(0,0,0,.6)'; g.shadowBlur=24; g.drawImage(tua,0,0,tua.width,sh,(W-tw)/2,40,tw,th); g.shadowBlur=0; g.shadowColor='transparent'; ly=40+th+62; }
+  ly-=20;
   g.fillStyle='#d9d3c4'; g.font='500 26px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='8px'; g.fillText('PHẦN 2',W/2+4,ly+46); if('letterSpacing' in g) g.letterSpacing='0px';
   g.fillStyle='#a9a493'; g.font='500 30px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='6px'; g.fillText('KẾT THÚC · NGÀY '+S.day,W/2,860); if('letterSpacing' in g) g.letterSpacing='0px';
   g.fillStyle='#ffffff'; g.font='600 92px Oswald, "Arial Narrow", sans-serif'; g.fillText(String((ENDS[k]||['',''])[1]).toUpperCase(),W/2,965);

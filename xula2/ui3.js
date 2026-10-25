@@ -88,9 +88,6 @@ body.u3m #u3menu .r>[hidden]{display:none!important}
 body.u3m #u3menu .r .lb{display:inline!important;position:static!important;opacity:1!important;transform:none!important;pointer-events:none;background:none!important;padding:0!important;font-size:14px!important;color:inherit!important;border:0!important;box-shadow:none!important}
 body.u3.u3m #exitBtn,body.u3.u3m #phoneBtn,body.u3.u3m .tbtns button{color:transparent!important;text-indent:-9999px;overflow:hidden}
 body.u3.u3m #phoneBtn b{text-indent:0}
-body.u3p2 #app .top h1.tua{position:relative}
-body.u3p2 #app .top h1.tua img{clip-path:inset(0 0 27% 0)}
-body.u3p2 #app .top h1.tua::after{content:"Xứ Lạ";position:absolute;left:0;right:0;bottom:2%;text-align:center;font:600 11px/1 Oswald,"Arial Narrow",sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#f26a5c}
 body.u3m #u3menu #hAct{display:block!important;color:#9aa2b5;font-size:12.5px;padding:4px 12px 8px!important;border-bottom:1px solid rgba(239,232,216,.1);margin-bottom:4px}
 body.u3m #acctBtn .tx{display:inline!important}
 body.u3m #phoneBtn,body.u3m .tbtns button{width:46px!important;height:46px!important;border-radius:50%!important;font-size:0!important;line-height:0!important;color:transparent!important;gap:0;padding:0!important}
@@ -313,7 +310,7 @@ function locDesc(){ const n=hour()>=19||hour()<5, p2=typeof P2!=='undefined'&&P2
     return n?'Đêm xuống, con hẻm yên hơn nhưng không hẳn là an toàn.':'Mùi nước mưa lẫn với mùi dầu ăn từ quán tạp hóa.'; }
   if(S.scene==='room') return 'Đèn đường hắt qua song cửa.';
   return ''; }
-function u3Upd(){ layout(); objUpd(); const night=hour()>=19||hour()<5; document.body.classList.toggle('u3p2',typeof P2!=='undefined'&&!!P2.on);
+function u3Upd(){ layout(); objUpd(); { const ti=document.querySelector('#app .top h1.tua img'); const want=(typeof P2!=='undefined'&&P2.on)?'img2/tua2.webp':'img2/tua.webp'; if(ti&&!ti.src.endsWith(want)){ ti.src=want; ti.alt=want.includes('tua2')?'Hẻm 47: Xứ Lạ':'Hẻm 47: Thế Giới Lặng'; } } const night=hour()>=19||hour()<5; document.body.classList.toggle('u3p2',typeof P2!=='undefined'&&!!P2.on);
   const showLoc=started&&!S.ended&&(S.scene==='street'||S.scene==='in'||S.scene==='room');
   loc.hidden=!showLoc; if(showLoc){ const t=typeof hudvLoc==='function'?hudvLoc():''; const ds=locDesc(); const key=t+'|'+ds; if(loc.dataset.t!==key){ loc.dataset.t=key; loc.innerHTML='<b>'+esc(t)+'</b>'+(ds?'<small>'+esc(ds)+'</small>':''); } }
   const hc=$('hClock'); if(hc) hc.classList.toggle('dem',night);

@@ -580,7 +580,7 @@ const MINI={
   may(x,u){ let ph='mo', noise=0, tens=0, prog=0, pull=0; const a0=Math.random()*6.28, r0=40+Math.random()*150; const P={x:501+Math.cos(a0)*r0,y:300+Math.sin(a0)*r0*.95}; const rip=[]; let hint='Chạm vào mặt nước để mò. Đèn pin soi được ba lần.';
     u.tip('Mò dưới đáy thùng. Bọt càng nhiều là càng gần. Mò nhiều quá nước sẽ óc ách.');
     u.cv.onpointerdown=e=>{ if(ph!=='mo') return; const p=u.pt(e); if(Math.hypot(p.x-501,p.y-300)>235) return; const d=Math.hypot(p.x-P.x,p.y-P.y); rip.push({x:p.x,y:p.y,r:4,b:Math.max(0,1-d/380)});
-      window.SFX&&SFX.play('nuoc',{v:.45+Math.min(.5,noise),rate:.85+Math.random()*.35}); noise+=.11;
+      if(!(window.SFX&&SFX.play('nuoc',{v:.45+Math.min(.5,noise),rate:.85+Math.random()*.35}))) tone(240+Math.random()*80,.12,.02,'sine'); noise+=.11;
       if(d<62){ ph='keo'; tone(640,.08,.03,'triangle'); u.hit('ok'); u.tip('Đụng rồi: cái máy dán băng keo dưới đáy. Giữ nút Kéo để gỡ, buông ra trước khi thanh căng đỏ.'); b.hidden=false; bD.hidden=true; return; }
       hint=d<150?'Có gì cứng cứng ngay đây.':d<280?'Lạnh tay. Hình như gần rồi.':'Chỉ có rong rêu.';
       if(noise>=1) u.end({kq:'on',n:.55,m:'Nước óc ách. Có ai trở mình.'}); };
@@ -732,7 +732,7 @@ function miniDem(host,muc){ return new Promise(res=>{ const box=document.createE
   const loop=now=>{ if(over) return; const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt;
     x.clearRect(0,0,1000,600); G(EV?0:dt,t); if(over) return;
     if(dang>.05){ const pu=.55+.45*Math.sin(t*(4+dang*6)); const g=x.createRadialGradient(500,300,220,500,300,620); g.addColorStop(0,'rgba(200,40,30,0)'); g.addColorStop(1,'rgba(200,40,30,'+(dang*.38*pu)+')'); x.fillStyle=g; x.fillRect(0,0,1000,600);
-      if(dang>.7&&!HB){ beat-=dt; if(beat<=0){ beat=.85-dang*.3; tone(55,.12,.05,'sine'); tone(52,.1,.04,'sine',.16); } } }
+      if(dang>.7&&!(HB&&SFX.has('timdap'))){ beat-=dt; if(beat<=0){ beat=.85-dang*.3; tone(55,.12,.05,'sine'); tone(52,.1,.04,'sine',.16); } } }
     HB&&HB.set(dang>.45?(dang-.45)/.55:0);
     if(EV){ EV.t-=dt; x.fillStyle='rgba(4,5,8,.55)'; x.fillRect(0,0,1000,600); mgT(x,EV.m,500,270,{s:20,b:1}); mgT(x,'Đứng im…',500,312,{s:15,c:'#f0b25c'}); x.fillStyle='rgba(255,255,255,.15)'; x.fillRect(380,336,240,6); x.fillStyle='#f0b25c'; x.fillRect(380,336,240*Math.max(0,EV.t/EV.T),6);
       if(EV.t<=0){ if(!EV.hit){ hit('ok'); tone(660,.06,.02,'triangle'); } EV=null; } }

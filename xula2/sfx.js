@@ -10,15 +10,15 @@
   const loadAll=()=>{ if(!ctx()) return; F.forEach(load); };
   ['pointerdown','keydown'].forEach(ev=>addEventListener(ev,()=>{ try{ loadAll(); }catch(e){} },{once:true,capture:true}));
   /* phát một lần: o.v âm lượng, o.rate tốc độ, o.off bắt đầu từ giây, o.dur dài bao lâu */
-  function play(k,o){ o=o||{}; try{ if(!ctx()||A.state!=='running'||!vol()) return; if(!B[k]){ load(k); return; }
+  function play(k,o){ o=o||{}; try{ if(!ctx()||A.state!=='running'||!vol()) return; if(!B[k]){ load(k); return false; }
     const s=A.createBufferSource(), g=A.createGain(); s.buffer=B[k]; s.playbackRate.value=o.rate||1; g.gain.value=(o.v==null?1:o.v)*vol();
-    s.connect(g); g.connect(OUT); const t=A.currentTime+(o.delay||0); if(o.dur){ s.start(t,o.off||0,o.dur); g.gain.setValueAtTime(g.gain.value,t+Math.max(0,o.dur-.12)); g.gain.linearRampToValueAtTime(0,t+o.dur); } else s.start(t,o.off||0); }catch(e){} }
+    s.connect(g); g.connect(OUT); const t=A.currentTime+(o.delay||0); if(o.dur){ s.start(t,o.off||0,o.dur); g.gain.setValueAtTime(g.gain.value,t+Math.max(0,o.dur-.12)); g.gain.linearRampToValueAtTime(0,t+o.dur); } else s.start(t,o.off||0); return true; }catch(e){ return false; } }
   /* vòng lặp có núm vặn: set(0..1) để lên xuống mượt, stop() để tắt hẳn */
   function loop(k,o){ o=o||{}; let s=null, g=null, cur=0;
     const mk=()=>{ if(s||!ctx()||!B[k]){ load(k); return; } s=A.createBufferSource(); g=A.createGain(); s.buffer=B[k]; s.loop=true; s.playbackRate.value=o.rate||1; g.gain.value=0; s.connect(g); g.connect(OUT); s.start(0,Math.random()*(B[k].duration-1)); };
     return { set(v){ try{ v=Math.max(0,Math.min(1,v||0))*(o.max||1)*vol(); if(v>0.005) mk(); if(!g) return; if(Math.abs(v-cur)>.01){ cur=v; g.gain.setTargetAtTime(v,A.currentTime,o.tc||.15); } }catch(e){} },
       stop(){ try{ if(g){ g.gain.setTargetAtTime(0,A.currentTime,.12); const ss=s; setTimeout(()=>{ try{ ss.stop(); }catch(e){} },600); } s=null; g=null; cur=0; }catch(e){} } }; }
-  window.SFX={play,loop,loadAll};
+  window.SFX={play,loop,loadAll,has:k=>!!B[k]};
 
   /* tin nhắn: tiếng báo + rung khi điện thoại đang cất */
   if(typeof ping!=='undefined'){ const p0=ping; try{ ping=function(){ if(B.tinbao&&A&&A.state==='running'){ play('tinbao',{v:.7}); } else p0(); }; }catch(e){} }

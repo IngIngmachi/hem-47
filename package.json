@@ -1,0 +1,8 @@
+{
+  "name": "hem-47",
+  "private": true,
+  "description": "Chỉ dùng lúc build: làm rối mã trước khi đưa lên web (tools/protect.mjs)",
+  "devDependencies": {
+    "javascript-obfuscator": "5.9.0"
+  }
+}

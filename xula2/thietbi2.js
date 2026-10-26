@@ -103,70 +103,117 @@ const MT_NHOM=[['Chị Bảy','Tổ 3 tháng này hụt 12%. Em đang siết.'],
 const MTCSS=`
 #gameBox:has(.mt7){width:100%!important;max-width:none!important;height:100%!important;padding:8px!important;box-sizing:border-box}
 #gameBox:has(.mt7) .p2g{height:100%}
-.mt7 .mtw .mtt span{display:block}.mt7 .mtw .mtt span b{display:inline!important;margin:0 3px}
-.mt7 main,.mt7 .mtb{background:#0b0c0f!important}
-.mt7{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:14px 18px;box-sizing:border-box;color:#e8e1d0;font:400 15px/1.45 Newsreader,Georgia,serif}
-.mt7 .mtbg{position:absolute;inset:0;z-index:0;background:linear-gradient(rgba(6,7,9,.35),rgba(6,7,9,.55)),url(img2/x2-maytram.webp) center/cover;filter:blur(2px) brightness(.7);pointer-events:none}
-.mt7 .mon{position:relative;z-index:1;width:min(1180px,100%);aspect-ratio:16/9.4;max-height:calc(100% - 10px);background:#0b0c0f;border:14px solid #15161a;border-bottom-width:22px;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 0 0 1px #26272c;display:grid;grid-template-columns:150px 1fr;overflow:hidden}
-.mt7 nav{background:#101116;border-right:1px solid #22232a;display:flex;flex-direction:column;padding:12px 8px;gap:4px}
-.mt7 nav button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;background:none;border:1px solid transparent;border-radius:8px;color:#c9c2b2;font:400 14px/1.2 Newsreader,Georgia,serif;cursor:pointer}
-.mt7 nav button svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.mt7 nav button:hover{color:#fff;background:#18191f}
-.mt7 nav button.on{background:#2a2216;border-color:#6b5428;color:#e3b05b}
-.mt7 nav .sp{flex:1}
-.mt7 nav .off{color:#e2645c}
-.mt7 main{display:flex;flex-direction:column;min-width:0;min-height:0}
-.mt7 .mtw{display:flex;align-items:center;gap:14px;padding:16px 22px 10px;border-bottom:1px solid #1f2026}
-.mt7 .mtw h4{margin:0;font:600 26px/1 Newsreader,Georgia,serif;text-transform:uppercase;letter-spacing:.04em;color:#e3b05b;display:flex;align-items:center;gap:12px}
-.mt7 .mtw h4 svg{width:26px;height:26px;fill:none;stroke:#e3b05b;stroke-width:2}
-.mt7 .mtw p{margin:4px 0 0;color:#b4ad9d;font-size:15px}
-.mt7 .mtw .mtt{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;font:400 13px/1 "Be Vietnam Pro",sans-serif;color:#b4ad9d;white-space:nowrap}
-.mt7 .mtw .mtt b{color:#ff8a7c;font-weight:600}
-.mt7 .mtw .mtt i{display:block;width:170px;height:5px;border-radius:3px;background:#24252b;overflow:hidden}
-.mt7 .mtw .mtt i em{display:block;height:100%;background:linear-gradient(90deg,#e3b05b,#d8382b)}
-.mt7 .mtc{display:flex;gap:16px;margin-left:16px;color:#9a9486}.mt7 .mtc button{background:none;border:0;color:inherit;font-size:18px;cursor:pointer;padding:2px 4px}.mt7 .mtc button:hover{color:#fff}
-.mt7 .mtb{flex:1;min-height:0;overflow:auto;padding:16px 22px 18px}
-.mt7 table{width:100%;border-collapse:collapse;font-size:15px}
-.mt7 th{text-align:left;font-weight:400;color:#b4ad9d;padding:10px 12px;border-bottom:1px solid #26272d;background:#121318}
-.mt7 td{padding:11px 12px;border-bottom:1px solid #1d1e23}
-.mt7 tr.me td{background:#4a1a18}
-.mt7 .mtbar{display:inline-block;width:110px;height:7px;border-radius:4px;background:#26272d;vertical-align:middle;margin-right:8px;overflow:hidden}.mt7 .mtbar em{display:block;height:100%;background:#c9a46a}.mt7 .mtbar em.lo{background:#d8382b}
-.mt7 .mttag{display:inline-block;font:500 12.5px/1 "Be Vietnam Pro",sans-serif;padding:5px 9px;border-radius:5px;background:#203226;color:#8fd0a2}.mt7 .mttag.no{background:#3a1715;color:#ff8a7c}
-.mt7 .mtg2{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
-.mt7 .mtcard{background:#111216;border:1px solid #22232a;border-radius:8px;padding:16px}
-.mt7 .mtcard h5{margin:0 0 12px;font:500 14px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#b4ad9d}
-.mt7 .mtbig{font:600 30px/1.1 Newsreader,serif;color:#e3b05b}
-.mt7 .mtm{color:#9a9486;font-size:13.5px}
-.mt7 .mtchat{display:grid;grid-template-columns:240px 1fr;height:100%;min-height:0;border:1px solid #22232a;border-radius:8px;overflow:hidden}
-.mt7 .mtchat .ls{background:#101116;border-right:1px solid #22232a;overflow:auto}
-.mt7 .mtchat .ls div{display:flex;gap:10px;padding:12px;border-bottom:1px solid #1b1c21;font-size:14px}
-.mt7 .mtchat .ls div.on{background:#2a2216;box-shadow:inset 3px 0 0 #e3b05b}
-.mt7 .mtchat .ls i{flex:none;width:38px;height:38px;border-radius:50%;background:#26272d;display:grid;place-items:center;font:600 14px "Be Vietnam Pro",sans-serif;font-style:normal;color:#c9c2b2}
-.mt7 .mtchat .ls b{display:block;font-weight:500;color:#e8e1d0}.mt7 .mtchat .ls span{color:#9a9486;font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
-.mt7 .mtchat .ms{display:flex;flex-direction:column;gap:12px;padding:16px;overflow:auto}
-.mt7 .mtchat .ms .h{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #1d1e23;font-size:17px}
-.mt7 .mtchat .ms .h small{display:block;color:#9a9486;font-size:13px}
-.mt7 .mtbub{max-width:78%;background:#1a1b21;border:1px solid #26272d;border-radius:4px 12px 12px 12px;padding:9px 13px}
-.mt7 .mtbub b{display:block;font:500 13px/1.3 "Be Vietnam Pro",sans-serif;color:#e3b05b;margin-bottom:2px}
-.mt7 .mtbub.voice{display:flex;align-items:center;gap:10px}
-.mt7 .mtbub.voice .wv{display:flex;gap:2px;align-items:center;height:20px}.mt7 .mtbub.voice .wv i{width:3px;background:#9a9486;border-radius:2px}
+#game:has(.mt7) #p2x{display:none!important}
+.mt7{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding:14px 18px;box-sizing:border-box;color:#e9e4d8;font:400 15px/1.45 "Be Vietnam Pro",system-ui,sans-serif}
+.mt7 .mtbg{position:absolute;inset:0;background:linear-gradient(rgba(6,7,9,.4),rgba(6,7,9,.6)),url(img2/x2-maytram.webp) center/cover;filter:blur(3px) brightness(.6);pointer-events:none}
+/* màn hình: viền nhựa, cằm, đèn nguồn */
+.mt7 .mon{position:relative;z-index:1;width:min(1180px,100%);aspect-ratio:16/9.6;max-height:100%;padding:12px 12px 26px;box-sizing:border-box;background:linear-gradient(#1c1d21,#121316);border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.06)}
+.mt7 .mon .led{position:absolute;bottom:10px;right:22px;width:6px;height:6px;border-radius:50%;background:#5fd38a;box-shadow:0 0 6px #5fd38a}
+.mt7 .scr{position:relative;height:100%;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;background:#0a1220}
+.mt7 .scr::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.05),rgba(255,255,255,0) 38%),repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,transparent 1px 3px);z-index:5}
+.mt7 .desk{position:relative;flex:1;min-height:0;padding:18px;display:flex;background:radial-gradient(120% 90% at 78% 18%,#27466d 0,#14243c 42%,#0b1322 100%)}
+.mt7 .desk::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 20% 100%,rgba(227,176,91,.12),transparent 70%);pointer-events:none}
+/* biểu tượng trên màn hình chính */
+.mt7 .icons{position:relative;display:grid;grid-auto-flow:column;grid-template-rows:repeat(4,auto);gap:6px;align-content:start}
+.mt7 .icons button{width:104px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;background:none;border:1px solid transparent;border-radius:6px;color:#f2eee4;font:400 13.5px/1.25 "Be Vietnam Pro",sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.8);cursor:pointer}
+.mt7 .icons button:hover,.mt7 .icons button:focus-visible{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);outline:0}
+.mt7 .icons .ic{width:50px;height:50px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(160deg,#f0c071,#c98b2e);box-shadow:0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.35)}
+.mt7 .icons .ic.c2{background:linear-gradient(160deg,#6fb6ff,#2f6fd0)}.mt7 .icons .ic.c3{background:linear-gradient(160deg,#7fdc9b,#2f9a57)}.mt7 .icons .ic.c4{background:linear-gradient(160deg,#a9b0bd,#5d6573)}
+.mt7 .icons svg{width:28px;height:28px;fill:none;stroke:#17130c;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mt7 .icons .ic.c2 svg,.mt7 .icons .ic.c3 svg,.mt7 .icons .ic.c4 svg{stroke:#fff}
+/* thông báo đếm giờ, góc dưới phải */
+.mt7 .note{position:absolute;right:16px;bottom:14px;z-index:3;width:290px;padding:12px 14px;background:rgba(18,20,26,.94);border:1px solid #2c2f38;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.5);font-size:13.5px;color:#cfc8b8}
+.mt7 .note .hd{display:flex;align-items:center;gap:8px;font-weight:600;color:#f2eee4;margin-bottom:4px}
+.mt7 .note .hd svg{width:16px;height:16px;fill:none;stroke:#ff8a7c;stroke-width:2;stroke-linecap:round}
+.mt7 .note b{color:#ff8a7c}
+.mt7 .note i{display:block;height:4px;margin-top:9px;border-radius:2px;background:#2a2c33;overflow:hidden}.mt7 .note i em{display:block;height:100%;background:linear-gradient(90deg,#e3b05b,#d8382b);transition:width .4s linear}
+.mt7 .note.hot{border-color:#7a2a24;animation:mtpulse 1s infinite}
+@keyframes mtpulse{50%{box-shadow:0 0 0 3px rgba(216,56,43,.35),0 14px 34px rgba(0,0,0,.5)}}
+/* cửa sổ ứng dụng */
+.mt7 .win{position:relative;z-index:2;flex:1;min-width:0;display:flex;flex-direction:column;background:#101218;border:1px solid #2a2d36;border-radius:8px;box-shadow:0 22px 50px rgba(0,0,0,.55);overflow:hidden}
+.mt7 .tb{display:flex;align-items:center;gap:12px;padding:10px 12px 10px 16px;background:linear-gradient(#1a1d25,#15171e);border-bottom:1px solid #262933}
+.mt7 .tb .ti{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:#2a2216;flex:none}
+.mt7 .tb .ti svg{width:18px;height:18px;fill:none;stroke:#e3b05b;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mt7 .tb h4{margin:0;font:600 16px/1.2 "Be Vietnam Pro",sans-serif;color:#f2eee4}
+.mt7 .tb p{margin:1px 0 0;color:#9da3b0;font-size:13px}
+.mt7 .tb .wc{margin-left:auto;display:flex;gap:2px}
+.mt7 .tb .wc button{width:36px;height:30px;border:0;border-radius:6px;background:none;color:#9da3b0;font-size:18px;line-height:1;cursor:pointer}
+.mt7 .tb .wc button:hover{background:#c0392b;color:#fff}
+.mt7 .mtb{flex:1;min-height:0;overflow:auto;padding:16px 18px}
+/* thanh tác vụ */
+.mt7 .task{position:relative;z-index:4;display:flex;align-items:center;gap:4px;height:46px;padding:0 10px;background:rgba(14,16,22,.96);border-top:1px solid #262933}
+.mt7 .task button{position:relative;height:38px;min-width:42px;display:flex;align-items:center;gap:8px;padding:0 10px;border:0;border-radius:6px;background:none;color:#cfd3dc;font:400 13px "Be Vietnam Pro",sans-serif;cursor:pointer}
+.mt7 .task button:hover{background:rgba(255,255,255,.08)}
+.mt7 .task button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mt7 .task button.on{background:rgba(227,176,91,.14);color:#f0c071}
+.mt7 .task button.on::after{content:"";position:absolute;left:30%;right:30%;bottom:2px;height:2px;border-radius:2px;background:#e3b05b}
+.mt7 .task .sp{flex:1}
+.mt7 .task .clk{font:500 13px/1.15 "Be Vietnam Pro",sans-serif;color:#cfd3dc;text-align:right;padding:0 8px}
+.mt7 .task .clk small{display:block;color:#8a909c;font-size:11.5px}
+.mt7 .task .off{color:#ff8a7c}
+/* nội dung các ứng dụng */
+.mt7 table{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px}
+.mt7 th{position:sticky;top:-16px;text-align:left;font:500 12.5px "Be Vietnam Pro",sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#9da3b0;padding:10px 12px;border-bottom:1px solid #2a2d36;background:#14161d}
+.mt7 td{padding:12px;border-bottom:1px solid #1d2028}
+.mt7 tr:nth-child(odd) td{background:rgba(255,255,255,.015)}
+.mt7 tr.me td{background:rgba(216,56,43,.16);box-shadow:inset 0 1px 0 rgba(216,56,43,.25)}
+.mt7 tr.me td:first-child{box-shadow:inset 3px 0 0 #d8382b}
+.mt7 .mtbar{display:inline-block;width:120px;height:7px;border-radius:4px;background:#262933;vertical-align:middle;overflow:hidden}.mt7 .mtbar em{display:block;height:100%;background:#5fb37a}.mt7 .mtbar em.lo{background:#d8382b}
+.mt7 .mttag{display:inline-block;font:500 12px/1 "Be Vietnam Pro",sans-serif;padding:5px 9px;border-radius:20px;background:#1d3326;color:#8fd0a2}.mt7 .mttag.no{background:#3a1715;color:#ff8a7c}
+.mt7 .mtg2{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
+.mt7 .mtcard{background:#14161d;border:1px solid #262933;border-radius:8px;padding:16px}
+.mt7 .mtcard h5{margin:0 0 12px;font:500 12px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#9da3b0}
+.mt7 .mtbig{font:600 34px/1.1 "Be Vietnam Pro",sans-serif;color:#ff8a7c}
+.mt7 .mtm{color:#9da3b0;font-size:13px}
+.mt7 .mtwarn{margin-top:14px;padding:12px 14px;border-left:3px solid #e3b05b;border-radius:0 6px 6px 0;background:#18160f;color:#d6cdb6;font-size:14px}
+.mt7 .mtchat{display:grid;grid-template-columns:230px 1fr;height:100%;min-height:0;border:1px solid #262933;border-radius:8px;overflow:hidden}
+.mt7 .mtchat .ls{background:#0e1015;border-right:1px solid #262933;overflow:auto}
+.mt7 .mtchat .ls div{display:flex;gap:10px;padding:12px;border-bottom:1px solid #1b1d24;font-size:14px}
+.mt7 .mtchat .ls div div{display:block;padding:0;border:0;min-width:0;background:none!important;box-shadow:none!important}
+.mt7 .mtchat .ls div.on{background:#1a1d26;box-shadow:inset 3px 0 0 #e3b05b}
+.mt7 .mtchat .ls i{flex:none;width:38px;height:38px;border-radius:50%;background:linear-gradient(160deg,#6fb6ff,#2f6fd0);display:grid;place-items:center;font:600 13px "Be Vietnam Pro",sans-serif;font-style:normal;color:#fff}
+.mt7 .mtchat .ls b{display:block;font-weight:500;color:#f2eee4}.mt7 .mtchat .ls span{color:#9da3b0;font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+.mt7 .mtchat .ms{display:flex;flex-direction:column;gap:10px;padding:14px 16px;overflow:auto;background:#0b0d12}
+.mt7 .mtchat .ms .h{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #1d2028;font-weight:600}
+.mt7 .mtbub{align-self:flex-start;max-width:76%;background:#1b1e27;border:1px solid #272a35;border-radius:4px 14px 14px 14px;padding:9px 13px;font-size:14.5px}
+.mt7 .mtbub b{display:block;font:600 12.5px/1.3 "Be Vietnam Pro",sans-serif;color:#e3b05b;margin-bottom:2px}
+.mt7 .mtbub.voice{display:flex;align-items:center;gap:12px}
+.mt7 .mtbub.voice .wv{display:flex;gap:2px;align-items:center;height:20px}.mt7 .mtbub.voice .wv i{width:3px;background:#9da3b0;border-radius:2px}
 .mt7 .mtfiles{display:flex;flex-direction:column;gap:8px}
-.mt7 .mtfile{display:flex;align-items:center;gap:14px;padding:12px 14px;background:#111216;border:1px solid #22232a;border-radius:8px;cursor:pointer;text-align:left;color:inherit;font:inherit}
-.mt7 .mtfile:hover{border-color:#6b5428}
-.mt7 .mtfile svg{width:30px;height:30px;fill:none;stroke:#5fb37a;stroke-width:1.6}
-.mt7 .mtsheet td{font:400 13.5px "IBM Plex Mono",monospace;color:#5a5a60;text-decoration:line-through}
-.mt7 .mtsheet tr.ok td{color:#e8e1d0;text-decoration:none;background:#2a2216}
-.mt7 .mthome{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.mt7 .mthome button{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 10px;background:#111216;border:1px solid #22232a;border-radius:10px;color:#e8e1d0;font:inherit;cursor:pointer}
-.mt7 .mthome button:hover{border-color:#6b5428}
-.mt7 .mthome svg{width:36px;height:36px;fill:none;stroke:#e3b05b;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.mt7 .mthome small{color:#9a9486;font-size:13px}
-.mt7 .mtwarn{margin-top:16px;padding:12px 14px;border-left:3px solid #e3b05b;background:#16140f;color:#d6cdb6}
+.mt7 .mtfile{display:flex;align-items:center;gap:14px;padding:12px 14px;background:#14161d;border:1px solid #262933;border-radius:8px;cursor:pointer;text-align:left;color:inherit;font:inherit}
+.mt7 .mtfile:hover{border-color:#5fb37a}
+.mt7 .mtfile svg{width:32px;height:32px;fill:none;stroke:#5fb37a;stroke-width:1.6}
+.mt7 .mtfile b{font-weight:600}
+.mt7 .mtsheet{font-size:13.5px}
+.mt7 .mtsheet td{font:400 13.5px "IBM Plex Mono",monospace;color:#555a64;text-decoration:line-through}
+.mt7 .mtsheet tr.ok td{color:#f2eee4;text-decoration:none;background:rgba(95,179,122,.14)}
+.mt7 .mtempty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:36px 12px;text-align:center;color:#ff8a7c}
+.mt7 .mtempty svg{width:40px;height:40px;fill:none;stroke:#ff8a7c;stroke-width:1.6}
+.mt7 .task .tt{display:flex;align-items:center;gap:8px;margin-right:10px;padding:6px 10px;border-radius:8px;background:rgba(216,56,43,.1);border:1px solid rgba(216,56,43,.3);font-size:13px;color:#e6dfcf;white-space:nowrap}
+.mt7 .task .tt svg{width:16px;height:16px;fill:none;stroke:#ff8a7c;stroke-width:2;stroke-linecap:round;flex:none}
+.mt7 .task .tt span,.mt7 .task .tt b{display:inline!important;white-space:nowrap;margin:0!important}.mt7 .task .tt b{color:#ff8a7c}
+.mt7 .task .tt i{display:block;width:70px;height:4px;border-radius:2px;background:#2a2c33;overflow:hidden}.mt7 .task .tt i em{display:block;height:100%;background:linear-gradient(90deg,#e3b05b,#d8382b)}
+.mt7 .task .tt.hot{animation:mtpulse 1s infinite}
+.mt7 .task button span{white-space:nowrap}.mt7 .task.w button span{display:none}
+@media (max-width:1100px){ .mt7 .task button span{display:none} }
+@media (max-height:520px){
+ .mt7{padding:2px}.mt7 .mon{aspect-ratio:auto;height:100%;width:100%;padding:5px 5px 12px;border-radius:8px}.mt7 .mon .led{bottom:3px;width:5px;height:5px}
+ .mt7 .desk{padding:6px}.mt7 .icons{grid-auto-flow:row;grid-template-columns:repeat(4,auto);grid-template-rows:none;gap:2px}.mt7 .icons button{width:96px;padding:6px 2px;font-size:12.5px}.mt7 .icons .ic{width:42px;height:42px}
+ .mt7 .note{bottom:6px;right:6px;width:260px;padding:8px 10px;font-size:12.5px}
+ .mt7 .task{height:36px;padding:0 4px}.mt7 .task button{height:30px;padding:0 8px;min-width:34px}.mt7 .task button span,.mt7 .task .clk{display:none}
+ .mt7 .task .tt{font-size:12px;padding:4px 8px}.mt7 .task .tt i{width:44px}
+ .mt7 .tb{padding:6px 6px 6px 10px}.mt7 .tb .ti{width:24px;height:24px}.mt7 .tb h4{font-size:14px}.mt7 .tb p{display:none}.mt7 .mtb{padding:8px 10px}
+ .mt7 .mtchat{grid-template-columns:1fr}.mt7 .mtchat .ls{display:none}.mt7 .mtchat .ms{padding:8px 10px}.mt7 .mtbub{font-size:13.5px;padding:6px 10px}
+ .mt7 .mtg2{grid-template-columns:1fr 180px}.mt7 td{padding:7px 10px}.mt7 th{padding:7px 10px;top:-8px}.mt7 .mtbig{font-size:24px}
+}
 @media (max-width:760px){
- .mt7{padding:6px}.mt7 .mon{grid-template-columns:1fr;grid-template-rows:auto 1fr;aspect-ratio:auto;height:100%;border-width:6px}
- .mt7 nav{flex-direction:row;overflow-x:auto;padding:6px;border-right:0;border-bottom:1px solid #22232a}.mt7 nav button{flex:none;padding:6px 8px;font-size:12px}.mt7 nav button svg{width:20px;height:20px}.mt7 nav .sp{display:none}
- .mt7 .mtw{flex-wrap:wrap;padding:10px 12px}.mt7 .mtw h4{font-size:19px}.mt7 .mtw .mtt{margin-left:0;align-items:flex-start;width:100%}.mt7 .mtc{display:none}
- .mt7 .mtb{padding:10px}.mt7 .mtg2{grid-template-columns:1fr}.mt7 .mtchat{grid-template-columns:1fr}.mt7 .mtchat .ls{display:none}.mt7 .mthome{grid-template-columns:repeat(2,1fr)}
+ .mt7 .task .tt span{display:none}
+ .mt7{padding:4px}.mt7 .mon{aspect-ratio:auto;height:100%;padding:6px 6px 14px;border-radius:10px}.mt7 .mon .led{bottom:4px}
+ .mt7 .desk{padding:8px}.mt7 .icons{grid-auto-flow:row;grid-template-columns:repeat(2,1fr);grid-template-rows:none}.mt7 .icons button{width:auto}
+ .mt7 .note{left:8px;right:8px;bottom:8px;width:auto;padding:8px 10px;font-size:12.5px}
+ .mt7 .task{height:42px;padding:0 4px;gap:0}.mt7 .task button{padding:0 8px;min-width:36px}.mt7 .task button span,.mt7 .task .clk{display:none}
+ .mt7 .tb{padding:8px 8px 8px 10px}.mt7 .tb p{display:none}.mt7 .mtb{padding:10px}
+ .mt7 .mtg2{grid-template-columns:1fr}.mt7 .mtchat{grid-template-columns:1fr}.mt7 .mtchat .ls{display:none}
  .mt7 th:nth-child(4),.mt7 td:nth-child(4){display:none}.mt7 .mtbar{width:60px}
 }`;
 const MTI={home:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>',nhom:'<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></svg>',
@@ -179,26 +226,31 @@ function gMayTram(){ return new Promise(res=>{ let tab='home', left=45, seen={},
   const APP=[['home','Máy trạm'],['nhom','Nhóm quản lý'],['kh','Khách hàng'],['bang','Bảng chỉ tiêu'],['rac','Thùng rác']];
   const TT={home:['Máy trạm','Chị Bảy quên đăng xuất.'],nhom:['Nhóm quản lý','Nhóm "QL khu B".'],kh:['Khách hàng','Danh sách khách tổ 3 đã "chốt" tháng này.'],bang:['Bảng chỉ tiêu','Bảng chỉ tiêu tuần. Tên dưới 3 đơn tô đỏ.'],rac:['Thùng rác','Thùng rác: 1 tệp.']};
   const body=()=>{ seen[tab]=1;
-    if(tab==='home') return '<div class="mthome">'+APP.slice(1).map(([k,l])=>'<button type="button" data-app="'+k+'">'+MTI[k]+l+'</button>').join('')+'</div>';
+    if(tab==='home') return '';
     if(tab==='nhom') return '<div class="mtchat"><div class="ls"><div class="on"><i>QL</i><div><b>QL khu B</b><span>'+esc(MT_NHOM[MT_NHOM.length-1][1])+'</span></div></div></div><div class="ms"><div class="h"><div>QL khu B</div></div>'+
       MT_NHOM.map(([a,t])=>{ const v=/^\[Tin thoại ([^\]]+)\]\s*(.*)$/.exec(t); return v?'<div class="mtbub voice"><div><b>'+esc(a)+'</b><span class="wv">'+[6,12,18,9,15,7,13,19,10,6,14,8].map(h=>'<i style="height:'+h+'px"></i>').join('')+'</span></div><span class="mtm">'+esc(v[1])+'</span></div><div class="mtm" style="margin:-6px 0 0 4px">'+esc(v[2])+'</div>':'<div class="mtbub"><b>'+esc(a)+'</b>'+esc(t)+'</div>'; }).join('')+'</div></div>';
-    if(tab==='kh') return '<table><tr><th>Khách</th><th>Hồ sơ</th><th>Trạng thái</th></tr>'+(KH.length?KH.map(k=>'<tr><td>'+esc(k.ten)+'</td><td class="mtm">'+esc(k.ho||'')+'</td><td><span class="mttag no">đã chuyển tiền</span></td></tr>').join(''):'<tr class="me"><td colspan="3">Tháng này tổ 3 chưa chốt được ai. Dòng của mình tô đỏ.</td></tr>')+'</table><div class="mtwarn">Cuối bảng: "Tổ con mèo · 31 khách · tháng 7".</div>';
+    if(tab==='kh') return '<table><tr><th>Khách</th><th>Hồ sơ</th><th>Trạng thái</th></tr>'+(KH.length?KH.map(k=>'<tr><td>'+esc(k.ten)+'</td><td class="mtm">'+esc(k.ho||'')+'</td><td><span class="mttag no">đã chuyển tiền</span></td></tr>').join(''):'<tr><td colspan="3"><div class="mtempty">'+MTI.kh+'Tháng này tổ 3 chưa chốt được ai. Dòng của mình tô đỏ.</div></td></tr>')+'</table><div class="mtwarn">Cuối bảng: "Tổ con mèo · 31 khách · tháng 7".</div>';
     if(tab==='bang'){ const L=[ME].concat(ds.map(p=>p.ten)).slice(0,8).map((n,i)=>({n,v:n===ME?CT():((n.length*7+i*3)%6)})); const me=L[0];
       return '<div class="mtg2"><table><tr><th>STT</th><th>Nhân viên</th><th>Đơn tuần</th><th>Hoàn thành</th><th>Trạng thái</th></tr>'+L.map((r,i)=>'<tr class="'+(r.n===ME?'me':'')+'"><td>'+(i+1)+'</td><td>'+esc(r.n)+'</td><td>'+r.v+' / 3</td><td><span class="mtbar"><em class="'+(r.v<3?'lo':'')+'" style="width:'+Math.min(100,Math.round(r.v/3*100))+'%"></em></span></td><td><span class="mttag'+(r.v<3?' no':'')+'">'+(r.v<3?'Chưa đạt':'Đạt')+'</span></td></tr>').join('')+'</table>'+
         '<div class="mtcard"><h5>Chi tiết</h5><div style="font-size:19px">'+esc(ME)+'</div><div class="mtm">Tổ 3</div><div style="margin-top:14px" class="mtm">Đơn tuần này</div><div class="mtbig">'+me.v+' / 3</div></div></div>'; }
     return file?'<button type="button" class="mtfile" data-file="0">'+MTI.xls+'<div><b>danhsach_chuyen_thang6.xlsx</b><div class="mtm">13 dòng đã xóa.</div></div></button><table class="mtsheet" style="margin-top:12px">'+Array.from({length:13},(_,i)=>'<tr><td>'+(i+1)+'</td><td>████████████</td><td>██████████████</td></tr>').join('')+'<tr class="ok"><td>14</td><td>Nguyễn Thị Oanh</td><td>chuyển giao đối tác (Miến Điện)</td></tr></table>'
       :'<div class="mtfiles"><button type="button" class="mtfile" data-file="1">'+MTI.xls+'<div><b>danhsach_chuyen_thang6.xlsx</b><div class="mtm">13 dòng đã xóa. Bấm để mở.</div></div></button></div>'; };
+  const CC=['','c2','c3','c4'];
+  const clk=()=>{ const m=(S.min||0)%1440; return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
   const draw=()=>{ const [h,sub]=TT[tab];
-    p2open('<div class="mt7"><div class="mtbg"></div><div class="mon"><nav>'+APP.map(([k,l])=>'<button type="button" data-app="'+k+'" class="'+(tab===k?'on':'')+'">'+MTI[k]+esc(l)+'</button>').join('')+'<span class="sp"></span><button type="button" class="off" id="mtX2">'+MTI.off+'Tắt màn hình</button></nav>'+
-      '<main><div class="mtw"><div><h4>'+MTI[tab]+esc(h)+'</h4><p>'+esc(sub)+'</p></div><div class="mtt">Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại<i><em id="mtB" style="width:'+(left/45*100)+'%"></em></i></div><div class="mtc"><button type="button" aria-label="Tắt màn hình" id="mtX3">×</button></div></div><div class="mtb">'+body()+'</div></main></div></div>',()=>fin(false));
+    const win=tab==='home'?'<div class="icons">'+APP.slice(1).map(([k,l],i)=>'<button type="button" data-app="'+k+'"><span class="ic '+CC[i]+'">'+MTI[k]+'</span>'+esc(l)+'</button>').join('')+'</div>'
+      :'<section class="win"><div class="tb"><span class="ti">'+MTI[tab]+'</span><div><h4>'+esc(h)+'</h4><p>'+esc(sub)+'</p></div><div class="wc"><button type="button" data-app="home" aria-label="Đóng cửa sổ">×</button></div></div><div class="mtb">'+body()+'</div></section>';
+    p2open('<div class="mt7"><div class="mtbg"></div><div class="mon"><div class="scr"><div class="desk">'+win+
+      (tab!=='home'?'':'<div class="note'+(left<=15?' hot':'')+'" id="mtN"><div class="hd"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>'+esc(TT.home[1])+'</div>Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại<i><em id="mtB" style="width:'+(left/45*100)+'%"></em></i></div>')+'</div>'+
+      '<div class="task'+(tab==='home'?'':' w')+'">'+APP.map(([k,l])=>'<button type="button" data-app="'+k+'" class="'+(tab===k?'on':'')+'" title="'+esc(l)+'">'+MTI[k]+'<span>'+esc(l)+'</span></button>').join('')+'<span class="sp"></span>'+(tab==='home'?'':'<div class="tt'+(left<=15?' hot':'')+'" id="mtN" title="'+esc(TT.home[1])+'"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span>Còn <b id="mtT">'+left+'</b> giây trước khi có người quay lại</span><i><em id="mtB" style="width:'+(left/45*100)+'%"></em></i></div>')+'<div class="clk">'+clk()+'<small>'+esc(TT.home[0])+'</small></div><button type="button" class="off" id="mtX2" title="Tắt màn hình" aria-label="Tắt màn hình">'+MTI.off+'</button></div></div><i class="led"></i></div></div>',()=>fin(false));
     document.querySelectorAll('.mt7 [data-app]').forEach(b=>b.onclick=()=>{ tab=b.dataset.app; file=false; draw(); });
     document.querySelectorAll('.mt7 [data-file]').forEach(b=>b.onclick=()=>{ file=b.dataset.file==='1'; draw(); });
-    $('mtX2').onclick=$('mtX3').onclick=()=>fin(false); };
+    $('mtX2').onclick=()=>fin(false); };
   const fin=late=>{ if(done) return; done=true; clearInterval(iv); p2close(); setCo('x_maytram');
     if(seen.nhom&&!hasC('x_vi')) { fx('+cc:x_vi'); toast('Manh mối mới: ví tổng tối Chủ nhật'); }
     if(seen.nhom) setCo('x_biet_thu6');
     if(late) fx('+nghi:8'); res(late); };
-  const iv=setInterval(()=>{ left=Math.max(0,45-Math.floor((performance.now()-T0)/1000)); const t=$('mtT'), bb=$('mtB'); if(t) t.textContent=left; if(bb) bb.style.width=(left/45*100)+'%'; if(left<=0){ toast('Tiếng dép ngoài hành lang. Lủi ra không kịp, Chị Bảy thấy mình đứng gần máy.'); fin(true); } },500);
+  const iv=setInterval(()=>{ left=Math.max(0,45-Math.floor((performance.now()-T0)/1000)); const t=$('mtT'), bb=$('mtB'); if(t) t.textContent=left; if(bb) bb.style.width=(left/45*100)+'%'; const nn=$('mtN'); if(nn) nn.classList.toggle('hot',left<=15); if(left<=0){ toast('Tiếng dép ngoài hành lang. Lủi ra không kịp, Chị Bảy thấy mình đứng gần máy.'); fin(true); } },500);
   draw(); }); }
 P2GAMES.maytram=async()=>{ const late=await gMayTram(); if(late){ await say('thoai','Chị Bảy','Đứng đây làm gì. Về bàn.'); hideDlg(); } };
 

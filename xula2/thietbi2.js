@@ -232,13 +232,13 @@ async function p2NhipHem(){ if(!P2.on||P2.map!=='trai') return; const n=NHIP.fin
 .kh .kh-no{font:600 18px "Oswald",sans-serif;color:#8a2f25}
 .kh .kh-tt{font:600 12px "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6b5f4a}
 .kh .kh-ln{grid-column:2;font-size:19px;line-height:1.5}
-.kh .kh-ln u{text-decoration:none;border-bottom:2px dashed #8a2f25;padding:0 4px;color:#8a2f25;font-family:"Playpen Sans","Comic Sans MS",cursive;font-size:17px}
+.kh .kh-ln u{text-decoration:none;border-bottom:2px dashed #8a2f25;padding:0 4px;color:#8a2f25;font-family:Newsreader,Georgia,serif;font-size:17px}
 .kh .kh-ln u.empty{color:#9a8f7a;border-color:#9a8f7a}
 .kh .kh-ops{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .kh .kh-ops button{font:14px "Be Vietnam Pro",sans-serif;background:#fff8ea;color:#2a241a;border:1px solid #b9ab8e;border-radius:999px;padding:6px 12px;cursor:pointer}
 .kh .kh-ops button.on{background:#8a2f25;color:#fff;border-color:#8a2f25}
 .kh .kh-ops button:disabled{opacity:.45;cursor:not-allowed;font-style:italic}
-.kh .kh-ky{display:flex;justify-content:flex-end;margin-top:10px;font:15px "Playpen Sans",cursive;color:#5a5040}
+.kh .kh-ky{display:flex;justify-content:flex-end;margin-top:10px;font:15px Newsreader,Georgia,serif;color:#5a5040}
 .kh .kh-stamp{position:absolute;right:28px;bottom:40px;border:3px solid #b3322a;color:#b3322a;font:700 20px "Oswald",sans-serif;padding:4px 12px;transform:rotate(-8deg);opacity:0;transition:opacity .3s,transform .3s}
 .kh .kh-stamp.on{opacity:.85;transform:rotate(-8deg) scale(1.05)}
 .khbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
@@ -262,7 +262,7 @@ board=function(vu){ if(!P2.on||!KH_DOC[vu]) return board1(vu); return new Promis
       '<div class="khbar"><button class="btn" type="button" id="bdOk"'+(all&&!sent?'':' disabled')+'>'+(vu==='xvinh'?'Gửi kế hoạch':'Lưu báo cáo')+'</button><button class="pbtn" type="button" id="bdX">Để sau, chưa đủ manh mối</button></div>',()=>$('bdX').click());
     box.querySelectorAll('.kh-ops button').forEach(b=>b.onclick=()=>{ sel[b.dataset.s]=b.dataset.o; draw(); });
     $('bdX').onclick=()=>{ p2close(); res(-1); };
-    $('bdOk').onclick=()=>{ let sc=0; for(const s of sents){ const id=sel[s.ma]; const r=T[IDX[id]]; if(r&&r.sau==='dung') sc++; S.ch[id]=1; S.ch[id.replace(/(_[a-z])\d+$/,'$1')]=1; }
+    $('bdOk').onclick=()=>{ window.SFX&&SFX.play('viet',{v:.9,dur:1.8}); let sc=0; for(const s of sents){ const id=sel[s.ma]; const r=T[IDX[id]]; if(r&&r.sau==='dung') sc++; S.ch[id]=1; S.ch[id.replace(/(_[a-z])\d+$/,'$1')]=1; }
       S.tin['bang_'+vu]=sc; setCo('bao_'+vu); save(); sent=true; draw(); try{ tone(180,.15,.05,'square'); }catch(e){}
       setTimeout(()=>{ p2close(); toast('Đúng '+sc+'/'+sents.length); res(sc); },1300); }; };
   draw(); }); };

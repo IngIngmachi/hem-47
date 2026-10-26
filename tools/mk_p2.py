@@ -25,6 +25,8 @@ rep("const TOTAL_DAYS=30,", "let TOTAL_DAYS=30; const ", 1)
 rep("const SAVEKEY='tgl_v6_save';", "let SAVEKEY='tgl_v6_save', SAVESLOT='save';", 1)
 rep("slot:'save'", "slot:SAVESLOT")
 rep(".eq('slot','save')", ".eq('slot',SAVESLOT)")
+rep("const ping=()=>{ tone(1320,.12,.04); tone(1760,.15,.035,'sine',.11); }, blip=", "let ping=()=>{ tone(1320,.12,.04); tone(1760,.15,.035,'sine',.11); }; const blip=", 1)
+rep("const badgeOn=()=>{ $('badge').hidden=false; }, badgeOff=", "let badgeOn=()=>{ $('badge').hidden=false; }; const badgeOff=", 1)
 rep("let S=fresh();", "let S=fresh(); let ME='Lâm', MEK='lam';", 1)
 rep("drawChar(g,'lam',PL.x", "drawChar(g,MEK,PL.x")
 rep("kind==='nghi'?'Lâm nghĩ'", "kind==='nghi'?ME+' nghĩ'")
@@ -65,7 +67,7 @@ if _ov.exists():
 rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">', 1)
 
 # gắn Phần 2 sau script chính
-tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script><script src="xula2/amb.js?v=__V__"></script>'
+tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script><script src="xula2/amb.js?v=__V__"></script><script src="xula2/sfx.js?v=__V__"></script>'
 import time
 tag = tag.replace('__V__', str(int(time.time())))
 i = s.rfind('</body>')

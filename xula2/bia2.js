@@ -52,7 +52,7 @@
 .mdv .mdend.locked{cursor:default;opacity:.55;border-style:dashed}.mdv .mdend.locked .n{font-family:"IBM Plex Mono",monospace;letter-spacing:.3em}
 .mdv .mdend .mdlast{font-family:"Be Vietnam Pro",sans-serif;text-transform:none;letter-spacing:0;font-size:10.5px;font-weight:500;color:#5fb37a;margin-left:6px;vertical-align:2px}
 .mdv .mdwarn{font-size:12.5px;line-height:1.55;color:#f1d2a4;background:rgba(240,178,92,.08);border:1px solid rgba(240,178,92,.35);border-radius:10px;padding:10px 12px}
-.mdv .mdhand{font-family:"Playpen Sans","Comic Sans MS",cursive;font-size:15px;color:#d9d3c4;line-height:1.55;margin:0}
+.mdv .mdhand{font-family:Newsreader,Georgia,serif;font-size:15px;color:#d9d3c4;line-height:1.55;margin:0}
 .mdv .mdfoot .bb{width:100%;min-width:0}
 .mdv .mdopt{display:flex;flex-direction:column;gap:3px;text-align:left;font:inherit;color:#efe8d8;background:rgba(16,19,28,.82);border:1px solid #2e3549;border-radius:14px;padding:12px 14px;cursor:pointer}
 .mdv .mdopt b{font-family:Oswald,"Arial Narrow",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:18px;color:#f0b25c}

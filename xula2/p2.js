@@ -339,17 +339,21 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
 
 /* ---------------- kết ---------------- */
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;
-  if(k==='ca_to'){ L.push('Năm giờ sáng. Chuông chùa bên sông. Chiếc ghe cuối cùng cập bờ bên này.','Ở cửa khẩu Mộc Bài, xe của Hương chờ sẵn. Mỗi người một ổ bánh mì, một chai nước.','Ra được: '+ra.join(', ')+'.','Ba ngày sau, đúng tiệc mừng thọ sáu mươi tuổi, bà Trần Thị Mỹ được mời lên làm việc. Bánh kem còn chưa cắt.','Một chiều tháng Mười Hai. Tạp hóa cô Thoa dọn thêm hai cái bàn nhựa ra hiên. Đủ người.','Con mèo mun nằm trên đùi Ngân. Cái chuông trên cổ nó vẫn không kêu.'); }
-  else if(k==='o_lai'){ const o=S.p2olai; L.push('Năm giờ sáng. Chuông chùa bên sông.','Ra được: '+(ra.join(', ')||'không ai')+'.');
-    if(o) L.push(o+' ở lại, đứng chặn cánh cửa cho những người khác chạy.','Tài xế Thoại quay ghe lại một lần nữa. Bờ bên kia chỉ còn đèn pin và tiếng chó.','Không ai biết '+o+' có thoát không.');
-    else if((S.p2con||[]).length) L.push('Những người còn lại không kịp ra. Tiếng xe tải chạy về hướng xa hơn lúc trời vừa sáng.');
+  const dsr=ra.join(', ');
+  if(k==='ca_to'){ L.push('5 giờ sáng. Tiếng chuông chùa bên sông ngân dài trong sương. Chiếc ghe cuối cùng tắt máy, cập vào bãi lau bờ bên này.','Trên bờ đê sát biên giới, xe của Hương đã nổ máy chờ sẵn. Không ai nói nổi câu nào, chỉ lặng lẽ chuyền tay nhau mấy chai nước suối với gói xôi còn ấm.','Bước được lên bờ sáng hôm đó có đủ mặt: '+dsr+'.');
+    if(my) L.push('Ba ngày sau, căn biệt thự ở Quận 7 sáng đèn từ tinh mơ. Bà Trần Thị Mỹ bị đọc lệnh bắt giữ ngay bên bàn trà sáng, khi cuốn sổ chỉ tiêu đóng mộc Phát Đạt TN đã nằm trên bàn đại úy Vinh.');
+    L.push('Một chiều cuối năm ở hẻm 47. Tạp hóa cô Thoa kê thêm hai cái bàn nhựa ra tận mí hẻm. Lần đầu tiên sau gần hai năm, mâm cơm chiều dọn ra đủ chén đũa.','Con mèo mun nằm phơi nắng trên bậc thềm, lim dim nghe tiếng radio cải lương bên tiệm chú Tám vọng qua.'); }
+  else if(k==='o_lai'){ const o=S.p2olai; L.push('5 giờ sáng. Tiếng chuông chùa vọng qua mặt sông mờ sương. Chiếc ghe của ông Thoại buộc phải tháo dây rời bến trước khi đèn pha quét tới.','Những người kịp bước lên bờ bên này: '+(dsr||'không ai')+'.');
+    if(o||(S.p2con||[]).length){ L.push('Cánh cổng sắt bên kia sông khép lại. Có người đã chọn đứng lại ở hành lang cuối cùng để chiếc ghe kịp rời bến.'); if(o==='Ngân') L.push('Ở đầu hẻm 47, tối nào cô Thoa cũng lặng lẽ cắm sạc chiếc điện thoại ốp mèo đen, chờ một cuộc gọi lúc 2 giờ sáng.'); }
     else if((S.ds||[]).some(p=>!p.con)) L.push('Không ai bị bỏ lại đêm đó. Nhưng '+S.ds.filter(p=>!p.con).map(p=>p.ten).join(', ')+' đã bị chuyển đi từ trước. Trên danh sách của Hương, mấy cái tên đó vẫn còn để trống.');
-    else L.push('Ra được hết. Nhưng Ông Chủ Lò vẫn chưa có tên trong hồ sơ.');
-    if(S.nhanh==='A'&&S.ai_vao==='ngan'&&o==='Ngân') L.push('Ở hẻm 47, cô Thoa lại cắm sạc cái điện thoại cũ mỗi ngày. Lần thứ hai.');
-    L.push(my?'Bà Trần Thị Mỹ được mời lên làm việc ngay trong tuần.':'Ở Sài Gòn, bà Trần Thị Mỹ vẫn tối Chủ nhật nào cũng ngồi đếm tiền.'); }
-  else if(k==='mot_minh') L.push('Năm giờ sáng. '+ME+' lội qua đoạn sông cạn, một mình.','Không dẫn được ai ra.','Một tuần sau, '+ME+' viết một bài. Lần này đúng từng chữ.','Bài viết có 41 lượt xem.');
-  else L.push('Khu dời đi trước giờ ập vào.','Xe tải chạy trong mưa. Không ai biết nó chạy về đâu.','Ba tuần sau, tài khoản cũ của Ngân nhận được một tin rác.','Ghép chữ đầu câu, ra một cái tên: L. A. M.');
-  if(k!=='ca_to'&&!my) L.push('Ở một nơi khác, một bà già sáu mươi tuổi tắt ứng dụng đổi giọng, rót trà, rồi gọi cho con trai: "Mấy đứa đó để má lo."');
+    else if(!my) L.push('Cả tổ đều qua được sông, nhưng trong tập hồ sơ gửi cho đại úy Vinh vẫn khuyết cái tên của kẻ cầm tiền đứng trên cùng.');
+    if(my) L.push('Bà Trần Thị Mỹ được mời lên làm việc ngay trong tuần.');
+    else L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Bến dưới Xi-ha động rồi. Đám còn lại bên đó, tối thứ Sáu chuyển thẳng qua bên Miến cho má."'); }
+  else if(k==='mot_minh'){ L.push('5 giờ sáng. Tiếng chuông chùa đổ hồi bên kia sông. Chỉ một mình '+ME+' lội được qua bãi nước cạn sang bờ bên này, ướt sũng và trắng tay.','Không một ai trong tổ thoát được ra ngoài đêm đó.','Một tuần sau, khi lực lượng chức năng tiếp cận được hiện trường thì khu phức hợp đã dọn trống trơn từ lâu. Không còn nhân chứng, không còn dấu vết.');
+    if(ME==='Lâm') L.push('Lâm trả lại căn phòng số 3. Lúc xách giỏ đi ngang tiệm tạp hóa đầu hẻm, thấy cô Thoa vẫn ngồi lau từng chai nước suối, anh cúi mặt bước nhanh qua.');
+    if(!my) L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Dọn sạch trại dưới Xi-ha đi. Tối thứ Sáu lùa hết tụi nó qua bên Miến cho má."'); }
+  else { L.push('11 giờ đêm, bốn tiếng trước giờ hẹn. Kế hoạch đã bị lộ từ trước. Toàn bộ các phòng máy bị lùa lên thùng xe tải khóa kín, lao đi trong màn mưa.','Ba tuần sau, chiếc điện thoại ốp mèo đen trong ngăn kéo tạp hóa cô Thoa bất ngờ sáng đèn lúc 2 giờ sáng. Một tin nhắn quảng cáo không dấu gửi về.','Ghép chữ cái đầu của bốn câu ngắn ngủn, hiện ra bốn chữ: M - I - E - N.');
+    if(!my) L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Xe qua tới bên Miến rồi hả? Từ giờ khỏi sợ đứa nào nhắn về nữa."'); }
   let got=[]; try{ got=JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){} if(!got.includes(k)) got.push(k); lsSet('tgl_chuong2_ket',JSON.stringify(got));
   hideDlg(); closePhone(); const name=(ENDS[k]||['',''])[1];
   const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];

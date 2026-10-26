@@ -7,33 +7,33 @@ X('z_a_hem','Za Lô · nhóm hẻm',[
  ['@Diễm Nail','ủa con Ngân về rồi hả mấy bà, sáng nay tui thấy ngồi trước tạp hóa'],
  ['@Hạnh Bánh Mì','về rồi thì để yên cho nó thở đi mấy bà, chuyện cũ nhắc hoài'],
  ['@Bà Sáu','Đứa nào nói ra nói vô con nhỏ là bà cạo đầu. Bà Sáu đây.'],
- ['~','Bà Sáu lên tiếng một cái là nguyên nhóm im phăng phắc, hông ai dám bàn ra tán vô nữa.']]);
+ ['~','Cả nhóm im re. Không ai thả tim, cũng không ai rời nhóm.']]);
 X('z_a_huong','Za Lô · Ngân nhắn',[
- ['#Ngân','nay ngày chẵn, tới phiên anh đi đó'],
+ ['#Ngân','bữa nay ngày chẵn, tới lượt anh'],
  ['#Ngân','đi gặp chị Hương đi. chỉ còn giữ hồ sơ vụ Ba Vẹt, có khi biết tụi nó dời đi đâu'],
- ['#> Ngân','Rồi, đang chuẩn bị đi đây. Có tin gì mới tôi nhắn về.']]);
+ ['#> Ngân','Tôi đi liền. Có gì tôi nhắn.']]);
 X('z_a_vi','Za Lô · Hương nhắn',[
  ['#Hương','địa chỉ ví con bé Phương gửi tôi, tôi chuyển qua ông rồi đó'],
- ['#Hương','cứ lần ngược từ mấy cái lệnh rút tiền tối Chủ nhật á. bớt ngồi đọc cmt trên mạng lại đi'],
- ['~','Về phòng mở laptop lên tra thử coi dòng tiền này chảy đi đâu.']]);
+ ['#Hương','dò ngược từ mấy lệnh tối Chủ nhật mà lên. đừng ngồi đọc bình luận nữa'],
+ ['~','Mở laptop là dò được.']]);
 X('z_vinh','Za Lô · đại úy Vinh',[
  ['#Đại úy Vinh','Nhắc lại: vị trí giữ người, số người, giờ trống. Đủ 3 thứ tôi mới đề nghị phía bạn phối hợp được.'],
  ['#Đại úy Vinh','Đừng nhắn tên tôi trong bất kỳ tin nào gửi ra.']]);
 X('z_a_thoa','Za Lô · mẹ nhắn',[
  ['#Cô Thoa','tối về ăn cơm nghen con. mẹ có chuyện muốn nói'],
- ['~','Xưa giờ mẹ hiếm khi nhắn tin kiểu này lắm. Chắc ở nhà có chuyện gì rồi.']]);
+ ['~','Mẹ ít khi nhắn tin. Mẹ gọi thẳng, hoặc không nói gì hết.']]);
 X('z_thoai','Za Lô · Bin nhắn',[
- ['#Bin','anh ơi anh Lộc nói ảnh biết một ông chạy ghe ở bến sát biên'],
- ['#Bin','tên Thoại. ra bến hỏi là ai cũng chỉ, mà ổng chỉ nhận tiền mặt'],
+ ['#Bin','anh ơi anh Lộc nói ảnh có ông chú đồng hương làm nghề chài lưới ở khúc sông sát biên'],
+ ['#Bin','tên chú Thoại. hồi trước con trai chú cũng bị lừa qua bển rồi mất lúc bơi qua sông, nên nghe đi cứu người mình là chú giúp liền, chỉ cần phụ chú tiền mướn máy lớn với mua dầu chạy đêm thôi'],
  ['#> Bin','Cảm ơn em. Đừng kể ai nghe nha.'],
  ['#Bin','em có kể ai đâu 🤐']]);
 X('z_gom','Za Lô · nhóm hẻm',[
- ['@Bà Sáu','Thằng nhỏ ở phòng số 3 nhà bà sắp đi có công chuyện hệ trọng. Đang kẹt tiền.'],
- ['@Bà Sáu','Nhà ai dư dả thì phụ nó chút đỉnh, hổng có thì thôi, bà hổng ép.'],
+ ['@Bà Sáu','Thằng ở phòng 3 nhà bà sắp đi làm một chuyện lớn. Cần tiền.'],
+ ['@Bà Sáu','Nhà nào dư thì góp, không dư thì thôi. Bà không ép ai.'],
  ['@Tám Hớt Tóc','chuyện gì mà lớn dữ bà Sáu'],
- ['@Bà Sáu','Chuyện đi cứu người ta. Đừng có hỏi tò mò, bà hổng nói thêm đâu.']]);
+ ['@Bà Sáu','Chuyện cứu người. Hỏi nữa bà cũng không nói.']]);
 X('z_a_chot','Za Lô · Ngân nhắn',[
- ['#Ngân','11h khuya nay tui qua phòng 3. Bàn dứt điểm coi ai là người đi vô trển.'],
+ ['#Ngân','11h tối nay qua phòng 3. Chốt ai vô.'],
  ['#Ngân','đừng có đi ngang tạp hóa, mẹ tui còn thức']]);
 X('z_b_bin','Za Lô · Bin nhắn',[
  ['#Bin','anh Lâm, bà Sáu nói anh tính đi kiếm chị Ngân hả'],
@@ -41,7 +41,7 @@ X('z_b_bin','Za Lô · Bin nhắn',[
  ['#> Bin','Để anh coi đã. Đừng nói bà Sáu là anh nhắn em.']]);
 X('z_b_huong','Za Lô · nhắn Hương',[
  ['#> Hương','Chị cho tôi gặp 15 phút. Chuyện cái trại ở Ba Vẹt.'],
- ['~','Hiện chữ "Đã xem" nửa tiếng đồng hồ rồi mà cổ vẫn im re.'],
+ ['~','Tin đã xem. Nửa tiếng không trả lời.'],
  ['#Hương','8 giờ, Thảo Điên. trễ là tôi về']]);
 X('z_b_vinh','Za Lô · Hương nhắn',[
  ['#Hương','muốn làm thiệt thì ra công an phường gặp đại úy Vinh. ổng bên hình sự thành phố, đang làm ở phường'],
@@ -203,7 +203,7 @@ function gMayTram(){ return new Promise(res=>{ let tab='home', left=45, seen={},
 P2GAMES.maytram=async()=>{ const late=await gMayTram(); if(late){ await say('thoai','Chị Bảy','Đứng đây làm gì. Về bàn.'); hideDlg(); } };
 
 /* ---------- 4. LỘ RÕ HƠN: mò thùng nước ban ngày, lén về máy trạm giờ cơm ---------- */
-X('x_mothung_act','Buồng tắm',[['~','Thùng nhựa đựng nước tắm. Nghe tụi nhỏ dặn dưới đáy thùng có dán giấu cái đt cũ.'],{game:'mothung'}]);
+X('x_mothung_act','Buồng tắm',[['~','Cái thùng nước lạnh. Người ta nói đáy thùng có dán cái gì đó.'],{game:'mothung'}]);
 P2DATA.ACT.push({id:'x_mothung',h:2,hx:3,d:[9,19],who:'o:thung',k:'x_mothung_act',t:'Mò dưới đáy thùng nước',sub:'nghe nói có cái máy dán dưới đó',c:'co:x_biet_may !co:x_may',until:'co:x_may',cost:15});
 P2GAMES.mothung=()=>new Promise(res=>{ p2open('<h3>Mò dưới đáy thùng nước</h3><div class="dd2" id="mtHost" style="aspect-ratio:5/3;min-height:240px"></div>',()=>{ const mg=document.querySelector('#mtHost .mg'); if(mg&&window.__p2mini) window.__p2mini.lose(); });
   miniDem($('mtHost'),'may').then(async r=>{ p2close();

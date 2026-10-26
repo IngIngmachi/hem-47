@@ -543,3 +543,11 @@ body:has(#phone:not([hidden])) #u3sys{top:auto;bottom:96px}
     if((g==='fo'||g==='mo')&&typeof silFace==='function'&&typeof SILF!=='undefined'){ if(!SILF[n]) SILF[n]=g[0]; return silFace(n); }
     return pick(g==='f'||g==='fo'?F:(g==='mo'?MOLD:M),n); };
 })();
+
+/* ===== sửa kẹt: đóng điện thoại lúc đang chờ "chạm để đọc tiếp" thì game đứng luôn.
+   Giờ đóng máy giữa chừng = coi như đã đọc, cảnh chạy tiếp. ===== */
+(function(){
+  if(typeof closePhone!=='function') return;
+  const c0=closePhone;
+  closePhone=function(){ const pend=$('phTap')&&!$('phTap').hidden&&typeof waitFn!=='undefined'&&waitFn; c0.apply(this,arguments); if(pend&&typeof advance==='function') setTimeout(()=>{ try{ if(waitFn) advance(); }catch(e){} },0); };
+})();

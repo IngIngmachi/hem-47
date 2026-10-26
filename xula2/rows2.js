@@ -374,8 +374,8 @@ M('WEB_x_canhbao','web','việc nhẹ lương cao | lừa qua Cam | tuyển dụ
 
 /* mục tiêu */
 const MUC2=[
- ['a1','Mở cái đt cũ dưới ngăn kéo tạp hóa đọc tin nhắn từ số lạ.','hoi<2 nhanh:A !co:x_a_tin1'],
- ['a1b','Qua phòng 3 nhà bà Sáu kiếm gặp Lâm.','hoi<2 nhanh:A co:x_a_tin1 !co:x_hop'],
+ ['a1','Mở cái đt cũ dưới ngăn kéo tạp hóa đọc tin nhắn từ số lạ.','hoi<2 nhanh:A vai:ngan !co:x_a_tin1'],
+ ['a1b','Qua phòng 3 nhà bà Sáu kiếm gặp Lâm.','hoi<2 nhanh:A vai:ngan co:x_a_tin1 !co:x_hop'],
  ['a2','Ngồi vẽ lại sơ đồ trại (trên bàn sau quầy tạp hóa).','hoi<2 nhanh:A co:x_hop !co:x_sodo vai:ngan'],
  ['a3','Ra đầu hẻm bắt xe qua quán Thảo Điên gặp Hương. Về mở laptop phòng 3 lần theo ví tiền của Anh Hai.','hoi<2 nhanh:A vai:lam !co:x_vu_ocl'],
  ['b1','Mở laptop phòng 3, gõ tìm "Ba Vẹt" coi khu trại cũ dời đi đâu.','hoi<2 nhanh:B !cc:x_siha'],

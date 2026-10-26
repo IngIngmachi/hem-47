@@ -36,6 +36,9 @@ rep("$('dNm').textContent=title||'Lâm'", "$('dNm').textContent=title||ME", 1)
 rep(",false,h.l,'Lâm')", ",false,h.l,ME)")
 rep(",npc?h.l:'Lâm')", ",npc?h.l:ME)", 1)
 
+# v6: việc "Trực tiệm giùm chú Tám" chỉ mở sau khi đã nghe Phương kể (tránh lộ trước)
+rep("{id:'ng_tam_truc',h:2,hx:2,w:[8,17],who:'tam',k:'ng_tam_truc',t:'Trực tiệm giùm chú Tám',ngoai:1,cost:120}", "{id:'ng_tam_truc',h:2,hx:2,w:[8,17],who:'tam',k:'ng_tam_truc',t:'Trực tiệm giùm chú Tám',ngoai:1,cost:120,c:'co:phuong_khai'}", 1)
+rep("'<div class=\"cd-s\">Điện thoại của Lâm</div>'", "'<div class=\"cd-s\">Điện thoại của '+esc(ME)+'</div>'", 1)
 # lời Phần 1 đang chờ duyệt: chỉ áp trên trang thử (xula2/p1_thu.json: mã -> lời mới)
 import json as _json
 _ov = ROOT / 'xula2' / 'p1_thu.json'

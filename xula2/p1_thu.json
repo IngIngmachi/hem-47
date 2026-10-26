@@ -4,9 +4,9 @@
 "h3_vinh_01": "Công an phường. Quạt trần quay chậm, đại úy Vinh ngồi sau chồng hồ sơ xác minh. Trên tường dán số đường dây nóng phòng, chống mua bán người.",
 "h3_vinh_03": "Năm ngoái cậu đăng một bài chưa kiểm chứng, kéo đám đông tới vây kín hẻm 47. Tụi tôi mất hai tuần lễ vừa giữ trật tự, vừa phải xác minh lại toàn bộ dòng tiền.",
 "h3_vinh_04": "Ba tháng sau, bên điều tra ra kết luận: tài khoản nhận cọc không đứng tên Ngân. Tụi tôi gửi văn bản đề nghị các trang đính chính, mà có trang nào chịu đăng đâu.",
-"h3_vinh_08": "Nhà có người mất tích hay sợ con mình vướng án lừa đảo nên giấu nhẹm. Không ai trình báo thì tụi tôi thiếu thông tin ban đầu để xác minh, rất khó khởi tố.",
-"h3_vinh_09": "Cậu nghe rõ đây: muốn khởi tố đường dây mua bán người, tôi cần chứng cứ. Ai tuyển, ai ký, xe nào chở, tiền chảy đi đâu, giữ người chỗ nào, ai làm chứng. Tôi cần hồ sơ, không cần bài bóc phốt.",
-"h3_vinh_10": "Có đủ chứng cứ thì Bộ mới đề nghị cảnh sát bên đó phối hợp giải cứu được. Còn cậu làm ầm lên mạng khi chưa có gì trong tay, tụi nó xóa dấu vết rồi dời người đi ngay trong đêm.",
+"h3_vinh_08": "Bà con hay sợ con mình vướng án lừa đảo nên giấu nhẹm. Gia đình không trình báo, lại qua khỏi biên giới rồi thì tụi tôi chưa có căn cứ gì để lập hồ sơ.",
+"h3_vinh_09": "Cậu muốn bên tôi vào cuộc thì phải đem chứng cứ cụ thể tới đây: giấy tờ, sao kê dòng tiền, lịch sử liên lạc, nhân chứng. Tôi làm việc bằng hồ sơ, không làm việc bằng bài bóc phốt.",
+"h3_vinh_10": "Đủ chứng cứ chứng minh có dấu hiệu tội phạm thì bên tôi mới lập hồ sơ phối hợp xác minh được. Còn cậu tự ý làm ầm lên mạng khi chưa có gì trong tay là hỏng hết chuyện, nghe rõ chưa?",
 "h3_basau3_05": "Bữa bà lén mở cửa lên dọn, thấy cái vali hồng treo con mèo vải đen của con Ngân mới biết nó cũng đi từ cái gác này.",
 "h3_phat_09": "Chỗ nhốt người là nguyên khu phức hợp bên Ba Vẹt, ngay sát bờ sông. Tường bê tông giăng kẽm gai kín mít, ngoài cổng bảo vệ cầm dùi cui điện đứng gác. Cứ 5 giờ sáng là nghe tiếng chuông chùa vọng qua.",
 "h3_phat_10": "Ai lên xe ra tới cửa khẩu là bị khóa cửa, đòi xuống là ăn đòn. Vô trển gõ phím 14 tiếng một ngày, hụt chỉ tiêu là bị nhốt \"chuồng cọp\" ngoài nắng, hoặc dưới \"chuồng chó\" gầm cầu thang. Mấy chuyện khác anh đừng hỏi.",
@@ -38,22 +38,28 @@
 "ket_imlang_09": "Ngân được đưa về nước, nhưng vẫn phải lên cơ quan điều tra làm rõ vai trò trong đường dây lừa đảo. Chưa có gì chứng minh cô bị ép làm.",
 "ket_imlang_11": "Ông Khoa ra cơ quan điều tra khai nhận toàn bộ việc tuyển người cho đường dây. Chỉ tiếc trong 12 người được đưa về đợt này vẫn chưa có Khang — tổ của nó đã bị dời đi trước đó một tuần.",
 "ket_imlang_14": "Phát ra làm chứng và được đưa vào diện bảo vệ người làm chứng. Tên cậu không xuất hiện trên bất kỳ tờ báo nào.",
-"no_4_03": "Lâm à, anh không muốn ép em đâu. Mà anh cũng chỉ đi thu nợ thuê cho công ty tài chính của bà Mỹ bên Quận 7, ở trển dí anh dữ lắm.",
-"no_4_04": "Bà chủ tên Mỹ ở Quận 7? Hóa ra ông Hào cũng chỉ đi đòi nợ thuê cho bà Mỹ.",
+"no_4_03": "Lâm à, anh không muốn ép em đâu. Mà anh cũng chỉ đi thu nợ thuê cho một bà chủ công ty tài chính bên Quận 7, ở trển dí anh dữ lắm.",
+"no_4_04": "Một bà chủ công ty tài chính bên Quận 7? Hóa ra ông Hào cũng chỉ là người đi thu nợ thuê cho một cái vòi bạch tuộc lớn hơn.",
 "n0_huongdan_dau": "Dấu ! vàng là việc chính. Dấu ? xanh là việc phụ, không bắt buộc nhưng hay mở ra manh mối ngầm.",
-"n0_mo_05": "Ngân Order... Cô gái mà chỉ bằng 40 phút gõ phím, mình đã biến cổ thành \"kẻ lừa đảo\" trước hai triệu con người.",
+"n0_mo_05": "Ngân Order... Cô gái mà chỉ bằng một bài đăng đêm đó, mình đã biến cổ thành \"kẻ lừa đảo\" trước hai triệu con người.",
 "n1_basau_09": "Bà Sáu dặn mình đừng sống giống cái thằng viết bài năm ngoái. Bà đâu biết cái thằng đó đang đứng ngay trước mặt bà, xách giỏ xin vô ở trọ.",
 "n1_thoa_12": "Tưởng dọn về sát vách là đủ can đảm mở miệng xin lỗi. Ai dè nhìn đôi dép nhựa cũ để ngay bậc thềm, cổ họng mình nghẹn cứng, chỉ biết cầm chai nước quay lưng trốn.",
 "n1_hoihanh_06": "Áo khoác xanh lá, đt tự dưng cài mật khẩu. Ảnh đang giấu chị Hạnh chuyện gì đó.",
 "n1_hoitam_05": "Thảo nào. Anh Lộc vay nợ app bị dí tới nhà, đang ráng giấu không cho vợ biết.",
 "n1_dem_08": "\"Tìm tôi đi\" là sao? Giờ này Ngân đang ở đâu?",
-"n2_loc0_06": "Sức khỏe gì nữa cậu ơi. Thằng đàn ông đang gánh cả nhà, đùng một cái té giàn giáo nằm nhìn vợ thức từ 3 giờ sáng quạt lò than bánh mì… Nhiều đêm tui chỉ ước cái lưng lành lại để đi vác xi măng tiếp.",
-"n2_loc0_07": "Nghe kiểu này là có người chỉ mối việc làm rồi mà ổng còn giấu. Khoan hỏi dồn kẻo ổng nghi.",
+"n2_loc0_06": {
+"loi": "Sức khỏe gì nữa cậu ơi. Thằng đàn ông đang gánh cả nhà, đùng một cái té giàn giáo nằm nhìn vợ thức từ 3 giờ sáng quạt lò than bánh mì… Nhiều đêm tui chỉ ước cái lưng lành lại để đi vác xi măng tiếp.",
+"sau": "+co:loc_quen"
+},
+"n2_loc0_07": {
+"loi": "Nghe kiểu này là có người chỉ mối việc làm rồi mà ổng còn giấu. Khoan hỏi dồn kẻo ổng nghi.",
+"hien": "chon:n2_loc0_a"
+},
 "n2_basau_07": "Con nhỏ ở phòng mình trước đây cũng đi làm xa rồi mất tích luôn.",
 "n2_thoa_02": "Hai chục năm rồi con, từ hồi con Ngân còn ẵm ngửa. Trước có hai mẹ con, giờ nó đi làm xa rồi.",
 "n2_thoa_03": "Nó đi biền biệt cả năm trời. Chỉ có đúng ngày mùng 10 mỗi tháng là đều đặn gửi về 3 triệu.",
-"n2_thoa_04": "Chắc chỗ làm cực lắm hay sao á, hổng thấy gọi về, toàn chuyển khoản thôi. Tháng nào cũng ghi có mấy chữ \"me an com\" không dấu… Con nhỏ hồi ở nhà có bao giờ viết chữ không dấu vậy đâu.",
-"n2_thoa_05": "Nhìn mắt cô Thoa lúc nói câu đó, mình chợt hiểu: bà biết thừa dòng chữ \"me an com\" kia có gì đó không ổn, nhưng bà không dám nói toạc ra. Vì nói ra rồi thì lấy gì để tin là con gái mình còn sống.",
+"n2_thoa_04": "Chắc chỗ làm bận hay sao á, không thấy gọi về, toàn chuyển khoản thôi. Lần nào cũng ghi có mấy chữ \"me an com\".",
+"n2_thoa_05": "\"me an com\". Gửi tiền đều đặn mỗi tháng, mà suốt cả năm trời không gọi về nghe giọng mẹ lấy một lần?",
 "n2_khoa_01": "Văn phòng số 12. Trên bàn làm việc có hộp bánh trung thu còn nguyên tem chưa khui.",
 "n2_tam_08": "Nguyên con hẻm này ai cũng nhớ Ngân qua từng chuyện nhỏ nhặt tử tế. Chỉ có thằng chưa từng gặp mặt cổ lần nào như mình là dám viết về cổ như thể biết tuốt.",
 "n3_hanh_02": "Chả chịu khai thiệt với chị rồi em. Nợ app 40 triệu… Chả vay tiền đi chích thuốc cái lưng mà giấu chị. Chị giận tới run người, mà nhìn cái lưng còng của chả, chị chỉ biết ôm chả khóc. Tụi chị tính bán chiếc xe máy trả bớt nợ.",
@@ -174,7 +180,7 @@
 "kh_kh_3_06": "Mỗi lần đưa tờ rơi cho người trong hẻm, tay anh run tới mức phải chắp hai tay lại cho người ta khỏi thấy. Anh đẩy 12 người qua bển rồi… Vậy mà tụi bên kia vẫn không chịu thả thằng Khang về!",
 "kh_kh_h4_01": "Văn phòng này của anh. Tiền thuê anh trả.",
 "kh_tu_1_02": "Thì anh hối em. Nghề mà, chậm là mất tin.",
-"kh_tu_2_01": "Hồi bể vụ sàn vàng VinaGold X, tụi chủ sòng bên kia đòi làm thịt anh. Chính má anh phải đứng ra mở công ty vận tải ở vùng biên, gom tiền gom người trả nợ thay cho anh. Cả đời bà già chỉ có mỗi thằng con trai này thôi.",
+"kh_tu_2_01": "Má anh có tiền dưỡng già nhàn rỗi thì đứng tên mở vài công ty cho vui. Bộ luật nào cấm người lớn tuổi làm giám đốc hả?",
 "kh_tu_h3_01": "Anh dẫn chương trình thôi. Đám cưới anh còn dẫn nhiều hơn.",
 "h5_thoa_03": "Một năm qua ngày nào tao cũng cắm sạc cái máy bể đó. Thật ra tao biết thừa cái tiền \"me an com\" mỗi tháng không phải của con Ngân… Con tao không bao giờ bỏ mẹ nó cả năm không gọi một lời. Tao chỉ còn mỗi cái máy này để đợi nó thôi.",
 "h5_thoa_04": "Nhờ vậy tụi nhỏ bên trển mới lấy được mã mở lại Za Lô, rồi con Thủy mới nhắn về cho mày được. Cái máy cũ đó cứu hai đứa nhỏ, chớ đâu phải tao.",
@@ -184,24 +190,79 @@
 "ket_imlang_16": "Lâm đăng bài đính chính sự thật về vụ Ngân Order trên trang cá nhân, nhưng vẫn giấu lại cuộc gọi đêm đó. Bài viết dừng lại ở 37 lượt xem.",
 "h5_xe_06": "800 ngàn tiền nợ réo mỗi tuần. 2 triệu tiền thuê xe đón người ở cửa khẩu. Trong khi cái phong bì 20 triệu của Khoa vẫn nằm im trong ngăn kéo.",
 "V_hanh_7_02": "Chị đó làm xưởng may đầu đường. Xưởng sắp đóng. Mấy đứa trọ trong hẻm hồi trước cũng y vậy đó.",
-"ng_tam_truc_05": {
-"loi": "Đặng Minh Tú... Vậy là chính ông Tú đứng ra làm MC thổi phồng cho cái sàn vàng đã lừa sạch tiền của Phương!",
-"hien": "co:phuong_khai"
-},
-"ng_tam_truc_05b": {
-"after": "ng_tam_truc_05",
-"hien": "!co:phuong_khai",
-"loi": "Đặng Minh Tú... Vậy là chính ông Tú đứng ra làm MC thổi phồng cho cái sàn vàng này. Hai trăm triệu của người ta, mất vì tin cái mặt quen trên mạng."
-},
+"ng_tam_truc_05": "Đặng Minh Tú... Vậy là chính ông Tú đứng ra làm MC thổi phồng cho cái sàn vàng đã lừa sạch tiền của Phương!",
 "webn_vinagold_01": {
-"loi": "Người cầm micro dẫn chương trình là Đặng Minh Tú! Hóa ra chính ông Tú đứng sân khấu quảng cáo cho cái sàn vàng đã nuốt sạch tiền của Phương.",
-"hien": "co:phuong_khai"
+"loi": "Người cầm micro dẫn chương trình là Đặng Minh Tú! Hóa ra chính ông Tú đứng sân khấu quảng cáo cho cái sàn vàng này.",
+"hien": ""
 },
-"webn_vinagold_01b": {
-"after": "webn_vinagold_01",
-"hien": "!co:phuong_khai",
-"loi": "Người cầm micro dẫn chương trình là Đặng Minh Tú! Hóa ra chính ông Tú đứng sân khấu quảng cáo cho cái sàn vàng này."
+"h3_luctu_05": "Ghi chú \"Trừ K\"... Mỗi trang hai cái tên, đi kèm chữ \"trừ K\" là có ý gì?",
+"h2_loc_a": "Anh có hỏi kỹ coi qua bển là làm việc gì, cho công ty nào chưa anh?",
+"h2_loc_02": "Cậu. Tui nộp hồ sơ rồi đó. Anh Khoa nói chờ đợt, chắc trong tháng này đi.",
+"DEM_4_02": "Đợi tới 2 giờ sáng mà cái tài khoản đó vẫn im lìm, không nhắn thêm một chữ nào.",
+"V_khoa_1_03": "Ảnh nói chuyện câu nào nghe cũng lịch sự, nhiệt tình. Mới dọn tới mà ai ảnh cũng ráng hỏi han.",
+"h2_loc_06": {
+"hien": "chon:h2_loc_a"
 },
-"h3_luctu_05": "Ghi chú \"Trừ K\"... Mỗi trang hai cái tên, đi kèm hai chữ \"trừ K\". Trừ cái gì, mà trừ cho ai?",
-"h2_loc_a": "Anh có hỏi kỹ coi qua bển là làm việc gì, cho công ty nào chưa anh?"
+"DEM_3_01": {
+"hien": "co:hoi3"
+},
+"V_bin_2_01": {
+"hien": "co:hoi2"
+},
+"V_khoa_3_01": {
+"hien": "co:hoi2"
+},
+"V_thoa_6_01": {
+"hien": "co:hoi2"
+},
+"V_hanh_7_01": {
+"hien": "co:hoi3"
+},
+"V_bin_7_01": {
+"hien": "co:hoi3"
+},
+"V_tam_5_01": {
+"hien": "co:hoi2"
+},
+"V_diem_6_01": {
+"hien": "co:hoi4"
+},
+"V_basau_5_01": {
+"hien": "co:chia_lau"
+},
+"V_basau_6_01": {
+"hien": "co:hoi2"
+},
+"V_khoa_5_01": {
+"hien": "co:hoi2"
+},
+"h2_loc_05": {
+"sau": "+co:loc_hoso"
+},
+"h3_vinh_a": "Em muốn trình báo vụ Ngân Order mất tích. Có thông tin cổ qua cửa khẩu Mộc Bài rồi mất liên lạc.",
+"n2_khoa_08": "Làm gì có công việc nào không cần kinh nghiệm, bao ăn ở mà lương tới 30 triệu một tháng?",
+"khai_phuong_xong_03": "Giờ mà em bước chân ra công an là em đi tù mọt gông, trong khi con Ngân giờ đang ở đâu còn chưa ai biết! Anh suy nghĩ lại giùm em đi.",
+"ng_diem_khach_05": "Câu chúc lặp lại đúng giờ hành chính, không có tin nào ban đêm... Giống hệt kiểu nhắn tin theo kịch bản.",
+"soat_vp12_trong_02": "Một cái \"ký túc xá\" tập kết người chờ ngày vượt biên.",
+"h3_mo_04": "Chợt nhớ tới Hương — đứa bạn học chung đại học, giờ đang làm phóng viên điều tra, từng viết mấy vụ mất tích ở vùng biên Tây Ninh.",
+"h3_mo_05": "Hương ơi, Lâm nè. mình cần gặp hỏi chuyện mấy vụ mất tích ở vùng biên Tây Ninh",
+"noi_tphong3_03": "Thủy từng ở trọ ngay căn phòng số 3 này, còn khắc chữ trong tủ áo nhắn chờ chị Ngân.",
+"V_bin_3_01": {
+"hien": "co:hoi3"
+},
+"V_tam_2_01": {
+"hien": "co:hoi3"
+},
+"V_diem_2_01": {
+"hien": "co:hoi3"
+},
+"V_basau_2_01": {
+"hien": "co:hoi3"
+},
+"V_ngo_2_01": {
+"hien": "co:hoi3"
+},
+"V_thoa_5_01": {
+"hien": "co:hoi3"
+}
 }

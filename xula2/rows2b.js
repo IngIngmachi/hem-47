@@ -7,11 +7,11 @@
    ===================================================================== */
 X('x_canh1','Cảnh 1 · đường mòn',[
  {bg:'x2-xe-dem'},{card:'NGÀY 8 · 3:58 SÁNG\nĐƯỜNG MÒN SÁT BIÊN GIỚI'},
- 'Xe 16 chỗ tắt đèn lao qua đường tiểu ngạch. Tới bãi mía, ông chú đi cùng đòi xuống liền bị hai thằng lơ xe kẹp cổ, đẩy thẳng lên thùng xe tải khóa trái cửa. Không còn là đi xin việc nữa. Là bắt cóc.',
+ 'Xe 16 chỗ tắt đèn lao qua đường tiểu ngạch. Tới bãi mía, ông chú đi cùng đòi xuống liền bị hai thằng lơ xe kẹp cổ, đẩy thẳng lên thùng xe tải khóa trái cửa. Tới lúc này những người đi cùng mới biết mình bị lừa bán.',
  'Cuối đường mòn, hai gã bảo vệ của chủ sòng nước ngoài đeo dùi cui điện đứng chặn. Gã cầm đầu có vết sẹo dài từ thái dương xuống cằm, quát tháo bằng thứ tiếng Việt lơ lớ học mót được từ đám cai thầu.',
  ['Sẹo','Đt, căn cước, giỏ xách. Lột sạch quăng vô thùng nhựa hết!'],
  {chon:[
-  {t:'Đứng im cúi gằm mặt xuống đất',s:'+co:x_giu',L:['Tay thằng bảo vệ nắn dọc hai bên túi quần một giây, rồi đẩy lưng cho đi tiếp. Mấy tờ tiền gấp mỏng nhét dưới lót đế giày, nó không đụng tới.']},
+  {t:'Đứng im cúi gằm mặt xuống đất',s:'+co:x_giu',L:['Tay gã bảo vệ nắn dọc hai bên túi quần một giây rồi đẩy đi tiếp. May mà mấy tờ tiền lẻ gom ở hẻm đã được nhét kỹ dưới lớp lót đế giày.']},
   {t:'Nhanh tay giấu món đồ qua chỗ khác trên người',s:'+nghi:10',L:['Thằng Sẹo chụp cứng cổ tay, giật phăng món đồ giấu trong người quăng thẳng xuống sình.']},
   {t:'Mở miệng hỏi: "Anh ơi chừng nào tụi em được nhận lại đồ?"',s:'+co:x_giu',L:[['Sẹo','Trả hả? Chừng nào mày cày đủ chỉ tiêu thì tự lấy tiền thưởng mà sắm cái mới.'],'Đám bảo vệ đứng quanh phá lên cười sằng sặc.']}],q:'Sẹo khám từng người. Tới lượt {me}.',timer:8,mac:0},
  {bg:''}]);
@@ -24,7 +24,7 @@ X('x_canh2','Cảnh 2 · cổng sắt',[
  {chon:[
   {t:'Cầm bút ký',sub:'qua được hôm nay',L:[['Chị Bảy','Biết điều vậy là ngoan. Đi lên lầu 2, vô phòng ngủ của tổ 3 đi.']]},
   {t:'Bỏ bút không ký',sub:'đêm đầu ở phòng tối',s:'+nghi:15 +tin_nhi +tin_thuy +tin_toan',L:[['Chị Bảy','...Rồi, muốn cứng đầu thì chiều.'],{bg:'x2-phong-toi'},'Đêm đầu tiên bị nhốt vào "chuồng chó" — cái lồng sắt thấp dưới gầm cầu thang ẩm mùi rỉ sét, không thể đứng thẳng lưng. Không đèn, chỉ có một chai nước lạnh.','Sáng hôm sau được thả về phòng ngủ, mấy người trong tổ cứ lén nhìn {me} bằng ánh mắt khác hẳn.']}],q:'Tờ giấy nợ'},
- {if:'vao:ngan',L:[['Chị Bảy','Khoan đã. Đứa kia... ngước mặt lên chị coi thử.'],'Chị Bảy đứng khựng lại nhìn Ngân hồi lâu. Xong bả cúi xuống tờ điểm danh, lấy bút gạch tên thật, ghi đè cái tên giả trên hồ sơ mới, rồi chỉ Ngân xuống bàn cuối góc khuất tổ 3. Không hé răng lời nào.',['~','Bả nhận ra mặt mình rồi. Nhưng bả im luôn không báo cho tụi bảo vệ.'],{fx:'+nghi:25'}]},
+ {if:'vao:ngan',L:[['Chị Bảy','Khoan đã. Đứa kia... ngước mặt lên chị coi thử.'],'Chị Bảy đứng khựng lại nhìn Ngân hồi lâu. Rồi bả lặng lẽ lấy bút gạch sửa lại tên trên tờ danh sách điểm danh theo tên giả của Ngân, quay lưng bỏ đi không báo cho Sẹo.',['~','Bả nhận ra mặt mình rồi. Nhưng bả im luôn không báo cho tụi bảo vệ.'],{fx:'+nghi:25'}]},
  {fx:'+cc:x_no ds:build'},
  {bg:'x2-phong-ngu'},'Tối. Phòng ngủ tổ 3 kê 3 dãy giường sắt hai tầng, treo độc một bóng đèn vàng. Ai nằm giường nấy, không ai dám bắt chuyện.',
  ['~','Từ mai là vô guồng: 7h sáng ngồi vô máy, 12h ăn cơm trưa, 1h chiều làm tiếp tới 7h tối mới được ra sân thở. Đúng 10h đêm tắt đèn khóa cửa.'],
@@ -62,8 +62,7 @@ X('x_thuygap','Buồng tắm · Thủy',[
  {bg:'x2-buong-tam'},
  'Buồng tắm tuốt cuối hành lang. Mở vòi nước xả cho át tiếng động, Thủy đứng nép sát vô vách tường thì thào.',
  ['Thủy','Anh bị khùng hả anh Lâm? Tự dưng chui vô cái ổ này làm gì?!'],['Lâm','Tôi vô để kiếm đường đưa tụi em về.'],
- ['Thủy','Chị Ngân đang ngồi bên phòng máy số 2, bàn cuối cùng á. Chỉ làm tổ trưởng bên đó, mà anh đừng có dại lại gần bắt chuyện.'],
- ['Thủy','Hồi ở Ba Vẹt tổ trưởng còn cầm máy nhắn ra ngoài được. Từ vụ lộ tin, dời về đây là tụi nó khóa sim hết, máy tổ trưởng chỉ nhắn được cho khách lầu 3 phát xuống thôi.'],
+ ['Thủy','Chị Ngân đang ngồi bên phòng máy số 2, bàn cuối cùng á. Chỉ làm tổ trưởng, mà từ lúc dời về cảng này tụi chủ sòng khóa trắng sim máy tổ trưởng rồi, chỉ nhắn được cho khách chỉ định thôi chứ không nhắn ra ngoài như đợt ở Ba Vẹt được nữa.'],
  ['Thủy','Chỉ còn hận anh dữ lắm. Chỉ từng nói với em cái hạng người viết bài hại người như anh, có mò tới đây cũng chỉ để kiếm chất liệu viết bài tiếp thôi.'],
  ['Thủy','Anh nghe em dặn nè: lúc gõ kịch bản cho khách, gặp chữ "chuyển" thì nhớ gõ sai thành "chuyễn". Mẹo chị Ngân bày đó, để khách nào tỉnh táo nhìn thấy sẽ sinh nghi mà giữ được tiền.'],
  ['Thủy','À còn chuyện này nữa. Dưới đáy cái thùng nhựa đựng nước trong buồng tắm này có dán giấu một cái đt cũ của đứa tính vượt ngục đợt trước. Anh ráng mò thử coi còn lên nguồn hông.'],
@@ -119,7 +118,7 @@ const VX={xnhi:[['Nhi','Ở quê chắc ngoại em vẫn khoe khắp xóm là ch
  xhue2:[['Chị Huệ','Mấy đêm nay khuya nào thằng Toàn cũng bị kêu lên văn phòng lầu 3. Lúc mò về phòng mặt mũi nó cắt không còn giọt máu.'],{fx:'+co:x_vu3_hue'}],
  xti:[['Tí','Nhắm từ bờ tường này phóng ra sông có xa hông ta? Đêm nào nằm ngủ em cũng nghe tiếng sóng vỗ sát rạt.'],['Tí','Em nhắm kỹ đường ống nước sau bếp rồi. Đợi khuya nay lính đổi ca, em đu ống nước phóng qua tường rào…'],['~','Thằng nhỏ đang tính liều mạng vượt rào một mình.'],{chon:[{t:'"Đừng có làm bậy! Ráng nhịn đợi thêm mấy bữa nữa rồi trốn chung nguyên đám."',s:'+tin_ti +co:x_ti_doi',L:[['Tí','...Kêu đợi là đợi tới chừng nào nữa?'],['{me}','Đang xếp đường rút rồi, tới ngày tôi báo cho em liền.']]},{t:'Im lặng không cản'}],q:'Tí'}],
  xthuy:[['Thủy','Cái phòng số 3 nhà bà Sáu giờ ai dọn vô ở rồi anh? Nhiều đêm nằm đây em cứ mơ thấy cái cửa sổ nhìn thẳng xuống tiệm cô Thoa.']],
- xkhang:[['Khang','Ông Khoa anh tui... ở ngoài giờ sao rồi?'],['Khang','Hồi đó tui trốn đi chỉ vì thấy anh Khoa mặc cái áo sơ mi trắng sờn cổ đi làm cực quá, tính qua bển cày vài tháng mua tặng ảnh chiếc xe. Giờ biết ảnh vì cứu tui mà đẩy 12 người trong hẻm vô chỗ này… thà tụi nó đánh chết tui còn dễ chịu hơn.']],
+ xkhang:[['Khang','Ông Khoa anh tui... ở ngoài giờ sao rồi?'],['Khang','Hồi đó tui trốn đi chỉ vì thấy anh Khoa mặc cái áo sơ mi trắng sờn cổ đi làm cực quá, tính qua bển cày vài tháng mua tặng ảnh chiếc xe. Ai dè tự chui đầu vô rọ, giờ còn kéo luôn anh hai vô vòng nợ nần.']],
  xloc:[['Anh Lộc','Trời đất ơi mò vô tận cái ổ quỷ này thiệt hả? Còn liều mạng hơn cả tui nữa!'],['Anh Lộc','Tui bị phân vô phụ bếp. Trên nóc tủ chén tụi bảo vệ có bỏ quên cây kìm cộng lực cắt kẽm, chừng nào cần lấy thì hú tui.'],{fx:'+co:x_biet_kim'}],
  xngan:[['Ngân','Trong tổ mình con Nhi gõ máy lẹ nhất, thằng Tí lanh lẹ nhất, còn chị Huệ đau chân đi chậm phải có người dìu.'],['Ngân','Còn anh Toàn nhát đòn lắm. Hễ bị hù dọa là dễ khai hết.']]};
 const VXT={xnhi:'nhi',xnhi2:'nhi',xtoan:'toan',xhue:'hue',xhue2:'hue',xti:'ti',xthuy:'thuy',xkhang:'khang',xloc:'loc',xngan:'ngan'};
@@ -187,7 +186,7 @@ X('x_canh6','Cảnh 6 · danh sách',[
  {bg:'x2-phong-ngu'},{card:'NGÀY 16 · 22:40\nDANH SÁCH'},
  'Đêm khuya, Chị Bảy dán tờ thông báo lên cửa phòng ngủ. Hai cái tên trong tổ nằm dưới dòng chữ in đậm: "Thứ Sáu chuyển giao đối tác · Đặc khu Miến Điện."',
  {game:'danhsach'},
- ['~','Tụi nó bắt đầu xé lẻ người đem bán qua bãi khác rồi. Thứ Sáu là đêm ngày 19. Còn đúng ba ngày, không chần chừ được nữa.'],{fx:'+lo:10'},{bg:''}]);
+ ['~','Thứ Sáu — tức là đêm Ngày 19, chỉ còn đúng 3 ngày nữa. Tụi nó bắt đầu xé lẻ người bán qua Miến Điện rồi, phải hành động trước đêm đó.'],{fx:'+lo:10'},{bg:''}]);
 /* ---------- cảnh 7: người trốn hụt ---------- */
 X('x_canh7','Cảnh 7 · 2:10 sáng',[
  {bg:'x2-phong-ngu'},{card:'NGÀY 17 · 2:10 SÁNG'},
@@ -222,7 +221,7 @@ X('x_tutai','Ngày 18 · có khách',[
  {bg:''}]);
 
 /* ---------- đi đêm: kết quả ---------- */
-X('x_dd_may','Đi đêm',[['~','Mò dưới đáy thùng nước gỡ ra được cái đt cũ bọc hai lớp bao nilon, quấn băng keo kín mít. Kèm theo là sợi dây sạc ai đó nối trộm từ hộp điện bình nước nóng, giấu dọc khe tường. Wifi phòng máy ngay tầng dưới vẫn bắt được, app Za Lô còn đăng nhập sẵn.'],['~','Nhắn tin ra ngoài bắt buộc phải ngụy trang thành tin rác, ghép chữ đầu câu. Nhắn thẳng là bộ phận kiểm duyệt mạng của trại chặn liền.'],{fx:'+co:x_may'}]);
+X('x_dd_may','Đi đêm',[['~','Mò dưới đáy thùng nước buồng tắm gỡ ra được cái đt cũ bọc kín trong túi nilon chống nước, nối sợi dây đồng nhỏ câu trộm nguồn sạc từ hộp điện bình nước nóng. Bật nguồn vẫn bắt được sóng Wifi từ phòng máy tầng trệt.'],['~','Nhắn tin ra ngoài bắt buộc phải ngụy trang thành tin rác, ghép chữ đầu câu. Nhắn thẳng là bộ phận kiểm duyệt mạng của trại chặn liền.'],{fx:'+co:x_may'}]);
 X('x_dd_tuan0','Đi đêm',[['~','Canh đồng hồ thấy lính tầng trệt đi hết một vòng mất đúng 6 phút. Tới 3h sáng thì bỏ chốt đi lên lầu 2 giao ca.'],{fx:'+co:x_tuan0'}]);
 X('x_dd_tuan3','Đi đêm',[['~','Trên lầu 3: kho nằm bên trái, văn phòng nằm bên phải. Đúng 3h sáng lính gác lầu 3 đi xuống giao ca, cầu thang hoàn toàn trống trải được 2 phút.'],{fx:'+co:x_tuan3 +co:x_sodo3'}]);
 X('x_dd_kim','Đi đêm',[['~','Mò lên nóc tủ chén trong bếp lấy được cây kìm cộng lực nặng trịch, đem về giấu kỹ dưới gầm giường sắt.'],{fx:'+co:x_kim'}]);

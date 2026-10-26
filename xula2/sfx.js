@@ -28,4 +28,9 @@
   const CUE=[[/Cổng sắt đóng sầm/,'cong_mo',{v:.9,rate:.92}],[/đập cửa từng phòng/,'cong_go',{v:.8}],[/Giấy nhận nợ/,'viet',{v:.8,dur:3}],
     [/kéo cửa cuốn/,'cong_mo',{v:.5,rate:1.25,dur:2.2}],[/gõ cửa cộc cộc/,'cong_go',{v:.35,rate:1.35,dur:1.2}]];
   if(typeof show==='function'){ const s0=show; show=function(r){ try{ const t=String(r&&(r.loi||'')); for(const [re,k,o] of CUE) if(re.test(t)){ play(k,o); break; } }catch(e){} return s0.apply(this,arguments); }; }
+  /* nút loa trên thanh trên: tắt là tắt hết (nhạc + tiếng động + âm nền), không chỉ nhạc */
+  const muted=()=>typeof NHAC!=='undefined'&&!NHAC.on;
+  setInterval(()=>{ try{ const a=typeof ac==='function'?ac():null; if(!a) return; if(muted()&&a.state==='running') a.suspend(); else if(!muted()&&a.state==='suspended') a.resume().catch(()=>{}); }catch(e){} },250);
+  addEventListener('pointerdown',()=>{ try{ const a=typeof ac==='function'?ac():null; if(a&&!muted()&&a.state==='suspended') a.resume(); }catch(e){} },true);
+  if(typeof nhacBtn==='function'){ const nb=nhacBtn; try{ nhacBtn=function(){ nb.apply(this,arguments); const b=$('musBtn'); if(b){ b.title=b.ariaLabel=NHAC.on?'Tắt tiếng':'Bật tiếng'; } }; nhacBtn(); }catch(e){} }
 })();

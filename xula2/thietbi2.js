@@ -13,7 +13,7 @@ X('z_a_huong','Za Lô · Ngân nhắn',[
  ['#Ngân','đi gặp chị Hương đi. chỉ còn giữ hồ sơ vụ Ba Vẹt, có khi biết tụi nó dời đi đâu'],
  ['#> Ngân','Tôi đi liền. Có gì tôi nhắn.']]);
 X('z_a_vi','Za Lô · Hương nhắn',[
- ['#Hương','mấy giao dịch tiền cọc trong nhóm nạn nhân cũ tôi chuyển qua ông rồi đó'],
+ ['#Hương','mấy giao dịch tiền cọc trong nhóm nạn nhân cũ tôi lọc ra chuyển qua ông rồi đó'],
  ['#Hương','dò ngược từ mấy lệnh tối Chủ nhật mà lên. đừng ngồi đọc bình luận nữa'],
  ['~','Mở laptop là dò được.']]);
 X('z_vinh','Za Lô · đại úy Vinh',[
@@ -40,7 +40,7 @@ X('z_b_bin','Za Lô · Bin nhắn',[
  ['#Bin','cần chạy đâu em chở, khỏi tiền xăng'],
  ['#> Bin','Để anh coi đã. Đừng nói bà Sáu là anh nhắn em.']]);
 X('z_b_huong','Za Lô · nhắn Hương',[
- ['#> Hương','Chị cho tôi gặp 15 phút. Chuyện cái trại ở Ba Vẹt.'],
+ ['#> Hương','Chị cho tôi gặp 15 phút. Chuyện khu trại bên kia biên giới.'],
  ['~','Tin đã xem. Nửa tiếng không trả lời.'],
  ['#Hương','8 giờ, Thảo Điên. trễ là tôi về']]);
 X('z_b_vinh','Za Lô · Hương nhắn',[
@@ -256,7 +256,7 @@ P2GAMES.maytram=async()=>{ const late=await gMayTram(); if(late){ await say('tho
 
 /* ---------- 4. LỘ RÕ HƠN: mò thùng nước ban ngày, lén về máy trạm giờ cơm ---------- */
 X('x_mothung_act','Buồng tắm',[['~','Cái thùng nước lạnh. Người ta nói đáy thùng có dán cái gì đó.'],{game:'mothung'}]);
-P2DATA.ACT.push({id:'x_mothung',h:2,hx:3,d:[9,19],who:'o:thung',k:'x_mothung_act',t:'Mò dưới đáy thùng nước',sub:'nghe nói có cái máy dán dưới đó',c:'co:x_biet_may !co:x_may',until:'co:x_may',cost:15});
+P2DATA.ACT.push({id:'x_mothung',h:2,hx:3,d:[9,19],who:'o:thung',k:'x_mothung_act',t:'Mò dưới đáy thùng nước',sub:'nghe nói có cái máy dán dưới đó',c:'co:x_biet_may !co:x_may !co:x_may_bo',until:'co:x_may',cost:15});
 P2GAMES.mothung=()=>new Promise(res=>{ p2open('<h3>Mò dưới đáy thùng nước</h3><div class="dd2" id="mtHost" style="aspect-ratio:5/3;min-height:240px"></div>',()=>{ const mg=document.querySelector('#mtHost .mg'); if(mg&&window.__p2mini) window.__p2mini.lose(); });
   miniDem($('mtHost'),'may').then(async r=>{ p2close();
     if(r.kq==='ok'){ await runS('x_dd_may'); hideDlg(); }
@@ -324,6 +324,14 @@ const MUC_NGUON={may:'Thủy với tổ 3 kể: có cái điện thoại dán d�
   kim:'Anh Lộc nói tụi bảo vệ bỏ quên cây kìm trên nóc tủ chén.',rao:'Có kìm rồi, cắt được rào sau bếp.',cua:'Đã có chìa cửa sau từ Chị Bảy.',nghe:'Đêm đêm văn phòng lầu ba có tiếng nghe tin thoại.',
   gapngan:'Ngân hẹn ở buồng tắm.',thuy:'Thủy hẹn ở buồng tắm.'};
 Object.keys(MUC).forEach(k=>{ if(MUC_NGUON[k]) MUC[k].why=MUC[k].why+' '+MUC_NGUON[k]; });
+/* cái máy giấu dưới thùng nước: chỉ có 3 đêm kể từ lúc nghe kể, quá hạn coi như mất (chờ duyệt chữ) */
+const MAY_DEM=3;
+const mayCon=()=>{ const d0=S.fd&&S.fd.x_biet_may; return d0==null?MAY_DEM:Math.max(0,MAY_DEM-(S.day-d0)); };
+function p2MayHan(){ if(!P2.on||!hasF('x_biet_may')||hasF('x_may')||hasF('x_may_bo')) return; if(mayCon()>0) return;
+  setCo('x_may_bo'); const t='Hết 3 đêm mà chưa lấy được cái máy giấu dưới thùng nước. Đường nhắn tin ra ngoài coi như bỏ.';
+  if(typeof u3sys==='function') u3sys('Lỡ mất cái máy giấu',t,true); else toast(t); }
+{ const m=MUC.may, c0=m.c, w0=m.why; m.c=()=>c0()&&!hasF('x_may_bo')&&mayCon()>0;
+  Object.defineProperty(m,'why',{configurable:true,get:()=>w0+' Chỉ có 3 đêm, còn '+mayCon()+' đêm. Không lấy được máy thì coi như mất đường nhắn ra ngoài.',set:v=>{}}); }
 function mucMo(){ return Object.keys(MUC).filter(k=>{ try{ return MUC[k].c(); }catch(e){ return false; } }); }
 const objective2=objective;
 objective=function(){ const o=objective2(); if(!P2.on||P2.map!=='trai'||S.ended) return o; const L=mucMo(); if(!L.length) return o;

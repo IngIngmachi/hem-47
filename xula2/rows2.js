@@ -64,7 +64,7 @@ X('x_mo','Phần 2 · mở đầu',[
  {if:'nhanh:B !ket1:bocphot !ket1:tien',L:[
   {bg:'x2-hem-mua'},{card:'HAI THÁNG SAU NGÀY THỨ BA MƯƠI\nHẺM 47'},
   'Lâm vẫn ở lì phòng 3. Đêm nào cũng mở tấm hình chụp Ngân trước cửa khẩu ra ngó.',
-  'Trại ở khu Ba Vẹt đã dọn đi ngay trong đêm. Hương nhờ người bên kia hỏi thăm mà bặt vô âm tín.',
+  'Khu trại bên kia biên giới đã dọn đi ngay trong đêm. Hương nhờ người bên kia hỏi thăm mà bặt vô âm tín.',
   'Chiều nay, ngay cột điện đầu hẻm 47 lại dán tờ rơi mới. Mực in còn mới tinh.',
   '"Tuyển gấp nam nữ 18–35. Việc văn phòng nhẹ, lương 25–30 triệu. Bao ăn ở. Lo hết giấy tờ."',
   ['~','Y chang kiểu chữ cũ, cũng câu "lo hết giấy tờ". Chỉ đổi mỗi số đt.']]},
@@ -115,9 +115,8 @@ X('x_a_huong','A · gặp Hương',[
  'Quán Thảo Điên. Hương vẫn ngồi cái bàn cũ, máy ghi âm đặt úp trên bàn.',
  ['Hương','Ông đọc tin con Ngân đưa chưa? Bên tôi cũng mới nắm được thêm tin.'],
  ['Hương','Trại Ba Vẹt đợt trước chỉ là một trong ba nhánh thuộc cùng một chủ. Hai khu còn lại đã rút sâu vô Cảng Xi-ha.'],
- ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "lò". Người lọt vô bị vắt tới cạn: vừa ép gõ phím lừa người khác, vừa ép nhà ở quê nộp tiền chuộc. Hết vắt được thì bán qua bãi khác.'],
- ['Hương','Kẻ nắm tiền cả ba cái lò người Việt bên đó thì tụi nó kêu là "Ông Chủ Lò". Chỉ gửi ghi âm chỉ đạo, chưa ai thấy mặt. Mà Ông Chủ Lò cũng chỉ là cai thầu. Đất, súng với sòng bài bên đó là của người khác.'],
- ['Lâm','Anh Hai là ông Tú rồi. Vậy ai còn ngồi trên đầu ông Tú nữa?'],
+ ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "Lò" — vì người lọt vô đó bị vắt tới cạn kiệt rồi bán xác qua bãi khác. Kẻ nắm tiền cả ba cái lò người Việt bên đó được gọi là "Ông Chủ Lò", chỉ gửi ghi âm chỉ đạo chứ chưa ai thấy mặt.'],
+ ['Lâm','Vậy cái "Ông Chủ Lò" đứng trên cả đám quản lý trại đó là ai?'],
  ['Hương','Tôi cũng đang tìm câu trả lời đó. Ông cứ lần theo đường tiền đi, tiền chảy về đâu là chủ ở đó.'],
  {if:'p1:phuong_dauthu',L:[['Hương','À, con bé Phương có gửi cho tôi địa chỉ một cái ví. Nó nhắn nếu ông cần tra thì cứ lấy xài.'],{fx:'+co:x_vi_phuong'}]},
  {fx:'+co:x_vu_ocl +cc:x_ocl'}]);
@@ -125,7 +124,7 @@ X('x_a_vi','A · lần ví Anh Hai',[
  'Lâm mở lại lịch sử cái group "Hội nạn nhân Ngân Order" cũ, dò ngược lại đường đi của mấy khoản tiền cọc.',
  {if:'co:x_vi_phuong',L:['Có sẵn cái địa chỉ ví của Phương đưa nên bỏ qua được một tầng trung gian.']},
  {game:'dongtien1'},
- {if:'cc:x_vi',L:[['~','Tối Chủ nhật hằng tuần, tiền lừa đảo đều gom về hai ví tổng ở Quận 7. Mà khoan… một trong hai ví này chính là tài khoản giải ngân của cái app tín dụng đen đã bẫy anh Lộc ở hẻm 47.']]}]);
+ {if:'cc:x_vi',L:[['~','Cứ tối Chủ nhật hằng tuần, tiền lừa đảo từ các nơi lại gom về hai ví tổng mở tại Quận 7, đều đặn như đồng hồ.']]}]);
 X('x_a_thoa','A · về tạp hóa gặp mẹ',[
  {if:'p1:noi_cuocgoi',L:[['Cô Thoa','Con cầm theo cái máy cũ này đi. Ngày nào mẹ cũng cắm sạc sẵn hết á.'],['Cô Thoa','Thằng Lâm nó qua thú thiệt với mẹ hết rồi. Mẹ hận nó, mà vụ này mẹ tin nó làm thiệt.'],['~','Suốt 19 tháng trời, ngày nào mẹ cũng lụi cụi cắm sạc cái đt này.'],{fx:'+co:x_maycu +tin_thoa'}]},
  {if:'!p1:noi_cuocgoi',L:[['Cô Thoa','Mà con làm gì ở ngoài thì làm, đừng có dắt xác thằng đó bước vô nhà mẹ.'],['Ngân','Mẹ à, giờ có mỗi ổng chịu nhảy vô phụ con thôi.'],['Cô Thoa','...'],['~','Mẹ vẫn chưa tha thứ cho Lâm. Chính mình cũng vậy.']]},
@@ -133,7 +132,7 @@ X('x_a_thoa','A · về tạp hóa gặp mẹ',[
 X('x_a_giong','A · nghe tin thoại',[
  'Nhi lén chuyển tiếp về được một file ghi âm lấy từ máy quản lý. Giọng đàn ông nghe rè rè, đều rang như robot.',
  ['Ông Chủ Lò','Tổ con mèo tháng này hụt doanh số. Tháng sau còn thiếu nữa là tao sang tay nguyên đám qua bãi khác. Tin để lâu là thiu.'],
- ['~','"Tin để lâu là thiu." Lại là câu cửa miệng của ông Tú, mà cái giọng này nghe lạ hoắc.'],
+ ['~','"Tin để lâu là thiu." Giọng đều đều như máy, chữ nào cũng rè rè. Có người đang nói qua phần mềm đổi giọng.'],
  ['~','Khoan, dưới nền ghi âm có lẫn tạp âm gì đó. Để kích âm lượng lên lọc thử.'],
  {game:'nghetieng'},
  {if:'cc:x_giong',L:[['~','Tiếng loa phường đọc thông báo bằng tiếng Việt? Vậy cái người ghi âm câu này đang ngồi ngay ở Việt Nam!']]}]);
@@ -142,7 +141,7 @@ X('x_a_vinh','A · gặp đại úy Vinh',[
  ['Đại úy Vinh','Tôi nói thẳng: qua khỏi biên giới là ngoài lãnh thổ mình rồi, công an mình không tự qua nước bạn bắt người được. Muốn giải cứu, Bộ phải đề nghị cảnh sát bên đó phối hợp.'],
  ['Đại úy Vinh','Bên đó có bảo vệ vũ trang canh gác. Phía bạn chỉ xuất quân khi mình đưa ra đúng 3 thứ: vị trí chỗ nhốt người, có bao nhiêu người Việt ở trỏng, và giờ tụi gác đổi ca.'],
  ['Đại úy Vinh','Cậu nhắn ra bằng cách nào thì tùy, miễn đừng để lộ. Giả làm tin nhắn rác quảng cáo là êm nhất.'],
- {if:'p1:tu_lo',L:[['Đại úy Vinh','Còn đây là lời khai của Đặng Minh Tú bên cơ quan điều tra. Đang áp dụng lệnh cấm đi khỏi nơi cư trú, thả dây dài để lần ra người cầm tiền phía trên.'],'"Đám chủ sòng bên kia nắm cổ tôi từ vụ bể sàn vàng. Tôi không phải chủ trại… Má tôi vì muốn cứu tôi khỏi bị tụi bên kia giết nên mới đem công ty vận tải của bà ra gom người, chuyển tiền trả nợ thay tôi."',['~','Má của ông Tú — bà Trần Thị Mỹ. Đúng cái tên đứng chức giám đốc cả hai công ty.'],{fx:'+cc:x_tu'}]},
+ {if:'p1:tu_lo',L:[['Đại úy Vinh','Còn đây là lời khai của Đặng Minh Tú bên cơ quan điều tra. Đang áp dụng lệnh cấm đi khỏi nơi cư trú, thả dây dài để lần ra người cầm tiền phía trên.'],'"Đám chủ sòng bên kia nắm cổ tôi từ vụ bể sàn vàng. Tôi chỉ đứng mũi chịu sào ngoài mặt thôi, còn đường tiền bên dưới là má tôi giữ."',['~','Má của ông Tú — bà Trần Thị Mỹ. Đúng cái tên đứng chức giám đốc cả hai công ty.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_a_khoa','A · thăm Khoa',[
  'Phòng thăm gặp trại giam. Khoa ốm rộc, đầu húi cua, gặp người vẫn giữ thói quen chắp tay.',
@@ -176,7 +175,7 @@ X('x_a_gom','Gom tiền trong hẻm',[
 X('x_a_cainhau','A · ai vào trại',[
  {bg:'trong-phong3-dem'},
  'Phòng 3, 11h đêm. Ngân đứng khoanh tay, Lâm ngồi trước bàn. Tờ sơ đồ trại trải chính giữa.',
- ['Ngân','Để tui đi. Bàn tay tui từng bị ép viết kịch bản cho cái phòng máy đó. Tụi nhỏ bên trển gọi tui là chị, tui không thể ngồi êm ấm ở Sài Gòn ăn cơm mẹ nấu trong khi tụi nó còn bị nhốt trong lồng sắt bên đó được.'],
+ ['Ngân','Để tui đi. Bàn tay tui từng bị ép viết kịch bản cho cái phòng máy đó. Tụi nhỏ bên trển gọi tui là chị, tui không thể ngồi êm ấm ở Sài Gòn ăn cơm mẹ nấu trong khi tụi nó còn kẹt lại trong cái lồng sắt bên đó được.'],
  ['Lâm','Tụi quản lý đã nhớ mặt cô. Cô bước vô cổng là tụi nó lôi ra xử làm gương cho cả trại.'],
  ['Ngân','Chứ anh mò vô trển khác gì nộp thêm cái mạng thứ 13? Anh biết tụi lính gác đổi ca lúc mấy giờ hông?'],
  {if:'p1:noi_cuocgoi',L:[['Ngân','Chuyện anh qua thú thiệt với mẹ tui, tui ghi nhận. Nhưng một năm ở bên đó, thứ giữ cho tui không phát điên là mấy đứa nhỏ trong tổ. Tui phải tự tay dắt tụi nó ra.']]},
@@ -207,8 +206,7 @@ X('x_b_huong','B · gặp Hương',[
  {if:'tin_huong>=2|!ket1:bocphot',L:[['Hương','Dời về Cảng Xi-ha rồi, nằm trong tòa casino bỏ hoang sát sông. Danh sách nạn nhân còn kẹt lại đây.'],'Trong danh sách ghi rõ: Nguyễn Thị Kim Ngân, Lê Thị Thủy, cùng mười mấy cái tên lạ hoắc.',{fx:'+co:x_ds_du'}]},
  {if:'tin_huong<2 ket1:bocphot',L:[['Hương','Tôi xé cho ông nửa tờ danh sách thôi. Nửa còn lại chừng nào ông chứng minh ông không bán tin câu view nữa tôi mới đưa.'],'Nửa tờ giấy trong tay có tên Ngân, phần bị xé mất nằm ngay tên của Thủy.']},
  {if:'tin_huong>=3|p1:phuong_dauthu',L:[['Hương','Còn đây là đường tiền: tiền lừa đảo từ trại đó gom hết về 2 cái ví điện tử. Cứ tối Chủ nhật là bắn một cục lớn.'],{fx:'+cc:x_vi'}]},
- ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "lò". Người lọt vô bị vắt tới cạn: vừa ép gõ phím lừa người khác, vừa ép nhà ở quê nộp tiền chuộc. Hết vắt được thì bán qua bãi khác.'],
- ['Hương','Nguồn tin của tôi bên kia kêu kẻ nắm tiền cả 3 cái lò người Việt là "Ông Chủ Lò". Chỉ ra lệnh qua tin nhắn thoại, không ai biết mặt. Mà trên đầu Ông Chủ Lò còn tụi chủ sòng nước ngoài nữa.'],
+ ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "Lò" — nơi vắt kiệt sức người rồi bán sang tay. Kẻ nắm tiền cả 3 cái lò bên đó được gọi là "Ông Chủ Lò", chỉ ra lệnh qua tin thoại chứ chưa ai thấy mặt.'],
  {fx:'+co:x_vu_ocl +cc:x_ocl +cc:x_siha'}]);
 X('x_b_vinh','B · gặp đại úy Vinh',[
  ['Đại úy Vinh','Cậu tính tự mình vượt biên vô cái ổ đó thiệt hả?'],
@@ -217,7 +215,7 @@ X('x_b_vinh','B · gặp đại úy Vinh',[
  ['Lâm','Vậy anh chỉ cho tôi cách thức liên lạc ra ngoài đi.'],
  ['Đại úy Vinh','...Dùng tin rác quảng cáo. Ghép chữ đầu mỗi câu thành mật mã. Khi bên tôi nhắn vô cũng dùng đúng cách đó.'],
  ['Đại úy Vinh','Muốn đề nghị phía bạn phối hợp đột kích, tôi phải có đủ 3 thứ từ bên trong: vị trí nhốt người, số người, và giờ đổi ca. Thiếu một thứ là chịu.'],
- {if:'p1:tu_lo',L:[['Đại úy Vinh','Nhìn qua biên bản này đi. Lời khai của Đặng Minh Tú tại cơ quan điều tra: "Tụi chủ sòng bên kia nắm mạng tôi, má tôi vì muốn cứu tôi nên mới đứng ra gom người, nắm đường tiền trả nợ cho tụi nó."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
+ {if:'p1:tu_lo',L:[['Đại úy Vinh','Nhìn qua biên bản này đi. Lời khai của Đặng Minh Tú tại cơ quan điều tra: "Đám chủ sòng bên kia nắm cổ tôi. Tôi chỉ là mặt tiền, còn đường tiền là má tôi giữ."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_b_sodo','B · dò sơ đồ trại',[
  {if:'!co:x_sodo_info',L:[
@@ -244,7 +242,7 @@ X('x_b_duong','B · tìm đường lên xe',[
   {fx:'+co:x_duong'}]}]);
 X('x_kham','B · khám sức khỏe',[
  'Phòng khám chật hẹp. Lâm cầm tờ giấy khám sức khỏe đóng sẵn cái mộc đỏ chót.',
- {if:'p1:vali_ngan',L:[['~','Tờ giấy y đúc cái tờ nằm trong vali màu hồng của Ngân trên gác nhà bà Sáu.']]},{if:'!p1:vali_ngan',L:[['~','Tờ giấy khám sức khỏe in sẵn, đóng mộc đỏ chót, trong khi mình chưa khám một bước nào.']]},
+ ['~','Tờ giấy khám sức khỏe in sẵn, đóng mộc đỏ chót dù chưa khám một bước nào.'],
  'Ngoài ghế chờ có 2 người cũng đi chung đợt: một con bé ôm khư khư cái balo hồng, với một ông chú tay chân còn dính đầy vôi vữa.',
  ['Cô gái trẻ','Anh cũng đi chuyến này hả? Em ráng qua bển làm kiếm tiền gửi về mua thuốc cho ngoại em.'],
  ['Ông chú','Tui bị nợ app dí quá. Qua trển cày cỡ một năm trả dứt nợ rồi về.'],
@@ -317,7 +315,7 @@ const CC2=[
  ['x_giong','Chứng cứ','Tin thoại có tiếng loa phường','File ghi âm của Ông Chủ Lò. Lọc tạp âm nền nghe rõ tiếng loa phường đọc thông báo bằng tiếng Việt.'],
  ['x_phatdat','Manh mối','Con dấu Phát Đạt TN','Mặt sau tờ rơi tuyển dụng ở cột điện có in dấu mộc của Công ty TNHH DV Thương mại Phát Đạt TN.'],
  ['x_bamy','Manh mối','Bà Trần Thị Mỹ','Giám đốc đứng tên cả Phát Đạt TN lẫn Mỹ Hưng Logistics. Là má ruột của Đặng Minh Tú.'],
- ['x_tu','Chứng cứ','Anh Tú gọi "má"','Biên bản lời khai của Tú tại cơ quan điều tra: tụi chủ sòng bên kia nắm mạng Tú sau vụ bể sàn vàng; bà Mỹ vì cứu con trai nên đứng ra gom người, nắm đường tiền trả nợ thay con.'],
+ ['x_tu','Chứng cứ','Anh Tú gọi "má"','Biên bản lời khai của Tú tại cơ quan điều tra: tụi chủ sòng bên kia nắm cổ Tú từ vụ bể sàn vàng; Tú chỉ là mặt tiền, đường tiền bên dưới do "má" nắm.'],
  ['x_so','Chứng cứ','Sổ chỉ tiêu','Cuốn sổ bìa đen trên lầu 3. Cột "nộp lên" do Chị Bảy ký tắt "B." kèm dấu mộc đỏ của Phát Đạt TN.'],
  ['x_giongthat','Chứng cứ','Giọng thật của Ông Chủ Lò','Khúc cuối ghi âm phần mềm đổi giọng bị tắt 2 giây: lộ giọng thật là một bà già, xưng "má", kêu Tú là "thằng Tú".'],
  ['x_khaibay','Lời khai','Lời khai Chị Bảy','"Bà đó kêu chị là con Bảy, hổng bao giờ bật cam. Ba năm trước chị cũng vì bể hụi, mất tiệm tóc đầu đường Fan Xích Vô, mà bị lừa vô đây."'],
@@ -330,7 +328,7 @@ CC2.forEach(([k,canh,ai,loi])=>M('CC_'+k,'cc',ai,loi,{canh}));
 M('NOI_x_saigon','noi','x_vi + x_giong','Ông Chủ Lò ở Sài Gòn',{sau:'+cc:suy_x_saigon'});
 M('NOI_x_saigon2','noi','x_bamy + x_giong','Ông Chủ Lò ở Sài Gòn',{sau:'+cc:suy_x_saigon'});
 M('NOI_x_khe','noi','x_lich + x_sodo','Khe hở 3 giờ sáng',{sau:'+cc:suy_x_khe +co:x_gio'});
-X('noi_x_saigon','Nối',[['~','Ví tổng ở Quận 7 xài chung nguồn tiền với cái app vay nặng lãi trong hẻm 47, băng ghi âm lại dính tiếng loa phường. Bà chủ lò bày sẵn từ đầu hẻm: cho vay cắt cổ đẩy người ta vô đường cùng, rồi mở VP số 12 hốt qua bên kia biên giới.']]);
+X('noi_x_saigon','Nối',[['~','Ví tổng mở tại Quận 7, băng ghi âm lại dính tiếng loa phường tiếng Việt. Vậy "Ông Chủ Lò" đâu có ngồi bên kia biên giới, kẻ đó đang ở ngay giữa Sài Gòn đếm tiền mỗi cuối tuần.']]);
 X('noi_x_saigon2','Nối',[['~','Công ty đăng ký ở Sài Gòn, ghi âm có tiếng loa phường. Kẻ cầm đầu cái lò này đang ngồi ngay tại Việt Nam.']]);
 X('noi_x_khe','Nối',[['~','Đúng 3h sáng, lính tầng trệt bỏ vị trí đi lên lầu 2 bàn giao ca. Cửa hậu sẽ bỏ trống không ai canh suốt 2 phút.'],['~','Thời điểm mở cửa trốn ra sông phải chốt đúng 3h sáng. Mật mã giờ G cần gửi về: 3G.']]);
 

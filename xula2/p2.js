@@ -278,6 +278,7 @@ async function p2Camp(){ const d=S.day, cs=S.cs||(S.cs={}), K=x=>{ const k=d+'_'
     if(d===11&&S.nhanh==='B'&&(S.p1.co.bao_tam||S.p1.co.bao_phat)) await runS('x_nguoiban');
     if(d===14) await runS('x_canh5');
     if(typeof p2LenMayTram==='function') await p2LenMayTram();
+    if(typeof p2MayHan==='function') p2MayHan();
     hideDlg(); hud(); save(); return; }
   if(hour()>=13&&hour()<19&&K('ch')){ if(d===18&&!hasC('x_tu')) await runS('x_tutai'); hideDlg(); BGNOW=null;
     const r=await caCa(1); if(hasF('x_canh_ngan')&&r.tinh>0) await runS('x_canhngan_ok');

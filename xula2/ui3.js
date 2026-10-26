@@ -111,7 +111,7 @@ body.u3ml .dlg{max-height:58dvh!important;overflow-y:auto}
 /* đang mở điện thoại / mini-game thì giấu lớp nổi */
 #app:has(#phone:not([hidden])) #u3mb,#app:has(#game:not([hidden])) #u3mb{display:none!important}
 body.u3:has(#phone:not([hidden])) #phoneBtn,body.u3:has(#phone:not([hidden])) .tbtns{visibility:hidden}
-body.u3m #u3menu #musBtn::after{content:"Nhạc nền";font-size:14px}
+body.u3m #u3menu #musBtn::after{content:"Âm thanh";font-size:14px}
 #app:has(#phone:not([hidden])) #u3loc,#app:has(#game:not([hidden])) #u3loc,body:has(#dlg:not([hidden])) #u3loc{display:none}
 body:has(#cover:not([hidden])) #u3obj,body:has(#cover:not([hidden])) #u3loc,body:has(#cover:not([hidden])) #u3mb{display:none}
 `;
@@ -480,4 +480,66 @@ function u3w(){ const w=($('app')&&$('app').clientWidth)||innerWidth, B=document
 addEventListener('resize',u3w); setInterval(u3w,700); u3w();
 hudvObj=function(){};
 layout(); try{ hud(); }catch(e){}
+})();
+
+/* ===== điện thoại (cả 2 phần): lưới Nhân vật không nhảy dòng, tab Manh mối dễ dùng hơn ===== */
+(function(){
+  const css=`
+.phone .ppl{align-items:start}
+.phone .ppl button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-width:0}
+.phone .ppl b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.phone .ppl small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.phone .ppl button[disabled] b{color:var(--txt2);font-weight:500}
+.phone .so-flt{flex-wrap:wrap!important;overflow:visible!important;gap:6px!important;padding:2px 0 4px!important;border:0!important;background:none!important;border-radius:0!important;height:auto!important}
+.phone .so-flt button{flex:0 0 auto!important;border:1px solid rgba(239,232,216,.3)!important;font-size:13.5px!important;padding:7px 12px!important;border-radius:18px!important;background:rgba(255,255,255,.04)}
+.phone .so-flt button.on{background:var(--amber,#f0b25c)!important;color:#1b140a!important;border-color:transparent!important;font-weight:600}
+.phone .card.key .trd{margin-top:8px}
+.phone .card.key .trd summary{cursor:pointer;font-weight:600;color:var(--paper);list-style:none;display:flex;align-items:center;gap:6px}
+.phone .card.key .trd summary::-webkit-details-marker{display:none}
+.phone .card.key .trd summary::after{content:"▾";margin-left:auto;color:var(--txt2);transition:transform .2s}
+.phone .card.key .trd:not([open]) summary::after{transform:rotate(-90deg)}
+.phone .card.key .trg{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-top:6px;font-size:14px}
+.phone .card.key .trg span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .card.key .trg small{display:block;white-space:normal;font-size:12px}
+.phone .noibtn.can{border-color:var(--amber,#f0b25c)!important;background:rgba(240,178,92,.12)!important}
+.phone .noibar{position:sticky;top:0;z-index:5;flex-wrap:wrap;padding:10px 12px;border-width:1.5px;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+.phone .noibar .slots{display:flex;align-items:center;gap:6px;width:100%;margin-top:6px}
+.phone .noibar .slots i{flex:1;min-width:0;font-style:normal;padding:6px 8px;border-radius:8px;border:1px dashed rgba(240,178,92,.5);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt2)}
+.phone .noibar .slots i.on{border-style:solid;background:rgba(240,178,92,.16);color:var(--paper)}
+.phone #phBody:has(.noibar) .card .tx{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.phone #phBody:has(.noibar) .card.pick{cursor:pointer}
+.phone #phBody:has(.noibar) .card.sel{outline:2px solid var(--amber,#f0b25c);outline-offset:-1px;background:rgba(240,178,92,.1)}
+body:has(#phone:not([hidden])) #u3sys{top:auto;bottom:96px}
+`;
+  const st=document.createElement('style'); st.id='u3phone'; st.textContent=css; document.head.appendChild(st);
+  let trOpen=false;
+  const post=()=>{ try{ if(typeof phTab==='undefined'||phTab!=='so') return; const b=$('phBody'); if(!b) return;
+    const k=b.querySelector('.card.key'); if(k&&!k.querySelector('.trd')){ const H=k.innerHTML, mk='<b style="margin-top:6px">Độ tin trong hẻm</b>', i=H.indexOf(mk);
+      if(i>=0){ const items=H.slice(i+mk.length).split('<br>').filter(s=>s.trim()); k.innerHTML=H.slice(0,i)+'<details class="trd"'+(trOpen?' open':'')+'><summary>Độ tin trong hẻm · '+items.length+' người</summary><div class="trg">'+items.map(s=>'<span>'+s+'</span>').join('')+'</div></details>';
+        const d=k.querySelector('.trd'); d.addEventListener('toggle',()=>{ trOpen=d.open; }); } }
+    const nb=b.querySelector('.noibtn'); if(nb&&typeof noiPairs==='function'&&noiPairs()>0) nb.classList.add('can');
+    const bar=b.querySelector('.noibar'); if(bar&&!bar.querySelector('.slots')&&typeof noiSel!=='undefined'){ const nm=x=>{ const r=T[IDX['CC_'+x]]; return r?r.ai:x; };
+      const s=document.createElement('div'); s.className='slots'; s.innerHTML='<i class="'+(noiSel[0]?'on':'')+'">'+(noiSel[0]?esc(nm(noiSel[0])):'Thẻ 1')+'</i>+<i class="'+(noiSel[1]?'on':'')+'">'+(noiSel[1]?esc(nm(noiSel[1])):'Thẻ 2')+'</i>'; bar.appendChild(s); }
+  }catch(e){} };
+  if(typeof renderPhone==='function'){ const rp=renderPhone; renderPhone=function(){ const r=rp.apply(this,arguments); post(); return r; }; }
+  /* Phần 2: người quen từ Phần 1 thì tính là đã gặp */
+  if(typeof nvMet==='function'){ const nm0=nvMet; nvMet=function(k){ if(typeof P2!=='undefined'&&P2.on&&['basau','thoa','khoa','lam','ngan','bin','huong','tu'].includes(k)&&k!==(typeof MEK!=='undefined'?MEK:'')) return true; return nm0.apply(this,arguments); }; }
+})();
+
+/* ===== ảnh đại diện ngẫu nhiên đúng giới tính (người phụ không có tranh riêng) ===== */
+(function(){
+  if(typeof avatarFor!=='function') return;
+  const F=[1,2,4,5,8,11,12,16,20,21,29,30,32,33], M=[3,6,7,9,10,13,14,15,17,18,19,22,23,24,25,26,27,28,31,34,35], MOLD=[27,13,7,35];
+  const NAMEF=['Lụa','Hoa','Mai Anh','Vy','Trâm','Lan','Trúc','Ngọc','Thu','Hằng','Mai','Linh','Thảo','Phương','Diễm','Hạnh','Thoa','Nhi','Huệ','Thủy','Ngân','Hương'];
+  const NAMEM=['Hào','Tùng','Đạt','Hiếu','Hải','Sơn','Tèo','Hòa','Lộc','Bin','Tú','Khoa','Phát','Toàn','Tí','Khang','Vinh','Thoại','Tám'];
+  const sex=n=>{ const s=String(n).replace(/^Lâm > |^Ngân > /,'').trim(), w=s.split(/\s+/);
+    if(/^(Ông|Bác trai)(?=\s|$)/.test(s)) return 'mo'; if(/^Bà(?=\s|$)/.test(s)) return 'fo';
+    if(/^(Chú|Cậu)(?=\s|$)/.test(s)) return 'mo'; if(/^(Anh|Thằng|Tài xế|Bảo vệ|Lơ xe|Ông chú)(?=\s|$)/.test(s)) return 'm'; if(/^(Chị|Cô|Con nhỏ|Em gái|Dì|Mợ|Bé)(?=\s|$)/.test(s)) return 'f';
+    const last=w[w.length-1]; if(NAMEF.includes(last)||NAMEF.includes(s)) return 'f'; if(NAMEM.includes(last)||NAMEM.includes(s)) return 'm'; return ''; };
+  const pick=(L,n)=>{ let h=0; for(const c of String(n)) h=(h*31+c.charCodeAt(0))>>>0; return 'img2/av-'+String(L[h%L.length]).padStart(2,'0')+'.webp'; };
+  const a0=avatarFor;
+  avatarFor=function(n){ const r=a0.apply(this,arguments); if(!/\/av-\d+\.webp$/.test(r)||(typeof THREADAV!=='undefined'&&THREADAV[n])) return r;
+    const g=sex(n); if(!g) return r;
+    if((g==='fo'||g==='mo')&&typeof silFace==='function'&&typeof SILF!=='undefined'){ if(!SILF[n]) SILF[n]=g[0]; return silFace(n); }
+    return pick(g==='f'||g==='fo'?F:(g==='mo'?MOLD:M),n); };
 })();

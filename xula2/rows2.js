@@ -68,6 +68,7 @@ X('x_mo','Phần 2 · mở đầu',[
   'Chiều nay, ngay cột điện đầu hẻm 47 lại dán tờ rơi mới. Mực in còn mới tinh.',
   '"Tuyển gấp nam nữ 18–35. Việc văn phòng nhẹ, lương 25–30 triệu. Bao ăn ở. Lo hết giấy tờ."',
   ['~','Y chang kiểu chữ cũ, cũng câu "lo hết giấy tờ". Chỉ đổi mỗi số đt.']]},
+ {if:'nhanh:B',L:['Đi ngang tạp hóa đầu hẻm. Sau quầy, cô Thoa vẫn cắm sạc cái đt cũ ốp mèo đen của Ngân, màn hình tối om. Ngày nào cũng vậy.']},
  {bg:''}]);
 
 X('x_hd','Phần 2 · hướng dẫn',[
@@ -114,7 +115,8 @@ X('x_a_huong','A · gặp Hương',[
  'Quán Thảo Điên. Hương vẫn ngồi cái bàn cũ, máy ghi âm đặt úp trên bàn.',
  ['Hương','Ông đọc tin con Ngân đưa chưa? Bên tôi cũng mới nắm được thêm tin.'],
  ['Hương','Trại Ba Vẹt đợt trước chỉ là một trong ba nhánh thuộc cùng một chủ. Hai khu còn lại đã rút sâu vô Cảng Xi-ha.'],
- ['Hương','Tụi trong đường dây kêu người đứng đầu là "Ông Chủ Lò". Chỉ toàn gửi ghi âm chỉ đạo chứ chưa ai thấy mặt.'],
+ ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "lò". Người lọt vô bị vắt tới cạn: vừa ép gõ phím lừa người khác, vừa ép nhà ở quê nộp tiền chuộc. Hết vắt được thì bán qua bãi khác.'],
+ ['Hương','Kẻ nắm tiền cả ba cái lò người Việt bên đó thì tụi nó kêu là "Ông Chủ Lò". Chỉ gửi ghi âm chỉ đạo, chưa ai thấy mặt. Mà Ông Chủ Lò cũng chỉ là cai thầu. Đất, súng với sòng bài bên đó là của người khác.'],
  ['Lâm','Anh Hai là ông Tú rồi. Vậy ai còn ngồi trên đầu ông Tú nữa?'],
  ['Hương','Tôi cũng đang tìm câu trả lời đó. Ông cứ lần theo đường tiền đi, tiền chảy về đâu là chủ ở đó.'],
  {if:'p1:phuong_dauthu',L:[['Hương','À, con bé Phương có gửi cho tôi địa chỉ một cái ví. Nó nhắn nếu ông cần tra thì cứ lấy xài.'],{fx:'+co:x_vi_phuong'}]},
@@ -174,7 +176,7 @@ X('x_a_gom','Gom tiền trong hẻm',[
 X('x_a_cainhau','A · ai vào trại',[
  {bg:'trong-phong3-dem'},
  'Phòng 3, 11h đêm. Ngân đứng khoanh tay, Lâm ngồi trước bàn. Tờ sơ đồ trại trải chính giữa.',
- ['Ngân','Để tui đi. Bàn tay tui từng bị ép viết kịch bản cho cái phòng máy đó. Tụi nhỏ bên trển gọi tui là chị, tui không thể ngồi êm ấm ở Sài Gòn ăn cơm mẹ nấu trong khi tụi nó bị nhốt dưới chuồng chó được.'],
+ ['Ngân','Để tui đi. Bàn tay tui từng bị ép viết kịch bản cho cái phòng máy đó. Tụi nhỏ bên trển gọi tui là chị, tui không thể ngồi êm ấm ở Sài Gòn ăn cơm mẹ nấu trong khi tụi nó còn bị nhốt trong lồng sắt bên đó được.'],
  ['Lâm','Tụi quản lý đã nhớ mặt cô. Cô bước vô cổng là tụi nó lôi ra xử làm gương cho cả trại.'],
  ['Ngân','Chứ anh mò vô trển khác gì nộp thêm cái mạng thứ 13? Anh biết tụi lính gác đổi ca lúc mấy giờ hông?'],
  {if:'p1:noi_cuocgoi',L:[['Ngân','Chuyện anh qua thú thiệt với mẹ tui, tui ghi nhận. Nhưng một năm ở bên đó, thứ giữ cho tui không phát điên là mấy đứa nhỏ trong tổ. Tui phải tự tay dắt tụi nó ra.']]},
@@ -205,7 +207,8 @@ X('x_b_huong','B · gặp Hương',[
  {if:'tin_huong>=2|!ket1:bocphot',L:[['Hương','Dời về Cảng Xi-ha rồi, nằm trong tòa casino bỏ hoang sát sông. Danh sách nạn nhân còn kẹt lại đây.'],'Trong danh sách ghi rõ: Nguyễn Thị Kim Ngân, Lê Thị Thủy, cùng mười mấy cái tên lạ hoắc.',{fx:'+co:x_ds_du'}]},
  {if:'tin_huong<2 ket1:bocphot',L:[['Hương','Tôi xé cho ông nửa tờ danh sách thôi. Nửa còn lại chừng nào ông chứng minh ông không bán tin câu view nữa tôi mới đưa.'],'Nửa tờ giấy trong tay có tên Ngân, phần bị xé mất nằm ngay tên của Thủy.']},
  {if:'tin_huong>=3|p1:phuong_dauthu',L:[['Hương','Còn đây là đường tiền: tiền lừa đảo từ trại đó gom hết về 2 cái ví điện tử. Cứ tối Chủ nhật là bắn một cục lớn.'],{fx:'+cc:x_vi'}]},
- ['Hương','Nguồn tin của tôi bên kia kêu kẻ cầm đầu cả 3 trại là "Ông Chủ Lò". Chỉ toàn ra lệnh qua tin nhắn thoại chứ không ai biết mặt.'],
+ ['Hương','Tụi trong đường dây gọi mỗi khu trại là một cái "lò". Người lọt vô bị vắt tới cạn: vừa ép gõ phím lừa người khác, vừa ép nhà ở quê nộp tiền chuộc. Hết vắt được thì bán qua bãi khác.'],
+ ['Hương','Nguồn tin của tôi bên kia kêu kẻ nắm tiền cả 3 cái lò người Việt là "Ông Chủ Lò". Chỉ ra lệnh qua tin nhắn thoại, không ai biết mặt. Mà trên đầu Ông Chủ Lò còn tụi chủ sòng nước ngoài nữa.'],
  {fx:'+co:x_vu_ocl +cc:x_ocl +cc:x_siha'}]);
 X('x_b_vinh','B · gặp đại úy Vinh',[
  ['Đại úy Vinh','Cậu tính tự mình vượt biên vô cái ổ đó thiệt hả?'],
@@ -241,7 +244,7 @@ X('x_b_duong','B · tìm đường lên xe',[
   {fx:'+co:x_duong'}]}]);
 X('x_kham','B · khám sức khỏe',[
  'Phòng khám chật hẹp. Lâm cầm tờ giấy khám sức khỏe đóng sẵn cái mộc đỏ chót.',
- ['~','Tờ giấy y đúc cái tờ nằm trong vali màu hồng của Ngân trên gác nhà bà Sáu.'],
+ {if:'p1:vali_ngan',L:[['~','Tờ giấy y đúc cái tờ nằm trong vali màu hồng của Ngân trên gác nhà bà Sáu.']]},{if:'!p1:vali_ngan',L:[['~','Tờ giấy khám sức khỏe in sẵn, đóng mộc đỏ chót, trong khi mình chưa khám một bước nào.']]},
  'Ngoài ghế chờ có 2 người cũng đi chung đợt: một con bé ôm khư khư cái balo hồng, với một ông chú tay chân còn dính đầy vôi vữa.',
  ['Cô gái trẻ','Anh cũng đi chuyến này hả? Em ráng qua bển làm kiếm tiền gửi về mua thuốc cho ngoại em.'],
  ['Ông chú','Tui bị nợ app dí quá. Qua trển cày cỡ một năm trả dứt nợ rồi về.'],

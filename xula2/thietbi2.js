@@ -13,7 +13,7 @@ X('z_a_huong','Za Lô · Ngân nhắn',[
  ['#Ngân','đi gặp chị Hương đi. chỉ còn giữ hồ sơ vụ Ba Vẹt, có khi biết tụi nó dời đi đâu'],
  ['#> Ngân','Tôi đi liền. Có gì tôi nhắn.']]);
 X('z_a_vi','Za Lô · Hương nhắn',[
- ['#Hương','địa chỉ ví con bé Phương gửi tôi, tôi chuyển qua ông rồi đó'],
+ ['#Hương','mấy giao dịch tiền cọc trong nhóm nạn nhân cũ tôi chuyển qua ông rồi đó'],
  ['#Hương','dò ngược từ mấy lệnh tối Chủ nhật mà lên. đừng ngồi đọc bình luận nữa'],
  ['~','Mở laptop là dò được.']]);
 X('z_vinh','Za Lô · đại úy Vinh',[

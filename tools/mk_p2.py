@@ -43,9 +43,20 @@ if _ov.exists():
     line = s[i:j]; tail = ''
     while line and line[-1] in ' ;\r': tail = line[-1] + tail; line = line[:-1]
     rows = _json.loads(line); n = 0
+    have = {r.get('ma') for r in rows}
     for r in rows:
-        if r.get('ma') in OV: r['loi'] = OV[r['ma']]; n += 1
-    miss = set(OV) - {r.get('ma') for r in rows}
+        v = OV.get(r.get('ma'))
+        if v is None: continue
+        if isinstance(v, dict): r.update({k: v[k] for k in v if k != 'after'})
+        else: r['loi'] = v
+        n += 1
+    # dòng mới: {"ma_moi": {"after": "ma_cu", "loi": ..., "hien": ..., ...}} chèn ngay sau dòng cũ, kế thừa cảnh/kiểu/ai
+    for k, v in OV.items():
+        if k in have or not isinstance(v, dict) or 'after' not in v: continue
+        idx = next(x for x, r in enumerate(rows) if r.get('ma') == v['after'])
+        nr = dict(rows[idx]); nr.update({kk: vv for kk, vv in v.items() if kk != 'after'}); nr['ma'] = k; nr['stt'] = rows[idx].get('stt', 0) + 1
+        rows.insert(idx + 1, nr); have.add(k); n += 1
+    miss = set(OV) - have
     if miss: sys.exit('p1_thu.json có mã không thấy: ' + ', '.join(sorted(miss)))
     s = s[:i] + _json.dumps(rows, ensure_ascii=False) + tail + s[j:]
     print('Áp lời thử Phần 1:', n)
@@ -54,7 +65,7 @@ if _ov.exists():
 rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">', 1)
 
 # gắn Phần 2 sau script chính
-tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script>'
+tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script><script src="xula2/amb.js?v=__V__"></script>'
 import time
 tag = tag.replace('__V__', str(int(time.time())))
 i = s.rfind('</body>')

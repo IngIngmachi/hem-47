@@ -124,7 +124,10 @@
 "h3_hoaxl_01": "Clip gốc dài 4 phút: học sinh ném cặp trúng mặt bạn chảy máu mũi, cô Hoa chạy tới kéo ra rồi la lớn. Bản trên mạng bị cắt mất 3 phút rưỡi đầu.",
 "h3_hoaxl_03": "Y hệt năm ngoái: một đoạn clip bị cắt đầu cắt đuôi tung lên, cả mạng nhảy vô chửi. Chỉ khác là lần này mình đang cầm bản gốc.",
 "h3_hoaxl_06": "Một tuần sau, nhà trường đăng thông báo đính chính, chẳng mấy ai chia sẻ. Nhưng clip cắt ghép đã gỡ, cô Hoa được yên ổn đi dạy lại.",
-"DEM_8_02": "Chắc là của Thủy dán hồi còn trọ ở đây. Hai mươi tuổi, nằm nhìn mấy ngôi sao nhựa này rồi mơ tới mức lương 30 triệu một tháng.",
+"DEM_8_02": {
+"loi": "Chắc là của Thủy dán hồi còn trọ ở đây. Hai mươi tuổi, nằm nhìn mấy ngôi sao nhựa này rồi mơ tới mức lương 30 triệu một tháng.",
+"hien": "co:hoi3 co:don_thuy|cc:sach_thuy|cc:so_thuy"
+},
 "h4_dong_05": "Ra đường lớn mua chai nước 8 ngàn. Người bán thảy chai nước lên quầy, không nhìn mặt. Tự dưng thèm nghe câu \"nước trong thùng đá đó, tự lấy đi con\" của cô Thoa tới thắt ruột.",
 "h4_bin_01": "Hôm qua anh nói gì với cô Thoa vậy anh Lâm? Cô đóng cửa khóc nguyên đêm, sáng nay nghỉ bán luôn. Hai chục năm nay tiệm này chưa từng đóng cửa bữa nào.",
 "h4_bin_03": "Mở miệng viện cớ câu đó là dở rồi. Người ta mất con cả năm trời, làm gì có lý do nào nghe cho lọt tai.",
@@ -179,5 +182,26 @@
 "h5_chon_03": "21:40 một năm trước, một cú bấm của mình đã đẩy một người vào đường cùng. Giờ lại đứng trước màn hình này… Lần này mình phải chọn khác đi.",
 "ket_imlang_15": "Lâm đăng bài đính chính toàn bộ vụ Ngân Order trên trang cá nhân, thú nhận luôn cuộc gọi lúc 21:15 đêm đó. Bài viết dừng lại ở 37 lượt xem.",
 "ket_imlang_16": "Lâm đăng bài đính chính sự thật về vụ Ngân Order trên trang cá nhân, nhưng vẫn giấu lại cuộc gọi đêm đó. Bài viết dừng lại ở 37 lượt xem.",
-"h5_xe_06": "800 ngàn tiền nợ réo mỗi tuần. 2 triệu tiền thuê xe đón người ở cửa khẩu. Trong khi cái phong bì 20 triệu của Khoa vẫn nằm im trong ngăn kéo."
+"h5_xe_06": "800 ngàn tiền nợ réo mỗi tuần. 2 triệu tiền thuê xe đón người ở cửa khẩu. Trong khi cái phong bì 20 triệu của Khoa vẫn nằm im trong ngăn kéo.",
+"V_hanh_7_02": "Chị đó làm xưởng may đầu đường. Xưởng sắp đóng. Mấy đứa trọ trong hẻm hồi trước cũng y vậy đó.",
+"ng_tam_truc_05": {
+"loi": "Đặng Minh Tú... Vậy là chính ông Tú đứng ra làm MC thổi phồng cho cái sàn vàng đã lừa sạch tiền của Phương!",
+"hien": "co:phuong_khai"
+},
+"ng_tam_truc_05b": {
+"after": "ng_tam_truc_05",
+"hien": "!co:phuong_khai",
+"loi": "Đặng Minh Tú... Vậy là chính ông Tú đứng ra làm MC thổi phồng cho cái sàn vàng này. Hai trăm triệu của người ta, mất vì tin cái mặt quen trên mạng."
+},
+"webn_vinagold_01": {
+"loi": "Người cầm micro dẫn chương trình là Đặng Minh Tú! Hóa ra chính ông Tú đứng sân khấu quảng cáo cho cái sàn vàng đã nuốt sạch tiền của Phương.",
+"hien": "co:phuong_khai"
+},
+"webn_vinagold_01b": {
+"after": "webn_vinagold_01",
+"hien": "!co:phuong_khai",
+"loi": "Người cầm micro dẫn chương trình là Đặng Minh Tú! Hóa ra chính ông Tú đứng sân khấu quảng cáo cho cái sàn vàng này."
+},
+"h3_luctu_05": "Ghi chú \"Trừ K\"... Mỗi trang hai cái tên, đi kèm hai chữ \"trừ K\". Trừ cái gì, mà trừ cho ai?",
+"h2_loc_a": "Anh có hỏi kỹ coi qua bển là làm việc gì, cho công ty nào chưa anh?"
 }

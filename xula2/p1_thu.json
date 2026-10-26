@@ -264,5 +264,16 @@
 },
 "V_thoa_5_01": {
 "hien": "co:hoi3"
+},
+"ket_hetgio_02": {
+"hien": "co:hoi3"
+},
+"n3_khoa_02": {
+"hien": "co:bao_hanh co:bao_tung"
+},
+"n3_khoa_02b": {
+"after": "n3_khoa_02",
+"hien": "!co:bao_hanh|!co:bao_tung",
+"loi": "Nghe nói em hay giúp bà con trong hẻm mấy việc lặt vặt. Giỏi đó nha."
 }
 }

@@ -339,7 +339,7 @@ addEventListener('keydown',e=>{ const c=$('cover'); if(!c||c.hidden||P2.on||star
   if(MD.view==='cover'&&(e.key==='ArrowUp'||e.key==='ArrowDown')){ e.preventDefault(); const L=[...c.querySelectorAll('.mdx-hbtn:not(:disabled)')]; const k=L.indexOf(document.activeElement); const n=L[(k+(e.key==='ArrowDown'?1:L.length-1))%L.length]; n&&n.focus(); return; }
   if(e.key===' '&&!(document.activeElement&&document.activeElement.tagName==='BUTTON')){ const b=MD.view==='chap'?c.querySelector('.mdx-card.sel .mdx-b.red:not(:disabled)')||c.querySelector('.mdx-card.sel .mdx-b:not(:disabled)'):MD.view==='cover'?c.querySelector('.mdx-hbtn.pri'):null; if(b){ e.preventDefault(); b.click(); } } });
 /* trailer Phần 2: dán mã YouTube vào TLR2_YT khi có; chưa có thì báo sắp ra */
-const TLR2_YT='';
+const TLR2_YT='EvJWfAXDTzQ';
 function mdTrailer2(){ const ov=document.getElementById('tlr'); if(!TLR2_YT||!ov){ toast('Trailer Phần 2 sắp ra.'); return; }
   const box=ov.querySelector('.box'); ov.classList.remove('doc');
   box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(TLR2_YT)+'?autoplay=1&rel=0&playsinline=1" title="Trailer Hẻm 47 · Phần 2" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>';

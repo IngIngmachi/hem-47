@@ -82,10 +82,10 @@ Mỗi người trong tổ đều có nỗi sợ và sự dè chừng riêng. Ng�
 Trong trại, mọi hành động bất thường hay làm hụt chỉ tiêu đều làm thanh **Bị nghi** tăng lên. Để thanh này chạm đỉnh thì cái giá phải trả sẽ tính thẳng vào những người trong tổ.
 
 **Ban đêm**
-Sau giờ tắt đèn có thể lén rời giường làm việc riêng: thăm dò xung quanh, tìm đồ giấu, gom chứng cứ. Nhưng thức đêm thì ca làm ngày hôm sau sẽ mệt hơn, nên cần tính kỹ mỗi bước đi.
+Sau giờ tắt đèn có thể lén rời giường làm việc riêng: thăm dò xung quanh, tìm đồ giấu, gom chứng cứ.
 
 **Lựa chọn gấp**
-Một số tình huống có thanh thời gian chạy ở mép trên màn hình. Hết giờ mà chưa chọn, game sẽ chọn sự im lặng.
+Một số tình huống có thanh thời gian chạy ở mép trên màn hình. Hết giờ mà chưa chọn, game sẽ chọn giùm bạn.
 
 **Điện thoại và manh mối**
 Nối hai manh mối liên quan để mở ra suy luận mới. Gom đủ chứng cứ mới có thể vạch mặt kẻ đứng sau.

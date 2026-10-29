@@ -304,7 +304,7 @@ async function p2Camp(){ const d=S.day, cs=S.cs||(S.cs={}), K=x=>{ const k=d+'_'
     hideDlg(); hud(); save(); return; }
   if(hour()>=13&&hour()<19&&K('ch')){ if(d===18&&!hasC('x_tu')) await runS('x_tutai'); hideDlg(); BGNOW=null;
     const r=await caCa(1); if(hasF('x_canh_ngan')&&r.tinh>0) await runS('x_canhngan_ok');
-    const thieu=3-CT(); if(thieu>0){ S.no=(S.no||0)+thieu*2000000; effects('+nghi:'+(6*thieu)); await runS('x_ca_thieu'); } else { effects('-nghi:3'); await runS('x_ca_du'); }
+    const thieu=3-CT(); if(thieu>0){ S.no=(S.no||0)+thieu*2000000; effects('+nghi:'+(6*thieu)); try{ if(window.SFX&&SFX.has('dien')) SFX.play('dien',{v:.55,delay:2.2}); }catch(e){} await runS('x_ca_thieu'); } else { effects('-nghi:3'); await runS('x_ca_du'); }
     at2(19*60); putAt('xngu',.35); toast('19:00 · được ra sân'); hideDlg();
     if(d===12&&!hasF('x_vu3')) await runS('x_vu3mo');
     if(S.nhanh==='A'&&[11,14,17].includes(d)) await p2Ngoai({11:1,14:2,17:3}[d]);
@@ -343,7 +343,7 @@ night=async function(){ if(!P2.on) return night1(); if(sleeping) return; sleepin
 async function p2Siet(){ if((S.siet_d||0)>=S.day-1) return; const pr=.12+(S.nghi||0)/250; if(Math.random()>pr) return; S.siet_d=S.day;
   const sp=(k,o)=>{ try{ window.SFX&&SFX.play(k,o); }catch(e){} };
   await say('mota','','2 giờ sáng. Đèn hành lang bật sáng trưng. Tiếng dép, tiếng đập cửa từng phòng.');
-  setTimeout(()=>sp('hit',{v:.35,rate:.75}),500);
+  setTimeout(()=>{ if(window.SFX&&SFX.has('dien')) sp('dien',{v:.45}); else sp('hit',{v:.35,rate:.75}); },500);
   await say('mota','','Phòng bên cạnh có tiếng ai đó kêu lên một tiếng rồi tắt ngấm. Không ai trong phòng dám ngồi dậy.');
   const can=(S.nghi||0)>=70?dsCon().filter(x=>!['ngan','khang','loc'].includes(x.id)).sort((a,b)=>(S.tin[a.id]||0)-(S.tin[b.id]||0))[0]:null;
   if(can){ sp('boom',{v:.4,rate:.8,delay:.3}); await say('mota','','Sáng ra, giường của '+can.ten+' trống trơn. Mền đã gấp sẵn.'); effects('mat:'+can.id); S.nghi=Math.max(0,S.nghi-15); }
@@ -523,7 +523,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
       const line=L[li]; ci+=2; cur.textContent=line.slice(0,ci); if(ci>=line.length){ cur.textContent=line; li++; ci=0; setTimeout(step,650); } else setTimeout(step,22); };
     step(); });
   /* 1b. lời khai của người ra được, rồi tờ báo HẺM 47 NEWS (tin thật có nguồn → lật trang là vụ trong game) */
-  await p2Khai(); await p2Bao(k);
+  await p2Khai(); await p2Bao(k); await p2AnhSong(k);
   /* 2. thẻ tổng kết trên màn bìa, cùng khung kết Phần 1 */
   S.scene='place'; S.place=null; BGNOW=(EB&&P2REAL[EB])?EB:BGNOW; fade=1; hud();
   const c=$('cover'); c.hidden=false; c.classList.add('solid');
@@ -552,21 +552,58 @@ const P2NEWS=[
   {h:'TP.HCM: 7 vụ mua bán người trong năm 2025',b:'Công an TP.HCM phát hiện 7 vụ, 24 đối tượng. Thủ đoạn người dân nhận diện nhiều nhất: dụ dỗ việc làm, bắt cóc (kể cả "bắt cóc online"), đánh thuốc mê.',src:'Phòng Cảnh sát hình sự Công an TP.HCM, qua báo Dân trí, 18/12/2025'},
   {h:'Hàng trăm nghìn người bị ép vào các đường dây lừa đảo trực tuyến',b:'Văn phòng Nhân quyền Liên Hợp Quốc cho biết hàng trăm nghìn người ở Đông Nam Á có thể đang bị giữ và ép làm việc cho các đường dây lừa đảo trực tuyến.',src:'Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc, 29/08/2023'}];
 function p2Khai(){ return new Promise(res=>{ const L=(S.p2ra||[]).filter(id=>P2KHAI[id]); if(!L.length){ res(); return; }
+  /* kiểu đoạn phim tư liệu cũ: hạt nhiễu, khung giật nhẹ, chớp sáng, dải đen trên dưới, mã thời gian */
   if(!$('p2khaiCss')){ const st=document.createElement('style'); st.id='p2khaiCss'; st.textContent=`
-#p2khai{position:fixed;inset:0;z-index:85;background:#050608;color:#efe8d8;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;opacity:0;transition:opacity .7s}
-#p2khai .ph{width:min(760px,100%);aspect-ratio:3/2;background:#111 center/cover;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6);transition:opacity .6s}
-#p2khai .k{margin:16px 0 4px;font:600 11.5px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#a9a090;text-transform:uppercase}
-#p2khai .n{font:600 24px Newsreader,Georgia,serif;color:#f0b25c}
-#p2khai q{display:block;max-width:640px;margin:8px 0 0;font:italic 400 18px/1.55 Newsreader,Georgia,serif;text-align:center;quotes:"“" "”";min-height:3.2em}
-#p2khai button{margin-top:18px;min-width:180px;min-height:46px;border-radius:12px;border:1.5px solid rgba(239,230,210,.4);background:transparent;color:#efe6d2;font:700 15px "Be Vietnam Pro",sans-serif;cursor:pointer}`; document.head.appendChild(st); }
-  const el=document.createElement('div'); el.id='p2khai'; el.innerHTML='<div class="ph"></div><p class="k">Lời khai · sáng hôm sau</p><div class="n"></div><q></q><button type="button">Tiếp</button>';
+#p2khai{position:fixed;inset:0;z-index:85;background:#000;color:#efe8d8;overflow:hidden;opacity:0;transition:opacity .6s;cursor:pointer}
+#p2khai .fr{position:absolute;inset:9% 0;background:#111 center/cover;filter:grayscale(.75) sepia(.25) contrast(1.15) brightness(.85);animation:p2kjit .18s steps(2) infinite,p2kflk 3.2s infinite}
+@keyframes p2kjit{0%{transform:translate(0,0) scale(1.03)}50%{transform:translate(-2px,1px) scale(1.03)}100%{transform:translate(1px,-1px) scale(1.03)}}
+@keyframes p2kflk{0%,100%{opacity:1}8%{opacity:.82}9%{opacity:1}46%{opacity:.9}47%{opacity:1}71%{opacity:.75}72%{opacity:1}}
+#p2khai .gr{position:absolute;inset:-50%;pointer-events:none;opacity:.22;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1px),radial-gradient(rgba(0,0,0,.6) 1px,transparent 1px);background-size:3px 3px,5px 5px;animation:p2kgr .25s steps(3) infinite}
+@keyframes p2kgr{0%{transform:translate(0,0)}33%{transform:translate(-7px,4px)}66%{transform:translate(5px,-6px)}}
+#p2khai .sc{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.75) 100%)}
+#p2khai .tc{position:absolute;left:5%;top:calc(9% + 12px);font:600 13px "IBM Plex Mono",monospace;letter-spacing:.12em;color:#f0d7a8;text-shadow:0 0 6px rgba(0,0,0,.9)}
+#p2khai .tc i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#e2453c;margin-right:8px;animation:p2krec 1s infinite}
+@keyframes p2krec{50%{opacity:.2}}
+#p2khai .sub{position:absolute;left:0;right:0;bottom:calc(9% + 18px);padding:0 6%;text-align:center}
+#p2khai .sub b{display:block;font:600 13px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#f0b25c;text-transform:uppercase;margin-bottom:6px;text-shadow:0 1px 4px #000}
+#p2khai .sub q{display:inline;quotes:"“" "”";font:500 clamp(16px,2.6vw,21px)/1.5 "Be Vietnam Pro",sans-serif;color:#fff;background:rgba(0,0,0,.62);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:2px 8px}
+#p2khai .sk{position:absolute;right:14px;top:14px;z-index:2;border:0;background:rgba(0,0,0,.5);color:#cfc8b8;font:600 13px "Be Vietnam Pro",sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer}
+#p2khai .cut{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#p2khai .cut.on{animation:p2kcut .35s ease-out}
+@keyframes p2kcut{0%{opacity:.7}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){#p2khai .fr,#p2khai .gr{animation:none}}`; document.head.appendChild(st); }
+  const el=document.createElement('div'); el.id='p2khai';
+  el.innerHTML='<div class="fr"></div><div class="gr"></div><div class="sc"></div><div class="tc"><i></i><span></span></div><div class="sub"><b></b><q></q></div><div class="cut"></div><button type="button" class="sk">Bỏ qua ›</button>';
   document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
-  const ph=el.querySelector('.ph'), nm=el.querySelector('.n'), q=el.querySelector('q'), bt=el.querySelector('button'); let i=-1, iv=null;
-  const show=()=>{ i++; if(i>=L.length){ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); return; } const [ten,loi]=P2KHAI[L[i]];
-    ph.style.opacity=0; setTimeout(()=>{ ph.style.backgroundImage='url(img2/x2-khai-'+L[i]+'.webp)'; ph.style.opacity=1; },300); nm.textContent=ten; q.textContent=''; let c=0; clearInterval(iv);
-    iv=setInterval(()=>{ c+=2; q.textContent=loi.slice(0,c); if(c>=loi.length) clearInterval(iv); },28); bt.textContent=i===L.length-1?'Tiếp':'Người tiếp theo'; };
-  bt.onclick=()=>{ if(i>=L.length) return; if(q.textContent.length<P2KHAI[L[i]][1].length){ clearInterval(iv); q.textContent=P2KHAI[L[i]][1]; return; } show(); };
+  const fr=el.querySelector('.fr'), tc=el.querySelector('.tc span'), nm=el.querySelector('.sub b'), q=el.querySelector('q'), cut=el.querySelector('.cut');
+  let i=-1, iv=null, to=null, done=false;
+  const fin=()=>{ if(done) return; done=true; clearInterval(iv); clearTimeout(to); el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },600); };
+  const show=()=>{ i++; clearInterval(iv); clearTimeout(to); if(i>=L.length){ fin(); return; } const [ten,loi]=P2KHAI[L[i]];
+    cut.classList.remove('on'); void cut.offsetWidth; cut.classList.add('on'); try{ window.SFX&&SFX.play('chup',{v:.35,rate:.7}); }catch(e){}
+    fr.style.backgroundImage='url(img2/x2-khai-'+L[i]+'.webp)'; tc.textContent='NHÂN CHỨNG '+String(i+1).padStart(2,'0')+' · 05:'+String(12+i*7).padStart(2,'0'); nm.textContent=ten; q.textContent=''; let c=0;
+    iv=setInterval(()=>{ c+=1; q.textContent=loi.slice(0,c); if(c>=loi.length){ clearInterval(iv); to=setTimeout(show,3200); } },38); };
+  el.onclick=e=>{ if(e.target.classList.contains('sk')){ fin(); return; } const loi=i>=0&&i<L.length?P2KHAI[L[i]][1]:''; if(q.textContent.length<loi.length){ clearInterval(iv); q.textContent=loi; clearTimeout(to); to=setTimeout(show,2600); } else show(); };
   show(); }); }
+/* ảnh qua sông: vài tấm như ảnh chụp vội, có dấu giờ, lướt qua rồi tới bảng tổng kết (chỉ các kết có người ra được) */
+function p2AnhSong(k){ return new Promise(res=>{ const pick=n=>P2REAL[n]||['x2-bo-song-dem','x2-ben-ghe','x2-cua-khau-sang','x2-ket-o-lai'].includes(n);
+  const A={ca_to:['x2-bo-song-dem','x2-ben-ghe','x2-cua-khau-sang'],boi_song:['x2-bo-song-dem','x2-ket-boi-song','x2-cua-khau-sang'],o_lai:['x2-bo-song-dem','x2-ket-o-lai','x2-cua-khau-sang']}[k];
+  const L=(A||[]).filter(pick); if(!L.length){ res(); return; }
+  if(!$('p2anhCss')){ const st=document.createElement('style'); st.id='p2anhCss'; st.textContent=`
+#p2anh{position:fixed;inset:0;z-index:85;background:#07080b;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .6s;cursor:pointer;overflow:hidden}
+#p2anh .pp{position:absolute;width:min(78vw,640px);padding:10px 10px 38px;background:#efe8d8;box-shadow:0 24px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(30px) rotate(var(--r));transition:opacity .7s,transform .9s cubic-bezier(.2,.8,.2,1)}
+#p2anh .pp.on{opacity:1;transform:translateY(0) rotate(var(--r))}
+#p2anh .pp i{display:block;aspect-ratio:3/2;background:#222 center/cover;filter:saturate(.75) contrast(1.05)}
+#p2anh .pp span{position:absolute;right:16px;bottom:10px;font:600 13px "IBM Plex Mono",monospace;color:#e2645c;letter-spacing:.08em}
+#p2anh .sk{position:absolute;right:14px;top:14px;border:0;background:rgba(255,255,255,.08);color:#cfc8b8;font:600 13px "Be Vietnam Pro",sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer}`; document.head.appendChild(st); }
+  const el=document.createElement('div'); el.id='p2anh';
+  const R=[-4,3,-2,5];
+  el.innerHTML=L.map((n,i)=>'<div class="pp" style="--r:'+R[i%4]+'deg"><i style="background-image:url(img2/'+n+'.webp)"></i><span>'+['04:52','05:07','05:31','06:10'][i]+'</span></div>').join('')+'<button type="button" class="sk">Tiếp ›</button>';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  const P=el.querySelectorAll('.pp'); let i=0, done=false; const tm=[];
+  const fin=()=>{ if(done) return; done=true; tm.forEach(clearTimeout); el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },600); };
+  P.forEach((p,k)=>tm.push(setTimeout(()=>{ p.classList.add('on'); try{ window.SFX&&SFX.play('chup',{v:.5}); }catch(e){} },400+k*1800)));
+  tm.push(setTimeout(fin,400+P.length*1800+2200));
+  el.onclick=()=>fin(); }); }
 function p2Bao(k){ return new Promise(res=>{
   const my=hasC('suy_x_my')||ocl()>=4, nra=(S.p2ra||[]).length, tong=S.p2tong||0;
   const H={ca_to:'Giải cứu '+nra+' người khỏi khu trại bên kia sông',boi_song:nra+' người bơi qua sông trong đêm mưa, thoát khỏi khu trại',o_lai:nra+'/'+tong+' người thoát khỏi khu trại, vẫn còn người kẹt lại',mot_minh:'Một người thoát ra trong đêm mưa, cả tổ còn kẹt lại',ban_dung:'Kế hoạch giải cứu bị lộ, khu trại di dời trong đêm'}[k]||'';

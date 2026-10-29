@@ -443,6 +443,8 @@ body.u3m #dlg.u3L #dNm{left:96px}body.u3m #dlg.u3R #dNm{right:96px}
 body.u3m #dlg .ln{font-size:16.5px!important}
 body.u3m #dlg.menu.u3L{padding-left:16px!important}
 body.u3m #u3sys{top:calc(max(10px,env(safe-area-inset-top)) + 46px)}
+#dBust.khotrai{filter:grayscale(.55) brightness(.72) contrast(1.15) sepia(.18)}
+#dBust.khotrai::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 35%,rgba(0,0,0,0) 40%,rgba(0,0,0,.55) 100%),repeating-linear-gradient(115deg,rgba(60,45,30,.08) 0 2px,rgba(0,0,0,0) 2px 5px);mix-blend-mode:multiply}
 /* không cắt chữ bằng "…" ở đâu hết: chữ dài thì xuống dòng */
 #u3loc{white-space:normal!important;max-width:min(78%,420px)!important;overflow:visible!important;text-overflow:clip!important;line-height:1.35;align-items:flex-start!important}
 .ph-h b,.thr .t span,.hud .obj,#acctBtn .tx,.cover .tools .t,.phone .thr .t span,.ca7 .cls .it span,.mt7 .mtchat .ls span,.phone .ppl b,.phone .card.key .trg span,.phone .noibar .slots i{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere}
@@ -453,8 +455,11 @@ body.u3m #u3sys{top:calc(max(10px,env(safe-area-inset-top)) + 46px)}
 /* điện thoại: lúc chọn thì bỏ chân dung, lựa chọn trải hết bề ngang; câu dài thì hộp cao lên (cuộn được), không cắt chữ */
 body.u3m:has(#dlg.menu:not([hidden])) .dbust{display:none!important}
 body.u3m #dlg.dlg.menu{padding-left:16px!important;padding-right:16px!important}
-body.u3m #dlg.dlg{max-height:64vh;max-height:64dvh;overflow-y:auto!important;overscroll-behavior:contain}
-body.u3m #dlg .ln,body.u3 #dlg .ln{max-height:none!important;overflow:visible!important;-webkit-line-clamp:unset!important;display:block!important}
+body.u3m #dlg.dlg{overflow:visible!important}
+body.u3 #dlg .ln{-webkit-line-clamp:unset!important;display:block!important}
+/* câu quá dài thì cuộn trong khung chữ, bảng tên phía trên không bị cắt */
+body.u3m #dlg .ln{max-height:38vh;max-height:38dvh;overflow-y:auto!important;overscroll-behavior:contain}
+body.u3m #dlg.menu .choices{max-height:52dvh;overflow-y:auto;overscroll-behavior:contain}
 body.u3m #dlg .choices button{padding:10px 12px 10px 46px!important;font-size:16px!important}
 `;
 const st3=document.createElement('style'); st3.id='u3dlg'; st3.textContent=dcss; document.head.appendChild(st3);
@@ -467,7 +472,9 @@ bustPos=function(){ const b=$('dBust'), d=$('dlg'); if(b.hidden||d.hidden) retur
   b.style.left=(R?r.right-b.offsetWidth-14:r.left+14)+'px'; b.style.bottom=(innerHeight-r.bottom+1)+'px'; };
 const setBustU3=setBust; setBust=function(nm,label,kind){ const d=$('dlg'); d.classList.remove('u3L','u3R');
   setBustU3(nm,label,kind); const b=$('dBust');
-  if(!b.hidden){ const R=sideFor(nm); d.classList.add(R?'u3R':'u3L'); b.classList.remove('lam'); requestAnimationFrame(bustPos); } };
+  if(!b.hidden){ const R=sideFor(nm); d.classList.add(R?'u3R':'u3L'); b.classList.remove('lam'); requestAnimationFrame(bustPos); }
+  /* trong trại: chân dung Lâm/Ngân (ảnh Phần 1, còn sạch sẽ) phủ lớp bụi, tái màu, cho ra người đang bị giữ */
+  b.classList.toggle('khotrai',!!(document.body.classList.contains('p2trai')&&/^(Lâm|Ngân)$/.test(String(nm||'')))); };
 const sayU3=say; say=function(kind,name,text){ const p=sayU3(kind,name,text);
   if(kind==='nghi'){ setBust(MEN(),MEN(),'nghi'); }
   return p; };

@@ -371,7 +371,7 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
   S.p2ra=outIds; S.p2tong=groups.length; S.p2con=con.map(g=>g.id);
   let olai=null; if(con.length&&res.out.length){ const c=[]; if(S.nhanh==='A'&&S.ai_vao==='ngan') c.push(['Ngân',9]); if(con.some(g=>g.id==='ngan')&&(S.tin.ngan||0)>=3) c.push(['Ngân',S.tin.ngan]); if(con.some(g=>g.id==='khang')&&(S.tin.khang||0)>=3) c.push(['Khang',S.tin.khang]); if((S.tin.bay||0)>=3) c.push(['Chị Bảy',S.tin.bay]); c.sort((a,b)=>b[1]-a[1]); olai=c[0]?c[0][0]:null; }
   S.p2olai=olai; const nganRa=S.nhanh==='A'?true:outIds.includes('ngan');
-  const k=!res.out.length?'mot_minh':(!con.length&&nganRa&&ocl()>=4&&S.ds.every(p=>p.con)&&hasF('x_ghe'))?'ca_to':'o_lai';  /* kết Cả tổ có chiếc ghe cập bờ → phải đã thuê ghe */
+  const k=!res.out.length?'mot_minh':(!con.length&&nganRa&&ocl()>=4&&S.ds.every(p=>p.con)&&hasF('x_ghe'))?'ca_to':(!con.length&&!hasF('x_ghe'))?'boi_song':'o_lai';  /* ra hết mà không có ghe: cả tổ phải bơi */  /* kết Cả tổ có chiếc ghe cập bờ → phải đã thuê ghe */
   if(olai==='Chị Bảy'&&hasF('x_bay_lat')){ await runS('x_bay_chan'); hideDlg(); }
   if(res.out.length&&ocl()>=4) await p2KetLieu();
   return p2Ending(k); }
@@ -475,18 +475,29 @@ function p2KetLieu(){ return new Promise(res=>{
       const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; try{ if(window.SFX&&SFX.has('boom')) SFX.play('boom',{v:.9,delay:.6}); else tone(110,1.2,.05,'sine'); }catch(e){}
         setTimeout(()=>{ tel.querySelector('.off').style.opacity=1; },700); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); },1700); } },60); }; } }); }
 /* ---------------- kết ---------------- */
+/* mồi cho Phần 3 khi bà Mỹ bị bắt (BẢN NHÁP chờ duyệt) */
+const P3HOOK='Cùng buổi sáng đó, chiếc điện thoại của bà Mỹ nằm trong túi niêm phong trên bàn đại úy Vinh bỗng rung lên. Số lạ, đầu +95. Tin nhắn chỉ có một dòng: "Má vô trong rồi. Nợ của thằng Tú, giờ ai trả?"';
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;
   const dsr=ra.join(', ');
   if(k==='ca_to'){ L.push('5 giờ sáng. Tiếng chuông chùa bên sông ngân dài trong sương. Chiếc ghe cuối cùng tắt máy, cập vào bãi lau bờ bên này.','Trên bờ đê sát biên giới, xe của Hương đã nổ máy chờ sẵn. Không ai nói nổi câu nào, chỉ lặng lẽ chuyền tay nhau mấy chai nước suối với gói xôi còn ấm.','Bước được lên bờ sáng hôm đó có đủ mặt: '+dsr+'.');
     if(my) L.push('Ba ngày sau, căn biệt thự ở Quận 7 sáng đèn từ tinh mơ. Bà Trần Thị Mỹ bị đọc lệnh bắt giữ ngay bên bàn trà sáng, khi cuốn sổ chỉ tiêu đóng mộc Phát Đạt TN đã nằm trên bàn đại úy Vinh.');
+    if(my) L.push(P3HOOK);
     L.push('Một chiều cuối năm ở hẻm 47. Tạp hóa cô Thoa kê thêm hai cái bàn nhựa ra tận mí hẻm. Lần đầu tiên sau gần hai năm, mâm cơm chiều dọn ra đủ chén đũa.','Con mèo mun nằm phơi nắng trên bậc thềm, lim dim nghe tiếng radio cải lương bên tiệm chú Tám vọng qua.'); }
   else if(k==='o_lai'){ const o=S.p2olai; L.push('5 giờ sáng. Tiếng chuông chùa vọng qua mặt sông mờ sương. Chiếc ghe của ông Thoại buộc phải tháo dây rời bến trước khi đèn pha quét tới.','Những người kịp bước lên bờ bên này: '+(dsr||'không ai')+'.');
     if(o==='Chị Bảy'&&hasF('x_bay_lat')){ L.push('Cánh cửa sắt sau bếp khép chặt bên kia sông. Người phụ nữ từng mất tiệm uốn tóc ở đầu đường Fan Xích Vô ba năm trước đã chọn đứng lại ở hành lang cuối cùng để giữ đường máu cho cả tổ rời bến.','Ở đầu hẻm 47, chiếc radio cũ trong tiệm hớt tóc chú Tám chiều nào cũng mở bản cải lương \'Tình anh bán chiếu\', nhưng người hàng xóm sát vách năm xưa vẫn chưa một lần quay về.'); }
     else if(o||(S.p2con||[]).length){ L.push('Cánh cổng sắt bên kia sông khép lại. Có người đã chọn đứng lại ở hành lang cuối cùng để chiếc ghe kịp rời bến.'); if(o==='Ngân') L.push('Ở đầu hẻm 47, tối nào cô Thoa cũng lặng lẽ cắm sạc chiếc điện thoại ốp mèo đen, chờ một cuộc gọi lúc 2 giờ sáng.'); }
     else if((S.ds||[]).some(p=>!p.con)) L.push('Không ai bị bỏ lại đêm đó. Nhưng '+S.ds.filter(p=>!p.con).map(p=>p.ten).join(', ')+' đã bị chuyển đi từ trước. Trên danh sách của Hương, mấy cái tên đó vẫn còn để trống.');
     else if(!my) L.push('Cả tổ đều qua được sông, nhưng trong tập hồ sơ gửi cho đại úy Vinh vẫn khuyết cái tên của kẻ cầm tiền đứng trên cùng.');
-    if(my) L.push('Bà Trần Thị Mỹ được mời lên làm việc ngay trong tuần.');
+    if(my){ L.push('Bà Trần Thị Mỹ được mời lên làm việc ngay trong tuần.'); L.push(P3HOOK); }
     else L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Bến dưới Xi-ha động rồi. Đám còn lại bên đó, tối thứ Sáu chuyển thẳng qua bên Miến cho má."'); }
+  else if(k==='boi_song'){ const ppl=(S.p2ra||[]).map(id=>(S.ds||[]).find(p=>p.id===id)).filter(Boolean); const yeu=ppl.find(p=>p.id==='hue')||ppl.slice().sort((a,b)=>(S.tin[a.id]||0)-(S.tin[b.id]||0))[0];
+    L.push('Không có ghe. Sau lưng là tiếng còi hú và đèn pha quét loang loáng, trước mặt là dòng sông đục ngầu đang lên con nước.');
+    L.push(ME+' cột sợi dây dù vô cổ tay từng người, nối thành một hàng dài, rồi bước xuống trước.');
+    L.push('Nước lạnh thấu xương. Tới giữa dòng, sợi dây giật mạnh một cái, rồi chùng hẳn xuống.');
+    L.push('Gần sáng, cả tổ bò lên được bãi lau bờ bên này. Đếm đi đếm lại, thiếu một người.');
+    if(yeu) L.push('Ba ngày sau, ghe cá vớt được '+yeu.ten+' ở khúc sông phía dưới, còn thở thoi thóp. Người ta đưa vô bệnh viện huyện. Lúc tỉnh dậy, câu đầu tiên là hỏi mấy đứa nhỏ về tới nhà chưa.');
+    if(my){ L.push('Ba ngày sau, căn biệt thự ở Quận 7 sáng đèn từ tinh mơ. Bà Trần Thị Mỹ bị đọc lệnh bắt giữ ngay bên bàn trà sáng.'); L.push(P3HOOK); }
+    else L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Tụi nó bơi qua được rồi hả? Dọn sạch bến dưới Xi-ha đi."'); }
   else if(k==='mot_minh'){ L.push('5 giờ sáng. Tiếng chuông chùa đổ hồi bên kia sông. Chỉ một mình '+ME+' lội được qua bãi nước cạn sang bờ bên này, ướt sũng và trắng tay.','Không một ai trong tổ thoát được ra ngoài đêm đó.','Một tuần sau, khi lực lượng chức năng tiếp cận được hiện trường thì khu phức hợp đã dọn trống trơn từ lâu. Không còn nhân chứng, không còn dấu vết.');
     if(ME==='Lâm') L.push('Lâm trả lại căn phòng số 3. Lúc xách giỏ đi ngang tiệm tạp hóa đầu hẻm, thấy cô Thoa vẫn ngồi lau từng chai nước suối, anh cúi mặt bước nhanh qua.');
     if(!my) L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Dọn sạch trại dưới Xi-ha đi. Tối thứ Sáu lùa hết tụi nó qua bên Miến cho má."'); }
@@ -499,7 +510,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     if(k!=='ban_dung'&&L.length>1) L.splice(L.length-1,0,t); }
   let got=[]; try{ got=JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){} if(!got.includes(k)) got.push(k); lsSet('tgl_chuong2_ket',JSON.stringify(got));
   hideDlg(); closePhone(); const name=(ENDS[k]||['',''])[1];
-  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
   /* 1. chữ chạy, cùng kiểu kết Phần 1 */
   await new Promise(res=>{ let el=$('typeEnd'); if(!el){ el=document.createElement('div'); el.id='typeEnd'; document.body.appendChild(el); }
     el.innerHTML='<div id="teQ7" style="position:absolute;inset:0;opacity:0;transition:opacity 1.2s;pointer-events:none;background:linear-gradient(rgba(5,6,10,.55),rgba(5,6,10,.85)),url(img2/x2-bietthu-q7.webp) center/cover"></div><div class="te-in" style="position:relative"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">HẺM 47 · PHẦN 2 · XỨ LẠ</div><div class="te-n">'+esc(name)+'</div><div class="te-s">Kết '+got.length+'/4</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
@@ -511,13 +522,13 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
       if(ci===0){ const q=$('teQ7'); if(q) q.style.opacity=/biệt thự ở Quận 7/.test(L[li])?1:0; cur=document.createElement('p'); if(li===L.length-1) cur.className='te-last'; tx.appendChild(cur); }
       const line=L[li]; ci+=2; cur.textContent=line.slice(0,ci); if(ci>=line.length){ cur.textContent=line; li++; ci=0; setTimeout(step,650); } else setTimeout(step,22); };
     step(); });
-  /* 1b. ngoài đời thật: số liệu chính thức có nguồn */
-  await p2Real();
+  /* 1b. lời khai của người ra được, rồi tờ báo HẺM 47 NEWS (tin thật có nguồn → lật trang là vụ trong game) */
+  await p2Khai(); await p2Bao(k);
   /* 2. thẻ tổng kết trên màn bìa, cùng khung kết Phần 1 */
   S.scene='place'; S.place=null; BGNOW=(EB&&P2REAL[EB])?EB:BGNOW; fade=1; hud();
   const c=$('cover'); c.hidden=false; c.classList.add('solid');
   const so=S.so||[], mat=(S.ds||[]).filter(p=>!p.con).map(p=>p.ten);
-  const allK=['ca_to','o_lai','mot_minh','ban_dung'];
+  const allK=['ca_to','boi_song','o_lai','mot_minh','ban_dung'];
   c.querySelector('.in').innerHTML='<div class="sub">KẾT THÚC PHẦN 2 · NGÀY '+S.day+'</div><h2 class="cl">'+esc(name)+'</h2>'+
     '<div class="sum"><div><b>'+(S.p2ra||[]).length+'/'+(S.p2tong||0)+'</b><span>người ra tới sông</span></div><div><b>'+ocl()+'/5</b><span>chứng cứ Ông Chủ Lò</span></div><div><b>'+so.length+'</b><span>người mất tiền vì tin bạn gửi</span></div></div>'+
     '<p class="sub">'+allK.map(x=>got.includes(x)?esc(ENDS[x][1]):'???').join(' · ')+'</p>'+
@@ -527,31 +538,78 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button><button class="btn alt" type="button" id="p2Kq">Khoe kết quả</button><button class="btn alt" type="button" id="p2Tt">Thành tựu</button></div>';
   if(!$('p2sodCss')){ const st=document.createElement('style'); st.id='p2sodCss'; st.textContent='.p2sod{max-width:520px;margin:10px auto;text-align:left;color:#b9b3a6;font-size:14px}.p2sod summary{cursor:pointer;color:#efe8d8;padding:6px 0}.p2sod ol{margin:6px 0 0 18px;line-height:1.7}'; document.head.appendChild(st); }
   $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); $('p2Kq').onclick=()=>kqOpen(k); $('p2Tt').onclick=()=>ttOpen(); ttCheck2(); }
-/* khung "Ngoài đời thật" sau kết Phần 2 (BẢN NHÁP chờ tác giả duyệt). Số liệu lấy nguyên văn từ nguồn ghi bên dưới. */
-const P2REAL_STATS=[
-  ['358 vụ','mua bán người bị phát hiện, điều tra trong giai đoạn 2021–2025, với 925 bị can.','Bộ Công an · 09/11/2025'],
-  ['120 vụ','mua bán người bị khởi tố, điều tra chỉ riêng 6 tháng đầu năm 2025, với 365 bị can.','Bộ Công an · 12/08/2025'],
-  ['Hàng trăm nghìn người','có thể đang bị giữ và bị ép làm việc trong các đường dây lừa đảo trực tuyến ở Đông Nam Á.','Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc · 08/2023']];
-function p2Real(){ return new Promise(res=>{
-  if(!$('p2realCss')){ const st=document.createElement('style'); st.id='p2realCss'; st.textContent=`
-#p2real{position:fixed;inset:0;z-index:85;background:#050608;color:#efe8d8;display:flex;align-items:center;justify-content:center;padding:24px 18px;box-sizing:border-box;opacity:0;transition:opacity .8s;overflow:auto}
-#p2real .w{max-width:560px;width:100%}
-#p2real .k{font:600 12px "Be Vietnam Pro",sans-serif;letter-spacing:.24em;color:#a9a090;text-transform:uppercase;margin:0 0 18px}
-#p2real .it{border-top:1px solid rgba(239,230,210,.14);padding:16px 0;opacity:0;transform:translateY(8px);transition:opacity .7s,transform .7s}
-#p2real .it.on{opacity:1;transform:none}
-#p2real .it b{display:block;font:600 clamp(30px,8vw,44px)/1.1 Newsreader,Georgia,serif;color:#e2645c}
-#p2real .it p{margin:6px 0 4px;font:400 16px/1.5 Newsreader,Georgia,serif;color:#e6dfcf}
-#p2real .it small{font:500 12px "Be Vietnam Pro",sans-serif;color:#8f887a}
-#p2real .call{margin:18px 0 0;padding:14px 16px;border-radius:12px;background:rgba(226,100,92,.1);border:1px solid rgba(226,100,92,.35);font:500 15px/1.5 "Be Vietnam Pro",sans-serif}
-#p2real button{margin-top:18px;width:100%;min-height:50px;border-radius:12px;border:1.5px solid rgba(239,230,210,.4);background:transparent;color:#efe6d2;font:700 15px "Be Vietnam Pro",sans-serif;cursor:pointer;opacity:0;transition:opacity .6s}`; document.head.appendChild(st); }
-  const el=document.createElement('div'); el.id='p2real';
-  el.innerHTML='<div class="w"><p class="k">Ngoài đời thật</p>'+P2REAL_STATS.map(x=>'<div class="it"><b>'+esc(x[0])+'</b><p>'+esc(x[1])+'</p><small>Nguồn: '+esc(x[2])+'</small></div>').join('')+
-    '<div class="call it">Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, bị giữ giấy tờ, hay mất liên lạc với người thân đi làm xa: báo công an nơi gần nhất hoặc gọi <b style="display:inline;font:inherit;color:#ffb3ab">113</b>.</div>'+
-    '<button type="button" id="p2realGo">Tiếp</button></div>';
+/* ===== sau kết Phần 2 (BẢN NHÁP chờ duyệt chữ) =====
+   1) Lời khai: mỗi người ra được có ảnh thì hiện một thẻ ảnh + lời kể ngắn
+   2) Tờ "HẺM 47 NEWS": trang 1 là tin thật có nguồn ở góc dưới, lật trang là bài về vụ trong game */
+const P2KHAI={
+  nhi:['Nhi','Em tưởng qua đó ngồi gõ chữ bán hàng. Tháng đầu hụt chỉ tiêu, tụi nó bắt đứng ngoài nắng tới xỉu. Em không dám kể với má, sợ má lo.'],
+  toan:['Toàn','Nợ app có mười hai triệu. Qua bển người ta nói em nợ thêm tiền vé, tiền ăn, tiền chỗ ngủ, thành hai trăm triệu. Đêm nào cũng nghe tên mình trong danh sách bán qua bãi khác.'],
+  ti:['Tí','Đêm nào em cũng nằm nghe tiếng nước ngoài sông, tính bơi về. Có đứa bơi rồi. Sáng ra không thấy nó nữa.'],
+  hue:['Chị Huệ','Thằng con tui mới mười tám. Tụi nó gọi về đòi người, tui đi thay. Tui già rồi, chịu đòn được. Chỉ sợ không còn ai biết đường về mà nhắn cho nó.']};
+const P2NEWS=[
+  {h:'6 tháng đầu năm 2026: 120 vụ mua bán người, hơn 70% nạn nhân là phụ nữ',b:'Lực lượng chức năng điều tra 120 vụ mua bán người trong nước và xuyên quốc gia, khởi tố 323 bị can, xác định 146 nạn nhân.',src:'Bộ Công an, qua báo Dân trí, 30/07/2026'},
+  {h:'Giai đoạn 2021–2025: phát hiện, điều tra 358 vụ mua bán người',b:'358 vụ với 925 bị can bị phát hiện, điều tra trong 5 năm.',src:'Cổng thông tin Bộ Công an, 09/11/2025'},
+  {h:'TP.HCM: 7 vụ mua bán người trong năm 2025',b:'Công an TP.HCM phát hiện 7 vụ, 24 đối tượng. Thủ đoạn người dân nhận diện nhiều nhất: dụ dỗ việc làm, bắt cóc (kể cả "bắt cóc online"), đánh thuốc mê.',src:'Phòng Cảnh sát hình sự Công an TP.HCM, qua báo Dân trí, 18/12/2025'},
+  {h:'Hàng trăm nghìn người bị ép vào các đường dây lừa đảo trực tuyến',b:'Văn phòng Nhân quyền Liên Hợp Quốc cho biết hàng trăm nghìn người ở Đông Nam Á có thể đang bị giữ và ép làm việc cho các đường dây lừa đảo trực tuyến.',src:'Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc, 29/08/2023'}];
+function p2Khai(){ return new Promise(res=>{ const L=(S.p2ra||[]).filter(id=>P2KHAI[id]); if(!L.length){ res(); return; }
+  if(!$('p2khaiCss')){ const st=document.createElement('style'); st.id='p2khaiCss'; st.textContent=`
+#p2khai{position:fixed;inset:0;z-index:85;background:#050608;color:#efe8d8;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;opacity:0;transition:opacity .7s}
+#p2khai .ph{width:min(760px,100%);aspect-ratio:3/2;background:#111 center/cover;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6);transition:opacity .6s}
+#p2khai .k{margin:16px 0 4px;font:600 11.5px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#a9a090;text-transform:uppercase}
+#p2khai .n{font:600 24px Newsreader,Georgia,serif;color:#f0b25c}
+#p2khai q{display:block;max-width:640px;margin:8px 0 0;font:italic 400 18px/1.55 Newsreader,Georgia,serif;text-align:center;quotes:"“" "”";min-height:3.2em}
+#p2khai button{margin-top:18px;min-width:180px;min-height:46px;border-radius:12px;border:1.5px solid rgba(239,230,210,.4);background:transparent;color:#efe6d2;font:700 15px "Be Vietnam Pro",sans-serif;cursor:pointer}`; document.head.appendChild(st); }
+  const el=document.createElement('div'); el.id='p2khai'; el.innerHTML='<div class="ph"></div><p class="k">Lời khai · sáng hôm sau</p><div class="n"></div><q></q><button type="button">Tiếp</button>';
   document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
-  const its=el.querySelectorAll('.it'); its.forEach((x,i)=>setTimeout(()=>x.classList.add('on'),700+i*1300));
-  const btn=$('p2realGo'); setTimeout(()=>{ btn.style.opacity=1; },700+its.length*1300);
-  btn.onclick=()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); }; }); }
+  const ph=el.querySelector('.ph'), nm=el.querySelector('.n'), q=el.querySelector('q'), bt=el.querySelector('button'); let i=-1, iv=null;
+  const show=()=>{ i++; if(i>=L.length){ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); return; } const [ten,loi]=P2KHAI[L[i]];
+    ph.style.opacity=0; setTimeout(()=>{ ph.style.backgroundImage='url(img2/x2-khai-'+L[i]+'.webp)'; ph.style.opacity=1; },300); nm.textContent=ten; q.textContent=''; let c=0; clearInterval(iv);
+    iv=setInterval(()=>{ c+=2; q.textContent=loi.slice(0,c); if(c>=loi.length) clearInterval(iv); },28); bt.textContent=i===L.length-1?'Tiếp':'Người tiếp theo'; };
+  bt.onclick=()=>{ if(i>=L.length) return; if(q.textContent.length<P2KHAI[L[i]][1].length){ clearInterval(iv); q.textContent=P2KHAI[L[i]][1]; return; } show(); };
+  show(); }); }
+function p2Bao(k){ return new Promise(res=>{
+  const my=hasC('suy_x_my')||ocl()>=4, nra=(S.p2ra||[]).length, tong=S.p2tong||0;
+  const H={ca_to:'Giải cứu '+nra+' người khỏi khu trại bên kia sông',boi_song:nra+' người bơi qua sông trong đêm mưa, thoát khỏi khu trại',o_lai:nra+'/'+tong+' người thoát khỏi khu trại, vẫn còn người kẹt lại',mot_minh:'Một người thoát ra trong đêm mưa, cả tổ còn kẹt lại',ban_dung:'Kế hoạch giải cứu bị lộ, khu trại di dời trong đêm'}[k]||'';
+  const B=[];
+  if(k==='ban_dung'||k==='mot_minh') B.push('Theo nguồn tin của phóng viên, một nhóm người Việt bị giữ tại khu trại sát biên giới đã tìm cách liên lạc về nước. Đến nay nhiều người trong số họ vẫn chưa liên lạc được với gia đình.');
+  else B.push('Rạng sáng, '+nra+' người Việt bị giữ tại một khu trại sát biên giới đã thoát ra và được đưa về bờ an toàn. Nhiều người cho biết họ bị dụ đi làm "việc nhẹ lương cao", bị giữ giấy tờ và ép làm việc trong các phòng máy.');
+  B.push('Theo hồ sơ ban đầu, đường dây tuyển người thông qua một văn phòng "giới thiệu việc làm" trong một con hẻm ở Sài Gòn và một công ty "cung ứng lao động" đứng tên tại Quận 7.');
+  B.push(my?'Người đứng tên các công ty này, bà T.T.M. (60 tuổi), đã bị cơ quan điều tra bắt giữ.':'Kẻ cầm tiền đứng sau đường dây đến nay vẫn chưa được xác định.');
+  if(!$('p2baoCss')){ const st=document.createElement('style'); st.id='p2baoCss'; st.textContent=`
+#p2bao{position:fixed;inset:0;z-index:86;background:#0a0b0e;display:flex;align-items:center;justify-content:center;padding:14px;box-sizing:border-box;opacity:0;transition:opacity .7s;perspective:1800px;overflow:auto}
+#p2bao .pg{width:min(820px,100%);max-height:calc(100dvh - 28px);overflow:auto;background:#efe6d2 linear-gradient(rgba(120,100,60,.08),rgba(120,100,60,.02));color:#1d1a14;border-radius:3px;box-shadow:0 30px 80px rgba(0,0,0,.7);padding:22px 24px 16px;box-sizing:border-box;font-family:Newsreader,Georgia,serif;transform-origin:left center;transition:transform .9s cubic-bezier(.6,.05,.3,1),opacity .9s;backface-visibility:hidden}
+#p2bao .pg.out{transform:rotateY(-100deg);opacity:0}
+#p2bao .pg.in{animation:p2bin .9s cubic-bezier(.6,.05,.3,1)}
+@keyframes p2bin{from{transform:rotateY(70deg);opacity:0}}
+#p2bao .mast{text-align:center;border-bottom:3px double #1d1a14;padding-bottom:6px}
+#p2bao .mast b{display:block;font:700 clamp(34px,8vw,64px)/1 "Oswald","Arial Narrow",sans-serif;letter-spacing:.06em}
+#p2bao .mast small{display:flex;justify-content:space-between;font:600 11px "Be Vietnam Pro",sans-serif;letter-spacing:.12em;text-transform:uppercase;border-top:1px solid #1d1a14;margin-top:6px;padding-top:4px}
+#p2bao .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+@media (min-width:640px){#p2bao .grid{grid-template-columns:1.4fr 1fr}#p2bao .grid .lead{grid-row:span 3}}
+#p2bao .it{border-bottom:1px solid rgba(29,26,20,.25);padding-bottom:10px}
+#p2bao .it h3{margin:0 0 4px;font:700 18px/1.25 Newsreader,Georgia,serif}
+#p2bao .it.lead h3{font-size:clamp(22px,4vw,30px)}
+#p2bao .it p{margin:0;font-size:15px;line-height:1.5}
+#p2bao .src{margin-top:10px;font:400 10.5px/1.5 "Be Vietnam Pro",sans-serif;color:#4a4232;text-align:right}
+#p2bao .kick{font:700 11px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#a3302a;text-transform:uppercase;margin:12px 0 4px}
+#p2bao h2{margin:0 0 10px;font:700 clamp(24px,5vw,36px)/1.2 Newsreader,Georgia,serif}
+#p2bao .img{aspect-ratio:16/9;max-height:34vh;width:100%;background:#333 center/cover;filter:grayscale(1) contrast(1.1);margin-bottom:10px}
+#p2bao .body p{margin:0 0 8px;font-size:16px;line-height:1.55}
+@media (min-width:640px){#p2bao .body{column-count:2;column-gap:20px}}
+#p2bao .call{margin-top:10px;padding:10px 12px;border:1.5px solid #1d1a14;font:600 13.5px/1.5 "Be Vietnam Pro",sans-serif}
+#p2bao .ft{display:flex;justify-content:flex-end;margin-top:12px}
+#p2bao .ft button{min-height:44px;padding:0 20px;border-radius:8px;border:0;background:#1d1a14;color:#efe6d2;font:700 14px "Be Vietnam Pro",sans-serif;cursor:pointer}`; document.head.appendChild(st); }
+  const day=new Date(); const dd=String(day.getDate()).padStart(2,'0')+'/'+String(day.getMonth()+1).padStart(2,'0')+'/'+day.getFullYear();
+  const mast='<div class="mast"><b>HẺM 47 NEWS</b><small><span>Số đặc biệt</span><span>'+dd+'</span></small></div>';
+  const p1='<div class="pg">'+mast+'<div class="grid">'+P2NEWS.map((n,i)=>'<div class="it'+(i?'':' lead')+'"><h3>'+esc(n.h)+'</h3><p>'+esc(n.b)+'</p></div>').join('')+'</div>'+
+    '<div class="src">Nguồn: '+P2NEWS.map((n,i)=>(i+1)+'. '+esc(n.src)).join(' · ')+'</div><div class="ft"><button type="button" id="p2baoNext">Lật trang ›</button></div></div>';
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
+  const p2='<div class="pg in">'+mast+'<p class="kick">Vụ việc</p><h2>'+esc(H)+'</h2>'+(EB?'<div class="img" style="background-image:url(img2/'+EB+'.webp)"></div>':'')+
+    '<div class="body">'+B.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div><div class="call">Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, bị giữ giấy tờ, hay mất liên lạc với người thân đi làm xa: báo công an nơi gần nhất hoặc gọi 113.</div>'+
+    '<div class="src">Bài viết hư cấu trong trò chơi Hẻm 47. Nhân vật và địa danh không có thật.</div><div class="ft"><button type="button" id="p2baoGo">Đóng báo</button></div></div>';
+  const el=document.createElement('div'); el.id='p2bao'; el.innerHTML=p1; document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  try{ window.SFX&&SFX.play('viet',{v:.3,dur:1}); }catch(e){}
+  $('p2baoNext').onclick=()=>{ const pg=el.querySelector('.pg'); pg.classList.add('out'); setTimeout(()=>{ el.innerHTML=p2; $('p2baoGo').onclick=()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); }; },700); }; }); }
 const ending1=ending, finale1=finale;
 finale=async function(){ if(!P2.on) return finale1(); };
 ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };
@@ -615,7 +673,7 @@ ttOpen=function(){ const row=(L,g)=>L.map(a=>{ const on=!!g[a.k], an=a.an&&!on; 
 /* thẻ khoe kết quả Phần 2 */
 const kqCanvas1=kqCanvas; kqCanvas=async function(k){ if(!P2.on) return kqCanvas1(k);
   const W=1080,H=1350, c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d');
-  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
   const im=await new Promise(r=>{ if(!EB){ r(null); return; } const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src='img2/'+EB+'.webp?v=1025'; });
   g.fillStyle='#0b0d14'; g.fillRect(0,0,W,H);
   if(im){ const sc=Math.max(W/im.width,H*.62/im.height), w=im.width*sc, h=im.height*sc; g.drawImage(im,(W-w)/2,0,w,h); }

@@ -262,14 +262,17 @@ function chamTin(txt,tu){ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,''
   const loi=[]; let vung=0;
   cau.forEach((c,i)=>{ if(c.split(/\s+/).filter(Boolean).length<4){ loi.push('Câu '+(i+1)+' cụt quá (dưới 4 chữ), đọc như mật mã.'); vung++; } });
   const first=cau.map(c=>bo(c).toLowerCase().split(/\s+/)[0]); first.forEach((f,i)=>{ if(i&&first.indexOf(f)<i){ loi.push('Câu '+(i+1)+' mở đầu giống một câu trước.'); vung++; } });
+  /* chữ gõ bậy (không ra tiếng Việt): chặn gửi */
+  const VN=/^([bcdghklmnpqrstvx]|ch|gh|gi|kh|ng|ngh|nh|ph|qu|th|tr)?[aeiouy]{1,3}(c|ch|m|n|ng|nh|p|t|o|u|i|y)?$/;
+  let bay=0; cau.forEach((c,i)=>{ const w=bo(c).toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(x=>x&&!/^\d+$/.test(x)); const sai=w.filter(x=>!VN.test(x)&&x.length>1); if(w.length&&sai.length/w.length>.34){ loi.push('Câu '+(i+1)+' đọc không ra chữ ("'+sai[0]+'"). Gõ câu có nghĩa như tin nhắn thật.'); bay++; } });
   const low=' '+bo(txt).toLowerCase().replace(/[.,!?]/g,' ')+' '; CAM.forEach(k=>{ if(low.includes(' '+k+' ')){ loi.push('Có chữ quản lý để ý: "'+k+'".'); vung++; } });
-  return {can,dau,dung:dau===can,vung,loi,cau}; }
+  return {can,dau,dung:dau===can,vung,loi,cau,bay}; }
 const MANH={S:['Sáng nay trời mưa quá mẹ ơi.','Sắp tới con được lên lương.'],O:['Ở đây ăn uống cũng đủ.','Ông chủ nói tháng sau có thưởng.'],N:['Nhớ nhà quá mà chưa về được.','Nay con mới mua đôi dép mới.'],G:['Gửi lời thăm cả xóm giùm con.','Giờ con đi làm tiếp nha.'],
  C:['Có gì mẹ nhắn con nha.','Còn mấy tháng nữa là đủ tiền.'],U:['Út nhà mình học hành sao rồi mẹ.','Uống thuốc đều nghen mẹ.'],A:['Anh hai đi làm có mệt hông.','Ai hỏi thì nói con khỏe.'],
  '3':['3 tháng nữa con gửi tiền về.','3 đứa trong phòng ai cũng mập ra.'],K:['Không có gì đâu mẹ.','Khi nào rảnh con gọi.'],T:['Tối nay phòng con có tiệc nhỏ.','Tháng này con ráng làm thêm.']};
 const MANH2={SONG:{chuan:['Sale lớn cuối tuần giảm giá mạnh.','Ôm trọn bộ quà tặng gia đình.','Nhận ưu đãi ngay trong hôm nay.','Giao hàng miễn phí toàn quốc.'],nhieu:['Chúc mừng quý khách trúng thưởng.','Tặng voucher mua sắm một triệu.','Mua một tặng một duy nhất hôm nay.']},
  BAG:{chuan:['Bán trả góp lãi suất không phần trăm.','An tâm bảo hành chính hãng mười hai tháng.','Gọi ngay tổng đài để giữ suất.'],nhieu:['Hai giờ sáng đóng cổng chương trình.','Năm giờ sáng mở bán đợt mới.']}};
-function giauChu(tu,goi){ return new Promise(res=>{ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,''); let de=!!S.p2de; g7css();
+function giauChu(tu,goi){ return new Promise(res=>{ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,''); let de=S.p2de!==false; g7css();
   const KB=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
   p2open('<div class="g7"><button class="g7x" id="gx" type="button">× Để sau</button><h3 class="g7h sm">Tin giấu chữ · cần ghép ra: '+esc(can)+'</h3><p class="g7s">Gõ một tin bình thường gửi về nhà. Mỗi câu một dòng hoặc ngắt bằng dấu chấm. Chữ đầu mỗi câu ghép lại phải ra <b>'+esc(can)+'</b>. '+esc(goi||'Quản lý đọc lướt mọi tin: câu cụt, câu mở đầu giống nhau, hay chữ nhạy cảm là bị để ý.')+'</p>'+
    '<div class="g7ph"><div><ol class="g7paper frag" id="frag"></ol></div><div class="g7tel"><div class="sb"><span>'+fmtT(S.min)+'</span><span>▮▮▮</span></div><div class="nb">Tin nhắn mới</div><div class="to">Đến: <b>Nhà</b></div><textarea id="gt" placeholder="Nhập tin nhắn…" aria-label="Tin nhắn"></textarea><div class="acr" id="acr"></div>'+
@@ -284,7 +287,7 @@ function giauChu(tu,goi){ return new Promise(res=>{ const can=bo(tu).toUpperCase
   ta.oninput=upd; upd(); frag();
   $('gde').onclick=()=>{ de=!de; S.p2de=de; frag(); };
   $('gx').onclick=()=>{ p2close(); res(null); };
-  $('gs').onclick=()=>{ const r=chamTin(ta.value,tu); if(!r.cau.length){ toast('Chưa gõ gì.'); return; } p2close(); res(r); }; }); }
+  $('gs').onclick=()=>{ const r=chamTin(ta.value,tu); if(!r.cau.length){ toast('Chưa gõ gì.'); return; } if(r.bay){ toast('Có câu gõ bậy, sửa lại cho ra câu có nghĩa đã.'); upd(); return; } p2close(); res(r); }; }); }
 function nextWord(){ if(S.nhanh==='B'&&!hasF('x_tin_song')&&!hasF('x_goi_ok')) return 'SONG'; if(!hasF('x_tin_3g')&&hasF('x_gio')) return 'BAG'; return ''; }
 
 /* =====================================================================

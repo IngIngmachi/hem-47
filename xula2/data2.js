@@ -123,7 +123,7 @@ const P2DATA=(()=>{
     NPC_HEM,NPC_TRAI,ROOMS:ROOMS2,ACT,SIDE,AUTO:[],NIGHTS:[{k:'x_a_tin2',d:[5,7],c:'nhanh:A'}],NIGHTLATE:[],MSGS:[],
     ACTN:{1:'Hồi 1 · Bảy ngày',2:'Hồi 2 · Trại',3:'Hồi 3 · Đêm mưa'},
     ACTEND:{1:{c:'co:x_mon_xong ngay>=7',k:'x_het1',ten:'Lên xe',after:async()=>{ await p2VaoTrai(); }},2:{c:'ngay>=18',k:'x_het2',ten:'Đêm mưa'}},
-    ENDS:{ca_to:['','Cả tổ về'],o_lai:['','Người ở lại'],mot_minh:['','Ra ngoài một mình'],ban_dung:['','Bị bán đứng']},
+    ENDS:{ca_to:['','Cả tổ về'],o_lai:['','Người ở lại'],mot_minh:['','Ra ngoài một mình'],ban_dung:['','Bị bán đứng'],boi_song:['','Bơi qua sông']},
     BOARDN:{xvinh:'Kế hoạch gửi đại úy Vinh',xocl:'Ông Chủ Lò là ai'},
     TR_NEED:Object.fromEntries(Object.keys(TN).map(k=>[k,[3,'']])),TRUSTN:TN,
     PLACE_IMG:{thaodien:'x2-quan-thaodien',trai_giam:'x2-trai-giam',ben_ghe:'x2-ben-ghe',vpkhac:'x2-vp-quan-khac',kham:'x2-kham-suckhoe',congan:'x2-congan'},

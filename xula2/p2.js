@@ -262,8 +262,8 @@ choose=function(set,inPhone,title,face){ if(!P2.on) return choose1(set,inPhone,t
   const p=choose1(view,inPhone,title,face).then(v=>v&&v._o?v._o:v);
   /* thời gian chọn = thời gian gốc + thời gian ĐỌC hết các lựa chọn (~20 chữ/giây), và chỉ bắt đầu đếm sau khi hộp thoại hiện xong:
      trước đây đồng hồ chạy ngay lúc câu còn đang gõ, người chơi chưa kịp đọc đã hết giờ */
-  const tm0=+s0.timer||0; if(!tm0) return p;
-  const tm=Math.round(tm0+view.reduce((a,v)=>a+String(v.loi||'').length,0)/20);
+  const tm0=+s0.timer||0; if(!tm0||(typeof CD!=='undefined'&&CD.gap==='tat')) return p;
+  const tm=Math.round((tm0+view.reduce((a,v)=>a+String(v.loi||'').length,0)/20)*(typeof CD!=='undefined'&&CD.gap==='cham'?1.5:1));
   const d=$('dlg'); const bar=document.createElement('div'); bar.className='p2timer'; bar.style.width='100%'; d.insertBefore(bar,d.firstChild);
   const T_WAIT=700; setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },T_WAIT); const stopU=window.SFX&&SFX.urgent?SFX.urgent(tm*1000+T_WAIT):()=>{};
   return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; stopU(); bar.remove(); const mac=s0.mac; const box=$('dCh');

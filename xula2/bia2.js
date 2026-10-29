@@ -5,6 +5,20 @@
 #cover .in:has(> .mdv){max-width:440px;width:100%}
 #cover .in:has(> .mdv) > :not(.mdv){display:none!important}
 #cover:has(.mdv) .tlr-st{display:none}
+/* hai miếng dán trailer (Phần 1, Phần 2) như ảnh polaroid dán băng keo */
+.hm .tsts{position:absolute;top:max(14px,env(safe-area-inset-top));right:12px;display:flex;gap:6px;z-index:3}
+.hm .tst{position:relative;width:104px;padding:5px 5px 19px;background:#efe8d8;border:0;border-radius:2px;box-shadow:0 8px 18px rgba(0,0,0,.55);transform:rotate(3.5deg);cursor:pointer;font:inherit;color:#2a241b;transition:transform .25s,box-shadow .25s}
+.hm .tst.t2{transform:rotate(-4deg);margin-top:10px}
+.hm .tst::before{content:"";position:absolute;top:-8px;left:50%;width:44px;height:14px;transform:translateX(-50%) rotate(-4deg);background:rgba(232,220,190,.72);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.hm .tst img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:saturate(.92) contrast(1.04)}
+.hm .tst i{position:absolute;left:50%;top:5px;width:calc(100% - 10px);aspect-ratio:16/9;transform:translateX(-50%);display:grid;place-items:center;pointer-events:none}
+.hm .tst i::before{content:"";width:24px;height:24px;border-radius:50%;background:rgba(10,12,18,.62);border:1.5px solid rgba(239,232,216,.85);grid-area:1/1}
+.hm .tst i::after{content:"";grid-area:1/1;margin-left:3px;border-left:8px solid #efe8d8;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.hm .tst span{position:absolute;left:0;right:0;bottom:3px;text-align:center;font:400 11px/1.2 "Playpen Sans",cursive;color:#3a3226}
+.hm .tst:hover,.hm .tst:focus-visible{transform:rotate(0) translateY(-3px) scale(1.04);box-shadow:0 14px 26px rgba(0,0,0,.6);outline:none}
+@media (max-width:420px){.hm .tsts{right:8px;gap:2px;top:calc(max(14px,env(safe-area-inset-top)) + 44px)}.hm .tst{width:84px;padding:4px 4px 16px}.hm .tst span{font-size:9.5px}.hm .tst::before{width:36px;height:12px}}
+@media (min-width:900px) and (orientation:landscape){.hm .tsts{position:fixed;right:28px;top:26px;gap:14px}.hm .tst{width:172px;padding:7px 7px 28px}.hm .tst span{font-size:14px;bottom:6px}.hm .tst::before{width:70px;height:20px;top:-10px}.hm .tst i::before{width:36px;height:36px}.hm .tst i::after{border-left-width:11px;border-top-width:7px;border-bottom-width:7px}}
+@media (orientation:landscape) and (max-height:540px){.hm .tsts{position:fixed;top:10px;right:12px}.hm .tst{width:96px}}
 #cover.md-p2{background:linear-gradient(180deg,rgba(14,6,6,.35),rgba(10,6,8,.92) 64%),#0b0d14 url(img2/x2-bo-ben-nay.webp) 68% center/cover!important}
 .mdv{display:flex;flex-direction:column;gap:12px;text-align:center;color:#efe8d8;font-family:"Be Vietnam Pro",system-ui,sans-serif}
 .mdv .kick{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#a9a493}
@@ -270,7 +284,8 @@ function mdCover(T){ const p=mdPrimary(T), ld=$('bNew')&&$('bNew').disabled&&!/^
    tr:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z" fill="#fff" stroke="none"/></svg>'};
   const tools=[['so',MDI.so,'Sổ tay'],['cd',MDI.cd,'Cài đặt'],['acc',MDI.acc,'Tài khoản'],['tt',I.tt,'Thành tựu'],['ung',MDI.ung,'Ủng hộ']];
   return '<div class="mdv mdx hm">'+
-   '<button type="button" class="tlr" data-go="t_tr" aria-label="Xem trailer"><i>'+I.tr+'</i><span>Xem trailer</span></button>'+
+   '<div class="tsts"><button type="button" class="tst" data-go="t_tr" aria-label="Xem trailer Phần 1"><img src="img/trailer-poster.webp" alt="" width="640" height="360"><i></i><span>trailer phần 1</span></button>'+
+   '<button type="button" class="tst t2" data-go="t_tr2" aria-label="Xem trailer Phần 2"><img src="img2/x2-bo-song-dem.webp" alt="" width="640" height="360"><i></i><span>trailer phần 2</span></button></div>'+
    '<div class="kick">Sài Gòn · 2026<em title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
    '<div class="logo"><img src="img2/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="1000" height="471"></div>'+
    '<div class="btns"><button class="b pri" type="button" data-go="'+p.go+'"'+(ld?' disabled':'')+'><span class="ic">'+I.play+'</span><span class="tx"><b>'+esc(p.t)+'</b><small>'+esc(ld?'Đang tải tranh…':p.s)+'</small></span>'+chev+'</button>'+
@@ -323,6 +338,12 @@ addEventListener('keydown',e=>{ const c=$('cover'); if(!c||c.hidden||P2.on||star
   if(MD.view==='chap'&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){ e.preventDefault(); MD.sel=MD.sel===1?2:1; mdRender(); const b=c.querySelector('.mdx-card.sel .mdx-b:not(:disabled)'); if(b) b.focus({preventScroll:false}); return; }
   if(MD.view==='cover'&&(e.key==='ArrowUp'||e.key==='ArrowDown')){ e.preventDefault(); const L=[...c.querySelectorAll('.mdx-hbtn:not(:disabled)')]; const k=L.indexOf(document.activeElement); const n=L[(k+(e.key==='ArrowDown'?1:L.length-1))%L.length]; n&&n.focus(); return; }
   if(e.key===' '&&!(document.activeElement&&document.activeElement.tagName==='BUTTON')){ const b=MD.view==='chap'?c.querySelector('.mdx-card.sel .mdx-b.red:not(:disabled)')||c.querySelector('.mdx-card.sel .mdx-b:not(:disabled)'):MD.view==='cover'?c.querySelector('.mdx-hbtn.pri'):null; if(b){ e.preventDefault(); b.click(); } } });
+/* trailer Phần 2: dán mã YouTube vào TLR2_YT khi có; chưa có thì báo sắp ra */
+const TLR2_YT='';
+function mdTrailer2(){ const ov=document.getElementById('tlr'); if(!TLR2_YT||!ov){ toast('Trailer Phần 2 sắp ra.'); return; }
+  const box=ov.querySelector('.box'); ov.classList.remove('doc');
+  box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(TLR2_YT)+'?autoplay=1&rel=0&playsinline=1" title="Trailer Hẻm 47 · Phần 2" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>';
+  const cap=ov.querySelector('.cap'); if(cap) cap.textContent='Hẻm 47: Thế Giới Lặng · Trailer Phần 2'; ov.hidden=false; }
 function mdSnap(k){ try{ return JSON.parse(lsGet('tgl_chuong1_'+k)||'null'); }catch(e){ return null; } }
 function mdP2Rec(k){ const rec=mdSnap(k)||p2p1()||{}; let p=Object.assign({},rec,{ket:k}); p.co=Object.assign({},rec.co||{});
   const ck=id=>$(id)&&$(id).checked; if(ck('p2kl')||ck('p2tu')||ck('p2cg')||ck('p2ph')) p.co=Object.assign({},p.co||{},{khoa_lat:ck('p2kl'),tu_lo:ck('p2tu'),noi_cuocgoi:ck('p2cg'),phat_nhanchung:ck('p2ph')}); return p; }
@@ -334,7 +355,8 @@ async function mdGo(g,T){ const tw=['cover','chap','ends','gate','tomtat']; if(t
   if(g==='p2pick'){ if(T.p2&&!confirm('Bắt đầu lại Phần 2 sẽ xóa tiến trình đang dở. Tiếp tục?')) return; lsDel(P2SAVE); p2Begin(false,mdP2Rec(MD.pick)); return; }
   if(g==='p2gate'){ lsDel(P2SAVE); p2Begin(false,{ket:'hetgio',co:{}}); return; }
   if(g==='p2ts'){ const p1=mdP2Rec(MD.pick); TESTMODE=true; document.body.classList.add('testing'); await p2Begin(false,p1); tsTab='tt'; $('test').hidden=false; tsRender(); toast('Phòng thử Phần 2 · không lưu vào bản chơi thật'); return; }
-  if(g==='t_tr'){ if(T.xong) toast('Trailer Phần 2 sắp ra.'); else { const s=document.querySelector('.tlr-st'); if(s) s.click(); } return; }
+  if(g==='t_tr'){ const c=document.querySelector('#tlr .cap'); if(c) c.textContent='Hẻm 47: Thế Giới Lặng · Trailer'; const s=document.querySelector('.tlr-st'); if(s) s.click(); return; }
+  if(g==='t_tr2'){ mdTrailer2(); return; }
   if(g==='t_ung'){ const m=document.querySelector('.moi-st'); if(m) m.click(); else toast('Cảm ơn bạn đã ghé hẻm 47.'); return; }
   if(g==='t_tt'){ if(typeof ttOpen==='function') ttOpen(); return; }
   if(g==='t_so') $('bSo').click(); else if(g==='t_acc') $('bAcct').click(); else if(g==='t_cd') $('bCd').click(); else if(g==='t_app') $('bInstall').click(); }

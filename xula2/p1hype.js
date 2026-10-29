@@ -25,7 +25,7 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   const vig=document.createElement('div'); vig.id='hvig'; document.body.appendChild(vig);
   const fl=document.createElement('div'); fl.id='hflash'; document.body.appendChild(fl);
   const flash=()=>{ fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on'); };
-  const shake=()=>{ document.body.classList.remove('hshake'); void document.body.offsetWidth; document.body.classList.add('hshake'); try{ navigator.vibrate&&navigator.vibrate([80,40,120]); }catch(e){} };
+  const shake=()=>{ document.body.classList.remove('hshake'); void document.body.offsetWidth; document.body.classList.add('hshake'); try{ if(typeof CD==='undefined'||CD.rung!==false) navigator.vibrate&&navigator.vibrate([80,40,120]); }catch(e){} };
   const T=(f,d,v,ty,dl)=>{ try{ tone(f,d,v,ty,dl); }catch(e){} };
   /* tiếng dội ngắn: trầm + rít */
   const sting=(big)=>{ if(!window.SFX) return; SFX.play(big?'boom':'hit',{v:big?1:.75}); SFX.play('timdap',{v:big?1:.8,dur:big?5:3.5,off:0,delay:.4}); };
@@ -60,7 +60,7 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   const VF={lam:150,ngan:290,khoa:118,tu:132,basau:230,thoa:250,bin:205,hanh:270,tam:110,loc:125,huong:300,vinh:105,diem:285,phuong:310,phat:160,tung:175,bay:240,seo:95,thuy:300,nhi:320,toan:140,hue:255,ti:220,khang:170,thoai:100,my:215};
   const vOf=n=>{ const k=(typeof SPK!=='undefined'&&SPK[n])||''; if(VF[k]) return VF[k]; let h=0; for(const c of String(n)) h=(h*31+c.charCodeAt(0))>>>0; const fem=/^(Chị|Cô|Bà|Em gái|Bé)(?=\s|$)/.test(n); return (fem?240:120)+h%60; };
   let blipIv=null;
-  if(typeof say==='function'){ const s0=say; say=function(kind,name,text){ const p=s0.apply(this,arguments); try{ clearInterval(blipIv); if(kind==='thoai'&&name){ const f=vOf(name); let n=0; blipIv=setInterval(()=>{ if(!typing){ clearInterval(blipIv); return; } if(++n%2) return; T(f*(.92+Math.random()*.16),.045,.011,'triangle'); },45); } }catch(e){} return p; }; }
+  if(typeof say==='function'){ const s0=say; say=function(kind,name,text){ const p=s0.apply(this,arguments); try{ clearInterval(blipIv); if(kind==='thoai'&&name&&!(typeof CD!=='undefined'&&CD.blip===false)){ const f=vOf(name); let n=0; blipIv=setInterval(()=>{ if(!typing){ clearInterval(blipIv); return; } if(++n%2) return; T(f*(.92+Math.random()*.16),.045,.011,'triangle'); },45); } }catch(e){} return p; }; }
 
   /* ---- 5. còn ít ngày ---- */
   const gapTick=()=>{ if(typeof S==='undefined'||!S||typeof TOTAL_DAYS==='undefined') return; document.body.classList.toggle('p1gap',!!(typeof started!=='undefined'&&started&&!S.ended&&TOTAL_DAYS-S.day<=5)); };
@@ -68,8 +68,8 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   /* ---- 6. lựa chọn gấp Phần 1 (giây, lựa chọn mặc định khi hết giờ) ---- */
   const TM={n1_dem_a:[15,'n1_dem_c'],h3_khoaghe_a:[8,'h3_khoaghe_b'],h2_tumua_a:[10,'h2_tumua_b']};
   if(typeof choose==='function'){ const c0=choose; choose=function(set,inPhone,title,face){ const p=c0.apply(this,arguments);
-    try{ if(P2on()||!set||!set.length) return p; const k=set.find(r=>TM[r.ma]); if(!k) return p; const [sec,def]=TM[k.ma]; const pick=set.find(r=>r.ma===def);
-      const tm=Math.round(sec+set.reduce((a,r)=>a+String(r.loi||'').length,0)/20);
+    try{ if(P2on()||!set||!set.length||(typeof CD!=='undefined'&&CD.gap==='tat')) return p; const k=set.find(r=>TM[r.ma]); if(!k) return p; const [sec,def]=TM[k.ma]; const pick=set.find(r=>r.ma===def);
+      const tm=Math.round((sec+set.reduce((a,r)=>a+String(r.loi||'').length,0)/20)*(typeof CD!=='undefined'&&CD.gap==='cham'?1.5:1));
       const host=$('dlg'); const bar=document.createElement('div'); bar.className='p2timer p1t'; bar.style.width='100%'; if(host) host.insertBefore(bar,host.firstChild);
       setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },700);
       const stopU=window.SFX?SFX.urgent(tm*1000+700):()=>{}; const beatIv=0;
@@ -78,4 +78,25 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
 
   let last=performance.now();
   setInterval(()=>{ const now=performance.now(), dt=(now-last)/1000; last=now; try{ tailTick(); }catch(e){} try{ nghiTick(dt); }catch(e){} try{ gapTick(); }catch(e){} },100);
+})();
+
+/* ---- Cài đặt (trang thử): bỏ mục màu Za Lô (giao diện điện thoại mới không dùng nữa),
+   thêm nhóm "Nhịp chơi": đồng hồ lựa chọn gấp (Bật / Chậm hơn / Tắt), tiếng giọng lách tách, rung máy ---- */
+(function(){
+  if(typeof CD==='undefined'||typeof cdOpen!=='function') return;
+  if(CD.gap==null) CD.gap='bat'; if(CD.blip==null) CD.blip=true; if(CD.rung==null) CD.rung=true;
+  const seg=(k,o)=>'<div class="seg" data-k="'+k+'">'+o.map(([v,l])=>'<button type="button" data-v="'+v+'" class="'+(String(CD[k])===String(v)?'on':'')+'">'+l+'</button>').join('')+'</div>';
+  const c0=cdOpen; cdOpen=function(){ c0.apply(this,arguments); const B=$('cdBox'); if(!B) return;
+    const za=B.querySelector('.zas'); if(za&&za.closest('.cd-r')) za.closest('.cd-r').remove();
+    B.querySelectorAll('.cd-s').forEach(s=>{ if(/^Điện thoại của/.test(s.textContent)) s.textContent='Điện thoại'; });
+    const am=[...B.querySelectorAll('.cd-s')].find(s=>s.textContent==='Âm thanh'); if(!am) return;
+    const box=document.createElement('div');
+    box.innerHTML='<div class="cd-s">Nhịp chơi</div>'+
+      '<div class="cd-r"><span>Lựa chọn gấp<small>Một số lựa chọn có đồng hồ đếm ngược. Chậm hơn: thêm một nửa thời gian. Tắt: chọn thong thả, hết giờ không tự chọn.</small></span>'+seg('gap',[['bat','Bật'],['cham','Chậm hơn'],['tat','Tắt']])+'</div>'+
+      '<div class="cd-r"><span>Giọng lách tách<small>Tiếng lách tách nhỏ theo từng người khi chữ đang chạy</small></span>'+seg('blip',[['true','Bật'],['false','Tắt']])+'</div>'+
+      '<div class="cd-r"><span>Rung máy<small>Điện thoại rung khi bị bắt gặp, bị nghi nặng</small></span>'+seg('rung',[['true','Bật'],['false','Tắt']])+'</div>';
+    am.before(...box.childNodes);
+    B.querySelectorAll('.seg[data-k="gap"],.seg[data-k="blip"],.seg[data-k="rung"]').forEach(g=>g.querySelectorAll('button').forEach(bt=>bt.onclick=()=>{ const v=bt.dataset.v; CD[g.dataset.k]=v==='true'?true:v==='false'?false:v; cdSave(); cdOpen(); })); };
+  /* điện thoại · ứng dụng Cài đặt: bỏ dòng kỹ thuật "Đang dùng bảng ..." */
+  if(typeof renderPhone==='function'){ const r0=renderPhone; renderPhone=function(){ const out=r0.apply(this,arguments); try{ document.querySelectorAll('#phBody .card').forEach(c=>{ if(/^Lời thoạiĐang dùng bảng/.test(c.textContent)) c.remove(); }); }catch(e){} return out; }; }
 })();

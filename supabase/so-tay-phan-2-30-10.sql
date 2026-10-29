@@ -1,18 +1,11 @@
 -- Sổ tay · 30/10/2026 · ra mắt Phần 2: Xứ Lạ (BẢN ĐÃ DUYỆT CHỮ - KHÔNG SPOIL)
 -- Dán vào Supabase > SQL Editor > New query > Run. Chạy lại nhiều lần không bị trùng bài.
 
-create or replace function pg_temp.tab_id(pat text, fallback text) returns text language sql as $$
-  select coalesce(
-    (select tab ->> 'id'
-       from public.sotay_cauhinh c, jsonb_array_elements(c.data -> 'tabs') tab
-      where c.id = 'tabs' and tab ->> 'ten' ~* pat
-      limit 1),
-    fallback)
-$$;
+-- mã tab theo cấu hình Sổ tay hiện tại: tamsu · noi_dung (Cốt Truyện) · cach_choi · tuyen_bo
 
 -- 1. THÔNG BÁO UPDATE PHẦN 2
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
-select pg_temp.tab_id('cập nhật|thông báo', 'tamsu'),
+select 'tamsu',
        'Hẻm 47 · Phần 2: Xứ Lạ đã mở',
        'https://www.hem47.asia/img2/x2-bo-song-dem.webp',
        1, 0, true,
@@ -29,7 +22,7 @@ $bai$Phần 2 của Hẻm 47 mở cửa rồi nha mọi người. 🚪
 - **Ca làm việc trong phòng máy:** Mỗi ngày đều có chỉ tiêu đặt trên đầu. Giữ an toàn cho mình hay tìm cách cứu người phía bên kia màn hình là lựa chọn của bạn.
 - **Lựa chọn có đếm giây:** Chần chừ không quyết là nhân vật im lặng luôn — mà ở trong đó thì im lặng cũng có cái giá của nó.
 - **Sau giờ tắt đèn:** Lén rời giường đi tìm đường sống và gom chứng cứ khi cả khu đã khóa cửa.
-- **Đêm cuối tự tay dẫn người thoát ra** với 4 cái kết khác nhau.
+- **Đêm cuối tự tay dẫn người thoát ra** với 5 cái kết khác nhau.
 
 **Lưu ý nhỏ**
 Phần 2 gắn nhãn 18+. Câu chuyện đi thẳng vào chuyện bẫy việc nhẹ lương cao, tín dụng đen, mua bán người và giam giữ cưỡng bức. Mọi người nhớ đọc kỹ bài *Tuyên bố nội dung* trong Sổ tay trước khi vào chơi nghen.
@@ -39,7 +32,7 @@ where not exists (select 1 from public.baiviet where tieu_de = 'Hẻm 47 · Ph�
 
 -- 2. TÂM SỰ TÁC GIẢ · PHẦN 2
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
-select pg_temp.tab_id('tâm sự', 'tamsu'),
+select 'tamsu',
        'Tâm sự tác giả: vì sao có Xứ Lạ',
        'https://www.hem47.asia/img2/x2-bo-ben-nay.webp',
        1, 0, true,
@@ -62,7 +55,7 @@ where not exists (select 1 from public.baiviet where tieu_de = 'Tâm sự tác g
 
 -- 3. CÁCH CHƠI PHẦN 2
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
-select pg_temp.tab_id('cách chơi|hướng dẫn', 'huongdan'),
+select 'cach_choi',
        'Cách chơi Phần 2: Xứ Lạ',
        'https://www.hem47.asia/img2/x2-ben-ghe.webp',
        1, 0, true,
@@ -90,15 +83,15 @@ Một số tình huống có thanh thời gian chạy ở mép trên màn hình.
 **Điện thoại và manh mối**
 Nối hai manh mối liên quan để mở ra suy luận mới. Gom đủ chứng cứ mới có thể vạch mặt kẻ đứng sau.
 
-**Đêm giải cứu & Bốn kết**
+**Đêm giải cứu & Năm kết**
 Đêm cuối chạy theo thời gian thật, bạn phải tự dẫn từng nhóm vượt ra ngoài trước khi trời sáng. Chuẩn bị càng kỹ từ những ngày trước thì cơ hội đưa được nhiều người về càng cao.
 
-Game có 4 kết: **Cả tổ về · Người ở lại · Ra ngoài một mình · Bị bán đứng**. Muốn mở hết cả bốn kết thì thử đi lại với lựa chọn khác, hoặc bắt đầu từ một kết khác của Phần 1.$bai$
+Game có 5 kết: **Cả tổ về · Bơi qua sông · Người ở lại · Ra ngoài một mình · Bị bán đứng**. Muốn mở hết cả năm kết thì thử đi lại với lựa chọn khác, hoặc bắt đầu từ một kết khác của Phần 1.$bai$
 where not exists (select 1 from public.baiviet where tieu_de = 'Cách chơi Phần 2: Xứ Lạ');
 
 -- 4. TUYÊN BỐ NỘI DUNG PHẦN 2
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
-select pg_temp.tab_id('tuyên bố', 'tuyenbo'),
+select 'tuyen_bo',
        'Tuyên bố về nội dung Phần 2: Xứ Lạ',
        'https://www.hem47.asia/img2/bia.webp',
        1, 0, true,
@@ -130,7 +123,7 @@ where not exists (select 1 from public.baiviet where tieu_de = 'Tuyên bố về
 
 -- 5. NHÂN VẬT PHẦN 2 (không lộ kẻ đứng sau & không spoil quá khứ nhân vật)
 insert into public.baiviet (loai, tieu_de, anh, mo_hoi, thu_tu, hien, noi_dung)
-select pg_temp.tab_id('nhân vật|truyện', 'truyen'),
+select 'noi_dung',
        'Nhân vật Phần 2: Xứ Lạ',
        'https://www.hem47.asia/img2/x2-bo-ben-nay.webp',
        1, 20, true,

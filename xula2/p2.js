@@ -304,7 +304,7 @@ async function p2Camp(){ const d=S.day, cs=S.cs||(S.cs={}), K=x=>{ const k=d+'_'
     hideDlg(); hud(); save(); return; }
   if(hour()>=13&&hour()<19&&K('ch')){ if(d===18&&!hasC('x_tu')) await runS('x_tutai'); hideDlg(); BGNOW=null;
     const r=await caCa(1); if(hasF('x_canh_ngan')&&r.tinh>0) await runS('x_canhngan_ok');
-    const thieu=3-CT(); if(thieu>0){ S.no=(S.no||0)+thieu*2000000; effects('+nghi:'+(6*thieu)); try{ if(window.SFX&&SFX.has('dien')) SFX.play('dien',{v:.55,delay:2.2}); }catch(e){} await runS('x_ca_thieu'); } else { effects('-nghi:3'); await runS('x_ca_du'); }
+    const thieu=3-CT(); if(thieu>0){ S.no=(S.no||0)+thieu*2000000; effects('+nghi:'+(6*thieu)); S.hut=(S.hut||0)+1; try{ if(window.SFX&&SFX.has('dien')) SFX.play('dien',{v:.55,delay:2.2}); }catch(e){} await runS('x_ca_thieu'); hideDlg(); if(S.hut>=3){ S.hut=0; await p2ChuongCho(); } } else { S.hut=0; effects('-nghi:3'); await runS('x_ca_du'); }
     at2(19*60); putAt('xngu',.35); toast('19:00 · được ra sân'); hideDlg();
     if(d===12&&!hasF('x_vu3')) await runS('x_vu3mo');
     if(S.nhanh==='A'&&[11,14,17].includes(d)) await p2Ngoai({11:1,14:2,17:3}[d]);
@@ -349,6 +349,15 @@ async function p2Siet(){ if((S.siet_d||0)>=S.day-1) return; const pr=.12+(S.nghi
   if(can){ sp('boom',{v:.4,rate:.8,delay:.3}); await say('mota','','Sáng ra, giường của '+can.ten+' trống trơn. Mền đã gấp sẵn.'); effects('mat:'+can.id); S.nghi=Math.max(0,S.nghi-15); }
   else { await say('mota','','Sáng ra, lính gác đứng ở cửa phòng máy lâu hơn mọi bữa. Từ giờ phải cẩn thận gấp đôi.'); S.nghi=Math.min(99,(S.nghi||0)+5); }
   hideDlg(); }
+/* hụt chỉ tiêu 3 ca liền: bị nhốt chuồng chó dưới gầm cầu thang một đêm (BẢN NHÁP chờ duyệt chữ). Chỉ thấy cái chuồng trống, nghe tiếng. */
+function p2ChuongCho(){ return new Promise(async res=>{ const el=document.createElement('div');
+  el.style.cssText='position:fixed;inset:0;z-index:84;background:#000 url(img2/x2-chuong-cho.webp) center/cover;filter:grayscale(.35) brightness(.55);opacity:0;transition:opacity 1.2s';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  try{ window.SFX&&SFX.play('cong_mo',{v:.6,rate:.8,delay:.4}); }catch(e){}
+  await say('mota','','Hụt chỉ tiêu ba ca liền. Đêm đó Sẹo lôi {me} xuống gầm cầu thang, đẩy vô cái chuồng sắt rồi bấm ổ khóa.'.replace('{me}',ME));
+  try{ window.SFX&&SFX.has('dien')&&SFX.play('dien',{v:.4}); }catch(e){}
+  await say('mota','','Sàn xi măng ướt nhẹp. Cả đêm không duỗi thẳng chân được. Sáng ra mới được thả về phòng máy.');
+  hideDlg(); S.nghi=Math.max(0,(S.nghi||0)-10); el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },1200); }); }
 async function p2NewDay(){ const d=S.day;
   if(S.hoi===1){ S.vai=S.nhanh==='A'?(d%2===1&&d<7?'ngan':'lam'):'lam'; setME(); S.min=DAY_START; S.scene='street'; S.room=null; PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); fade=.9; chime();
     toast('Ngày '+d+' · '+fmtT(S.min)+(S.nhanh==='A'?' · hôm nay bạn là '+ME:'')); return; }
@@ -513,7 +522,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
   const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
   /* 1. chữ chạy, cùng kiểu kết Phần 1 */
   await new Promise(res=>{ let el=$('typeEnd'); if(!el){ el=document.createElement('div'); el.id='typeEnd'; document.body.appendChild(el); }
-    el.innerHTML='<div id="teQ7" style="position:absolute;inset:0;opacity:0;transition:opacity 1.2s;pointer-events:none;background:linear-gradient(rgba(5,6,10,.55),rgba(5,6,10,.85)),url(img2/x2-bietthu-q7.webp) center/cover"></div><div class="te-in" style="position:relative"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">HẺM 47 · PHẦN 2 · XỨ LẠ</div><div class="te-n">'+esc(name)+'</div><div class="te-s">Kết '+got.length+'/4</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
+    el.innerHTML='<div id="teQ7" style="position:absolute;inset:0;opacity:0;transition:opacity 1.2s;pointer-events:none;background:linear-gradient(rgba(5,6,10,.55),rgba(5,6,10,.85)),url(img2/x2-bietthu-q7.webp) center/cover"></div><div class="te-in" style="position:relative"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">HẺM 47 · PHẦN 2 · XỨ LẠ</div><div class="te-n">'+esc(name)+'</div><div class="te-s">Kết '+got.length+'/5</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
     el.style.background='linear-gradient(rgba(5,6,10,.78),rgba(5,6,10,.92)),#05060a '+(EB&&P2REAL[EB]?'url(img2/'+EB+'.webp) center/cover':'');
     el.hidden=false; const tx=$('teTx'); let skip=false, li=0, ci=0, cur=null, done=false;
     const fin=()=>{ if(done) return; done=true; { const q=$('teQ7'); if(q) q.style.opacity=0; } tx.innerHTML=L.map((l,i)=>'<p'+(i===L.length-1?' class="te-last"':'')+'>'+esc(l)+'</p>').join(''); $('teSkip').hidden=true; setTimeout(()=>{ $('teC2').hidden=false; tone(110,1.6,.05,'sine'); tone(165,1.6,.03,'sine',.05); setTimeout(()=>{ $('teGo').hidden=false; },1400); },700); };
@@ -534,7 +543,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     '<p class="sub">'+allK.map(x=>got.includes(x)?esc(ENDS[x][1]):'???').join(' · ')+'</p>'+
     (so.length?'<details class="p2sod"><summary>Sổ nạn nhân · '+so.length+' người</summary><ol>'+so.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
     (mat.length?'<details class="p2sod"><summary>Bị chuyển đi · '+mat.length+' người</summary><ol>'+mat.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></details>':'')+
-    '<p class="p2">Thủ đoạn trong game hư cấu từ các vụ việc báo chí và cơ quan chức năng đã công bố. Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, hãy báo công an nơi gần nhất.</p>'+
+    '<p class="p2">Trò chơi lấy cảm hứng từ các vụ việc thực tế đã được cơ quan chức năng cảnh báo. Khi nhận được lời dụ dỗ đi làm \'việc nhẹ lương cao\' ở nước ngoài, hãy liên hệ ngay với cơ quan công an gần nhất để được hỗ trợ.</p>'+
     '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button><button class="btn alt" type="button" id="p2Kq">Khoe kết quả</button><button class="btn alt" type="button" id="p2Tt">Thành tựu</button></div>';
   if(!$('p2sodCss')){ const st=document.createElement('style'); st.id='p2sodCss'; st.textContent='.p2sod{max-width:520px;margin:10px auto;text-align:left;color:#b9b3a6;font-size:14px}.p2sod summary{cursor:pointer;color:#efe8d8;padding:6px 0}.p2sod ol{margin:6px 0 0 18px;line-height:1.7}'; document.head.appendChild(st); }
   $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); $('p2Kq').onclick=()=>kqOpen(k); $('p2Tt').onclick=()=>ttOpen(); ttCheck2(); }
@@ -657,6 +666,7 @@ function p2Bao(k){ return new Promise(res=>{
 #p2bao .ph{background:#333 center/cover;filter:grayscale(1) sepia(.3) contrast(1.15) brightness(.9);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 40px rgba(0,0,0,.45);margin:8px 0 10px}
 #p2bao .ph.lead{aspect-ratio:16/8}
 #p2bao .ph.wide{aspect-ratio:3.6/1}
+@media (max-width:759px){#p2bao .ph.wide{aspect-ratio:16/10}}
 #p2bao .kick{font:700 12px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#9b2a22;text-transform:uppercase;margin:12px 0 2px}
 #p2bao .cols{margin-top:6px}
 @media (min-width:760px){#p2bao .cols{column-count:2;column-gap:28px;column-rule:1px solid rgba(29,26,20,.35)}}

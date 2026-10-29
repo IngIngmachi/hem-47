@@ -608,3 +608,20 @@ if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=
 (function(){ const FX={'ky-uc-1':'70%','ky-uc-3':'80%','ky-uc-4':'78%','bia':'79%','hem-dem':'50%','trong-phong3-dem':'58%'};
   const fix=el=>{ const m=String(el.style.backgroundImage||'').match(/img2\/([\w-]+)\.webp/); const x=m&&FX[m[1]]; const want=x?x+' center':''; if(el.style.backgroundPosition!==want) el.style.backgroundPosition=want; };
   new MutationObserver(ms=>{ for(const m of ms){ const t=m.target; if(t.classList&&t.classList.contains('in-bg')) fix(t); } }).observe(document.body,{subtree:true,attributes:true,attributeFilter:['style']}); })();
+
+/* màn chữ kết (cả 2 phần): trang sổ tay giấy kẻ dòng như Sổ tay, chữ chạy trong trang, cuộn được; nút luôn thấy ở đáy trang */
+(function(){ const st=document.createElement('style'); st.textContent=`
+#typeEnd{display:flex;align-items:center;justify-content:center;padding:16px!important;box-sizing:border-box}
+#typeEnd .te-in{position:relative;display:flex;flex-direction:column;width:min(760px,100%);max-height:calc(100dvh - 32px);padding:0!important;background:#efe8d8;color:#2a241b;border-radius:6px 14px 14px 6px;box-shadow:0 18px 50px rgba(0,0,0,.7),inset 14px 0 0 #c9bfa8,inset 16px 0 0 #b3a88f;overflow:hidden;
+  background-image:repeating-linear-gradient(transparent 0 31px,rgba(75,143,230,.13) 31px 32px);background-position:0 18px}
+#typeEnd .te-tx{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 24px 8px 40px;scroll-behavior:smooth}
+#typeEnd .te-tx p{font-family:Newsreader,Georgia,serif!important;font-size:clamp(17px,2.2vw,20px)!important;line-height:32px!important;letter-spacing:0!important;color:#2a241b!important;margin:0 0 14px!important;padding-bottom:0}
+#typeEnd .te-tx p+p{margin-top:0!important;text-indent:0}
+#typeEnd .te-tx p.te-last{color:#8a2a1e!important;font-style:italic;margin-top:0!important}
+#typeEnd .te-c2{margin:0!important;padding:10px 24px 4px 40px;border-top:1px dashed rgba(42,36,27,.3)}
+#typeEnd .te-k{color:#7a6d58!important}#typeEnd .te-n{color:#8a4b12!important;filter:none!important;font-size:clamp(28px,5vw,44px)!important}#typeEnd .te-s{color:#8a2a1e!important}
+#typeEnd .te-go{position:sticky;bottom:0;margin:8px 24px 16px 40px!important;width:calc(100% - 64px);min-height:48px;border-radius:12px!important;border:0!important;background:linear-gradient(180deg,#f3c46f,#d99a3f)!important;color:#1b1408!important;font:700 16px "Be Vietnam Pro",sans-serif!important}
+#typeEnd .te-skip{position:absolute!important;right:14px;bottom:auto;top:10px;color:#7a6d58!important}
+#typeEnd #teQ7{border-radius:inherit}`; document.head.appendChild(st);
+  /* chữ chạy tới đâu thì tự cuộn theo tới đó */
+  let lastH=0; setInterval(()=>{ const t=document.getElementById('teTx'); if(!t||!t.offsetParent) return; if(t.scrollHeight!==lastH){ lastH=t.scrollHeight; t.scrollTop=t.scrollHeight; } },150); })();

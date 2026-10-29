@@ -11,8 +11,8 @@
 #cover.solid .in > .sub:first-child{font:600 11.5px/1.5 "Be Vietnam Pro",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#a9a090}
 #cover.solid .in > .cl{font-size:clamp(28px,7vw,40px);line-height:1.15;margin:8px 0 6px;color:#f0b25c}
 #cover.solid .in > p{color:#e6dfcf}
-#cover.solid .sum{display:grid!important;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}
-@media (min-width:600px){#cover.solid .sum{grid-template-columns:repeat(4,1fr)}}
+#cover.solid .sum{display:flex!important;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0}
+#cover.solid .sum > div{flex:1 1 120px;max-width:200px}
 #cover.solid .sum > div{background:rgba(255,255,255,.05)!important;border:1px solid rgba(239,230,210,.12)!important;border-radius:12px!important;padding:10px 6px!important}
 #cover.solid .in .row{display:flex;flex-direction:column;gap:10px;margin-top:16px;align-items:stretch}
 #cover.solid .in .row .btn{width:100%;min-height:52px;border-radius:12px;font:700 16px/1.2 "Be Vietnam Pro",sans-serif;letter-spacing:.04em;text-transform:none;background:transparent;color:#efe6d2;border:1.5px solid rgba(239,230,210,.4);box-shadow:none}

@@ -622,4 +622,14 @@ if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=
 
 /* trong trại: hình đi lại của Lâm/Ngân (vẫn là bộ đồ Phần 1) tái màu, tối lại cho ra người đang bị giữ, chờ bộ hình riêng */
 const LAMTRAI=new Image(); LAMTRAI.src='img2/lam-full-trai.webp';  /* Lâm trong trại: không còn balo */
-if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter, o0=IMG['lam-full']; g.filter='grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; if(k==='lam'&&LAMTRAI.complete&&LAMTRAI.naturalWidth) IMG['lam-full']=LAMTRAI; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; IMG['lam-full']=o0; } } return dc0.apply(this,arguments); }; }
+if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter, o0=IMG['lam-full']; const nw=k==='lam'&&LAMTRAI.complete&&LAMTRAI.naturalWidth; g.filter=nw?'brightness(.9) contrast(1.05)':'grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; if(nw) IMG['lam-full']=LAMTRAI; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; IMG['lam-full']=o0; } } return dc0.apply(this,arguments); }; }
+
+/* đi bộ: thân trên lắc nhẹ ngược nhịp chân (vai đưa tới lui, người nhún), đỡ bị đơ khi chưa có tay rời */
+if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy,face,o,fu){
+  const H=(HGT[k]||160)*(o.sc||1), hy=.52, sc=H/fu.height, w=fu.width*sc, sw=Math.sin(o.ph||0);
+  const piv=fy-H*hy; g.save();
+  /* vẽ chân như cũ, rồi vẽ đè thân trên có lắc: cắt thân trên khỏi lần vẽ gốc bằng vùng cắt */
+  g.save(); g.beginPath(); g.rect(x-w,piv-2,w*2,H); g.clip(); dw0.apply(this,arguments); g.restore();
+  g.save(); g.beginPath(); g.rect(x-w*1.5,fy-H*1.3,w*3,H*1.3-H*hy+2); g.clip();
+  g.translate(x,piv); g.rotate(face*sw*.028); g.translate(0,-Math.abs(Math.cos(o.ph||0))*H*.004); g.translate(-x,-piv);
+  dw0.apply(this,arguments); g.restore(); g.restore(); }; }

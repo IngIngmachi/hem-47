@@ -67,7 +67,7 @@ if _ov.exists():
     print('Áp lời thử Phần 1:', n)
 
 # trang thử: không cho máy tìm kiếm lập chỉ mục, tiêu đề riêng
-rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow"><style id="mdfirst">#cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia.webp) 62% center/cover}</style>', 1)
+rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow"><style id="mdfirst">body:not(.ingame) #cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia.webp) 62% center/cover}</style>', 1)
 
 # gắn Phần 2 sau script chính
 tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/p2_thu.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script><script src="xula2/amb.js?v=__V__"></script><script src="xula2/sfx.js?v=__V__"></script><script src="xula2/p1hype.js?v=__V__"></script>'

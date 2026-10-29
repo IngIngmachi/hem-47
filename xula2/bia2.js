@@ -5,6 +5,19 @@
 #cover .in:has(> .mdv){max-width:440px;width:100%}
 #cover .in:has(> .mdv) > :not(.mdv){display:none!important}
 #cover:has(.mdv) .tlr-st{display:none}
+/* màn hết hồi / màn kết Phần 1: khung tối, chữ rõ, nút giống trang chủ */
+#cover.solid::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(5,5,7,.55),rgba(5,5,7,.88));pointer-events:none}
+#cover.solid .in:has(> .cl){position:relative;max-width:540px;width:calc(100% - 32px);box-sizing:border-box;background:rgba(10,11,15,.84);border:1px solid rgba(239,230,210,.16);border-radius:18px;padding:26px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-align:center}
+#cover.solid .in > .sub:first-child{font:600 11.5px/1.5 "Be Vietnam Pro",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#a9a090}
+#cover.solid .in > .cl{font-size:clamp(28px,7vw,40px);line-height:1.15;margin:8px 0 6px;color:#f0b25c}
+#cover.solid .in > p{color:#e6dfcf}
+#cover.solid .sum{display:grid!important;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}
+@media (min-width:600px){#cover.solid .sum{grid-template-columns:repeat(4,1fr)}}
+#cover.solid .sum > div{background:rgba(255,255,255,.05)!important;border:1px solid rgba(239,230,210,.12)!important;border-radius:12px!important;padding:10px 6px!important}
+#cover.solid .in .row{display:flex;flex-direction:column;gap:10px;margin-top:16px;align-items:stretch}
+#cover.solid .in .row .btn{width:100%;min-height:52px;border-radius:12px;font:700 16px/1.2 "Be Vietnam Pro",sans-serif;letter-spacing:.04em;text-transform:none;background:transparent;color:#efe6d2;border:1.5px solid rgba(239,230,210,.4);box-shadow:none}
+#cover.solid .in .row .btn:first-child{background:linear-gradient(180deg,#f3c46f,#d99a3f);color:#1b1408;border-color:transparent;box-shadow:0 10px 24px rgba(217,154,63,.35)}
+#cover.solid .in .row .btn:hover{filter:brightness(1.08)}
 /* hai miếng dán trailer (Phần 1, Phần 2) như ảnh polaroid dán băng keo */
 .hm .tsts{position:absolute;top:max(14px,env(safe-area-inset-top));right:12px;display:flex;gap:6px;z-index:3}
 .hm .tst{position:relative;width:104px;padding:5px 5px 19px;background:#efe8d8;border:0;border-radius:2px;box-shadow:0 8px 18px rgba(0,0,0,.55);transform:rotate(3.5deg);cursor:pointer;font:inherit;color:#2a241b;transition:transform .25s,box-shadow .25s}
@@ -329,7 +342,8 @@ function mdTom(){ return '<div class="mdv inner"><div><button class="mdback" typ
 function mdRender(){ const c=$('cover'); if(!c||P2.on||started) return; const inn=c.querySelector('.in'); if(!inn||!$('bNew')) return;
   const T=mdState(); const v=MD.view; let h=v==='chap'?mdChap(T):v==='ends'?mdEnds(T):v==='gate'?mdGate():v==='tomtat'?mdTom():mdCover(T);
   let box=inn.querySelector(':scope > .mdw'); if(!box){ box=document.createElement('div'); box.className='mdv mdw'; box.style.display='contents'; inn.appendChild(box); }
-  box.innerHTML=h; c.classList.toggle('md-p2',T.xong&&(v==='cover'||v==='ends'||v==='tomtat'||v==='gate'));
+  box.innerHTML=h; { const mf=document.getElementById('mdfirst'); if(mf) mf.textContent=mf.textContent.replace(/(body:not\(\.ingame\) )?#cover \.in\{[^}]*\}/,'').replace(/#cover \.in:has\(\.mdw\)\{[^}]*\}/,''); }
+  c.classList.toggle('md-p2',T.xong&&(v==='cover'||v==='ends'||v==='tomtat'||v==='gate'));
   box.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>mdGo(b.dataset.go,T));
   box.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ MD.pick=b.dataset.pick; mdRender(); });
   box.querySelectorAll('[data-card]').forEach(cd=>cd.addEventListener('pointerenter',()=>{ if(MD.sel!==+cd.dataset.card){ MD.sel=+cd.dataset.card; box.querySelectorAll('[data-card]').forEach(x=>x.classList.toggle('sel',x===cd)); } })); }

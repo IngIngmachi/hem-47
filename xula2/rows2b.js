@@ -278,7 +278,7 @@ X('x_cuu_mo','Đêm giải cứu',[
 X('x_cuu_loa','Đêm giải cứu · 00:55',[
  {bg:'x2-bo-song-dem'},{card:'NGÀY 20 · 00:55 SÁNG\nTRƯỚC GIỜ CẮT ĐIỆN'},
  'Ngay trước giờ cắt điện, tiếng giày đinh của Sẹo bỗng nện rầm rập lên cầu thang lầu 2. Chiếc bộ đàm công suất lớn trên tay hắn bật loa ngoài rè rè.',
- ['Bà Mỹ','Thằng Sẹo nghe rõ đây: ví tổng ở Sài Gòn vừa báo động có đứa chạm vô sổ sách lầu 3. Khóa chết cửa sắt lầu 2 lại, lôi hết tổ 3 ra sân cho tao! Đứa nào tự bước ra chỉ điểm, tao xóa nợ cho về!'],
+ ['Giọng trong loa','Thằng Sẹo nghe rõ đây: ví tổng ở Sài Gòn vừa báo động có đứa chạm vô sổ sách lầu 3. Khóa chết cửa sắt lầu 2 lại, lôi hết tổ 3 ra sân cho tao! Đứa nào tự bước ra chỉ điểm, tao xóa nợ cho về!'],
  'Trong phòng ngủ tối om, có tiếng thở dốc. Anh Toàn ngồi bật dậy định mở miệng kêu lên. Chỉ còn 8 giây trước khi Sẹo bước tới khóa chốt cửa sắt bên ngoài!',
  {chon:[
   {t:'Bật đoạn ghi âm bà Mỹ đòi "bán sạch lầu 3 qua Miến Điện", dí sát khe cửa cho Sẹo nghe',sub:'cần ghi âm giọng thật',dis:'cc:x_giongthat',s:'+co:x_loa_chay',L:[

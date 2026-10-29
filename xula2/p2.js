@@ -441,7 +441,7 @@ function p2KetLieu(){ return new Promise(res=>{
     const her=t=>new Promise(r=>{ const d=add('her dots','• • •'); setTimeout(()=>{ d.className='m her'; d.textContent=t; ls.scrollTop=ls.scrollHeight; r(); },900); });
     const OPT=[
       {k:'tien',t:'"Bà nghĩ tiền mua được hết hả?"',a:'Tao đâu có mua tụi bây. Tao mua cái mạng thằng con tao. Năm trăm triệu, cầm rồi quên hết đi.'},
-      {k:'rec',t:'Bật ghi âm, hỏi: "Bà làm vậy là vì ông Tú hả?"',a:'Thằng Tú nợ tụi chủ sòng bên đó cả chục tỷ. Không có tao đứng ra gom người, gom tiền trả thay thì nó nằm dưới sông lâu rồi. Tụi bây phá cái này là giết con tao đó, nghe chưa!'}];
+      {k:'rec',t:'Bật ghi âm, hỏi: "Bà làm vậy là vì ông Tú hả?"',a:'Thằng Tú dính nợ tụi chủ sòng bên đó từ vụ bể sàn vàng. Không có tao đứng ra gom người, gom tiền trả thay thì nó nằm dưới sông lâu rồi. Tụi bây phá cái này là giết con tao đó, nghe chưa!'}];
     const used={};
     let hang=()=>{ clearInterval(clk); try{ tone(220,.15,.03,'square'); }catch(e){} setTimeout(goChat,350); };
     const menu=()=>{ ch.innerHTML=''; const left=OPT.filter(o=>!used[o.k]);
@@ -520,6 +520,8 @@ ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };
 /* ---------------- màn đầu: thêm nút Phần 2 ---------------- */
 function p2p1(){ try{ return JSON.parse(lsGet('tgl_chuong1')||'null'); }catch(e){ return null; } }
 function p2Buttons(){ const row=document.querySelector('#cover .row'); if(!row||$('bP2')||P2.on) return;
+  /* chỉ hiện ở màn kết Phần 1, không chen vô màn hết hồi */
+  if(!(typeof S!=='undefined'&&S&&S.ended)) return;
   const b=document.createElement('button'); b.className='btn'; b.id='bP2'; b.type='button'; b.textContent='Phần 2 · Xứ Lạ'; b.style.background='#e2645c'; b.style.color='#fff';
   row.insertBefore(b,row.firstChild); b.onclick=()=>p2Menu(); }
 function p2Menu(){ const c=$('cover'); const p1=p2p1(), sv=lsGet(P2SAVE); const K={phuong:'Người lên tiếng',imlang:'Im lặng đúng lúc',bocphot:'Bóc phốt',tien:'Nhận tiền',hetgio:'Hết giờ'};

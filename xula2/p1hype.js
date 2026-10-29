@@ -100,3 +100,11 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   /* điện thoại · ứng dụng Cài đặt: bỏ dòng kỹ thuật "Đang dùng bảng ..." */
   if(typeof renderPhone==='function'){ const r0=renderPhone; renderPhone=function(){ const out=r0.apply(this,arguments); try{ document.querySelectorAll('#phBody .card').forEach(c=>{ if(/^Lời thoạiĐang dùng bảng/.test(c.textContent)) c.remove(); }); }catch(e){} return out; }; }
 })();
+
+/* ---- Ghi lỗi tự động: lỗi trong game gửi về bảng "loi" trên Supabase (mỗi phiên tối đa 8 lỗi, trùng thì bỏ) ---- */
+(function(){ const seen=new Set(); let n=0;
+  const send=(msg,src,line,col,stack)=>{ try{ msg=String(msg||'').slice(0,300); if(!msg||/ResizeObserver|Script error\.?$/.test(msg)) return; const key=msg+'|'+line; if(seen.has(key)||n>=8) return; seen.add(key); n++;
+    if(typeof supa==='undefined'||!supa) return; const st=(typeof S!=='undefined'&&S)?S:{};
+    supa.from('loi').insert({msg,src:String(src||'').slice(-120),dong:line||null,cot:col||null,stack:String(stack||'').slice(0,1500),trang:location.pathname.slice(-40),phan:(typeof P2!=='undefined'&&P2.on)?2:1,ngay:st.day||null,hoi:st.hoi||null,canh:String(st.scene||'')+(st.room?':'+st.room:''),ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }catch(e){} };
+  addEventListener('error',e=>send(e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack));
+  addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; send('Promise: '+(r.message||r),'',0,0,r.stack); }); })();

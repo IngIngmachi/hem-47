@@ -20,7 +20,7 @@
 .mdx-moi{margin-left:auto;align-self:center;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 12px;border-radius:2px;border:0;background:#efe8d8;color:#2a241b;font:400 15px/1.2 "Playpen Sans",cursive;text-align:left;cursor:pointer;transform:rotate(-2.5deg);box-shadow:0 10px 22px rgba(0,0,0,.55);transition:transform .2s}
 .mdx-moi:hover{transform:rotate(0) translateY(-2px)}
 .mdx-moi svg{width:28px;height:28px;fill:none;stroke:#8a4b12;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
-@media (max-width:899px){.hm .logo .age{right:auto;left:0;top:-10px}.mdx-logo .mdx-kick{display:none}.mdx-moi{position:absolute;right:0;top:0;padding:7px 10px;font-size:12.5px}.mdx-moi svg{width:20px;height:20px}.mdx-logo .lg47{width:180px}}
+@media (max-width:899px){.mdx-logo .mdx-kick{display:none}.mdx-moi{position:absolute;right:0;top:0;padding:7px 10px;font-size:12.5px}.mdx-moi svg{width:20px;height:20px}.mdx-logo .lg47{width:180px}}
 /* màn hết hồi / màn kết Phần 1: khung tối, chữ rõ, nút giống trang chủ */
 #cover.solid::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(5,5,7,.55),rgba(5,5,7,.88));pointer-events:none}
 #cover.solid .in:has(> .cl){position:relative;max-width:540px;width:calc(100% - 32px);box-sizing:border-box;background:rgba(10,11,15,.84);border:1px solid rgba(239,230,210,.16);border-radius:18px;padding:26px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-align:center}
@@ -322,7 +322,8 @@ function mdCover(T){ const p=mdPrimary(T), ld=$('bNew')&&$('bNew').disabled&&!/^
    '<div class="tsts"><button type="button" class="tst" data-go="t_tr" aria-label="Xem trailer Phần 1"><img src="img/trailer-poster.webp" alt="" width="640" height="360"><i></i><span>trailer phần 1</span></button>'+
    '<button type="button" class="tst t2" data-go="t_tr2" aria-label="Xem trailer Phần 2"><img src="img2/x2-bo-song-dem.webp" alt="" width="640" height="360"><i></i><span>trailer phần 2</span></button></div>'+
    
-   '<div class="logo"><img src="img2/tua-hem47.webp" alt="Hẻm 47" width="1000" height="329"><em class="age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
+   '<div class="kick">Sài Gòn · 2026<em title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
+   '<div class="logo"><img src="img2/tua-hem47.webp" alt="Hẻm 47" width="1000" height="329"></div>'+
    '<div class="btns"><button class="b pri" type="button" data-go="'+p.go+'"'+(ld?' disabled':'')+'><span class="ic">'+I.play+'</span><span class="tx"><b>'+esc(p.t)+'</b><small>'+esc(ld?'Đang tải tranh…':p.s)+'</small></span>'+chev+'</button>'+
    '<button class="b" type="button" data-go="chap"><span class="ic">'+I.book+'</span><span class="tx"><b>Chọn chương</b></span>'+chev+'</button></div>'+
    '<div class="tools">'+tools.map(([k,i,l])=>'<button type="button" data-go="t_'+k+'">'+i+'<span>'+esc(l)+'</span></button>').join('')+'</div>'+

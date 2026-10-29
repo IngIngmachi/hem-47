@@ -150,6 +150,15 @@ body.u3m.p2lb::before,body.u3m.p2lb::after{display:none}
   .dd2 .ctl .g:last-child{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
   .dd2 .ctl .g:last-child button{min-width:0;min-height:46px;font-size:15px;padding:0 4px}
 }
+/* điện thoại dọc: phóng tranh to gần gấp đôi, khung tự trượt theo người mình; bỏ nhắc xoay ngang */
+.dd2 .cvw{position:relative}
+@media (orientation:portrait) and (max-width:760px){
+  .dd2 .cvw{overflow:hidden;border-radius:10px;width:100%}
+  .dd2 .cvw canvas{width:200%!important;max-width:none!important;border-radius:0;will-change:transform}
+  .dd2 .rot{display:none!important}
+}
+/* đang chơi trò thì tạm ẩn thông báo nổi để khỏi che tranh */
+body:has(#game.p2full:not([hidden])) #u3sys{display:none!important}
 @media (orientation:landscape) and (max-height:540px){
   #game.p2full .p2g:has(.dd2)>h3{font-size:18px;margin:0 0 4px}
   .dd2{max-width:none}
@@ -820,7 +829,7 @@ function miniDem(host,muc){ return new Promise(res=>{ const box=document.createE
 function guards(siet,rescue){ const g=[{f:0,a:60,b:960,v:70,x:500,d:1},{f:1,a:40,b:940,v:60,x:720,d:1},{f:2,a:40,b:960,v:55,x:800,d:1}];
   if(siet||rescue) g.push({f:1,a:500,b:960,v:80,x:900,d:-1}); if(rescue) g.push({f:0,a:20,b:200,v:30,x:60,d:1}); return g; }
 function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='cuu';
-  p2open('<h3>'+esc(cuu?'Đêm mưa · dẫn người ra sông':'Đi đêm · '+MUC[cfg.muc].ten)+'</h3><div class="dd2"><p class="rot">Xoay ngang điện thoại để thấy cả ba tầng rõ hơn.</p><canvas id="dc" width="1000" height="600"></canvas><div class="ctl"><div class="g"><button id="kL" type="button" aria-label="Sang trái"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5 7 12l8 7z" fill="currentColor"/></svg></button><button id="kR" type="button" aria-label="Sang phải"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l8 7-8 7z" fill="currentColor"/></svg></button></div><div class="g"><button id="kU" type="button">▲ Lên</button><button id="kD" type="button">▼ Xuống</button><button id="kH" type="button">Núp</button><button id="kA" class="go" type="button">'+(cuu?'Dẫn':'Lấy')+'</button><button id="kS" type="button">Chạy</button></div></div><div class="tbar"><b id="ktb"></b></div><p class="tip" style="margin:8px 0 0;text-align:center;font-size:13px">Phím: <b>← →</b> đi · <b>↑ ↓</b> lên xuống cầu thang · <b>Space</b> núp · <b>E</b> '+(cuu?'dẫn':'lấy')+' · <b>Shift</b> chạy</p></div>',cuu?null:()=>finish(got?'xong_tre':'het'));
+  p2open('<h3>'+esc(cuu?'Đêm mưa · dẫn người ra sông':'Đi đêm · '+MUC[cfg.muc].ten)+'</h3><div class="dd2"><p class="rot">Xoay ngang điện thoại để thấy cả ba tầng rõ hơn.</p><div class="cvw"><canvas id="dc" width="1000" height="600"></canvas></div><div class="ctl"><div class="g"><button id="kL" type="button" aria-label="Sang trái"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5 7 12l8 7z" fill="currentColor"/></svg></button><button id="kR" type="button" aria-label="Sang phải"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l8 7-8 7z" fill="currentColor"/></svg></button></div><div class="g"><button id="kU" type="button">▲ Lên</button><button id="kD" type="button">▼ Xuống</button><button id="kH" type="button">Núp</button><button id="kA" class="go" type="button">'+(cuu?'Dẫn':'Lấy')+'</button><button id="kS" type="button">Chạy</button></div></div><div class="tbar"><b id="ktb"></b></div><p class="tip" style="margin:8px 0 0;text-align:center;font-size:13px">Phím: <b>← →</b> đi · <b>↑ ↓</b> lên xuống cầu thang · <b>Space</b> núp · <b>E</b> '+(cuu?'dẫn':'lấy')+' · <b>Shift</b> chạy</p></div>',cuu?null:()=>finish(got?'xong_tre':'het'));
   if(cuu){ const xb=$('p2x'); if(xb) xb.remove(); }
   const cv=$('dc'), x=cv.getContext('2d'); const bgk=p2imgUrl('x2-trai-matcat'); let bgi=null; if(bgk){ bgi=new Image(); bgi.src=bgk; }
   const M0=!cuu&&MUC[cfg.muc]; const P={f:M0?M0.f:1,x:cuu?240:(M0?(M0.x>DMAP.stairs.x?DMAP.stairs.x-40:DMAP.stairs.x+DMAP.stairs.w+40):200),hid:false,run:false,sus:0,ph:0,face:M0&&M0.x<DMAP.stairs.x?-1:1}; const G=guards(cfg.siet,cuu);
@@ -874,7 +883,8 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
       if(clock>=cfg.end||groups.every(g=>g.st!=='cho'&&g.st!=='theo')){ finish('het'); return; } }
     if(sMe){ sMe.set(mv&&!P.hid?(P.run?1:.55):0); let gd=1e9; G.forEach(g=>{ if(g.f===P.f) gd=Math.min(gd,Math.abs(g.x-P.x)); }); sG.set(Math.max(0,1-gd/520)); sH.set(P.sus>.2?.35+P.sus*.65:(gd<180&&!P.hid?.3:0)); }
     msgT-=dt; draw(raid); requestAnimationFrame(loop); }
-  function draw(raid){ x.clearRect(0,0,1000,600);
+  let VC=500; const pan=()=>{ const w=cv.parentNode; if(!w) return; const W=cv.clientWidth, V=w.clientWidth; if(W>V+2){ const tx=Math.max(0,Math.min(W-V,P.x/1000*W-V/2)); cv.style.transform='translateX('+(-tx)+'px)'; VC=(tx+V/2)/W*1000; } else { if(cv.style.transform) cv.style.transform=''; VC=500; } };
+  function draw(raid){ pan(); x.clearRect(0,0,1000,600);
     const bgok=bgi&&bgi.complete&&bgi.naturalWidth; if(bgok) x.drawImage(bgi,0,0,1000,600); else { x.fillStyle='#0b0d14'; x.fillRect(0,0,1000,600); }
     for(let f=0;f<3;f++){ const [y0,bh]=DMAP.band[f]; const fl=DMAP.floors[f]; x.fillStyle=f===P.f?'rgba(0,0,0,0)':'rgba(5,6,10,.5)'; x.fillRect(0,y0,1000,bh);
       if(!bgok){ x.fillStyle='rgba(255,255,255,.05)'; fl.rooms.forEach(r=>x.fillRect(r.x,y0+8,r.w,bh-16)); }
@@ -896,9 +906,9 @@ function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='
     x.globalAlpha=P.hid?.45:1; ch(MEK,P.x,P.f,P.face,{walk:!!(K.L||K.R)&&!P.hid,ph:P.ph,t,crouch:P.hid}); x.globalAlpha=1;
     if(P.sus>0){ x.fillStyle='#e2645c'; x.fillRect(P.x-20,Y(P.f)-120,40*P.sus,5); }
     x.fillStyle='#efe8d8'; x.font='15px "IBM Plex Mono",monospace'; x.textAlign='center';
-    if(cuu){ const hh=Math.floor(clock/60), mm=Math.floor(clock%60); x.fillText(hh+':'+String(mm).padStart(2,'0')+(raid?' · đã ập vào':cfg.raid<999?' · hẹn ập vào '+Math.floor(cfg.raid/60)+':'+String(cfg.raid%60).padStart(2,'0'):' · không ai ập vào')+'  ·  ra được '+out.length+'/'+groups.length,500,22); }
-    else x.fillText('Trời sáng sau: '+Math.max(0,Math.ceil((cfg.limit||110)-t))+' giây',500,22);
-    if(msgT>0&&msg){ x.font='16px "Be Vietnam Pro",sans-serif'; const w=x.measureText(msg).width+24; x.fillStyle='rgba(16,19,28,.92)'; x.fillRect(500-w/2,280,w,36); x.fillStyle='#efe8d8'; x.fillText(msg,500,304); }
+    if(cuu){ const hh=Math.floor(clock/60), mm=Math.floor(clock%60); x.fillText(hh+':'+String(mm).padStart(2,'0')+(raid?' · đã ập vào':cfg.raid<999?' · hẹn ập vào '+Math.floor(cfg.raid/60)+':'+String(cfg.raid%60).padStart(2,'0'):' · không ai ập vào')+'  ·  ra được '+out.length+'/'+groups.length,VC,22); }
+    else x.fillText('Trời sáng sau: '+Math.max(0,Math.ceil((cfg.limit||110)-t))+' giây',VC,22);
+    if(msgT>0&&msg){ x.font='16px "Be Vietnam Pro",sans-serif'; const w=Math.min(x.measureText(msg).width+24,VC<500?VC*2-10:(1000-VC)*2-10); const mx=Math.max(w/2+4,Math.min(996-w/2,VC)); x.fillStyle='rgba(16,19,28,.92)'; x.fillRect(mx-w/2,280,w,36); x.fillStyle='#efe8d8'; x.fillText(msg,mx,304,w-16); }
     const tb=$('ktb'); if(tb) tb.style.width=(cuu?Math.min(100,clock/(cfg.end||300)*100):Math.min(100,t/(cfg.limit||110)*100))+'%';
     x.textAlign='left'; const a=atS(); $('kU').disabled=!a||P.f>=2; $('kD').disabled=!a||P.f<=0; $('kH').textContent=P.hid?'Ra':'Núp'; }
   window.__p2sneak={toi:()=>{ if(!cuu){ const m=MUC[cfg.muc]; P.f=m.f; P.x=m.x; act(); } },win:()=>{ if(cuu){ groups.forEach(g=>{ if(g.st==='cho'&&g.can<2){ g.st='ra'; out.push(g); } }); finish('het'); } else { got=true; finish('xong'); } },lose:()=>finish(cuu?'het':'bat')};

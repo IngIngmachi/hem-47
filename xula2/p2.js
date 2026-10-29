@@ -384,7 +384,7 @@ function p2KetLieu(){ return new Promise(res=>{
 #p2kl .acts{display:flex;justify-content:center;gap:56px;padding:18px 0 4px;margin-top:16px}
 #p2kl .acts button{width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#fff;font:600 11px "Be Vietnam Pro",sans-serif}
 #p2kl .acts .no{background:#e2453c;box-shadow:0 8px 20px rgba(226,69,60,.45)}#p2kl .acts .no svg{width:28px;height:28px;fill:#fff;transform:rotate(135deg)}
-#p2kl .acts .yes{background:#2e3138;opacity:.45;cursor:not-allowed}#p2kl .acts .yes svg{width:28px;height:28px;fill:#9aa0aa}
+#p2kl .acts .yes{background:#2fa35a;box-shadow:0 8px 20px rgba(47,163,90,.45)}#p2kl .acts .yes svg{width:28px;height:28px;fill:#fff}
 #p2kl .lbl{display:flex;justify-content:center;gap:56px;font:500 12px "Be Vietnam Pro",sans-serif;color:#cfc8b8}#p2kl .lbl span{width:64px;text-align:center}
 #p2kl .chat{flex:1;display:flex;flex-direction:column;min-height:0}
 #p2kl .chat .hd{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid #22232a}
@@ -399,6 +399,21 @@ function p2KetLieu(){ return new Promise(res=>{
 #p2kl .chat .send:disabled{opacity:.5;cursor:default}
 #p2kl .chat .bar{height:6px;border-radius:3px;background:#232a3d;overflow:hidden;margin-top:10px;visibility:hidden}#p2kl .chat .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f0b25c,#e2645c)}
 #p2kl .chat .tx{font:500 12.5px "Be Vietnam Pro",sans-serif;color:#b9b3a6;min-height:16px;margin-top:8px;text-align:center}
+#p2kl .oncall{flex:1;display:flex;flex-direction:column;min-height:0;background:radial-gradient(circle at 50% 0%,#2a1616,#0b0c10 60%)}
+#p2kl .oncall .hd{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid #22232a}
+#p2kl .oncall .hd .av{width:38px;height:38px;border-radius:50%;background:#26272d center/cover;flex:none}
+#p2kl .oncall .hd b{display:block;font:600 15px "Be Vietnam Pro"}#p2kl .oncall .hd small{font:500 12px "Be Vietnam Pro";color:#9fd3a8}
+#p2kl .oncall .rec{margin-left:auto;font:700 11px "Be Vietnam Pro";color:#ff5a4f;letter-spacing:.06em;visibility:hidden;animation:p2klrec 1s infinite}
+@keyframes p2klrec{50%{opacity:.35}}
+#p2kl .oncall .ls{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+#p2kl .oncall .m{max-width:88%;padding:9px 12px;border-radius:14px;font:400 14px/1.45 "Be Vietnam Pro";animation:p2klin .3s ease-out}
+#p2kl .oncall .m.her{align-self:flex-start;background:#2a2c33;color:#efe8d8;border-bottom-left-radius:4px}
+#p2kl .oncall .m.me{align-self:flex-end;background:#1d3a2a;color:#e6efe6;border-bottom-right-radius:4px}
+#p2kl .oncall .m.dots{color:#9aa0aa;letter-spacing:.2em}
+#p2kl .oncall .ch{padding:10px 12px 14px;border-top:1px solid #22232a;display:flex;flex-direction:column;gap:7px}
+#p2kl .oncall .ch button{text-align:left;padding:10px 12px;border-radius:12px;border:1px solid #3a3d46;background:#16171c;color:#efe8d8;font:500 13.5px/1.35 "Be Vietnam Pro";cursor:pointer}
+#p2kl .oncall .ch button.end{background:#e2453c;border-color:#e2453c;color:#fff;text-align:center;font-weight:700}
+#p2kl .sb .bat.low{animation:p2klrec .6s infinite}
 #p2kl .off{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}
 @media (max-height:640px){#p2kl .cap{font-size:14.5px}#p2kl .tel{height:min(520px,76vh)}#p2kl .call{padding:18px 16px 14px}#p2kl .call .av{width:70px;height:70px}}
 `; document.head.appendChild(st); }
@@ -410,17 +425,39 @@ function p2KetLieu(){ return new Promise(res=>{
   el.innerHTML='<p class="cap">Chiếc ghe đuôi tôm của chú Thoại vừa vượt qua cồn cát giữa sông. Màn hình chiếc điện thoại nứt toác trong tay '+esc(ME)+' chỉ còn đúng 2% pin — nhưng góc trên vừa nhảy lên 1 vạch sóng "VIETTEL 4G".</p>'+
     '<div class="tel ring">'+sb+'<div class="call"><div class="av" style="background-image:url('+(typeof faceFor==='function'?faceFor('Bà Mỹ'):'')+')"></div><div class="who">Bà Trần Thị Mỹ</div><div class="num">SỐ CỐ ĐỊNH SÀI GÒN · ĐANG GỌI...</div>'+
     '<q>"Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!"</q>'+
-    '<div class="acts"><button type="button" class="no" id="p2klNo" aria-label="Gạt tắt cuộc gọi">'+ICO_PH+'</button><button type="button" class="yes" disabled aria-hidden="true">'+ICO_PH+'</button></div><div class="lbl"><span>Gạt tắt</span><span></span></div></div><div class="off"></div></div>';
+    '<div class="acts"><button type="button" class="no" id="p2klNo" aria-label="Gạt tắt cuộc gọi">'+ICO_PH+'</button><button type="button" class="yes" id="p2klYes" aria-label="Nghe máy">'+ICO_PH+'</button></div><div class="lbl"><span>Gạt tắt</span><span>Nghe</span></div></div><div class="off"></div></div>';
   document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
   let rs=null; const ringOnce=()=>{ try{ if(window.SFX&&SFX.has('chuong')){ rs=SFX.play('chuong',{v:.8}); SFX.play('rung',{v:.35}); } else if(window.SFX) SFX.play('rung',{v:.55}); else { tone(880,.12,.03); tone(660,.12,.03,'sine',.15); } }catch(e){} };
   ringOnce(); const ring=setInterval(ringOnce,window.SFX&&SFX.has('chuong')?10000:1300);
-  $('p2klNo').onclick=()=>{ clearInterval(ring); try{ rs&&rs.stop&&rs.stop(); }catch(e){} try{ tone(220,.15,.03,'square'); }catch(e){}
-    const tel=el.querySelector('.tel'); tel.classList.remove('ring');
+  const tel=el.querySelector('.tel'); let ghiam=false, lowBat=false;
+  const stopRing=()=>{ clearInterval(ring); try{ rs&&rs.stop&&rs.stop(); }catch(e){} tel.classList.remove('ring'); };
+  $('p2klNo').onclick=()=>{ stopRing(); try{ tone(220,.15,.03,'square'); }catch(e){} goChat(); };
+  /* bắt máy: nói qua lại vài câu với bà Mỹ (mỗi câu tốn pin), có thể bật ghi âm để có thêm chứng cứ */
+  $('p2klYes').onclick=()=>{ stopRing(); try{ tone(660,.08,.03); }catch(e){}
+    const face=typeof faceFor==='function'?faceFor('Bà Mỹ'):'';
+    tel.innerHTML=sb+'<div class="oncall"><div class="hd"><div class="av" style="background-image:url('+face+')"></div><div><b>Bà Trần Thị Mỹ</b><small id="p2klT">00:00</small></div><span class="rec" id="p2klRec">● GHI ÂM</span></div><div class="ls" id="p2klLs"></div><div class="ch" id="p2klCh"></div></div><div class="off"></div>';
+    const ls=$('p2klLs'), ch=$('p2klCh'), bat=tel.querySelector('.bat'); let sec=0, turns=0; const clk=setInterval(()=>{ sec++; const t=$('p2klT'); if(t) t.textContent='00:'+String(sec).padStart(2,'0'); },1000);
+    const add=(who,t)=>{ const d=document.createElement('div'); d.className='m '+who; d.textContent=t; ls.appendChild(d); ls.scrollTop=ls.scrollHeight; return d; };
+    const her=t=>new Promise(r=>{ const d=add('her dots','• • •'); setTimeout(()=>{ d.className='m her'; d.textContent=t; ls.scrollTop=ls.scrollHeight; r(); },900); });
+    const OPT=[
+      {k:'tien',t:'"Bà nghĩ tiền mua được hết hả?"',a:'Tiền không mua được thì mua cái gì? Mạng tụi bây ngoài sông đó rẻ hơn 500 triệu nhiều.'},
+      {k:'rec',t:'Bật ghi âm, hỏi: "Tụi nhỏ bên lò là của ai?"',a:'Của ai? Đứa nào qua bển cũng là tao bỏ tiền ra mua. Cái lò đó tao nuôi mười mấy năm, tụi bây tưởng mấy tờ giấy là đánh sập được hả?'}];
+    const used={};
+    const hang=()=>{ clearInterval(clk); try{ tone(220,.15,.03,'square'); }catch(e){} setTimeout(goChat,350); };
+    const menu=()=>{ ch.innerHTML=''; const left=OPT.filter(o=>!used[o.k]);
+      if(turns<2) left.forEach(o=>{ const b=document.createElement('button'); b.type='button'; b.textContent=o.t; b.onclick=async()=>{ used[o.k]=1; turns++; ch.innerHTML='';
+        if(o.k==='rec'){ ghiam=true; $('p2klRec').style.visibility='visible'; try{ tone(1200,.06,.02); }catch(e){} }
+        add('me',o.t.replace(/^Bật ghi âm, hỏi: /,'')); await her(o.a);
+        lowBat=true; bat.firstChild.textContent='1%'; bat.classList.add('low'); menu(); }; ch.appendChild(b); });
+      const e=document.createElement('button'); e.type='button'; e.className='end'; e.textContent=turns>=2?'Pin 1% · Cúp máy, gửi chứng cứ ngay':'Cúp máy'; e.onclick=hang; ch.appendChild(e); };
+    her('Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!').then(menu); };
+  function goChat(){ if(ghiam){ ev.push('Ghi âm cuộc gọi của bà Mỹ'); try{ setCo('x_ghiam_my'); }catch(e){} }
     tel.innerHTML=sb+'<div class="chat"><div class="hd"><i>VN</i><b>Đại úy Vinh</b></div><div class="ls">'+ev.map(t=>'<div class="f">'+ICO_F+'<span>'+esc(t)+'</span></div>').join('')+'</div>'+
       '<div class="ft"><button type="button" class="send" id="p2klGo">Gửi toàn bộ '+ev.length+' chứng cứ cho đại úy Vinh</button><div class="bar"><i></i></div><div class="tx"></div></div></div><div class="off"></div>';
-    $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; const bar=tel.querySelector('.bar'), f=bar.firstChild, tx=tel.querySelector('.tx'); bar.style.visibility='visible'; tx.textContent='Đang gửi · pin 2%…'; let w=0;
+    if(lowBat){ const bt=tel.querySelector('.bat'); bt.firstChild.textContent='1%'; bt.classList.add('low'); }
+    $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; const bar=tel.querySelector('.bar'), f=bar.firstChild, tx=tel.querySelector('.tx'); bar.style.visibility='visible'; tx.textContent=lowBat?'Đang gửi · pin 1%…':'Đang gửi · pin 2%…'; let w=0;
       const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; try{ if(window.SFX&&SFX.has('boom')) SFX.play('boom',{v:.9,delay:.6}); else tone(110,1.2,.05,'sine'); }catch(e){}
-        setTimeout(()=>{ tel.querySelector('.off').style.opacity=1; },700); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); },1700); } },60); }; }; }); }
+        setTimeout(()=>{ tel.querySelector('.off').style.opacity=1; },700); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); },1700); } },60); }; } }); }
 /* ---------------- kết ---------------- */
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;
   const dsr=ra.join(', ');

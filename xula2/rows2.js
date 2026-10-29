@@ -279,7 +279,7 @@ X('x_tra_phatdat','Tra công ty Phát Đạt TN',[
  {fx:'+cc:x_bamy'}]);
 X('x_tra_ghe','Trả tiền ghe',[
  {if:'tien>=700000',L:[['Tài xế Thoại','Đủ tiền mướn máy lớn với mua dầu rồi. Đêm nào rút ra tới bờ sông thì nhắn chú một chữ, chú nổ máy chờ sẵn dưới bãi lau.'],{fx:'-tien:700000 +co:x_ghe +tin_thoai'}]},
- {if:'tien<700000',L:[['Tài xế Thoại','Chưa đủ bảy trăm ngàn thì bên bến người ta chưa chịu cho mướn cái máy đuôi tôm lớn đâu con ơi. Ráng xoay thêm chút nữa đi.']]}]);
+ {if:'tien<700000',L:[['Tài xế Thoại','Chưa đủ tiền dầu thì bên bến người ta chưa chịu cho mướn cái máy đuôi tôm lớn đâu con ơi. Ráng xoay thêm chút nữa đi.']]}]);
 X('x_b_gom','B · gom tiền',[
  'Lâm đi gõ cửa từng nhà trong hẻm. Không mở miệng xin, chỉ kể rõ chuyến này mình đi đâu.',
  {if:'tin_ba_sau>=3',L:[['Bà Sáu','Cầm lấy đi con. Tiền dưỡng già bà cất mua cái hòm đó. Năm ngoái bà trót cho thằng Khoa thuê cái gác mái, để 12 đứa nhỏ đi mất từ nhà bà… Giờ bà đưa tiền này cho con đi rước tụi nó về, coi như bà trả bớt cái nghiệp của bà.'],{fx:'+tien:1000000'}]},

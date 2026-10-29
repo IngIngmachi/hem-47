@@ -499,7 +499,7 @@ document.body.appendChild(tg);
 tg.querySelector('[data-t=ts]').onclick=()=>{ const b=$('tsBtn'); if(b) b.click(); };
 tg.querySelector('[data-t=ed]').onclick=()=>{ const b=$('edBtn'); if(b) b.click(); };
 let tgKey='';
-function tgUpd(){ const on=MODE==='d'&&typeof btvOn==='function'&&btvOn(); document.body.classList.toggle('u3adm',on); if(!on) return;
+function tgUpd(){ const on=false; /* bỏ cột tác giả cố định: sửa lời dùng nút nổi, phòng thử thu gọn được */ document.body.classList.toggle('u3adm',on); if(!on) return;
   const pl=$('btvPill'), hold=tg.querySelector('.tg-pill'); if(pl&&pl.parentNode!==hold) hold.appendChild(pl);
   const L=(typeof BTV_CUR!=='undefined'?BTV_CUR:[])||[]; const k=L.map(r=>r.ma).join(',');
   if(k!==tgKey){ tgKey=k; tg.querySelector('.tg-cur').innerHTML=L.length?L.map(r=>'<div class="m">'+esc(r.ma)+' · '+esc(r.kieu||'')+(r.ai?' · '+esc(r.ai):'')+'</div><div class="t">'+esc(tpl?tpl(r.loi):r.loi)+'</div>').join(''):'<div class="e">Chưa có câu nào đang hiện. Chạy tới một đoạn thoại là câu đó hiện ở đây, bấm "Sửa câu này" để sửa ngay bên cột này.</div>'; } }

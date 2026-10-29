@@ -28,7 +28,7 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   const shake=()=>{ document.body.classList.remove('hshake'); void document.body.offsetWidth; document.body.classList.add('hshake'); try{ navigator.vibrate&&navigator.vibrate([80,40,120]); }catch(e){} };
   const T=(f,d,v,ty,dl)=>{ try{ tone(f,d,v,ty,dl); }catch(e){} };
   /* tiếng dội ngắn: trầm + rít */
-  const sting=(big)=>{ if(!window.SFX) return; if(SFX.has('hit')) SFX.play('hit',{v:big?1:.7}); SFX.play('timdap',{v:big?1:.8,dur:big?5:3.5,off:0}); };
+  const sting=(big)=>{ if(!window.SFX) return; SFX.play(big?'boom':'hit',{v:big?1:.75}); SFX.play('timdap',{v:big?1:.8,dur:big?5:3.5,off:0,delay:.4}); };
   const reveal=(suy)=>{ flash(); }; /* bỏ tiếng 'ra rồi' theo ý tác giả, chỉ còn chớp sáng */
   const beatOnce=v=>{ T(55,.13,.05*v,'sine'); T(50,.11,.04*v,'sine',.16); };
 
@@ -36,13 +36,13 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   let sMe=null,sG=null,sH=null,lastX=null,lastLook='none',wasOn=false,lastSus=0;
   const tailTick=()=>{ if(typeof SO==='undefined') return; const on=!!SO.on;
     if(on&&!wasOn&&window.SFX){ sMe=SFX.loop('buocchan',{max:.5,tc:.08}); sG=SFX.loop('buocchan',{max:.65,rate:.86}); sH=SFX.loop('timdap',{max:.9}); lastLook='none'; }
-    if(!on&&wasOn){ [sMe,sG,sH].forEach(x=>x&&x.stop()); sMe=sG=sH=null; vig.style.opacity=0; if(lastSus>=95) shake(); lastSus=0; }
+    if(!on&&wasOn){ [sMe,sG,sH].forEach(x=>x&&x.stop()); sMe=sG=sH=null; vig.style.opacity=0; if(lastSus>=95){ shake(); window.SFX&&SFX.play('boom'); } lastSus=0; }
     wasOn=on; if(!on) return;
     const mv=lastX!=null&&Math.abs(PL.x-lastX)>.5; lastX=PL.x; const d=Math.abs(SO.x-PL.x);
     sMe&&sMe.set(mv&&!PL.hidden?1:0); sG&&sG.set(SO.look==='none'&&SO.state==='walk'?Math.max(.15,1-d/700):0);
     const sus=SO.sus||0; lastSus=sus;
     const hb=SO.look==='look'?.6+sus/250:SO.look==='warn'?.45:sus>20?sus/120:0; sH&&sH.set(hb);
-    if(SO.look!==lastLook){ if(SO.look==='warn') sting(false); lastLook=SO.look; }
+    if(SO.look!==lastLook){ if(SO.look==='warn'&&window.SFX) SFX.play('riser',{v:.6,off:1.6,dur:2.1}); if(SO.look==='look'&&window.SFX) SFX.play('hit',{v:.5}); lastLook=SO.look; }
     vig.style.opacity=Math.min(.95,(SO.look==='look'?.25:0)+sus/110); };
 
   /* ---- 2. thanh nghi ---- */
@@ -72,9 +72,9 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
       const tm=Math.round(sec+set.reduce((a,r)=>a+String(r.loi||'').length,0)/20);
       const host=$('dlg'); const bar=document.createElement('div'); bar.className='p2timer p1t'; bar.style.width='100%'; if(host) host.insertBefore(bar,host.firstChild);
       setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },700);
-      let beatIv=setInterval(()=>beatOnce(.8),900);
-      return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; clearInterval(beatIv); bar.remove(); toast('Hết giờ'); const idx=set.findIndex(r=>r.ma===def); if(typeof chooseFn==='function'&&idx>=0) chooseFn(idx); else res(pick); },tm*1000+700);
-        p.then(v=>{ clearInterval(beatIv); if(!over){ over=true; clearTimeout(to); } bar.remove(); res(v); }); }); }catch(e){ return p; } }; }
+      const stopU=window.SFX?SFX.urgent(tm*1000+700):()=>{}; const beatIv=0;
+      return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; stopU(); bar.remove(); toast('Hết giờ'); const idx=set.findIndex(r=>r.ma===def); if(typeof chooseFn==='function'&&idx>=0) chooseFn(idx); else res(pick); },tm*1000+700);
+        p.then(v=>{ stopU(); if(!over){ over=true; clearTimeout(to); } bar.remove(); res(v); }); }); }catch(e){ return p; } }; }
 
   let last=performance.now();
   setInterval(()=>{ const now=performance.now(), dt=(now-last)/1000; last=now; try{ tailTick(); }catch(e){} try{ nghiTick(dt); }catch(e){} try{ gapTick(); }catch(e){} },100);

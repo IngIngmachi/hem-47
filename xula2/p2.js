@@ -264,10 +264,10 @@ choose=function(set,inPhone,title,face){ if(!P2.on) return choose1(set,inPhone,t
   const tm0=+s0.timer||0; if(!tm0) return p;
   const tm=Math.round(tm0+view.reduce((a,v)=>a+String(v.loi||'').length,0)/20);
   const d=$('dlg'); const bar=document.createElement('div'); bar.className='p2timer'; bar.style.width='100%'; d.insertBefore(bar,d.firstChild);
-  const T_WAIT=700; setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },T_WAIT);
-  return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; bar.remove(); const mac=s0.mac; const box=$('dCh');
+  const T_WAIT=700; setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },T_WAIT); const stopU=window.SFX&&SFX.urgent?SFX.urgent(tm*1000+T_WAIT):()=>{};
+  return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; stopU(); bar.remove(); const mac=s0.mac; const box=$('dCh');
       const r=mac>=0&&view[mac]?view[mac]:null; chooseFn=null; box.innerHTML=''; if(r){ toast('Hết giờ'); res(r._o); } else res({ma:'_het',loi:'',sau:''}); },tm*1000+T_WAIT);
-    p.then(v=>{ if(over) return; over=true; clearTimeout(to); bar.remove(); res(v); }); }); };
+    p.then(v=>{ stopU(); if(over) return; over=true; clearTimeout(to); bar.remove(); res(v); }); }); };
 /* người không còn câu vu vơ nào được phép nói thì báo như chỗ không có việc, đừng im lặng như bấm hỏng */
 /* câu vu vơ trong Phần 2: chỉ lấy câu của Phần 2 (trước đây câu của anh Lộc ở hẻm "Bánh mì vợ tui ngon nhất hẻm" lọt vào cả trong trại),
    và người nào không còn câu nào được phép nói thì báo như chỗ không có việc, đừng im lặng như bấm hỏng */
@@ -411,13 +411,14 @@ function p2KetLieu(){ return new Promise(res=>{
     '<q>"Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!"</q>'+
     '<div class="acts"><button type="button" class="no" id="p2klNo" aria-label="Gạt tắt cuộc gọi">'+ICO_PH+'</button><button type="button" class="yes" disabled aria-hidden="true">'+ICO_PH+'</button></div><div class="lbl"><span>Gạt tắt</span><span></span></div></div><div class="off"></div></div>';
   document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
-  const ring=setInterval(()=>{ try{ if(window.SFX) SFX.play('rung',{v:.55}); else { tone(880,.12,.03); tone(660,.12,.03,'sine',.15); } }catch(e){} },1300);
-  $('p2klNo').onclick=()=>{ clearInterval(ring); try{ tone(220,.15,.03,'square'); }catch(e){}
+  let rs=null; const ringOnce=()=>{ try{ if(window.SFX&&SFX.has('chuong')){ rs=SFX.play('chuong',{v:.8}); SFX.play('rung',{v:.35}); } else if(window.SFX) SFX.play('rung',{v:.55}); else { tone(880,.12,.03); tone(660,.12,.03,'sine',.15); } }catch(e){} };
+  ringOnce(); const ring=setInterval(ringOnce,window.SFX&&SFX.has('chuong')?10000:1300);
+  $('p2klNo').onclick=()=>{ clearInterval(ring); try{ rs&&rs.stop&&rs.stop(); }catch(e){} try{ tone(220,.15,.03,'square'); }catch(e){}
     const tel=el.querySelector('.tel'); tel.classList.remove('ring');
     tel.innerHTML=sb+'<div class="chat"><div class="hd"><i>VN</i><b>Đại úy Vinh</b></div><div class="ls">'+ev.map(t=>'<div class="f">'+ICO_F+'<span>'+esc(t)+'</span></div>').join('')+'</div>'+
       '<div class="ft"><button type="button" class="send" id="p2klGo">Gửi toàn bộ '+ev.length+' chứng cứ cho đại úy Vinh</button><div class="bar"><i></i></div><div class="tx"></div></div></div><div class="off"></div>';
     $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; const bar=tel.querySelector('.bar'), f=bar.firstChild, tx=tel.querySelector('.tx'); bar.style.visibility='visible'; tx.textContent='Đang gửi · pin 2%…'; let w=0;
-      const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; try{ tone(110,1.2,.05,'sine'); }catch(e){}
+      const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; try{ if(window.SFX&&SFX.has('boom')) SFX.play('boom',{v:.9,delay:.6}); else tone(110,1.2,.05,'sine'); }catch(e){}
         setTimeout(()=>{ tel.querySelector('.off').style.opacity=1; },700); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); },1700); } },60); }; }; }); }
 /* ---------------- kết ---------------- */
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;

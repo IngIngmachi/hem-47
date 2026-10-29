@@ -621,4 +621,5 @@ if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=
   let lastH=0; setInterval(()=>{ const t=document.getElementById('teTx'); if(!t||!t.offsetParent) return; if(t.scrollHeight!==lastH){ lastH=t.scrollHeight; t.scrollTop=t.scrollHeight; } },150); })();
 
 /* trong trại: hình đi lại của Lâm/Ngân (vẫn là bộ đồ Phần 1) tái màu, tối lại cho ra người đang bị giữ, chờ bộ hình riêng */
-if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter; g.filter='grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; } } return dc0.apply(this,arguments); }; }
+const LAMTRAI=new Image(); LAMTRAI.src='img2/lam-full-trai.webp';  /* Lâm trong trại: không còn balo */
+if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter, o0=IMG['lam-full']; g.filter='grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; if(k==='lam'&&LAMTRAI.complete&&LAMTRAI.naturalWidth) IMG['lam-full']=LAMTRAI; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; IMG['lam-full']=o0; } } return dc0.apply(this,arguments); }; }

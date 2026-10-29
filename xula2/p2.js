@@ -150,7 +150,7 @@ function p2Install(){ if(P2INST) return; P2INST=true; const D=P2DATA;
   P2ROWS.forEach(r=>ROWS_DEFAULT.push(r)); rebuild();
   NV.length=0; D.NV.forEach(x=>NV.push(x));
   const hn=$('hNghi'); if(hn){ hn.title='Quản lý trại nghi tới đâu'; if(hn.firstChild&&hn.firstChild.nodeType===3) hn.firstChild.textContent='Bị nghi '; }
-  document.title='Hẻm 47 · Xứ Lạ (bản thử)'; }
+  document.title=/taotestcaigiketao/.test(location.pathname)?'Hẻm 47 · Xứ Lạ (bản thử)':'Hẻm 47: Xứ Lạ'; }
 
 /* ---------------- những chỗ của khung Phần 1 cần đổi khi chơi Phần 2 ---------------- */
 const hotspots1=hotspots;
@@ -749,7 +749,7 @@ function p2Buttons(){ const row=document.querySelector('#cover .row'); if(!row||
   row.insertBefore(b,row.firstChild); b.onclick=()=>p2Menu(); }
 function p2Menu(){ const c=$('cover'); const p1=p2p1(), sv=lsGet(P2SAVE); const K={phuong:'Người lên tiếng',imlang:'Im lặng đúng lúc',bocphot:'Bóc phốt',tien:'Nhận tiền',hetgio:'Hết giờ'};
   const k=p1&&p1.ket; const nh=(k==='phuong'||k==='imlang')?'A':'B';
-  c.querySelector('.in').innerHTML='<div class="kick">HẺM 47 · PHẦN 2 · BẢN THỬ</div><h2 class="cl" style="font-size:56px">Xứ Lạ</h2><p>Có những người rời hẻm 47 với một tờ giấy khám sức khỏe và một lời hứa lương ba chục triệu. Họ không gọi điện về.</p>'+
+  c.querySelector('.in').innerHTML='<div class="kick">HẺM 47 · PHẦN 2</div><h2 class="cl" style="font-size:56px">Xứ Lạ</h2><p>Có những người rời hẻm 47 với một tờ giấy khám sức khỏe và một lời hứa lương ba chục triệu. Họ không gọi điện về.</p>'+
     '<p class="sub">'+(p1?'Phần 1 của bạn kết ở: <b>'+esc(K[k]||k)+'</b>. '+(nh==='A'?'Ngân đã về.':'Ngân chưa về.'):'Chưa thấy bài lưu Phần 1 trên máy này: vào như kết "Hết giờ".')+'</p>'+
     '<p class="sub">Chơi thử với kết khác: <select id="p2k" style="font:inherit;background:#20263a;color:#efe8d8;border:1px solid #2e3549;border-radius:8px;padding:4px"><option value="">(theo bài lưu)</option>'+Object.keys(K).map(x=>'<option value="'+x+'">'+K[x]+'</option>').join('')+'</select> <label><input type="checkbox" id="p2kl"> Khoa đã lật</label> <label><input type="checkbox" id="p2tu"> đã vạch anh Tú</label> <label><input type="checkbox" id="p2cg"> nói thật với cô Thoa</label> <label><input type="checkbox" id="p2ph"> Phát làm chứng</label></p>'+
     '<div class="row">'+(sv?'<button class="btn" id="p2Cont" type="button">Chơi tiếp Phần 2</button>':'')+'<button class="btn'+(sv?' ghost':'')+'" id="p2New" type="button">Chơi mới Phần 2</button><button class="btn ghost" id="p2Back" type="button">Về Phần 1</button></div>'+

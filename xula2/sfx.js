@@ -1,7 +1,7 @@
 /* Tiếng động thật (sfx/*.mp3): bước chân, tim đập, nước, tin nhắn, rung, cổng sắt, viết, kìm cắt, đèn pin.
    Dùng chung WebAudio với tone(); âm lượng theo thanh "Hiệu ứng". Tệp chưa tải xong thì im, không lỗi. */
 (function(){
-  const F=['buocchan','timdap','nuoc','tinbao','rung','cong_go','cong_mo','viet','kem','denpin'];
+  const F=['buocchan','timdap','nuoc','tinbao','rung','cong_go','cong_mo','viet','kem','denpin','hit','riser'];
   const B={}, wait={}; let A=null, OUT=null;
   const vol=()=>(typeof CD!=='undefined'&&CD.hieu!=null?CD.hieu:80)/80;
   function ctx(){ if(A) return A; A=typeof ac==='function'?ac():null; if(!A) return null; OUT=A.createGain(); OUT.connect(A.destination); return A; }

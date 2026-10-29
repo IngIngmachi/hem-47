@@ -309,7 +309,7 @@ ob.addEventListener('click',e=>{ e.stopPropagation(); if(e.target.closest('.u3hi
   if(e.target.closest('.u3h')){ minUser=!ob.classList.contains('min'); ob.classList.toggle('min',minUser); clearTimeout(autoT); } });
 let lastMuc=null;
 function objUpd(){ const html=started&&!S.ended?objHtml():null; if(!html){ ob.hidden=true; return; }
-  try{ const mr=metaRows('muc').find(x=>cond(x.hien)); const mu=mr?tpl(mr.loi).split('\n')[0]:''; if(lastMuc!==null&&mu&&mu!==lastMuc&&!busy) u3sys('Đã cập nhật nhiệm vụ',mu.length>70?mu.slice(0,68)+'…':mu); if(mu) lastMuc=mu; }catch(e){}
+  try{ const mr=metaRows('muc').find(x=>cond(x.hien)); const mu=mr?tpl(mr.loi).split('\n')[0]:''; if(lastMuc!==null&&mu&&mu!==lastMuc&&!busy) u3sys('Đã cập nhật nhiệm vụ',mu); if(mu) lastMuc=mu; }catch(e){}
   if(ob.dataset.h!==html){ ob.innerHTML=html; ob.dataset.h=html; }
   const k=[typeof P2!=='undefined'&&P2.on?P2.map:'p1',S.scene,S.room||'',S.place||''].join('|');
   if(k!==areaKey){ areaKey=k; minUser=null; }
@@ -363,14 +363,15 @@ function drawEdgesM(){ const all=hotspots().filter(h=>h.kind!=='cat'&&h.kind!=='
   for(const left of [true,false]){ const side=all.filter(h=>{ const x=h.x-cam; return left?x<=30:x>=VW-30; }).sort((a,b)=>Math.abs(a.x-cam-(left?0:VW))-Math.abs(b.x-cam-(left?0:VW)));
     const mains=side.filter(h=>h.main); (mains.length?mains.slice(0,2):side.slice(0,1)).forEach(h=>pick.push({h,left})); }
   let nl=0,nr=0; const R=46;
-  for(const {h,left} of pick){ const k=left?nl++:nr++; const cy=VH*.5+k*(R+34)-((left?nl:nr)>1?0:0); const cx=left?R/2+10:VW-R/2-10; const main=!!h.main;
-    let lab=h.l; g.font='500 14px "Be Vietnam Pro",system-ui,sans-serif'; const maxw=Math.min(132,VW*.36); while(lab.length>3&&g.measureText(lab).width>maxw-16) lab=lab.slice(0,-2); if(lab!==h.l) lab=lab.trimEnd()+'…';
-    const lw=g.measureText(lab).width+18, lx=left?10:VW-10-lw;
+  for(const {h,left} of pick){ const k=left?nl++:nr++; const cy=VH*.42+k*(R+64); const cx=left?R/2+10:VW-R/2-10; const main=!!h.main;
+    g.font='500 14px "Be Vietnam Pro",system-ui,sans-serif'; const maxw=Math.min(150,VW*.4); const LN=[]; let cur='';
+    for(const w of String(h.l).split(/\s+/)){ const t=cur?cur+' '+w:w; if(cur&&g.measureText(t).width>maxw-18){ LN.push(cur); cur=w; } else cur=t; } if(cur) LN.push(cur);
+    const lw=Math.max(...LN.map(t=>g.measureText(t).width))+18, lh=18, bh=LN.length*lh+8, lx=left?10:VW-10-lw;
     g.save(); g.fillStyle=main?'rgba(240,178,92,.95)':'rgba(10,12,18,.82)'; g.strokeStyle=main?'#f0b25c':'rgba(236,228,210,.55)'; g.lineWidth=2; g.beginPath(); g.arc(cx,cy,R/2,0,7); g.fill(); g.stroke();
     g.strokeStyle=main?'#21170a':'#ece4d2'; g.lineWidth=3; g.lineCap='round'; g.lineJoin='round'; const d=left?-1:1; g.beginPath(); g.moveTo(cx-d*4,cy-9); g.lineTo(cx+d*5,cy); g.lineTo(cx-d*4,cy+9); g.stroke();
-    g.fillStyle='rgba(10,12,18,.82)'; g.beginPath(); if(g.roundRect) g.roundRect(lx,cy+R/2+4,lw,24,12); else g.rect(lx,cy+R/2+4,lw,24); g.fill();
-    g.fillStyle='#ece4d2'; g.textAlign='left'; g.textBaseline='middle'; g.fillText(lab,lx+9,cy+R/2+17); g.restore(); g.textBaseline='alphabetic';
-    EDGE.push({x:Math.min(lx,cx-R/2),y:cy-R/2,w:Math.max(lw,R)+(left?0:0),h:R+32,spot:h}); } }
+    g.fillStyle='rgba(10,12,18,.82)'; g.beginPath(); if(g.roundRect) g.roundRect(lx,cy+R/2+4,lw,bh,12); else g.rect(lx,cy+R/2+4,lw,bh); g.fill();
+    g.fillStyle='#ece4d2'; g.textAlign='left'; g.textBaseline='middle'; LN.forEach((t,i)=>g.fillText(t,lx+9,cy+R/2+8+lh/2+i*lh)); g.restore(); g.textBaseline='alphabetic';
+    EDGE.push({x:Math.min(lx,cx-R/2),y:cy-R/2,w:Math.max(lw,R),h:R+bh+8,spot:h}); } }
 drawEdges=function(){ EDGE=[]; if(S.scene!=='street'||busy||SO.on) return; if(isMob()) return drawEdgesM(); const L=mainSpots(); let nl=0, nr=0;
   for(const h of L){ const x=h.x-cam; if(x>30&&x<VW-30) continue; const left=x<=30; const k=VW<1100?nl++:(left?nl++:nr++); const y=VH*.56+k*58;
     g.font='400 19px Newsreader,Georgia,serif'; const tw=g.measureText(h.l).width, w=tw+80, H=46, bx=left?24:VW-24-w;
@@ -442,6 +443,19 @@ body.u3m #dlg.u3L #dNm{left:96px}body.u3m #dlg.u3R #dNm{right:96px}
 body.u3m #dlg .ln{font-size:16.5px!important}
 body.u3m #dlg.menu.u3L{padding-left:16px!important}
 body.u3m #u3sys{top:calc(max(10px,env(safe-area-inset-top)) + 46px)}
+/* không cắt chữ bằng "…" ở đâu hết: chữ dài thì xuống dòng */
+#u3loc{white-space:normal!important;max-width:min(78%,420px)!important;overflow:visible!important;text-overflow:clip!important;line-height:1.35;align-items:flex-start!important}
+.ph-h b,.thr .t span,.hud .obj,#acctBtn .tx,.cover .tools .t,.phone .thr .t span,.ca7 .cls .it span,.mt7 .mtchat .ls span,.phone .ppl b,.phone .card.key .trg span,.phone .noibar .slots i{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere}
+.so-it p,.so-grid .so-it p,.card.cmp .tx,.card.pick .tx,.hud .obj.min,.phone .ppl small,.phone #phBody:has(.noibar) .card .tx{-webkit-line-clamp:unset!important;line-clamp:unset!important;display:block!important;overflow:visible!important;max-height:none!important}
+.phone:not([data-v="thr"]):not([data-v="home"]) .ph-h b{font-size:clamp(24px,7vw,38px)!important}
+/* đồng hồ chọn: thanh nằm sát mép trên hộp, không chiếm chỗ của chữ */
+#dlg>.p2timer{position:absolute!important;left:0;top:0;height:4px;margin:0!important;z-index:3;border-radius:4px 4px 0 0}
+/* điện thoại: lúc chọn thì bỏ chân dung, lựa chọn trải hết bề ngang; câu dài thì hộp cao lên (cuộn được), không cắt chữ */
+body.u3m:has(#dlg.menu:not([hidden])) .dbust{display:none!important}
+body.u3m #dlg.dlg.menu{padding-left:16px!important;padding-right:16px!important}
+body.u3m #dlg.dlg{max-height:64vh;max-height:64dvh;overflow-y:auto!important;overscroll-behavior:contain}
+body.u3m #dlg .ln,body.u3 #dlg .ln{max-height:none!important;overflow:visible!important;-webkit-line-clamp:unset!important;display:block!important}
+body.u3m #dlg .choices button{padding:10px 12px 10px 46px!important;font-size:16px!important}
 `;
 const st3=document.createElement('style'); st3.id='u3dlg'; st3.textContent=dcss; document.head.appendChild(st3);
 const MEN=()=>typeof ME!=='undefined'?ME:'Lâm';
@@ -579,3 +593,6 @@ body:has(#phone:not([hidden])) #u3sys{top:auto;bottom:96px}
   const c0=closePhone;
   closePhone=function(){ const pend=$('phTap')&&!$('phTap').hidden&&typeof waitFn!=='undefined'&&waitFn; c0.apply(this,arguments); if(pend&&typeof advance==='function') setTimeout(()=>{ try{ if(waitFn) advance(); }catch(e){} },0); };
 })();
+
+/* đang có hộp thoại thì ẩn thẻ người trong phòng (khỏi lòi nửa thẻ chân dung sau hộp thoại) */
+if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=$('dlg'); if(d&&!d.hidden) return; return nc0.apply(this,arguments); }; }

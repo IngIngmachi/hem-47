@@ -28,8 +28,8 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   const shake=()=>{ document.body.classList.remove('hshake'); void document.body.offsetWidth; document.body.classList.add('hshake'); try{ navigator.vibrate&&navigator.vibrate([80,40,120]); }catch(e){} };
   const T=(f,d,v,ty,dl)=>{ try{ tone(f,d,v,ty,dl); }catch(e){} };
   /* tiếng dội ngắn: trầm + rít */
-  const sting=(big)=>{ T(65,1.1,big?.09:.06,'sine'); T(49,1.4,big?.07:.05,'sine',.05); try{ noise(.5,big?.05:.03); }catch(e){} };
-  const reveal=(suy)=>{ const N=suy?[392,523,659,988]:[523,659,784]; N.forEach((f,i)=>T(f,.55,suy?.03:.022,'triangle',i*.07)); if(suy){ T(98,1.2,.05,'sine'); T(1318,.9,.012,'sine',.3); } flash(); };
+  const sting=(big)=>{ if(!window.SFX) return; if(SFX.has('hit')) SFX.play('hit',{v:big?1:.7}); SFX.play('timdap',{v:big?1:.8,dur:big?5:3.5,off:0}); };
+  const reveal=(suy)=>{ flash(); }; /* bỏ tiếng 'ra rồi' theo ý tác giả, chỉ còn chớp sáng */
   const beatOnce=v=>{ T(55,.13,.05*v,'sine'); T(50,.11,.04*v,'sine',.16); };
 
   /* ---- 1. bám đuôi ---- */
@@ -51,7 +51,7 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
     if(lastN!=null&&!(SO&&SO.on)){ for(const m of [40,60,80]) if(lastN<m&&n>=m){ sting(m>=80); hbT=4; const h=$('hNghi'); if(h){ h.classList.remove('hpulse'); void h.offsetWidth; h.classList.add('hpulse'); } if(m>=80) shake(); } }
     lastN=n; if(!window.SFX) return; if(!sHB) sHB=SFX.loop('timdap',{max:.7});
     const street=S.scene==='street'&&!vis('dlg')&&!vis('game');
-    hbT=Math.max(0,hbT-dt); const want=hbT>0?.8:(!P2on()&&n>=80&&street&&!(SO&&SO.on))?.3:0; sHB.set(want); };
+    hbT=Math.max(0,hbT-dt); const want=hbT>0?0:(!P2on()&&n>=80&&street&&!(SO&&SO.on))?.3:0; sHB.set(want); };
 
   /* ---- 3. manh mối / suy luận mới ---- */
   if(typeof toast==='function'){ const t0=toast; toast=function(m){ try{ const s=String(m||''); if(/^Suy luận mới/.test(s)) reveal(true); else if(/^(Manh mối mới|Chứng cứ mới|Lời khai mới|Ảnh mới)/.test(s)) reveal(false); }catch(e){} return t0.apply(this,arguments); }; }

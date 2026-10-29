@@ -221,15 +221,19 @@ function frameTrai(){ const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.cl
   const FL=[A.xmay.x-20,A.xngu.x-20,A.xvp.x+A.xvp.w+40]; FL.forEach(x=>{ g.fillStyle='#3a3c42'; g.fillRect(x-5,GROUND-470,10,480); g.fillStyle='#d9dde0'; g.fillRect(x-22,GROUND-480,44,14); });
   { const x0=A.xvp.x+A.xvp.w+10; g.fillStyle='#2b3a44'; g.fillRect(x0+60,GROUND-120,MR,140); g.strokeStyle='rgba(180,180,170,.6)'; g.lineWidth=1.5; for(let x=x0;x<x0+MR;x+=22){ g.beginPath(); g.moveTo(x,GROUND+10); g.lineTo(x+22,GROUND-150); g.moveTo(x+22,GROUND+10); g.lineTo(x,GROUND-150); g.stroke(); }
     g.fillStyle='#3a3c42'; for(let x=x0;x<x0+MR;x+=110) g.fillRect(x,GROUND-170,6,180); if(hasF('x_rao')){ g.fillStyle='rgba(10,12,16,.85)'; g.fillRect(x0+130,GROUND-110,40,120); } }
-  g.fillStyle='rgba(30,34,40,.6)'; g.fillRect(0,GROUND-300,ML-30,320); g.font='600 22px "Oswald","Arial Narrow",sans-serif'; g.fillStyle='#cfd2d6'; g.textAlign='center'; g.fillText('CỔNG RA',(ML-30)/2,GROUND-240); g.textAlign='left';
+  { const ew=Math.max(60,ML-30), gr=g.createLinearGradient(0,0,ew,0); gr.addColorStop(0,'rgba(8,9,12,.92)'); gr.addColorStop(1,'rgba(8,9,12,0)'); g.fillStyle=gr; g.fillRect(0,0,ew,VH); }
   drawTProps();
   const D=[];
-  for(const k in NPC){ if(npcInRoom(k)) continue; const n=NS[k]; if(n&&n.alpha>0) D.push({y:NFEET,f:()=>drawChar(g,k,n.x,NFEET,n.face,{walk:n.walk,ph:n.ph,t:tsec+k.length,alpha:n.alpha})}); }
-  D.push({y:FEET,f:()=>drawChar(g,MEK,PL.x,FEET,PL.face,{walk:PL.walk,ph:PL.ph,t:tsec+1,crouch:PL.hidden})});
-  D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());
+  for(const k in NPC){ if(npcInRoom(k)) continue; const n=NS[k]; if(n&&n.alpha>0) D.push({y:NFEET,f:(cx)=>drawChar(cx||g,k,n.x,NFEET,n.face,{walk:n.walk,ph:n.ph,t:tsec+k.length,alpha:n.alpha})}); }
+  D.push({y:FEET,f:(cx)=>drawChar(cx||g,MEK,PL.x,FEET,PL.face,{walk:PL.walk,ph:PL.ph,t:tsec+1,crouch:PL.hidden})});
   g.restore();
   g.globalCompositeOperation='multiply'; g.fillStyle=key(GRK,h)[0]; g.fillRect(0,0,VW,VH);
   g.globalCompositeOperation='saturation'; g.fillStyle='rgba(128,128,128,.45)'; g.fillRect(0,0,VW,VH); g.globalCompositeOperation='source-over';
+  /* nhân vật vẽ sau lớp màu, chỉ nhuộm nhẹ trên chính hình người: khỏi bị bạc như trong suốt */
+  { const cw=g.canvas.width, chh=g.canvas.height; if(!window._p2CH||_p2CH.width!==cw||_p2CH.height!==chh){ window._p2CH=document.createElement('canvas'); _p2CH.width=cw; _p2CH.height=chh; }
+    const c2=_p2CH.getContext('2d'); c2.setTransform(1,0,0,1,0,0); c2.clearRect(0,0,cw,chh); c2.setTransform(g.getTransform());
+    c2.save(); c2.translate(-cam,0); D.sort((a,b)=>a.y-b.y).forEach(d=>d.f.call(null,c2)); c2.restore();
+    g.save(); g.setTransform(1,0,0,1,0,0); g.filter=nn>.3?'brightness(.78) saturate(.7)':'brightness(.94) saturate(.8)'; g.drawImage(_p2CH,0,0); g.filter='none'; g.restore(); }
   if(nn>0){ g.save(); g.translate(-cam,0); g.globalCompositeOperation='lighter'; FL.forEach(x=>{ const gr=g.createRadialGradient(x,GROUND-470,2,x,GROUND-200,420); gr.addColorStop(0,'rgba(230,240,255,'+(.22*nn)+')'); gr.addColorStop(1,'rgba(230,240,255,0)'); g.fillStyle=gr; g.beginPath(); g.moveTo(x-20,GROUND-470); g.lineTo(x+20,GROUND-470); g.lineTo(x+260,FEET+30); g.lineTo(x-260,FEET+30); g.closePath(); g.fill(); }); g.restore(); g.globalCompositeOperation='source-over'; }
   overlays(); }
 

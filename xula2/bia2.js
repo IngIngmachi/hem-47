@@ -192,6 +192,53 @@
   .mdx-home .mdx-hb{margin-top:auto;gap:16px}
 }
 @media (orientation:landscape) and (max-height:540px){.mdx-hbtn{min-height:58px}.mdx-home{min-height:0;padding:0}.mdx-home .mdx-hb{margin-top:0}}
+
+/* ===== trang chủ bản chốt (29/10): logo đủ chữ, thẻ trailer góc phải, nút vàng, 5 biểu tượng, chân trang ===== */
+#cover:has(.hm){background:linear-gradient(180deg,rgba(5,5,7,.25) 0%,rgba(5,5,7,.35) 40%,rgba(5,5,7,.88) 72%,rgba(5,5,7,.96) 100%),#08090b url(img2/bia.webp) 62% center/cover!important}
+#cover:has(.hm) .in{padding:0!important;max-width:none!important;width:100%!important}
+.hm{position:relative;display:flex;flex-direction:column;align-items:center;min-height:100dvh;box-sizing:border-box;padding:max(26px,env(safe-area-inset-top)) 18px max(14px,env(safe-area-inset-bottom));width:100%;max-width:560px;margin:0 auto;color:#efe6d2;font-family:"Be Vietnam Pro",sans-serif}
+.hm .kick{align-self:flex-start;display:flex;align-items:center;gap:12px;font:500 15px/1 Newsreader,Georgia,serif;letter-spacing:.32em;text-transform:uppercase;color:#e9dcc4;margin-top:22px}
+.hm .kick em{font-style:normal;letter-spacing:.04em;font:600 13px/1 "Be Vietnam Pro",sans-serif;color:#ff6a5c;border:1.5px solid #e2453c;border-radius:5px;padding:3px 6px}
+.hm .tlr{position:absolute;top:max(18px,env(safe-area-inset-top));right:16px;width:118px;border:1.5px solid rgba(239,230,210,.55);border-radius:12px;overflow:hidden;background:#0b0c10;cursor:pointer;padding:0;color:#efe6d2;box-shadow:0 8px 22px rgba(0,0,0,.5)}
+.hm .tlr i{display:grid;place-items:center;height:64px;background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.45)),url(img2/hem-dem.webp) center/cover}
+.hm .tlr i svg{width:34px;height:34px;fill:rgba(0,0,0,.45);stroke:#fff;stroke-width:1.6}
+.hm .tlr span{display:block;padding:7px 4px 8px;font:600 10.5px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.hm .logo{display:flex;flex-direction:column;align-items:center;margin:auto 0 0;padding-top:16vh}
+.hm .logo img{width:min(560px,100%);height:auto;display:block;filter:drop-shadow(0 6px 24px rgba(0,0,0,.6))}
+.hm .orn{display:flex;align-items:center;gap:10px;margin-top:6px;color:#c9b48c}.hm .orn::before,.hm .orn::after{content:"";width:110px;height:1px;background:linear-gradient(90deg,transparent,#c9b48c)}.hm .orn::after{transform:scaleX(-1)}.hm .orn i{width:7px;height:7px;transform:rotate(45deg);border:1px solid #c9b48c}
+.hm .btns{display:flex;flex-direction:column;gap:16px;width:100%;margin-top:clamp(28px,7vh,80px)}
+.hm .b{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;min-height:84px;padding:16px 20px;border-radius:18px;border:1.5px solid rgba(239,230,210,.35);background:rgba(10,10,12,.55);color:#efe6d2;text-align:left;cursor:pointer;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.hm .b .ic{flex:none;width:34px;height:34px;display:grid;place-items:center}.hm .b .ic svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+.hm .b .tx{flex:1;min-width:0;position:relative;z-index:1}
+.hm .b b{display:block;font:700 26px/1.05 Newsreader,Georgia,serif;letter-spacing:.06em;text-transform:uppercase}
+.hm .b small{display:block;margin-top:6px;font:400 16px/1.3 Newsreader,Georgia,serif;opacity:.9}
+.hm .b .cv{flex:none;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;position:relative;z-index:1}
+.hm .b.pri{min-height:100px;color:#1d1408;border-color:#f2cf86;background:linear-gradient(90deg,#f2c879 0%,#e8b45e 48%,#c99545 100%);box-shadow:0 10px 30px rgba(232,180,94,.28),inset 0 1px 0 rgba(255,255,255,.4)}
+.hm .b.pri::before{content:"";position:absolute;inset:0 0 0 52%;background:url(img2/hem-dem.webp) center/cover;opacity:.55;mix-blend-mode:multiply;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.hm .b.pri .ic svg{fill:#1d1408;stroke:none;width:40px;height:40px}
+.hm .b.pri b{font-size:32px}
+.hm .b:disabled{opacity:.7;cursor:wait}
+.hm .b:hover:not(:disabled){filter:brightness(1.08)}
+.hm .tools{display:flex!important;position:static!important;justify-content:space-between;width:100%;max-width:none!important;padding:0!important;border:0!important;gap:0!important;margin:clamp(24px,5vh,56px) 0 0!important}.hm .tools button{font-family:Newsreader,Georgia,serif!important}
+.hm .tools button{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 2px;background:none;border:0;color:#e6dccb;font:400 15px/1.2 Newsreader,Georgia,serif;cursor:pointer;position:relative}
+.hm .tools button+button::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;background:rgba(239,230,210,.18)}
+.hm .tools svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.hm .foot{margin-top:clamp(20px,4vh,44px);font:400 13.5px/1.6 Newsreader,Georgia,serif;color:#a9a090;text-align:center}
+.hm .foot a{color:inherit;text-underline-offset:3px}
+@media (min-width:900px) and (orientation:landscape){
+  #cover:has(.hm){background:linear-gradient(90deg,rgba(5,5,7,.92) 0%,rgba(5,5,7,.65) 38%,rgba(5,5,7,0) 62%),#08090b url(img2/bia.webp) 70% center/cover!important}
+  .hm{margin:0 0 0 6vw;max-width:520px;justify-content:center}.hm .logo{padding-top:0;margin:18px 0 0}.hm .kick{align-self:center}
+  .hm .tlr{position:fixed;right:28px;top:24px;width:150px}.hm .tlr i{height:82px}
+  .hm .foot{position:fixed;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom));margin:0;z-index:2}
+}
+@media (orientation:landscape) and (max-height:540px){
+  .hm{min-height:0;padding:12px 18px;margin-left:24px;max-width:420px}.hm .kick{margin-top:0;font-size:12px}.hm .logo{padding-top:0;margin-top:6px}.hm .logo img{width:300px}.hm .orn{display:none}
+  .hm .btns{gap:10px;margin-top:12px}.hm .b{min-height:0;padding:10px 16px}.hm .b.pri{min-height:0}.hm .b b{font-size:20px}.hm .b.pri b{font-size:24px}.hm .b small{font-size:13px}
+  .hm .tools{margin-top:10px}.hm .tools svg{width:22px;height:22px}.hm .tools button{font-size:12.5px}.hm .foot{margin-top:8px;font-size:11.5px}.hm .tlr{width:110px}.hm .tlr i{height:52px}
+}
+@media (orientation:landscape) and (max-height:540px){.hm{padding-top:8px!important}.hm .logo img{width:220px!important}.hm .btns{margin-top:8px!important;gap:8px!important}.hm .b{padding:8px 14px!important}.hm .b.pri b{font-size:22px!important}.hm .b b{font-size:18px!important}.hm .b .ic,.hm .b .ic svg{width:26px!important;height:26px!important}.hm .foot{display:none}.hm .tools{margin-top:8px!important}.hm .tlr{position:fixed!important;right:14px!important;top:12px!important}.hm .tools{max-width:400px!important}.hm .tools button{font-size:12px!important;flex-direction:column!important;gap:4px!important;padding:2px!important}.hm .tools svg{width:20px!important;height:20px!important}}
+@media (min-width:900px) and (orientation:landscape){.hm .tools button{font-size:16px!important;flex-direction:column!important;gap:8px!important}.hm .tools svg{width:28px!important;height:28px!important}}
+@media (max-width:380px){.hm .b b{font-size:22px}.hm .b.pri b{font-size:27px}.hm .tools button{font-size:13px}}
 `; document.head.appendChild(st); })();
 const MDK={phuong:['Người lên tiếng','A'],imlang:['Im lặng đúng lúc','A'],bocphot:['Bóc phốt','B'],tien:['Nhận tiền','B'],hetgio:['Hết giờ','B']};
 const MDBR={A:'Ngân về',B:'Lâm một mình'};
@@ -218,10 +265,18 @@ function mdBar(v){ const T=mdState(); const tools=[['tr',MDI.tr,'Trailer'],['so'
 const MDLOGO='<div class="mdx-logo"><i class="crop"><img src="img2/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="1000" height="471"></i><div class="mdx-kick">Sài Gòn · 2026<span class="mdx-age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div></div>';
 function mdCover(T){ const p=mdPrimary(T), ld=$('bNew')&&$('bNew').disabled&&!/^p2/.test(p.go);
   const chev='<svg class="cv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
-  return '<div class="mdv mdx mdx-home"><div class="mdx-kick">Sài Gòn · 2026<span class="mdx-age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div>'+
-   '<i class="mdx-tuac"><img class="mdx-tua" src="img2/tua.webp" alt="Hẻm 47" width="1000" height="471"></i>'+
-   '<div class="mdx-hb"><button class="mdx-hbtn pri" type="button" data-go="'+p.go+'"'+(ld?' disabled':'')+'><span><b>'+esc(p.t)+'</b><small>'+esc(ld?'Đang tải tranh…':p.s)+'</small></span>'+chev+'</button>'+
-   '<button class="mdx-hbtn" type="button" data-go="chap"><span><b>Chọn chương</b></span>'+chev+'</button></div>'+mdBar('cover')+'</div>'; }
+  const I={play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>',book:'<svg viewBox="0 0 24 24"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1V19c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5V20"/></svg>',
+   tt:'<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 13v4M8.5 20h7M10 17h4v3h-4z"/></svg>',
+   tr:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z" fill="#fff" stroke="none"/></svg>'};
+  const tools=[['so',MDI.so,'Sổ tay'],['cd',MDI.cd,'Cài đặt'],['acc',MDI.acc,'Tài khoản'],['tt',I.tt,'Thành tựu'],['ung',MDI.ung,'Ủng hộ']];
+  return '<div class="mdv mdx hm">'+
+   '<button type="button" class="tlr" data-go="t_tr" aria-label="Xem trailer"><i>'+I.tr+'</i><span>Xem trailer</span></button>'+
+   '<div class="kick">Sài Gòn · 2026<em title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
+   '<div class="logo"><img src="img2/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="1000" height="471"></div>'+
+   '<div class="btns"><button class="b pri" type="button" data-go="'+p.go+'"'+(ld?' disabled':'')+'><span class="ic">'+I.play+'</span><span class="tx"><b>'+esc(p.t)+'</b><small>'+esc(ld?'Đang tải tranh…':p.s)+'</small></span>'+chev+'</button>'+
+   '<button class="b" type="button" data-go="chap"><span class="ic">'+I.book+'</span><span class="tx"><b>Chọn chương</b></span>'+chev+'</button></div>'+
+   '<div class="tools">'+tools.map(([k,i,l])=>'<button type="button" data-go="t_'+k+'">'+i+'<span>'+esc(l)+'</span></button>').join('')+'</div>'+
+   '<div class="foot">© 2026 Jesuis-Ing Studio · <a href="https://www.facebook.com/groups/hem47.asia" target="_blank" rel="noopener">Nhóm Cư dân Hẻm 47</a> · <a href="mailto:jesuising.studio@gmail.com">Liên hệ tác giả</a></div></div>'; }
 function mdChap(T){ if(!MD.sel) MD.sel=(T.p2||T.xong)?2:1;
   const lock='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>', gear='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg>';
   const m1=(T.p1?'Ngày '+(T.p1.ngay||1)+'/30':T.xong?'Đã xong':'Chưa chơi')+' <span>· '+T.got.length+'/5 kết</span>';
@@ -281,6 +336,7 @@ async function mdGo(g,T){ const tw=['cover','chap','ends','gate','tomtat']; if(t
   if(g==='p2ts'){ const p1=mdP2Rec(MD.pick); TESTMODE=true; document.body.classList.add('testing'); await p2Begin(false,p1); tsTab='tt'; $('test').hidden=false; tsRender(); toast('Phòng thử Phần 2 · không lưu vào bản chơi thật'); return; }
   if(g==='t_tr'){ if(T.xong) toast('Trailer Phần 2 sắp ra.'); else { const s=document.querySelector('.tlr-st'); if(s) s.click(); } return; }
   if(g==='t_ung'){ const m=document.querySelector('.moi-st'); if(m) m.click(); else toast('Cảm ơn bạn đã ghé hẻm 47.'); return; }
+  if(g==='t_tt'){ if(typeof ttOpen==='function') ttOpen(); return; }
   if(g==='t_so') $('bSo').click(); else if(g==='t_acc') $('bAcct').click(); else if(g==='t_cd') $('bCd').click(); else if(g==='t_app') $('bInstall').click(); }
 /* vẽ khi bìa sẵn sàng, vẽ lại khi nút cũ đổi (tải xong tranh, có bài lưu) */
 (()=>{ const kick=()=>{ if(!P2.on&&!started) mdRender(); }; kick(); const b=$('bNew'), c=$('bCont'), i=$('bInstall');

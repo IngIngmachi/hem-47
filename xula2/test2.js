@@ -42,13 +42,17 @@ tsRender=function(){ if(!P2.on) return tsRender1(); const b=$('tsBody'); const t
       '<p class="ts-n">Trò chơi</p>'+G.map(g=>'<button class="ts-i" data-g="'+g[0]+'"><b>'+esc(g[1])+'</b><span>'+g[0]+'</span></button>').join('')+
       '<p class="ts-n">Trò nhỏ ban đêm (chỉ chơi trò, không chạy cảnh)</p>'+Object.keys(MINI).filter(k=>MUC[k]).map(k=>'<button class="ts-i" data-mg="'+k+'"><b>'+esc(MUC[k].ten)+'</b></button>').join('')+
       '<p class="ts-n">Đi đêm (y như trong game: chơi trò rồi ra cảnh kết quả)</p>'+Object.keys(MUC).map(k=>'<button class="ts-i" data-d="'+k+'"><b>'+esc(MUC[k].ten)+'</b><span>'+esc(MUC[k].why)+'</span></button>').join('')+
-      '<p class="ts-n">Đêm giải cứu (dẫn người ra sông)</p><button class="ts-i" data-c="ok"><b>Đủ chuẩn bị</b><span>có giờ ập vào 3:00, cửa sau, rào, ghe</span></button><button class="ts-i" data-c="thieu"><b>Thiếu chuẩn bị</b><span>không ai ập vào, chỉ cổng chính, không ghe</span></button>';
+      '<p class="ts-n">Đêm giải cứu (dẫn người ra sông)</p><button class="ts-i" data-c="ok"><b>Đủ chuẩn bị</b><span>có giờ ập vào 3:00, cửa sau, rào, ghe</span></button><button class="ts-i" data-c="thieu"><b>Thiếu chuẩn bị</b><span>không ai ập vào, chỉ cổng chính, không ghe</span></button>'+
+      '<p class="ts-n">Cuộc gọi bà Mỹ (tự cho đủ chứng cứ trước)</p><button class="ts-i" id="tsLoa"><b>Cảnh loa trong trại</b><span>x_cuu_loa · cần 3 chứng cứ</span></button><button class="ts-i" id="tsKL"><b>Kết liễu: bà Mỹ gọi + gửi chứng cứ</b><span>điện thoại bật lên · cần 4 chứng cứ</span></button>';
     const give=()=>{ if(P2TS.all){ p2GiveAll(); ['x_sodo3','x_tuan0','x_tuan3','x_meo_cailoi'].forEach(setCo); } };
     $('tsAll2').onchange=e=>{ P2TS.all=e.target.checked; };
     b.querySelectorAll('[data-b]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); await board(x.dataset.b); if(SCN['kq_'+x.dataset.b]) await runS('kq_'+x.dataset.b); }));
     b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>tsRun(async()=>{ give(); const g=x.dataset.g; if(g==='_ca'){ await caNhan(2); return; } if(g==='danhsach') buildDs(); await P2GAMES[g](); }));
     b.querySelectorAll('[data-mg]').forEach(x=>x.onclick=()=>tsRun(async()=>{ const r=await miniThang(x.dataset.mg); toast('Kết quả: '+r.kq); }));
     b.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>tsRun(async()=>{ S.min=23*60; hud(); await diDemViec(x.dataset.d); }));
+    const giveOCL=()=>{ S.cc=S.cc||{}; OCL.forEach(k=>{ S.cc[k]=S.cc[k]||1; }); };
+    $('tsLoa').onclick=()=>tsRun(async()=>{ giveOCL(); await runS('x_cuu_loa'); hideDlg(); });
+    $('tsKL').onclick=()=>tsRun(async()=>{ giveOCL(); await p2KetLieu(); toast('Xong cảnh kết liễu'); });
     b.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>tsRun(async()=>{ buildDs(); const ok=x.dataset.c==='ok'; const groups=dsCon().map(p=>({id:p.id,ten:p.ten,sp:p.id,can:ok?0:(S.tin[p.id]||0)>=2?0:1,after:0}));
       const ex=[{ten:'Cổng chính',f:0,x:60,cost:ok?5:20}]; if(ok){ ex.push({ten:'Cửa sau',f:0,x:930,cost:0}); ex.push({ten:'Rào sau bếp',f:0,x:740,cost:0}); }
       const r=await sneak({mode:'cuu',groups,exits:ex,raid:ok?180:9999,xe:null,end:300,speed:1}); toast('Ra được '+r.out.length+'/'+groups.length); })); return; }

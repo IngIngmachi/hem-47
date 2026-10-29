@@ -183,6 +183,15 @@
 .mdx-home .mdx-tuac{display:block;width:540px;max-width:112%;aspect-ratio:1000/345;overflow:hidden;margin:22px 0 30px}.mdx-home .mdx-tuac .mdx-tua{width:100%!important;max-width:none;margin:0!important}
 @media (max-width:899px),(orientation:portrait){.mdx-home .mdx-tuac{width:330px}}
 @media (orientation:landscape) and (max-height:540px){.mdx-home .mdx-tuac{width:280px;margin:8px 0 14px}}
+/* 2 nút màn đầu cao bằng nhau (máy tính + điện thoại); điện thoại dọc: dồn 2 nút xuống nửa dưới, trên thanh công cụ */
+.mdx-hbtn{min-height:114px}
+@media (max-width:899px),(orientation:portrait){
+  .mdx-hbtn{min-height:90px}
+  #cover:has(.mdx-home) .in{padding-bottom:0!important}
+  .mdx-home{min-height:calc(100dvh - 92px - env(safe-area-inset-bottom));box-sizing:border-box;margin-top:0!important;padding:max(28px,6vh) 0 22px}
+  .mdx-home .mdx-hb{margin-top:auto;gap:16px}
+}
+@media (orientation:landscape) and (max-height:540px){.mdx-hbtn{min-height:58px}.mdx-home{min-height:0;padding:0}.mdx-home .mdx-hb{margin-top:0}}
 `; document.head.appendChild(st); })();
 const MDK={phuong:['Người lên tiếng','A'],imlang:['Im lặng đúng lúc','A'],bocphot:['Bóc phốt','B'],tien:['Nhận tiền','B'],hetgio:['Hết giờ','B']};
 const MDBR={A:'Ngân về',B:'Lâm một mình'};

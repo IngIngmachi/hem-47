@@ -57,6 +57,12 @@
 #game.p2full .p2tl .col{text-align:center;color:#3a2f22;padding:4px 0;border-radius:50%}
 #game.p2full .p2tl .col.pick{outline:3px solid #b8322a;outline-offset:-2px;color:#b8322a;font-weight:700}
 #game.p2full .p2tl>div:not(.cell):not(.col){font-size:16px;font-weight:600;color:#2a2219}
+/* điện thoại: kéo thẻ không bị Safari cướp thành cuộn trang (thẻ "nhảy" rồi rơi lại chỗ cũ) */
+#game.p2full [data-card]{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#game.p2full .p2tl .lab{white-space:nowrap}
+#game.p2full .p2tl .cell[data-g]{cursor:pointer}
+#game.p2full .p2tl .cell.bad{background:#e2645c!important;border-color:#b8322a!important;animation:p2hint .7s ease-in-out 2}
+#game.p2full .p2slot.bad{border-color:#e2645c;border-style:solid;box-shadow:0 0 0 2px #e2645c}
 @media (max-width:620px){#game.p2full .p2steps .st{padding:12px 12px 12px 52px;min-height:0;transform:none!important}#game.p2full .p2steps .st>i{left:12px;top:50%;transform:translateY(-50%)}#game.p2full .p2steps .st .p2slot,#game.p2full .p2steps .p2fixed{min-height:46px}#game.p2full .p2steps .ar{margin:0 0 0 18px;font-size:18px}#game.p2full .p2g h3{font-size:22px}}
 @media (max-width:760px){#game.p2full .p2g[data-g="lichtuan"]{grid-template-columns:1fr;grid-template-areas:"h" "tip" "tl" "tray" "m" "row"}#game.p2full .p2g[data-g="lichtuan"]>#tray{flex-direction:row;flex-wrap:wrap}#game.p2full .p2tl{padding:54px 10px 12px;font-size:11px;grid-template-columns:44px repeat(10,1fr)}#game.p2full .p2tl .cell{height:36px}#game.p2full .p2g h3{margin-right:100px}}
 /* trò nhỏ ban đêm: bỏ khung đen, để nền cảnh lộ ra */

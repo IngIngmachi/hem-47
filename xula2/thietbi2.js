@@ -26,7 +26,7 @@ X('z_thoai','Za Lô · Bin nhắn',[
  ['#Bin','anh ơi anh Lộc nói ảnh có ông chú đồng hương làm nghề chài lưới ở khúc sông sát biên'],
  ['#Bin','tên chú Thoại. hồi trước con trai chú cũng bị lừa qua bển rồi mất lúc bơi qua sông, nên nghe đi cứu người mình là chú giúp liền, chỉ cần phụ chú tiền mướn máy lớn với mua dầu chạy đêm thôi'],
  ['#> Bin','Cảm ơn em. Đừng kể ai nghe nha.'],
- ['#Bin','em có kể ai đâu 🤐']]);
+ ['#Bin','em có kể ai đâu 🤐'],{fx:'+co:x_bin_thoai'}]);
 X('z_gom','Za Lô · nhóm hẻm',[
  ['@Bà Sáu','Thằng ở phòng 3 nhà bà sắp đi làm một chuyện lớn. Cần tiền.'],
  ['@Bà Sáu','Nhà nào dư thì góp, không dư thì thôi. Bà không ép ai.'],
@@ -215,14 +215,28 @@ const MTCSS=`
  .mt7 .tb{padding:8px 8px 8px 10px}.mt7 .tb p{display:none}.mt7 .mtb{padding:10px}
  .mt7 .mtg2{grid-template-columns:1fr}.mt7 .mtchat{grid-template-columns:1fr}.mt7 .mtchat .ls{display:none}
  .mt7 th:nth-child(4),.mt7 td:nth-child(4){display:none}.mt7 .mtbar{width:60px}
-}`;
+}
+/* điện thoại dọc: đồng hồ ở thanh dưới chỉ còn "36 giây" (chữ dài bị cắt), nhãn trạng thái không xuống dòng, bảng gọn cột */
+@media (max-width:760px){
+  .mt7 .task .tt>span{display:inline!important;font-size:0!important;white-space:nowrap}
+  .mt7 .task .tt>span b{font-size:15px!important}
+  .mt7 .task .tt>span b::after{content:" giây";font-size:12.5px;font-weight:400}
+  .mt7 .mttag{white-space:nowrap;font-size:12px;padding:3px 8px}
+  .mt7 table th{font-size:11px;letter-spacing:.03em;white-space:nowrap}
+  .mt7 table td,.mt7 table th{padding-left:6px!important;padding-right:6px!important}
+}
+`;
 const MTI={home:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>',nhom:'<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></svg>',
  kh:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c.6-3.3 3-5 6-5s5.4 1.7 6 5M15 14.5c2.6.2 4.3 1.6 5 4.5"/></svg>',bang:'<svg viewBox="0 0 24 24"><path d="M5 20V12M11 20V6M17 20v-9"/></svg>',
  rac:'<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',off:'<svg viewBox="0 0 24 24"><path d="M12 3v8M6.4 6.4a8 8 0 1 0 11.2 0"/></svg>',xls:'<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12l5 5M14 12l-5 5"/></svg>'};
 function gMayTram(){ return new Promise(res=>{ let tab='home', left=45, seen={}, done=false, file=false; const T0=performance.now();
   if(!$('mtcss')){ const st=document.createElement('style'); st.id='mtcss'; st.textContent=MTCSS; document.head.appendChild(st); }
   const ds=(typeof dsCon==='function'?dsCon():[]);
-  const KH=(S.so||[]).slice(-6).map(s=>{ const [ten,ho]=s.split(' · '); return {ten,ho}; });
+  /* bảng chỉ tiêu ghi cả tổ đã chốt nhiều đơn → danh sách khách phải khớp: ngoài khách của mình, thêm khách của đồng đội (lấy từ danh sách khách có sẵn, không viết thêm chữ mới) */
+  const mine=(S.so||[]).slice(-6).map(s=>{ const [ten,ho]=s.split(' · '); return {ten,ho}; });
+  const others=(()=>{ const names=ds.map(p=>p.ten).slice(0,7); let n=0; names.forEach((nm,i)=>{ n+=((nm.length*7+(i+1)*3)%6); }); n=Math.min(n,12);
+    const used=new Set(mine.map(m=>m.ten)); const pool=(typeof KHACH!=='undefined'?KHACH:[]).filter(k=>!used.has(k.ten)); const out=[]; for(let i=0;i<n&&pool.length;i++){ const k=pool[(S.day*3+i*5)%pool.length]; if(out.some(o=>o.ten===k.ten)){ pool.splice(pool.indexOf(k),1); i--; continue; } out.push({ten:k.ten,ho:k.ho}); } return out; })();
+  const KH=mine.concat(others);
   const APP=[['home','Máy trạm'],['nhom','Nhóm quản lý'],['kh','Khách hàng'],['bang','Bảng chỉ tiêu'],['rac','Thùng rác']];
   const TT={home:['Máy trạm','Chị Bảy quên đăng xuất.'],nhom:['Nhóm quản lý','Nhóm "QL khu B".'],kh:['Khách hàng','Danh sách khách tổ 3 đã "chốt" tháng này.'],bang:['Bảng chỉ tiêu','Bảng chỉ tiêu tuần. Tên dưới 3 đơn tô đỏ.'],rac:['Thùng rác','Thùng rác: 1 tệp.']};
   const body=()=>{ seen[tab]=1;

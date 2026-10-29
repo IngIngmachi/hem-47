@@ -74,6 +74,9 @@ const P2CSS=`
 .p2cardfull p{font-family:"IBM Plex Mono",monospace;color:#efe8d8;font-size:clamp(18px,3.4vw,30px);letter-spacing:.18em;text-align:center;white-space:pre-line;line-height:1.8;margin:0 16px}
 body.p2lb::before,body.p2lb::after{content:"";position:fixed;left:0;right:0;height:7vh;background:#000;z-index:40;pointer-events:none;transition:height .5s}
 body.p2lb::before{top:0}body.p2lb::after{bottom:0}
+/* dải đen kiểu phim nằm DƯỚI khung thoại (trước đây z 40 đè lên, cắt chữ); điện thoại không đủ chỗ → bỏ hẳn, khỏi che thẻ Việc cần làm */
+body.p2lb::before,body.p2lb::after{z-index:29}
+body.u3m.p2lb::before,body.u3m.p2lb::after{display:none}
 .dd2{position:relative;width:100%;max-width:1000px;margin:0 auto}
 .dd2 canvas{width:100%;aspect-ratio:5/3;display:block;border-radius:10px;background:#0b0d14;touch-action:none}
 .dd2 .ctl{display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap}
@@ -134,6 +137,29 @@ body.p2lb::before{top:0}body.p2lb::after{bottom:0}
 .p2trayhd{display:flex;justify-content:space-between;align-items:center;color:#9aa2b5;font-size:13px;margin-top:12px}.p2trayhd button{font:inherit;font-size:13px;background:none;border:none;color:#9aa2b5;cursor:pointer}
 .dd2 .tbar{height:6px;border-radius:3px;background:#232a3d;margin-top:8px;overflow:hidden}.dd2 .tbar b{display:block;height:100%;background:linear-gradient(90deg,#f0b25c,#e2645c);width:0}
 .dd2 .ctl button{min-width:64px;font-weight:600}.dd2 .ctl button.go{background:#f0b25c;color:#1d1d1d;border-color:#f0b25c}
+/* điện thoại: nút gọn kiểu tay cầm, bỏ dòng phím máy tính, nhắc xoay ngang khi cầm dọc */
+.dd2 .ctl button{font-family:"Be Vietnam Pro",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center}
+.dd2 .rot{display:none}
+@media (pointer:coarse){.dd2>.tip{display:none!important}}
+@media (orientation:portrait) and (max-width:760px){
+  .dd2 .rot{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:8px 12px;border-radius:10px;background:rgba(240,178,92,.14);border:1px solid rgba(240,178,92,.4);color:#f0d7a8;font:500 13px/1.35 "Be Vietnam Pro",sans-serif}
+  .dd2 .rot::before{content:"⟲";font-size:20px;line-height:1}
+  .dd2 .ctl{display:grid;grid-template-columns:auto 1fr;align-items:stretch;gap:10px;margin-top:10px}
+  .dd2 .ctl .g:first-child{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .dd2 .ctl .g:first-child button{width:62px;height:100%;min-height:100px}
+  .dd2 .ctl .g:last-child{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .dd2 .ctl .g:last-child button{min-width:0;min-height:46px;font-size:15px;padding:0 4px}
+}
+@media (orientation:landscape) and (max-height:540px){
+  #game.p2full .p2g:has(.dd2)>h3{font-size:18px;margin:0 0 4px}
+  .dd2{max-width:none}
+  .dd2 canvas{width:auto;height:calc(100dvh - 92px);max-width:100%;margin:0 auto}
+  .dd2 .ctl{position:absolute;left:4px;right:4px;bottom:16px;margin:0;pointer-events:none;align-items:flex-end}
+  .dd2 .ctl .g{pointer-events:auto}
+  .dd2 .ctl .g:last-child{flex-direction:column;align-items:flex-end;flex-wrap:nowrap}
+  .dd2 .ctl button{background:rgba(20,24,36,.72);min-width:58px;min-height:42px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .dd2 .ctl .g:first-child button{width:62px;height:62px}
+}
 @media(max-width:620px){.p2steps{flex-direction:column;align-items:stretch}.p2steps .st{flex-direction:row;min-width:0}.p2steps .st>i{flex:none}.p2steps .st .p2slot,.p2steps .st .p2fixed{min-height:46px}.p2steps .ar{transform:rotate(90deg);margin:0 0 0 2px;align-self:flex-start}}
 `;
 (()=>{ const st=document.createElement('style'); st.textContent=P2CSS; document.head.appendChild(st); })();
@@ -368,6 +394,10 @@ function ca7css(){ if($('ca7css')) return; const st=document.createElement('styl
 .ca7 .snd:hover{filter:brightness(1.15)}
 .ca7 .p2bar .btn{font:600 17px Newsreader,serif}
 @media (max-width:900px){.ca7{padding:4px}.ca7 .mon{grid-template-columns:1fr;border-width:6px;height:100%}.ca7 .cnv,.ca7 .cls{display:none}.ca7 .b{max-width:88%}.ca7 .op{font-size:15px;padding:10px 12px}}
+/* điện thoại: header 1 dòng (nút Chi tiết không gãy chữ), bỏ nút "Để sau" chồng lên header, khung chat sát mép */
+#game:has(.ca7) #p2x{display:none!important}
+@media (max-width:900px){.ca7 .chd{gap:10px;padding:10px 12px}.ca7 .chd .av{width:44px;height:44px;flex:none}.ca7 .chd b{font-size:18px}.ca7 .chd small{font-size:13px;display:block;line-height:1.3}
+  .ca7 .det{white-space:nowrap;font-size:14px;padding:5px 12px;flex:none}.ca7 .mon{border-width:0;border-radius:10px}.ca7 .opts{padding:8px 10px 12px}}
 `; document.head.appendChild(st); }
 function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo:0}; let thoat=false; window.__caDone=[]; window.__caInfo=false;
   for(let i=0;i<so&&!thoat;i++){ const kh2=i===0?caHom():null; const k=kh2||KHACH[(S.day*5+i*3+(S.so||[]).length)%KHACH.length]; if(kh2){ (S.p2kh=S.p2kh||{})[kh2.id]=1; } const L=[]; let tab='kh', mm=34+i*7;
@@ -421,12 +451,13 @@ async function caCa(so){ if(S.day>=11&&!caHom()){ busy=true; const p=await choos
 /* =====================================================================
    4. CUỘC GỌI VỀ NHÀ — chọn câu có đồng hồ, chữ đầu ghép ra chữ cần gửi
    ===================================================================== */
-async function goiVe(){ const tu='XIHA'; const ng=(S.nhanh==='A'&&S.ai_vao==='ngan')?'mẹ':'bà'; const Ng=ng==='mẹ'?'Mẹ':'Bà'; const nguoi=ng==='mẹ'?'Cô Thoa':'Bà Sáu';
+async function goiVe(){ const tu='SONG'; const ng=(S.nhanh==='A'&&S.ai_vao==='ngan')?'mẹ':'bà'; const Ng=ng==='mẹ'?'Mẹ':'Bà'; const nguoi=ng==='mẹ'?'Cô Thoa':'Bà Sáu';
   /* [câu, đúng chữ, câu dễ bị nghi, câu lộ (Chị Bảy ngắt máy)] */
-  const sets=[[['Xin lỗi ở nhà vì con đi làm xa hổng báo trước.',1],['Con khỏe, '+ng+' đừng lo.',0],['Mấy bữa nay con ăn được lắm.',0]],
-    [['Im lặng bữa giờ là tại chỗ làm mới chưa quen việc.',1],['Ở đây ai cũng tốt với con hết.',0],['Tụi con được nghỉ trưa.',0]],
-    [['Hôm nay con khỏe lắm, ở nhà gửi qua cho con ba ngàn đô đóng phí nghen.',1],[Ng+' ơi ở nhà khỏe không, con nhớ nhà lắm.',0],['Con đang bị nhốt ở cảng Xi-ha, cứu con với!',0,0,1]],
-    [['Ai trong hẻm hỏi thăm thì cứ nói con vẫn bình thường.',1],['Ngày nào con cũng ra bờ sông ngồi.',0,1],['Còn lâu con mới về.',0]]];
+  /* BẢN NHÁP chờ tác giả duyệt: chữ giấu đổi từ XIHA (ai cũng biết rồi) sang SONG = "vị trí" đúng quy ước đại úy Vinh dặn (xem x_a_vinh / x_b_vinh) */
+  const sets=[[['Sáng nay con mới gọi được, xin lỗi ở nhà vì con đi làm xa hổng báo trước.',1],['Con khỏe, '+ng+' đừng lo.',0],['Mấy bữa nay con ăn được lắm.',0]],
+    [['Ok hết trơn, im lặng bữa giờ là tại chỗ làm mới chưa quen việc.',1],['Ở đây ai cũng tốt với con hết.',0],['Tụi con được nghỉ trưa.',0]],
+    [['Nay con khỏe lắm, ở nhà gửi qua cho con ba ngàn đô đóng phí nghen.',1],[Ng+' ơi ở nhà khỏe không, con nhớ nhà lắm.',0],['Con đang bị nhốt ở cảng Xi-ha, cứu con với!',0,0,1]],
+    [['Giùm con nói với ai trong hẻm hỏi thăm là con vẫn bình thường.',1],['Ngày nào con cũng ra bờ sông ngồi.',0,1],['Còn lâu con mới về.',0]]];
   sets.forEach(o=>o.sort(()=>Math.random()-.5));
   let ok=0; const bg0=BGNOW; BGNOW='x2-goi-ve'; fade=.7;
   for(let i=0;i<sets.length;i++){ const o=sets[i]; const prog=tu.split('').map((c,j)=>j<i?c:j===i?'['+c+']':'·').join(' ');
@@ -434,7 +465,7 @@ async function goiVe(){ const tu='XIHA'; const ng=(S.nhanh==='A'&&S.ai_vao==='ng
     if(!p||p.ma==='_het'){ await say('mota','',ME+' im lặng một giây quá lâu. Người đứng sau lưng gõ nhẹ vào vai.'); fx('+nghi:6'); continue; }
     const pick=o[+p.ma.slice(1)]; await say('thoai',ME,pick[0]); if(pick[3]){ fx('+nghi:25'); await say('thoai','Chị Bảy','Đủ rồi.'); await say('mota','','Chị Bảy giật cái máy, bấm tắt. Cả phòng im phăng phắc.'); ok=-9; break; } if(pick[1]) ok++; else if(pick[2]){ fx('+nghi:8'); } }
   hideDlg(); BGNOW=bg0; fade=.5;
-  if(ok===sets.length){ setCo('x_goi_ok'); await say('thoai',nguoi,'Ừ, ở trển ráng giữ sức khỏe nghen con, để ở nhà xoay tiền gửi qua.'); await say('nghi','','Nếu bên kia nghe ra, bên ngoài sẽ có chữ '+tu+'.'); }
+  if(ok===sets.length){ setCo('x_goi_ok'); await say('thoai',nguoi,'Ừ, ở trển ráng giữ sức khỏe nghen con, để ở nhà xoay tiền gửi qua.'); await say('nghi','','Đại úy Vinh cần đúng vị trí chỗ nhốt người. Nếu bên kia nghe ra, bên ngoài sẽ có chữ '+tu+'.'); }
   else if(ok<0){ await say('nghi','','Lỡ miệng. Không còn đường gửi chữ qua cuộc gọi này nữa.'); }
   else await say('nghi','','Có câu lệch chữ. Chắc bên kia không đọc ra.'); hideDlg(); }
 
@@ -486,10 +517,15 @@ function flyer(){ const c=document.createElement('canvas'); c.width=600; c.heigh
   return c.toDataURL('image/jpeg',.85); }
 function gGhep(){ return new Promise(res=>{ const url=flyer(); const N=6; const order=[3,0,5,1,4,2]; const at={};
   const piece=i=>'<div class="p2piece" data-card="'+i+'" style="background-image:url('+url+');background-position:'+(i%3)*50+'% '+(Math.floor(i/3))*100+'%;transform:rotate('+((i*37)%9-4)+'deg)"></div>';
-  const render=()=>{ const B=p2open('<h3>Ráp tờ rơi</h3><p class="tip">Kéo từng mảnh vào khung. Ráp đúng thì đọc được con dấu phía dưới.</p><div class="p2paper">'+Array.from({length:N},(_,s)=>{ const i=Object.keys(at).find(k=>at[k]===s); return '<div class="p2slot" data-slot="'+s+'">'+(i!=null?piece(+i).replace(/transform:[^"]+/,''):'')+'</div>'; }).join('')+'</div><div class="p2tray" data-slot="tray" id="tray">'+order.filter(i=>at[i]==null).map(piece).join('')+'</div><div class="row"><button class="btn ghost" id="gpX" type="button">Để sau</button></div>');
+  const render=()=>{ const B=p2open('<h3>Ráp tờ rơi</h3><p class="tip">Kéo từng mảnh vào khung. Ráp đúng thì đọc được con dấu phía dưới.</p><div class="p2paper">'+Array.from({length:N},(_,s)=>{ const i=Object.keys(at).find(k=>at[k]===s); return '<div class="p2slot" data-slot="'+s+'">'+(i!=null?piece(+i).replace(/transform:[^"]+/,''):'')+'</div>'; }).join('')+'</div><div class="p2tray" data-slot="tray" id="tray">'+order.filter(i=>at[i]==null).map(piece).join('')+'</div><p class="tip" id="gpm" style="text-align:center"></p><div class="row"><button class="btn" id="gpOk" type="button">Xong</button><button class="btn ghost" id="gpX" type="button">Để sau</button></div>');
     dragKit(B,(c,s)=>{ const i=+c.dataset.card; if(!s) return; if(s.dataset.slot==='tray'){ delete at[i]; render(); return; } const sl=+s.dataset.slot; for(const k in at) if(at[k]===sl) delete at[k]; at[i]=sl; tone(520,.04,.02,'triangle'); render();
-      if(Object.keys(at).length===N&&Object.keys(at).every(k=>+k===at[k])){ chime(); setTimeout(()=>{ p2close(); fx('+cc:x_phatdat'); res(true); },900); } });
+      if(Object.keys(at).length===N&&Object.keys(at).every(k=>+k===at[k])) done(); });
+    /* nút Xong: báo còn thiếu / mảnh nào sai chỗ (mấy mảnh góc trắng trông giống nhau, dễ đặt lộn mà không biết) */
+    $('gpOk').onclick=()=>{ if(Object.keys(at).length<N){ $('gpm').textContent='Còn '+(N-Object.keys(at).length)+' mảnh chưa ráp.'; return; }
+      const sai=Object.keys(at).filter(k=>+k!==at[k]); if(!sai.length){ done(); return; }
+      sai.forEach(k=>{ const sl=B.querySelector('[data-slot="'+at[k]+'"]'); if(sl) sl.classList.add('bad'); }); $('gpm').textContent=sai.length+' mảnh nằm sai chỗ (viền đỏ). Kéo ra đổi lại.'; tone(200,.2,.03,'sawtooth'); };
     $('gpX').onclick=()=>{ p2close(); res(false); }; };
+  let fin=false; const done=()=>{ if(fin) return; fin=true; chime(); setTimeout(()=>{ p2close(); fx('+cc:x_phatdat'); res(true); },900); };
   render(); }); }
 
 /* =====================================================================
@@ -497,16 +533,21 @@ function gGhep(){ return new Promise(res=>{ const url=flyer(); const N=6; const 
    ===================================================================== */
 function gLich(){ return new Promise(res=>{ const H=['0:00','0:30','1:00','1:30','2:00','2:30','3:00','3:30','4:00','4:30'];
   const G=[{id:'t1',t:'Lính trệt · 0:00–2:30',row:0,c:[0,1,2,3,4,5]},{id:'t1b',t:'Lính trệt · 3:30–4:30',row:0,c:[7,8,9]},{id:'t2',t:'Lính lầu hai · 0:00–2:30',row:1,c:[0,1,2,3,4,5],lock:!hasF('x_tuan0')},{id:'t2b',t:'Lính lầu hai · 3:30–4:30',row:1,c:[7,8,9],lock:!hasF('x_tuan0')},{id:'t3',t:'Lính lầu ba · cả đêm, trừ lúc giao ca',row:2,c:[0,1,2,3,4,5,7,8,9],lock:!hasF('x_tuan3')}];
-  const put={}; let pick=null;
-  const render=()=>{ const cells=[[],[],[]]; for(const id in put){ const g=G.find(x=>x.id===id); g.c.forEach(c=>cells[put[id]][c]=1); }
-    const row=(r,lab)=>'<div>'+lab+'</div>'+H.map((_,c)=>'<div class="cell'+(cells[r][c]?' g':'')+'" data-slot="r'+r+'"></div>').join('');
+  const put={}; let pick=null, bad={};
+  const render=()=>{ const cells=[[],[],[]]; for(const id in put){ const g=G.find(x=>x.id===id); g.c.forEach(c=>cells[put[id]][c]=id); }
+    /* ô đã có lượt gác: chạm để gỡ lượt đó về khay; lượt xếp lộn tầng tô đỏ sau khi bấm Chốt giờ */
+    const row=(r,lab)=>'<div class="lab">'+lab+'</div>'+H.map((_,c)=>{ const id=cells[r][c]; return '<div class="cell'+(id?' g':'')+(id&&bad[id]?' bad':'')+'" data-slot="r'+r+'"'+(id?' data-g="'+id+'"':'')+'></div>'; }).join('');
     const B=p2open('<h3>Lịch tuần tra</h3><p class="tip">Kéo từng lượt gác vào đúng tầng. Rồi chạm vào cột giờ mà cả ba tầng đều trống: đó là lúc ập vào.</p><div class="p2tl"><div></div>'+H.map((h,c)=>'<div class="col'+(pick===c?' pick':'')+'" data-col="'+c+'">'+h+'</div>').join('')+row(0,'Trệt')+row(1,'Lầu 2')+row(2,'Lầu 3')+'</div>'+
       '<div class="p2tray" data-slot="tray" id="tray">'+G.filter(g=>put[g.id]==null).map(g=>'<div class="p2card'+(g.lock?' lock':'')+'" data-card="'+g.id+'">'+esc(g.lock?'??? chưa dò':g.t)+'</div>').join('')+'</div><p class="tip" id="ltm" style="text-align:center"></p><div class="row"><button class="btn" id="ltOk" type="button">Chốt giờ</button><button class="btn ghost" id="ltX" type="button">Để sau</button></div>');
-    dragKit(B,(c,s)=>{ if(!s) return; const id=c.dataset.card; if(s.dataset.slot==='tray'){ delete put[id]; render(); return; } put[id]=+s.dataset.slot.slice(1); render(); });
+    dragKit(B,(c,s)=>{ if(!s) return; const id=c.dataset.card; delete bad[id]; if(s.dataset.slot==='tray'){ delete put[id]; render(); return; } const r=+s.dataset.slot.slice(1), me=G.find(g=>g.id===id);
+      /* lượt mới đè lên lượt cũ cùng giờ cùng tầng → lượt cũ về khay (trước đây bị che mất, khay trống mà vẫn báo sai) */
+      for(const k in put){ if(k!==id&&put[k]===r&&G.find(g=>g.id===k).c.some(c=>me.c.includes(c))){ delete put[k]; delete bad[k]; } }
+      put[id]=r; render(); });
     B.querySelectorAll('[data-col]').forEach(e=>e.onclick=()=>{ pick=+e.dataset.col; render(); });
+    B.querySelectorAll('.cell[data-g]').forEach(e=>e.onclick=()=>{ const id=e.dataset.g; delete put[id]; delete bad[id]; render(); });
     $('ltX').onclick=()=>{ p2close(); res(false); };
     $('ltOk').onclick=()=>{ const wrong=Object.keys(put).filter(id=>G.find(g=>g.id===id).row!==put[id]); const miss=G.filter(g=>put[g.id]==null);
-      if(wrong.length){ $('ltm').textContent='Có lượt gác xếp lộn tầng.'; return; } if(miss.length){ $('ltm').textContent=miss.some(g=>g.lock)?'Còn tầng chưa dò. Đi đêm dò thêm.':'Còn lượt gác chưa xếp.'; return; }
+      if(wrong.length){ bad={}; wrong.forEach(id=>bad[id]=1); render(); $('ltm').textContent='Lượt tô đỏ đang xếp lộn tầng. Chạm vào ô đỏ để gỡ ra, kéo lại cho đúng.'; tone(200,.2,.03,'sawtooth'); return; } if(miss.length){ $('ltm').textContent=miss.some(g=>g.lock)?'Còn tầng chưa dò. Đi đêm dò thêm.':'Còn lượt gác chưa xếp.'; return; }
       if(pick!==6){ $('ltm').textContent='Giờ đó vẫn có người gác.'; tone(200,.2,.03,'sawtooth'); return; }
       chime(); p2close(); fx('+cc:x_lich +cc:suy_x_khe +co:x_gio'); res(true); }; };
   render(); }); }
@@ -764,7 +805,7 @@ function miniDem(host,muc){ return new Promise(res=>{ const box=document.createE
 function guards(siet,rescue){ const g=[{f:0,a:60,b:960,v:70,x:500,d:1},{f:1,a:40,b:940,v:60,x:720,d:1},{f:2,a:40,b:960,v:55,x:800,d:1}];
   if(siet||rescue) g.push({f:1,a:500,b:960,v:80,x:900,d:-1}); if(rescue) g.push({f:0,a:20,b:200,v:30,x:60,d:1}); return g; }
 function sneak(cfg){ return new Promise(res=>{ hideDlg(); const cuu=cfg.mode==='cuu';
-  p2open('<h3>'+esc(cuu?'Đêm mưa · dẫn người ra sông':'Đi đêm · '+MUC[cfg.muc].ten)+'</h3><div class="dd2"><canvas id="dc" width="1000" height="600"></canvas><div class="ctl"><div class="g"><button id="kL" type="button" aria-label="Sang trái">◀</button><button id="kR" type="button" aria-label="Sang phải">▶</button></div><div class="g"><button id="kU" type="button">▲ Lên</button><button id="kD" type="button">▼ Xuống</button><button id="kH" type="button">Núp</button><button id="kA" class="go" type="button">'+(cuu?'Dẫn':'Lấy')+'</button><button id="kS" type="button">Chạy</button></div></div><div class="tbar"><b id="ktb"></b></div><p class="tip" style="margin:8px 0 0;text-align:center;font-size:13px">Phím: <b>← →</b> đi · <b>↑ ↓</b> lên xuống cầu thang · <b>Space</b> núp · <b>E</b> '+(cuu?'dẫn':'lấy')+' · <b>Shift</b> chạy</p></div>',cuu?null:()=>finish(got?'xong_tre':'het'));
+  p2open('<h3>'+esc(cuu?'Đêm mưa · dẫn người ra sông':'Đi đêm · '+MUC[cfg.muc].ten)+'</h3><div class="dd2"><p class="rot">Xoay ngang điện thoại để thấy cả ba tầng rõ hơn.</p><canvas id="dc" width="1000" height="600"></canvas><div class="ctl"><div class="g"><button id="kL" type="button" aria-label="Sang trái"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5 7 12l8 7z" fill="currentColor"/></svg></button><button id="kR" type="button" aria-label="Sang phải"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l8 7-8 7z" fill="currentColor"/></svg></button></div><div class="g"><button id="kU" type="button">▲ Lên</button><button id="kD" type="button">▼ Xuống</button><button id="kH" type="button">Núp</button><button id="kA" class="go" type="button">'+(cuu?'Dẫn':'Lấy')+'</button><button id="kS" type="button">Chạy</button></div></div><div class="tbar"><b id="ktb"></b></div><p class="tip" style="margin:8px 0 0;text-align:center;font-size:13px">Phím: <b>← →</b> đi · <b>↑ ↓</b> lên xuống cầu thang · <b>Space</b> núp · <b>E</b> '+(cuu?'dẫn':'lấy')+' · <b>Shift</b> chạy</p></div>',cuu?null:()=>finish(got?'xong_tre':'het'));
   if(cuu){ const xb=$('p2x'); if(xb) xb.remove(); }
   const cv=$('dc'), x=cv.getContext('2d'); const bgk=p2imgUrl('x2-trai-matcat'); let bgi=null; if(bgk){ bgi=new Image(); bgi.src=bgk; }
   const M0=!cuu&&MUC[cfg.muc]; const P={f:M0?M0.f:1,x:cuu?240:(M0?(M0.x>DMAP.stairs.x?DMAP.stairs.x-40:DMAP.stairs.x+DMAP.stairs.w+40):200),hid:false,run:false,sus:0,ph:0,face:M0&&M0.x<DMAP.stairs.x?-1:1}; const G=guards(cfg.siet,cuu);

@@ -92,6 +92,7 @@ function p2tok(tk,opt){ if(tk.includes('|')) return tk.split('|').some(x=>p2tok(
   else if(t.startsWith('vai:')) ok=S.vai===t.slice(4);
   else if(t.startsWith('vao:')) ok=S.ai_vao===t.slice(4);
   else if(t.startsWith('mon:')) ok=S.mon===t.slice(4);
+  else if(t==='direct') ok=!!S.direct;
   else if(t==='gui:ok') ok=typeof nextWord==='function'&&!!nextWord();
   else if((m=t.match(/^lo(>=|<)(\d+)$/))) ok=m[1]==='>='?(S.lo||0)>=+m[2]:(S.lo||0)<+m[2];
   else if((m=t.match(/^ccx(>=|<)(\d+)$/))) ok=m[1]==='>='?ocl()>=+m[2]:ocl()<+m[2];
@@ -126,6 +127,8 @@ const dsCon=()=>(S.ds||[]).filter(p=>p.con);
 /* ---------------- trạng thái mới ---------------- */
 function p2Fresh(p1){ const o=fresh(); const k=(p1&&p1.ket)||'hetgio'; const nh=(k==='phuong'||k==='imlang')?'A':'B';
   Object.assign(o,{p2:1,p1:{ket:k,co:Object.assign({},(p1&&p1.co)||{}),tin:Object.assign({},(p1&&p1.tin)||{})},nhanh:nh,vai:nh==='A'?'ngan':'lam',ai_vao:null,lo:k==='bocphot'?40:0,ds:[],mon:null,p2log:[],so:[],cs:{},map:'hem'});
+  /* có tiền từ Phần 1 thì mang nguyên qua (tối thiểu 600k); vào thẳng Phần 2 không có bài Phần 1 thì cho thêm việc kiếm tiền (cond "direct") */
+  o.direct=(p1&&p1.tien!=null)?0:1;
   o.money=Math.max(600000,Math.min(((p1&&p1.tien)||650000)+(k==='tien'?20000000:0),40000000));
   o.nghi=0;
   const t=(p1&&p1.tin)||{}; o.tin={ba_sau:Math.max(1,t.ba_sau||2),bin:Math.max(1,t.bin||1),huong:Math.max(1,t.huong||2),thoa:t.thoa||0,ngan:nh==='A'?3:0,thuy:1,khang:1,bay:0,nhi:1,toan:1,hue:1,ti:1,loc:2};
@@ -250,12 +253,24 @@ choose=function(set,inPhone,title,face){ if(!P2.on) return choose1(set,inPhone,t
   const s0=set[0]||{}; if(!title&&s0.q) title=p2t(s0.q);
   const view=set.map(r=>{ const v=Object.assign({},r,{loi:p2t(r.loi),sub:p2t(r.sub||'')}); if(r.disc&&!cond(r.disc)) v.dis=true; v._o=r; return v; });
   const p=choose1(view,inPhone,title,face).then(v=>v&&v._o?v._o:v);
-  const tm=+s0.timer||0; if(!tm) return p;
+  /* thời gian chọn = thời gian gốc + thời gian ĐỌC hết các lựa chọn (~20 chữ/giây), và chỉ bắt đầu đếm sau khi hộp thoại hiện xong:
+     trước đây đồng hồ chạy ngay lúc câu còn đang gõ, người chơi chưa kịp đọc đã hết giờ */
+  const tm0=+s0.timer||0; if(!tm0) return p;
+  const tm=Math.round(tm0+view.reduce((a,v)=>a+String(v.loi||'').length,0)/20);
   const d=$('dlg'); const bar=document.createElement('div'); bar.className='p2timer'; bar.style.width='100%'; d.insertBefore(bar,d.firstChild);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; }));
+  const T_WAIT=700; setTimeout(()=>{ bar.style.transition='width '+tm+'s linear'; bar.style.width='0%'; },T_WAIT);
   return new Promise(res=>{ let over=false; const to=setTimeout(()=>{ if(over) return; over=true; bar.remove(); const mac=s0.mac; const box=$('dCh');
-      const r=mac>=0&&view[mac]?view[mac]:null; chooseFn=null; box.innerHTML=''; if(r){ toast('Hết giờ'); res(r._o); } else res({ma:'_het',loi:'',sau:''}); },tm*1000);
+      const r=mac>=0&&view[mac]?view[mac]:null; chooseFn=null; box.innerHTML=''; if(r){ toast('Hết giờ'); res(r._o); } else res({ma:'_het',loi:'',sau:''}); },tm*1000+T_WAIT);
     p.then(v=>{ if(over) return; over=true; clearTimeout(to); bar.remove(); res(v); }); }); };
+/* người không còn câu vu vơ nào được phép nói thì báo như chỗ không có việc, đừng im lặng như bấm hỏng */
+/* câu vu vơ trong Phần 2: chỉ lấy câu của Phần 2 (trước đây câu của anh Lộc ở hẻm "Bánh mì vợ tui ngon nhất hẻm" lọt vào cả trong trại),
+   và người nào không còn câu nào được phép nói thì báo như chỗ không có việc, đừng im lặng như bấm hỏng */
+let P2RSET=null;
+const idle1=idle; idle=function(k){ if(!P2.on) return idle1.apply(this,arguments);
+  if(!P2RSET) P2RSET=new Set(P2ROWS.map(r=>r.ma));
+  const L=T.filter(r=>P2RSET.has(r.ma)&&String(r.ma).startsWith('R_'+k+'_')&&cond(r.hien));
+  if(!L.length){ if(k==='meo') return idle1.apply(this,arguments); toast('Bây giờ không có gì để làm ở đây'); return; }
+  const fr=L.filter(r=>!S.said[r.ma]); const pool=fr.length?fr:L; if(!fr.length) L.forEach(r=>delete S.said[r.ma]); const r=pool[Math.floor(Math.random()*pool.length)]; S.said[r.ma]=1; return run(r.ma,r.ma); };
 const runS1=runS;
 runS=async function(key,opt){ if(!P2.on) return runS1(key,opt); const pre=key+'_';
   if(/^(x_|V_|kh_|noi_x)/.test(key)) Object.keys(S.ch).forEach(k=>{ if(k.startsWith(pre)) delete S.ch[k]; });
@@ -335,7 +350,7 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
   S.p2ra=outIds; S.p2tong=groups.length; S.p2con=con.map(g=>g.id);
   let olai=null; if(con.length&&res.out.length){ const c=[]; if(S.nhanh==='A'&&S.ai_vao==='ngan') c.push(['Ngân',9]); if(con.some(g=>g.id==='ngan')&&(S.tin.ngan||0)>=3) c.push(['Ngân',S.tin.ngan]); if(con.some(g=>g.id==='khang')&&(S.tin.khang||0)>=3) c.push(['Khang',S.tin.khang]); if((S.tin.bay||0)>=3) c.push(['Chị Bảy',S.tin.bay]); c.sort((a,b)=>b[1]-a[1]); olai=c[0]?c[0][0]:null; }
   S.p2olai=olai; const nganRa=S.nhanh==='A'?true:outIds.includes('ngan');
-  const k=!res.out.length?'mot_minh':(!con.length&&nganRa&&ocl()>=4&&S.ds.every(p=>p.con))?'ca_to':'o_lai';
+  const k=!res.out.length?'mot_minh':(!con.length&&nganRa&&ocl()>=4&&S.ds.every(p=>p.con)&&hasF('x_ghe'))?'ca_to':'o_lai';  /* kết Cả tổ có chiếc ghe cập bờ → phải đã thuê ghe */
   return p2Ending(k); }
 
 /* ---------------- kết ---------------- */

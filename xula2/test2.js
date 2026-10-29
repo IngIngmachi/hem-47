@@ -13,7 +13,7 @@ function p2GiveAll(){ T.filter(r=>r.kieu==='cc'&&/^CC_(x_|suy_x_)/.test(r.ma)).f
 /* bày sẵn trạng thái như người chơi đã qua tới ngày đó */
 function p2Preset(d,nh,vao){ const p1={ket:nh==='A'?'phuong':'hetgio',co:{khoa_lat:false,tu_lo:false,noi_cuocgoi:nh==='A',phat_nhanchung:true}};
   S=p2Fresh(p1); S.ai_vao=nh==='A'?(vao||'lam'):null;
-  const H1=['x_siha','x_vu_ocl','x_vinh','x_sodo','x_sodo_ok','x_gap_thoai','x_ghe','x_gom','x_mon_xong','x_duong','x_kham','x_tapma','x_meo_hieu','bao_xvinh','x_vinh_ok','x_hop','x_a_tin1','x_chot'];
+  const H1=['x_siha','x_vu_ocl','x_vinh','x_sodo','x_sodo_ok','x_bin_thoai','x_gap_thoai','x_ghe','x_gom','x_mon_xong','x_duong','x_kham','x_tapma','x_meo_hieu','bao_xvinh','x_vinh_ok','x_hop','x_a_tin1','x_chot'];
   if(d<=7){ S.day=d; S.hoi=1; S.vai=nh==='A'?(d%2===1&&d<7?'ngan':'lam'):'lam'; if(d>=3) H1.slice(0,4).forEach(setCo); setME(); p2SetMap('hem'); S.min=DAY_START; S.scene='street'; PL.x=at('basau',.4); snapNPC(); return; }
   H1.forEach(setCo); ['x_siha','x_ocl','x_sodo','x_phatdat','x_bamy'].forEach(k=>S.cc[k]=1); S.mon=nh==='A'&&vao==='ngan'?'meo':'sim'; setCo('x_giu');
   S.hoi=d>=19?3:2; setCo('hoi2'); if(d>=19) setCo('hoi3'); S.vai=S.ai_vao||'lam'; setME(); buildDs(); p2SetMap('trai'); S.day=d;

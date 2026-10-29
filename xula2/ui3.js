@@ -67,6 +67,11 @@ body.u3d .keys .loc{display:none}
 /* ---- điện thoại (dọc + ngang): tranh tràn màn hình ---- */
 body.u3m .top{display:none!important}
 body.u3m{margin:0!important;overflow:hidden}
+/* điện thoại: không cho cả trang kéo nảy/cuộn (trang dư 1px) */
+html:has(body.u3m){height:100%;overflow:hidden;overscroll-behavior:none}
+/* chữ ngày · giờ · tiền · bị nghi trên thanh trên luôn có khoảng cách (có lúc dính liền "10/2110:00650.000đ") */
+body.u3m .hud .chips{gap:14px}
+body.u3m{overscroll-behavior:none}
 body.u3m #app{padding:0!important;max-width:none!important;height:100dvh;display:block}
 body.u3m #stage{height:100dvh!important;width:100%;aspect-ratio:auto!important;border-radius:0!important}
 body.u3m #stage::after{display:none}
@@ -99,7 +104,7 @@ body.u3m .tbtns{top:calc(max(10px,env(safe-area-inset-top)) + 110px)!important;b
 body.u3m #u3loc{left:max(10px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));font-size:12.5px}
 body.u3m.tail .pad{position:fixed;left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));z-index:12;margin:0}
 body.u3m.tail #u3loc{display:none}
-body.u3mp .dlg{top:auto!important;bottom:0!important;max-height:52dvh!important;overflow-y:auto}
+body.u3mp .dlg{top:auto!important;bottom:0!important;max-height:52dvh!important;overflow-y:auto;padding-bottom:calc(14px + env(safe-area-inset-bottom))!important}
 body.u3ml .hud{max-width:calc(100% - 150px)}
 body.u3ml #u3obj{max-width:320px;font-size:12.5px}
 body.u3ml #u3obj .u3h{padding:6px 10px;font-size:12.5px}
@@ -220,13 +225,19 @@ body.u3m #u3obj{width:auto;max-width:min(290px,calc(100vw - 96px))}
 body.u3m #u3obj .u3h{padding:8px 12px}
 body.u3m #u3obj .u3t{font-size:15px}
 body.u3m #u3obj.min .u3b{display:none}
-body.u3m #phoneBtn,body.u3m .tbtns button{width:46px!important;height:46px!important;border-radius:50%!important;padding:0!important;justify-content:center!important;background:rgba(10,10,12,.82)!important;border:1px solid var(--u3line)!important}
-body.u3m .tbtns{flex-direction:column!important;top:calc(max(10px,env(safe-area-inset-top)) + 110px)!important;right:max(10px,env(safe-area-inset-right))!important}
-body.u3m #phoneBtn{right:max(10px,env(safe-area-inset-right))!important}
-body.u3m .tbtns button::before,body.u3m #phoneBtn::before{width:21px!important;height:21px!important}
-body.u3m #exitBtn{border-color:var(--u3gold)!important}
-body.u3ml #phoneBtn,body.u3ml .tbtns button{width:42px!important;height:42px!important}
-body.u3m .hud .chips{background:none!important;border:0!important;padding:0!important;gap:12px!important}
+body.u3m #phoneBtn,body.u3m .tbtns button{width:48px!important;height:48px!important;border-radius:50%!important;padding:0!important;justify-content:center!important;background:rgba(10,10,12,.82)!important;border:1px solid var(--u3line)!important}
+body.u3mp #phoneBtn{top:calc(max(10px,env(safe-area-inset-top)) + 64px)!important}
+body.u3mp .tbtns{top:calc(max(10px,env(safe-area-inset-top)) + 122px)!important;gap:8px!important}
+body.u3ml #phoneBtn,body.u3ml .tbtns button{width:44px!important;height:44px!important}
+body.u3ml #phoneBtn{top:calc(max(8px,env(safe-area-inset-top)) + 52px)!important}
+body.u3ml .tbtns{top:calc(max(8px,env(safe-area-inset-top)) + 104px)!important;gap:8px!important}
+/* Các nút điều hướng cùng một kích thước; hạ xuống để không đè HUD trên màn dọc. */
+body.u3mp #phoneBtn,body.u3mp .tbtns button{width:48px!important;height:48px!important}
+body.u3mp #phoneBtn{top:calc(max(10px,env(safe-area-inset-top)) + 64px)!important}
+body.u3mp .tbtns{top:calc(max(10px,env(safe-area-inset-top)) + 122px)!important;gap:8px!important}
+body.u3ml #phoneBtn,body.u3ml .tbtns button{width:44px!important;height:44px!important}
+body.u3ml #phoneBtn{top:calc(max(8px,env(safe-area-inset-top)) + 52px)!important}
+body.u3ml .tbtns{top:calc(max(8px,env(safe-area-inset-top)) + 104px)!important;gap:8px!important}
 body.u3m .hud .chip{background:none!important;border:0!important;padding:0!important;font:500 15.5px/1.2 Newsreader,Georgia,serif!important;color:var(--u3cream);text-shadow:0 1px 3px rgba(0,0,0,.95)}
 body.u3m .hud .chip.m{color:var(--u3gold)}
 body.u3m #hHoi{display:none}
@@ -346,7 +357,21 @@ drawMarkers=function(){ if(typeof drawEdges==='function') drawEdges(); if(busy||
     if(hover&&hover.id===h.id){ const bits=[]; if(h.main) bits.push(h.main+' việc chính'); if(h.ngoai) bits.push(h.ngoai+' việc ngoài luồng'); if(side) bits.push(side+' việc phụ'); pill(x,y-52,h.l+(bits.length?' · '+bits.join(', '):''),h.main?'#f0b25c':'#cfd6f0'); } } };
 
 /* mũi tên chỉ việc chính ngoài khung: hạ xuống giữa tranh cho khỏi đè thẻ mục tiêu */
-drawEdges=function(){ EDGE=[]; if(S.scene!=='street'||busy||SO.on) return; const L=mainSpots(); let nl=0, nr=0;
+/* điện thoại: mũi tên mép gọn (nút tròn + nhãn ngắn), dọc giữa tranh.
+   Việc chính ngoài khung luôn có mũi tên; nếu bên đó không có việc chính (ví dụ trong trại ban ngày) thì chỉ tới chỗ gần nhất để khỏi mất hướng đi. */
+function drawEdgesM(){ const all=hotspots().filter(h=>h.kind!=='cat'&&h.kind!=='exit'); const pick=[];
+  for(const left of [true,false]){ const side=all.filter(h=>{ const x=h.x-cam; return left?x<=30:x>=VW-30; }).sort((a,b)=>Math.abs(a.x-cam-(left?0:VW))-Math.abs(b.x-cam-(left?0:VW)));
+    const mains=side.filter(h=>h.main); (mains.length?mains.slice(0,2):side.slice(0,1)).forEach(h=>pick.push({h,left})); }
+  let nl=0,nr=0; const R=46;
+  for(const {h,left} of pick){ const k=left?nl++:nr++; const cy=VH*.5+k*(R+34)-((left?nl:nr)>1?0:0); const cx=left?R/2+10:VW-R/2-10; const main=!!h.main;
+    let lab=h.l; g.font='500 14px "Be Vietnam Pro",system-ui,sans-serif'; const maxw=Math.min(132,VW*.36); while(lab.length>3&&g.measureText(lab).width>maxw-16) lab=lab.slice(0,-2); if(lab!==h.l) lab=lab.trimEnd()+'…';
+    const lw=g.measureText(lab).width+18, lx=left?10:VW-10-lw;
+    g.save(); g.fillStyle=main?'rgba(240,178,92,.95)':'rgba(10,12,18,.82)'; g.strokeStyle=main?'#f0b25c':'rgba(236,228,210,.55)'; g.lineWidth=2; g.beginPath(); g.arc(cx,cy,R/2,0,7); g.fill(); g.stroke();
+    g.strokeStyle=main?'#21170a':'#ece4d2'; g.lineWidth=3; g.lineCap='round'; g.lineJoin='round'; const d=left?-1:1; g.beginPath(); g.moveTo(cx-d*4,cy-9); g.lineTo(cx+d*5,cy); g.lineTo(cx-d*4,cy+9); g.stroke();
+    g.fillStyle='rgba(10,12,18,.82)'; g.beginPath(); if(g.roundRect) g.roundRect(lx,cy+R/2+4,lw,24,12); else g.rect(lx,cy+R/2+4,lw,24); g.fill();
+    g.fillStyle='#ece4d2'; g.textAlign='left'; g.textBaseline='middle'; g.fillText(lab,lx+9,cy+R/2+17); g.restore(); g.textBaseline='alphabetic';
+    EDGE.push({x:Math.min(lx,cx-R/2),y:cy-R/2,w:Math.max(lw,R)+(left?0:0),h:R+32,spot:h}); } }
+drawEdges=function(){ EDGE=[]; if(S.scene!=='street'||busy||SO.on) return; if(isMob()) return drawEdgesM(); const L=mainSpots(); let nl=0, nr=0;
   for(const h of L){ const x=h.x-cam; if(x>30&&x<VW-30) continue; const left=x<=30; const k=VW<1100?nl++:(left?nl++:nr++); const y=VH*.56+k*58;
     g.font='400 19px Newsreader,Georgia,serif'; const tw=g.measureText(h.l).width, w=tw+80, H=46, bx=left?24:VW-24-w;
     g.save(); g.fillStyle='rgba(10,10,12,.78)'; g.strokeStyle='#e3b05b'; g.lineWidth=2; g.beginPath(); if(g.roundRect) g.roundRect(bx,y,w,H,23); else g.rect(bx,y,w,H); g.fill(); g.stroke();

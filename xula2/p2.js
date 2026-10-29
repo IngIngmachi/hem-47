@@ -443,14 +443,18 @@ function p2KetLieu(){ return new Promise(res=>{
       {k:'tien',t:'"Bà nghĩ tiền mua được hết hả?"',a:'Tao đâu có mua tụi bây. Tao mua cái mạng thằng con tao. Năm trăm triệu, cầm rồi quên hết đi.'},
       {k:'rec',t:'Bật ghi âm, hỏi: "Bà làm vậy là vì ông Tú hả?"',a:'Thằng Tú nợ tụi chủ sòng bên đó cả chục tỷ. Không có tao đứng ra gom người, gom tiền trả thay thì nó nằm dưới sông lâu rồi. Tụi bây phá cái này là giết con tao đó, nghe chưa!'}];
     const used={};
-    const hang=()=>{ clearInterval(clk); try{ tone(220,.15,.03,'square'); }catch(e){} setTimeout(goChat,350); };
+    let hang=()=>{ clearInterval(clk); try{ tone(220,.15,.03,'square'); }catch(e){} setTimeout(goChat,350); };
     const menu=()=>{ ch.innerHTML=''; const left=OPT.filter(o=>!used[o.k]);
-      if(turns<2) left.forEach(o=>{ const b=document.createElement('button'); b.type='button'; b.textContent=o.t; b.onclick=async()=>{ used[o.k]=1; turns++; ch.innerHTML='';
+      if(turns<2) left.forEach(o=>{ const b=document.createElement('button'); b.type='button'; b.textContent=o.t; b.onclick=async()=>{ try{ vo&&vo.stop&&vo.stop(); }catch(e){} used[o.k]=1; turns++; ch.innerHTML='';
         if(o.k==='rec'){ ghiam=true; $('p2klRec').style.visibility='visible'; try{ tone(1200,.06,.02); }catch(e){} }
         add('me',o.t.replace(/^Bật ghi âm, hỏi: /,'')); await her(o.a);
         lowBat=true; bat.firstChild.textContent='1%'; bat.classList.add('low'); menu(); }; ch.appendChild(b); });
       const e=document.createElement('button'); e.type='button'; e.className='end'; e.textContent=turns>=2?'Pin 1% · Cúp máy, gửi chứng cứ ngay':'Cúp máy'; e.onclick=hang; ch.appendChild(e); };
-    her('Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!').then(menu); };
+    /* câu đầu có giọng thật của bà Mỹ (lọc qua kiểu loa điện thoại) */
+    let vo=null; try{ if(window.SFX&&SFX.has('v_my')) vo=SFX.play('v_my',{v:1,delay:.3}); }catch(e){}
+    const first='Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!';
+    if(vo){ add('her',first); setTimeout(menu,6000); } else her(first).then(menu);
+    const h0=hang; hang=()=>{ try{ vo&&vo.stop&&vo.stop(); }catch(e){} h0(); }; };
   function goChat(){ if(ghiam){ ev.push('Ghi âm cuộc gọi của bà Mỹ'); try{ setCo('x_ghiam_my'); }catch(e){} }
     tel.innerHTML=sb+'<div class="chat"><div class="hd"><i>VN</i><b>Đại úy Vinh</b></div><div class="ls">'+ev.map(t=>'<div class="f">'+ICO_F+'<span>'+esc(t)+'</span></div>').join('')+'</div>'+
       '<div class="ft"><button type="button" class="send" id="p2klGo">Gửi toàn bộ '+ev.length+' chứng cứ cho đại úy Vinh</button><div class="bar"><i></i></div><div class="tx"></div></div></div><div class="off"></div>';

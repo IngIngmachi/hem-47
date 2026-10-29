@@ -619,3 +619,6 @@ if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=
 #typeEnd .te-go{margin-top:16px!important}
 @media (max-height:700px){#typeEnd .te-n{font-size:clamp(26px,5vw,40px)!important}#typeEnd .te-tx p{font-size:clamp(14px,3.6vw,18px)!important}}`; document.head.appendChild(st);
   let lastH=0; setInterval(()=>{ const t=document.getElementById('teTx'); if(!t||!t.offsetParent) return; if(t.scrollHeight!==lastH){ lastH=t.scrollHeight; t.scrollTop=t.scrollHeight; } },150); })();
+
+/* trong trại: hình đi lại của Lâm/Ngân (vẫn là bộ đồ Phần 1) tái màu, tối lại cho ra người đang bị giữ, chờ bộ hình riêng */
+if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter; g.filter='grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; } } return dc0.apply(this,arguments); }; }

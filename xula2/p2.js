@@ -360,16 +360,61 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
   return p2Ending(k); }
 
 /* cú bấm kết liễu ngay trên ghe giữa sông (ĐÃ DUYỆT): điện thoại 2% pin, có 1 vạch sóng, bà Mỹ gọi tới, người chơi tự bấm gửi chứng cứ cho Vinh */
-function p2KetLieu(){ return new Promise(res=>{ const el=document.createElement('div'); el.id='p2kl';
-  el.style.cssText='position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:14px;padding:22px 16px max(26px,env(safe-area-inset-bottom));background:linear-gradient(rgba(4,6,10,.55),rgba(4,6,10,.9)),#05070b url(img2/x2-bo-song-dem.webp) center/cover;color:#efe8d8;font-family:Newsreader,Georgia,serif;text-align:center;opacity:0;transition:opacity .8s';
-  el.innerHTML='<p style="max-width:520px;margin:0 0 auto;padding-top:8vh;font-size:19px;line-height:1.55;font-style:italic;color:#d6cfbf">Chiếc ghe đuôi tôm của chú Thoại vừa vượt qua cồn cát giữa sông. Màn hình chiếc điện thoại nứt toác trong tay '+esc(ME)+' chỉ còn đúng 2% pin — nhưng góc trên vừa nhảy lên 1 vạch sóng "VIETTEL 4G".</p>'+
-   '<div style="width:min(420px,100%);border:1px solid rgba(226,100,92,.6);border-radius:16px;background:rgba(14,10,12,.92);padding:16px 18px;box-shadow:0 0 30px rgba(226,100,92,.25)"><div style="font:600 13px/1.3 \'Be Vietnam Pro\',sans-serif;letter-spacing:.08em;color:#e2645c;animation:p2hint .7s ease-in-out infinite">SỐ CỐ ĐỊNH SÀI GÒN · BÀ TRẦN THỊ MỸ ĐANG GỌI...</div>'+
-   '<p style="margin:10px 0 0;font-size:17px;line-height:1.45">"Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!"</p></div>'+
-   '<button type="button" id="p2klGo" style="width:min(420px,100%);padding:15px 14px;border-radius:14px;border:0;background:#e2453c;color:#fff;font:700 15px/1.3 \'Be Vietnam Pro\',sans-serif;box-shadow:0 8px 24px rgba(226,69,60,.45);cursor:pointer">GẠT TẮT CUỘC GỌI · BẤM GỬI TOÀN BỘ 5 CHỨNG CỨ CHO ĐẠI ÚY VINH</button>'+
-   '<div id="p2klBar" style="width:min(420px,100%);height:8px;border-radius:4px;background:#232a3d;overflow:hidden;visibility:hidden"><i style="display:block;height:100%;width:0;background:linear-gradient(90deg,#f0b25c,#e2645c)"></i></div><div id="p2klTx" style="font:500 13px \'Be Vietnam Pro\',sans-serif;color:#b9b3a6;min-height:18px"></div>';
+function p2KetLieu(){ return new Promise(res=>{
+  if(!$('p2klcss')){ const st=document.createElement('style'); st.id='p2klcss'; st.textContent=`
+#p2kl{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:18px 14px;box-sizing:border-box;background:linear-gradient(rgba(4,6,10,.6),rgba(4,6,10,.88)),#05070b url(img2/x2-bo-song-dem.webp) center/cover;opacity:0;transition:opacity .6s;color:#efe8d8}
+#p2kl .cap{max-width:520px;margin:0;text-align:center;font:italic 400 17px/1.5 Newsreader,Georgia,serif;color:#d6cfbf}
+#p2kl .tel{position:relative;width:min(330px,88vw);height:min(600px,72vh);border-radius:40px;border:10px solid #17181c;background:#0b0c10;box-shadow:0 30px 70px rgba(0,0,0,.7),0 0 0 1px #2a2b31;overflow:hidden;display:flex;flex-direction:column;font-family:"Be Vietnam Pro",sans-serif;animation:p2klin .5s ease-out}
+@keyframes p2klin{from{transform:translateY(40px) scale(.96);opacity:0}}
+#p2kl .tel.ring{animation:p2klin .5s ease-out,p2klrung .5s 1s infinite}
+@keyframes p2klrung{0%,100%{transform:rotate(0)}20%{transform:rotate(-1.4deg)}40%{transform:rotate(1.4deg)}60%{transform:rotate(-.8deg)}}
+#p2kl .sb{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 6px;font:600 12px/1 "Be Vietnam Pro",sans-serif;color:#cfd3dc}
+#p2kl .sb .bat{color:#ff5a4f}#p2kl .sb .bat i{display:inline-block;width:20px;height:9px;border:1.5px solid #ff5a4f;border-radius:2px;margin-left:4px;vertical-align:-1px;position:relative}#p2kl .sb .bat i::after{content:"";position:absolute;left:1px;top:1px;bottom:1px;width:2px;background:#ff5a4f}
+#p2kl .call{flex:1;display:flex;flex-direction:column;align-items:center;padding:34px 22px 26px;text-align:center;background:radial-gradient(circle at 50% 18%,#3a1b1b,#0b0c10 70%)}
+#p2kl .call .who{font:600 22px/1.25 "Be Vietnam Pro",sans-serif;margin-top:16px}
+#p2kl .call .num{font:400 13px "Be Vietnam Pro",sans-serif;color:#b9b3a6;margin-top:4px;letter-spacing:.04em}
+#p2kl .call .av{width:96px;height:96px;border-radius:50%;background:#26272d center/cover;box-shadow:0 0 0 6px rgba(226,69,60,.18),0 0 0 14px rgba(226,69,60,.08);animation:p2klpulse 1.2s infinite}
+@keyframes p2klpulse{50%{box-shadow:0 0 0 10px rgba(226,69,60,.25),0 0 0 22px rgba(226,69,60,.06)}}
+#p2kl .call q{display:block;margin-top:auto;font:italic 400 15.5px/1.5 Newsreader,Georgia,serif;color:#e9e1cf;quotes:none;padding:12px 14px;background:rgba(255,255,255,.05);border-radius:14px}
+#p2kl .acts{display:flex;justify-content:center;gap:56px;padding:18px 0 4px;margin-top:16px}
+#p2kl .acts button{width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#fff;font:600 11px "Be Vietnam Pro",sans-serif}
+#p2kl .acts .no{background:#e2453c;box-shadow:0 8px 20px rgba(226,69,60,.45)}#p2kl .acts .no svg{width:28px;height:28px;fill:#fff;transform:rotate(135deg)}
+#p2kl .acts .yes{background:#2e3138;opacity:.45;cursor:not-allowed}#p2kl .acts .yes svg{width:28px;height:28px;fill:#9aa0aa}
+#p2kl .lbl{display:flex;justify-content:center;gap:56px;font:500 12px "Be Vietnam Pro",sans-serif;color:#cfc8b8}#p2kl .lbl span{width:64px;text-align:center}
+#p2kl .chat{flex:1;display:flex;flex-direction:column;min-height:0}
+#p2kl .chat .hd{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid #22232a}
+#p2kl .chat .hd i{width:34px;height:34px;border-radius:50%;background:#1f5fbf;display:grid;place-items:center;font:700 13px "Be Vietnam Pro";font-style:normal}
+#p2kl .chat .hd b{font:600 15px "Be Vietnam Pro"}
+#p2kl .chat .ls{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:7px}
+#p2kl .chat .f{align-self:flex-end;max-width:86%;display:flex;gap:9px;align-items:center;padding:9px 11px;border-radius:12px 12px 4px 12px;background:#1d3a2a;font:400 13px/1.35 "Be Vietnam Pro";color:#e6efe6}
+#p2kl .chat .f svg{flex:none;width:20px;height:20px;fill:none;stroke:#8fd0a2;stroke-width:1.8}
+#p2kl .chat .f.wait{opacity:.45}
+#p2kl .chat .ft{padding:12px 14px 16px;border-top:1px solid #22232a}
+#p2kl .chat .send{width:100%;padding:14px;border-radius:12px;border:0;background:#e2453c;color:#fff;font:700 14px/1.3 "Be Vietnam Pro",sans-serif;cursor:pointer;box-shadow:0 8px 22px rgba(226,69,60,.4)}
+#p2kl .chat .send:disabled{opacity:.5;cursor:default}
+#p2kl .chat .bar{height:6px;border-radius:3px;background:#232a3d;overflow:hidden;margin-top:10px;visibility:hidden}#p2kl .chat .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f0b25c,#e2645c)}
+#p2kl .chat .tx{font:500 12.5px "Be Vietnam Pro",sans-serif;color:#b9b3a6;min-height:16px;margin-top:8px;text-align:center}
+#p2kl .off{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .5s;pointer-events:none}
+@media (max-height:640px){#p2kl .cap{font-size:14.5px}#p2kl .tel{height:min(520px,76vh)}#p2kl .call{padding:18px 16px 14px}#p2kl .call .av{width:70px;height:70px}}
+`; document.head.appendChild(st); }
+  const ICO_PH='<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>';
+  const ICO_F='<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></svg>';
+  const sb='<div class="sb"><span>VIETTEL 4G ▂</span><span class="bat">2%<i></i></span></div>';
+  const ev=OCL.filter(k=>S.cc&&S.cc[k]).slice(0,5).map(k=>{ const r=T[IDX['CC_'+k]]; return r?r.ai:k; });
+  const el=document.createElement('div'); el.id='p2kl';
+  el.innerHTML='<p class="cap">Chiếc ghe đuôi tôm của chú Thoại vừa vượt qua cồn cát giữa sông. Màn hình chiếc điện thoại nứt toác trong tay '+esc(ME)+' chỉ còn đúng 2% pin — nhưng góc trên vừa nhảy lên 1 vạch sóng "VIETTEL 4G".</p>'+
+    '<div class="tel ring">'+sb+'<div class="call"><div class="av" style="background-image:url('+(typeof faceFor==='function'?faceFor('Bà Mỹ'):'')+')"></div><div class="who">Bà Trần Thị Mỹ</div><div class="num">SỐ CỐ ĐỊNH SÀI GÒN · ĐANG GỌI...</div>'+
+    '<q>"Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!"</q>'+
+    '<div class="acts"><button type="button" class="no" id="p2klNo" aria-label="Gạt tắt cuộc gọi">'+ICO_PH+'</button><button type="button" class="yes" disabled aria-hidden="true">'+ICO_PH+'</button></div><div class="lbl"><span>Gạt tắt</span><span></span></div></div><div class="off"></div></div>';
   document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
-  $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; b.style.opacity=.5; $('p2klBar').style.visibility='visible'; const f=$('p2klBar').firstChild; let w=0; const tx=$('p2klTx'); tx.textContent='Đang gửi · pin 2%…';
-    const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; tone(110,1.2,.05,'sine'); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },800); },900); } },60); }; }); }
+  const ring=setInterval(()=>{ try{ if(window.SFX) SFX.play('rung',{v:.55}); else { tone(880,.12,.03); tone(660,.12,.03,'sine',.15); } }catch(e){} },1300);
+  $('p2klNo').onclick=()=>{ clearInterval(ring); try{ tone(220,.15,.03,'square'); }catch(e){}
+    const tel=el.querySelector('.tel'); tel.classList.remove('ring');
+    tel.innerHTML=sb+'<div class="chat"><div class="hd"><i>VN</i><b>Đại úy Vinh</b></div><div class="ls">'+ev.map(t=>'<div class="f">'+ICO_F+'<span>'+esc(t)+'</span></div>').join('')+'</div>'+
+      '<div class="ft"><button type="button" class="send" id="p2klGo">Gửi toàn bộ '+ev.length+' chứng cứ cho đại úy Vinh</button><div class="bar"><i></i></div><div class="tx"></div></div></div><div class="off"></div>';
+    $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; const bar=tel.querySelector('.bar'), f=bar.firstChild, tx=tel.querySelector('.tx'); bar.style.visibility='visible'; tx.textContent='Đang gửi · pin 2%…'; let w=0;
+      const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; try{ tone(110,1.2,.05,'sine'); }catch(e){}
+        setTimeout(()=>{ tel.querySelector('.off').style.opacity=1; },700); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); },1700); } },60); }; }; }); }
 /* ---------------- kết ---------------- */
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;
   const dsr=ra.join(', ');

@@ -666,6 +666,8 @@ function p2Bao(k){ return new Promise(res=>{
 #p2bao .ph{background:#333 center/cover;filter:grayscale(1) sepia(.3) contrast(1.15) brightness(.9);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 40px rgba(0,0,0,.45);margin:8px 0 10px}
 #p2bao .ph.lead{aspect-ratio:16/8}
 #p2bao .ph.wide{aspect-ratio:3.6/1}
+#p2bao .ph.tall{aspect-ratio:1/1;margin:0;filter:sepia(.25) saturate(.85) contrast(1.05)}
+@media (min-width:760px){#p2bao .g4{grid-template-columns:1fr 1fr}#p2bao .g4 .cols{column-count:2;column-gap:22px;column-rule:1px solid rgba(29,26,20,.35)}#p2bao .g4 .cols p{font-size:clamp(14px,1.35vw,16.5px)}}
 @media (max-width:759px){#p2bao .ph.wide{aspect-ratio:16/10}}
 #p2bao .kick{font:700 12px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#9b2a22;text-transform:uppercase;margin:12px 0 2px}
 #p2bao .cols{margin-top:6px}
@@ -700,7 +702,7 @@ function p2Bao(k){ return new Promise(res=>{
     head+'<p class="kick">'+esc(N.p3.kick)+'</p><h2>'+esc(N.p3.h)+'</h2><div class="g1"><div><div class="ph lead" style="background-image:url(img2/'+N.p3.img+'.webp)"></div>'+N.p3.b.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
       '<div class="side"><div class="box"><b>'+esc(N.p3.box.h)+'</b><ol>'+N.p3.box.li.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ol></div><div class="it"><h3>'+esc(N.p3.side.h)+'</h3><p>'+esc(N.p3.side.b)+'</p></div></div></div>'+
       '<div class="ft">'+src(N.p3.src)+pn(3)+btn('bgo','Lật trang ›')+'</div>',
-    head+'<p class="kick">'+esc(N.p4.kick)+'</p><h2>'+esc(N.p4.h)+'</h2><div class="cols">'+N.p4.b.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
+    head+'<div class="g1 g4"><div><p class="kick">'+esc(N.p4.kick)+'</p><h2>'+esc(N.p4.h)+'</h2><div class="cols">'+N.p4.b.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div></div><div class="ph tall" style="background-image:url(img2/x2-ca-to-hem.webp)"></div></div>'+
       '<div class="hot">'+N.p4.hot.map(x=>'<div><strong>'+x[0]+'</strong><span>'+esc(x[1])+'</span></div>').join('')+'</div>'+
       '<div class="ft">'+src(N.p4.src)+pn(4)+btn('bgo','Đóng báo')+'</div>'];
   const el=document.createElement('div'); el.id='p2bao';

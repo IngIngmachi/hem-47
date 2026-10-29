@@ -94,6 +94,12 @@
 #cover:has(.mdx) .tlr-st,#cover:has(.mdx) .moi-st,#cover:has(.mdx) #logoTop,#cover:has(.mdx) #logoBot{display:none!important}
 #cover:has(.mdx-chap){background:linear-gradient(90deg,rgba(5,5,7,.94) 0%,rgba(5,5,7,.78) 40%,rgba(5,5,7,.1) 70%,rgba(5,5,7,.2) 100%),#08090b url(img2/bia.webp) 75% center/cover!important}
 .mdx{text-align:left;font-family:"Be Vietnam Pro",system-ui,sans-serif;color:#efe6d2;gap:0}
+/* chọn chương: chừa chỗ cho thanh dưới cùng, cuộn được khi màn hình thấp; thẻ thấp lại trên máy tính màn ngắn */
+#cover:has(.mdx-chap){overflow-y:auto!important;align-items:flex-start!important}
+.mdx-chap{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important;box-sizing:border-box}
+/* máy tính: thẻ chương gọn, không chừa khoảng trống to trong thẻ */
+@media (min-width:900px) and (orientation:landscape){.mdx-chap .mdx-card{max-width:760px!important;min-height:0!important;padding:16px 26px!important}.mdx-chap .mdx-card .bl{margin:6px 0 12px!important;font-size:14.5px!important}.mdx-chap .mdx-card h4{font-size:38px!important}}
+@media (min-width:900px) and (max-height:940px){.mdx-chap .mdx-card{min-height:0!important;padding:16px 30px!important;margin-bottom:12px!important}.mdx-chap .mdx-card h4{font-size:clamp(30px,4.6vh,42px)!important;margin:2px 0 4px!important}.mdx-chap .mdx-card .bl{margin:8px 0 12px!important;font-size:15px!important}.mdx-chap .mdx-top{margin-bottom:14px!important}}
 .mdx .mdx-logo img{display:block;width:290px;height:auto}
 .mdx .mdx-kick{display:flex;align-items:center;gap:12px;margin-top:4px;font-size:15px;font-weight:500;letter-spacing:.3em;color:#d9d2c2;text-transform:uppercase}
 .mdx .mdx-age{border:1.5px solid #d8382b;color:#f26a5c;border-radius:4px;padding:1px 5px;font-size:12px;letter-spacing:.06em}

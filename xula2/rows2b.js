@@ -274,4 +274,31 @@ X('x_cuu_mo','Đêm giải cứu',[
  ['~','Đếm kỹ từng người một. Dắt nhau bám sát bờ tường, hễ thấy ánh đèn pin quét tới là nằm rạp xuống liền.'],
  {if:'!co:x_tin_3g',L:[['~','Chưa báo được giờ G ra ngoài nên sẽ không có công an ập vô tiếp ứng. Đêm nay sống chết chỉ trông cậy vô chiếc ghe chờ ngoài sông.']]},
  {bg:''}]);
+/* ĐÃ DUYỆT (tác giả gửi 29/10): cảnh trước cắt điện 00:55, chỉ chạy khi ocl() >= 3 */
+X('x_cuu_loa','Đêm giải cứu · 00:55',[
+ {bg:'x2-bo-song-dem'},{card:'NGÀY 20 · 00:55 SÁNG\nTRƯỚC GIỜ CẮT ĐIỆN'},
+ 'Ngay trước giờ cắt điện, tiếng giày đinh của Sẹo bỗng nện rầm rập lên cầu thang lầu 2. Chiếc bộ đàm công suất lớn trên tay hắn bật loa ngoài rè rè.',
+ ['Bà Mỹ','Thằng Sẹo nghe rõ đây: ví tổng ở Sài Gòn vừa báo động có đứa chạm vô sổ sách lầu 3. Khóa chết cửa sắt lầu 2 lại, lôi hết tổ 3 ra sân cho tao! Đứa nào tự bước ra chỉ điểm, tao xóa nợ cho về!'],
+ 'Trong phòng ngủ tối om, có tiếng thở dốc. Anh Toàn ngồi bật dậy định mở miệng kêu lên. Chỉ còn 8 giây trước khi Sẹo bước tới khóa chốt cửa sắt bên ngoài!',
+ {chon:[
+  {t:'Bật đoạn ghi âm bà Mỹ đòi "bán sạch lầu 3 qua Miến Điện", dí sát khe cửa cho Sẹo nghe',sub:'cần ghi âm giọng thật',dis:'cc:x_giongthat',s:'+co:x_loa_chay',L:[
+    'Từ trong bóng tối, {me} mở tối đa âm lượng chiếc máy giấu. Giọng thật khàn đặc của bà Mỹ vang vọng ra hành lang: "…thứ Sáu này xe bên Miến qua hốt, tống luôn đám quản lý biết nhiều qua bển cho sạch dấu vết, tiền tháng này giữ lại đừng nộp cho chủ sòng!"',
+    ['Sẹo','Con già bên Sài Gòn tính nuốt tiền của ông chủ rồi bán đứng tụi tao luôn hả?!'],
+    'Sẹo quay ngoắt đầu chạy thốc lên văn phòng lầu 3 để tra hỏi Chị Bảy và kiểm tra két sắt. Lính gác tầng trệt và lầu 2 rối loạn bỏ chốt chạy lên cãi nhau. Đúng lúc đó, máy phát điện phụt tắt!']},
+  {t:'Phóng ra đập vỡ hộp cầu chì hành lang để cắt điện sớm',sub:'ồn, dễ bị nghi',s:'+nghi:10',L:[
+    '{me} lao ra giật đứt dây hộp cầu chì ngay đầu cầu thang. Tia lửa điện nổ bụp một tiếng xanh lè, cả dãy hành lang chìm vào bóng tối đặc quánh trước khi Sẹo kịp khóa cửa.']},
+  {t:'Đợi Chị Bảy bước ra chặn Sẹo ở đầu cầu thang',sub:'cần Chị Bảy đã tin mình',dis:'tin_bay>=3',s:'+co:x_bay_chan_ready',L:[
+    'Bóng Chị Bảy từ cầu thang lầu 3 bước xuống chắn ngang mặt Sẹo, giơ chùm chìa khóa lên.',
+    ['Chị Bảy','Tổ 3 tao mới điểm danh xong, đứa lục sổ sách vừa nhảy xuống khu nhà bếp kìa! Dẫn người xuống trệt lẹ đi!'],
+    'Sẹo kéo quân chạy ngược xuống nhà bếp. Máy phát điện phụt tắt.']}
+ ],q:'8 giây trước khi Sẹo khóa chốt cửa sắt',timer:8,mac:1}]);
+/* ĐÃ DUYỆT: Chị Bảy ở lại chặn cửa (chạy khi olai==='Chị Bảy' và co:x_bay_lat) */
+X('x_bay_chan','Chị Bảy ở lại',[
+ {bg:'x2-bo-song-dem'},
+ '4:30 sáng. Tiếng chó nghiệp vụ và ánh đèn pin của đám Sẹo đã quét tới đầu hành lang sau bếp. Chị Bảy bất ngờ đẩy mạnh {me} vọt qua bên kia cánh cửa sắt, rồi tự mình bước lùi lại vào bóng tối bên trong, kéo sầm cửa lại.',
+ 'Qua khe song sắt, bàn tay Chị Bảy vặn chặt chốt khóa từ phía trong. Tay áo dài xắn cao lộ rõ vết sẹo cắt cổ tay năm xưa dưới ánh đèn pha chớp nhoáng.',
+ ['Chị Bảy','Đừng có đứng đó ngó! Ba năm trước chị bước hụt chân vô cái ổ này, hai bàn tay nhúng chàm hết đường về rồi. Chị khóa chết cái cửa này cầm chân tụi nó cho tụi bây năm phút. Chạy ra sông đi!'],
+ ['Chị Bảy','Về tới đường Fan Xích Vô… bữa nào đi ngang tiệm chú Tám, đứng lại nghe giùm chị một câu cải lương là được rồi. Đi lẹ đi!'],
+ ['~','Tiếng bước chân rầm rập ập tới bên kia cánh cửa sắt, tiếp theo là tiếng Chị Bảy cố tình la lớn chỉ trỏ ngược về hướng cổng chính để đánh lạc hướng đám Sẹo. {me} cắn chặt môi, quay đầu lao thẳng ra bãi lau bờ sông.'],
+ {bg:''}]);
 X('x_ban_dung','Bị bán đứng',[{bg:'x2-cong-sat'},'Mới 11h đêm, mấy chiếc xe tải bỗng lùi thẳng vô sân trại. Đèn pha bật sáng trưng, bảo vệ cầm dùi cui đập cửa từng phòng lùa hết người ra xe.','Kế hoạch đã bị lộ từ trước. Tụi chủ lò cho di tản nguyên trại ngay trước giờ công an ập vô.',{bg:''}]);

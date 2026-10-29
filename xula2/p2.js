@@ -342,9 +342,11 @@ async function p2VaoTrai(){ S.vai=S.ai_vao||'lam'; setME(); p2SetMap('trai'); BG
 
 /* ---------------- đêm giải cứu ---------------- */
 async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dung'); hideDlg(); return p2Ending('ban_dung'); }
+  if(ocl()>=3){ await runS('x_cuu_loa'); hideDlg(); }
   await runS('x_cuu_mo'); hideDlg();
   const raidOK=hasF('x_tin_3g')&&hasF('x_vinh')&&(S.nhanh==='A'||hasF('x_tin_song')||hasF('x_goi_ok'));
-  const raid=raidOK?180+Math.floor((S.lo||0)/25)*15:9999, xe=(S.lo||0)>=25?270:null;
+  let raid=raidOK?180+Math.floor((S.lo||0)/25)*15:9999; const xe=(S.lo||0)>=25?270:null;
+  if(hasF('x_loa_chay')&&raid<9999) raid=Math.max(60,raid-20);   /* ghi âm giọng thật làm lính gác rối, công an vào sớm 20 phút */
   const groups=dsCon().filter(p=>!(S.nhanh==='A'&&S.ai_vao==='ngan'&&p.id==='ngan')).map(p=>{ const t=S.tin[p.id]||0; return {id:p.id,ten:p.ten,sp:p.id,can:t>=2?0:t===1?1:2,after:p.id==='ngan'&&t<4?240:0}; });
   const ex=[{ten:'Cổng chính',f:0,x:60,cost:hasF('x_ghe')?5:20}]; if(hasF('x_cua')) ex.push({ten:'Cửa sau',f:0,x:905,cost:hasF('x_ghe')?0:15}); if(hasF('x_rao')) ex.push({ten:'Rào sau bếp',f:0,x:740,cost:hasF('x_ghe')?0:15});
   const res=await sneak({mode:'cuu',groups,exits:ex,raid,xe,end:300,speed:1,siet:false});
@@ -353,8 +355,21 @@ async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dun
   let olai=null; if(con.length&&res.out.length){ const c=[]; if(S.nhanh==='A'&&S.ai_vao==='ngan') c.push(['Ngân',9]); if(con.some(g=>g.id==='ngan')&&(S.tin.ngan||0)>=3) c.push(['Ngân',S.tin.ngan]); if(con.some(g=>g.id==='khang')&&(S.tin.khang||0)>=3) c.push(['Khang',S.tin.khang]); if((S.tin.bay||0)>=3) c.push(['Chị Bảy',S.tin.bay]); c.sort((a,b)=>b[1]-a[1]); olai=c[0]?c[0][0]:null; }
   S.p2olai=olai; const nganRa=S.nhanh==='A'?true:outIds.includes('ngan');
   const k=!res.out.length?'mot_minh':(!con.length&&nganRa&&ocl()>=4&&S.ds.every(p=>p.con)&&hasF('x_ghe'))?'ca_to':'o_lai';  /* kết Cả tổ có chiếc ghe cập bờ → phải đã thuê ghe */
+  if(olai==='Chị Bảy'&&hasF('x_bay_lat')){ await runS('x_bay_chan'); hideDlg(); }
+  if(res.out.length&&ocl()>=4) await p2KetLieu();
   return p2Ending(k); }
 
+/* cú bấm kết liễu ngay trên ghe giữa sông (ĐÃ DUYỆT): điện thoại 2% pin, có 1 vạch sóng, bà Mỹ gọi tới, người chơi tự bấm gửi chứng cứ cho Vinh */
+function p2KetLieu(){ return new Promise(res=>{ const el=document.createElement('div'); el.id='p2kl';
+  el.style.cssText='position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:14px;padding:22px 16px max(26px,env(safe-area-inset-bottom));background:linear-gradient(rgba(4,6,10,.55),rgba(4,6,10,.9)),#05070b url(img2/x2-bo-song-dem.webp) center/cover;color:#efe8d8;font-family:Newsreader,Georgia,serif;text-align:center;opacity:0;transition:opacity .8s';
+  el.innerHTML='<p style="max-width:520px;margin:0 0 auto;padding-top:8vh;font-size:19px;line-height:1.55;font-style:italic;color:#d6cfbf">Chiếc ghe đuôi tôm của chú Thoại vừa vượt qua cồn cát giữa sông. Màn hình chiếc điện thoại nứt toác trong tay '+esc(ME)+' chỉ còn đúng 2% pin — nhưng góc trên vừa nhảy lên 1 vạch sóng "VIETTEL 4G".</p>'+
+   '<div style="width:min(420px,100%);border:1px solid rgba(226,100,92,.6);border-radius:16px;background:rgba(14,10,12,.92);padding:16px 18px;box-shadow:0 0 30px rgba(226,100,92,.25)"><div style="font:600 13px/1.3 \'Be Vietnam Pro\',sans-serif;letter-spacing:.08em;color:#e2645c;animation:p2hint .7s ease-in-out infinite">SỐ CỐ ĐỊNH SÀI GÒN · BÀ TRẦN THỊ MỸ ĐANG GỌI...</div>'+
+   '<p style="margin:10px 0 0;font-size:17px;line-height:1.45">"Đứa nào đang cầm máy? Đưa cuốn sổ chỉ tiêu đây, tao chuyển liền 500 triệu vô tài khoản cho tụi bây làm lại cuộc đời!"</p></div>'+
+   '<button type="button" id="p2klGo" style="width:min(420px,100%);padding:15px 14px;border-radius:14px;border:0;background:#e2453c;color:#fff;font:700 15px/1.3 \'Be Vietnam Pro\',sans-serif;box-shadow:0 8px 24px rgba(226,69,60,.45);cursor:pointer">GẠT TẮT CUỘC GỌI · BẤM GỬI TOÀN BỘ 5 CHỨNG CỨ CHO ĐẠI ÚY VINH</button>'+
+   '<div id="p2klBar" style="width:min(420px,100%);height:8px;border-radius:4px;background:#232a3d;overflow:hidden;visibility:hidden"><i style="display:block;height:100%;width:0;background:linear-gradient(90deg,#f0b25c,#e2645c)"></i></div><div id="p2klTx" style="font:500 13px \'Be Vietnam Pro\',sans-serif;color:#b9b3a6;min-height:18px"></div>';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  $('p2klGo').onclick=()=>{ const b=$('p2klGo'); b.disabled=true; b.style.opacity=.5; $('p2klBar').style.visibility='visible'; const f=$('p2klBar').firstChild; let w=0; const tx=$('p2klTx'); tx.textContent='Đang gửi · pin 2%…';
+    const iv=setInterval(()=>{ w+=3.2; f.style.width=Math.min(100,w)+'%'; if(w>=70) tx.textContent='Pin 1%…'; if(w>=100){ clearInterval(iv); tx.textContent='Đã gửi. Máy sập nguồn.'; tone(110,1.2,.05,'sine'); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },800); },900); } },60); }; }); }
 /* ---------------- kết ---------------- */
 async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S.ds||[]).find(p=>p.id===id)||{}).ten||id); const L=[]; const my=hasC('suy_x_my')||ocl()>=4;
   const dsr=ra.join(', ');
@@ -362,7 +377,8 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     if(my) L.push('Ba ngày sau, căn biệt thự ở Quận 7 sáng đèn từ tinh mơ. Bà Trần Thị Mỹ bị đọc lệnh bắt giữ ngay bên bàn trà sáng, khi cuốn sổ chỉ tiêu đóng mộc Phát Đạt TN đã nằm trên bàn đại úy Vinh.');
     L.push('Một chiều cuối năm ở hẻm 47. Tạp hóa cô Thoa kê thêm hai cái bàn nhựa ra tận mí hẻm. Lần đầu tiên sau gần hai năm, mâm cơm chiều dọn ra đủ chén đũa.','Con mèo mun nằm phơi nắng trên bậc thềm, lim dim nghe tiếng radio cải lương bên tiệm chú Tám vọng qua.'); }
   else if(k==='o_lai'){ const o=S.p2olai; L.push('5 giờ sáng. Tiếng chuông chùa vọng qua mặt sông mờ sương. Chiếc ghe của ông Thoại buộc phải tháo dây rời bến trước khi đèn pha quét tới.','Những người kịp bước lên bờ bên này: '+(dsr||'không ai')+'.');
-    if(o||(S.p2con||[]).length){ L.push('Cánh cổng sắt bên kia sông khép lại. Có người đã chọn đứng lại ở hành lang cuối cùng để chiếc ghe kịp rời bến.'); if(o==='Ngân') L.push('Ở đầu hẻm 47, tối nào cô Thoa cũng lặng lẽ cắm sạc chiếc điện thoại ốp mèo đen, chờ một cuộc gọi lúc 2 giờ sáng.'); }
+    if(o==='Chị Bảy'&&hasF('x_bay_lat')){ L.push('Cánh cửa sắt sau bếp khép chặt bên kia sông. Người phụ nữ từng mất tiệm uốn tóc ở đầu đường Fan Xích Vô ba năm trước đã chọn đứng lại ở hành lang cuối cùng để giữ đường máu cho cả tổ rời bến.','Ở đầu hẻm 47, chiếc radio cũ trong tiệm hớt tóc chú Tám chiều nào cũng mở bản cải lương \'Tình anh bán chiếu\', nhưng người hàng xóm sát vách năm xưa vẫn chưa một lần quay về.'); }
+    else if(o||(S.p2con||[]).length){ L.push('Cánh cổng sắt bên kia sông khép lại. Có người đã chọn đứng lại ở hành lang cuối cùng để chiếc ghe kịp rời bến.'); if(o==='Ngân') L.push('Ở đầu hẻm 47, tối nào cô Thoa cũng lặng lẽ cắm sạc chiếc điện thoại ốp mèo đen, chờ một cuộc gọi lúc 2 giờ sáng.'); }
     else if((S.ds||[]).some(p=>!p.con)) L.push('Không ai bị bỏ lại đêm đó. Nhưng '+S.ds.filter(p=>!p.con).map(p=>p.ten).join(', ')+' đã bị chuyển đi từ trước. Trên danh sách của Hương, mấy cái tên đó vẫn còn để trống.');
     else if(!my) L.push('Cả tổ đều qua được sông, nhưng trong tập hồ sơ gửi cho đại úy Vinh vẫn khuyết cái tên của kẻ cầm tiền đứng trên cùng.');
     if(my) L.push('Bà Trần Thị Mỹ được mời lên làm việc ngay trong tuần.');
@@ -372,6 +388,11 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     if(!my) L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Dọn sạch trại dưới Xi-ha đi. Tối thứ Sáu lùa hết tụi nó qua bên Miến cho má."'); }
   else { L.push('11 giờ đêm, bốn tiếng trước giờ hẹn. Kế hoạch đã bị lộ từ trước. Toàn bộ các phòng máy bị lùa lên thùng xe tải khóa kín, lao đi trong màn mưa.','Ba tuần sau, chiếc điện thoại ốp mèo đen trong ngăn kéo tạp hóa cô Thoa bất ngờ sáng đèn lúc 2 giờ sáng. Một tin nhắn quảng cáo không dấu gửi về.','Ghép chữ cái đầu của bốn câu ngắn ngủn, hiện ra bốn chữ: M - I - E - N.');
     if(!my) L.push('Trong căn biệt thự ở Quận 7, người đàn bà sáu mươi tuổi đặt tách trà nóng xuống bàn, bấm số gọi đi: "Xe qua tới bên Miến rồi hả? Từ giờ khỏi sợ đứa nào nhắn về nữa."'); }
+  /* giá phải trả của ca nhắn tin (ĐÃ DUYỆT): tên những người bị mình chốt cọc */
+  { const nan=[...new Set((S.so||[]).map(x=>String(x).split(' · ')[0]))]; let t;
+    if(nan.length) t=((k==='ca_to'||k==='o_lai')?'Đêm đó bạn đưa được các thành viên trong tổ vượt sông về nhà. Nhưng t':'T')+'rong những ngày ngồi trước màn hình phòng máy, để đổi lấy sự an toàn cho kế hoạch, chính ngón tay bạn đã bấm chốt cọc của '+nan.length+' người ở quê nhà: '+nan.join(', ')+'.';
+    else t='Suốt những ngày ngồi trong phòng máy dưới roi điện của Sẹo, bạn đã chấp nhận chịu phạt chứ không bấm lừa bất kỳ một người đồng bào nào. Bạn trở về Hẻm 47 với hai bàn tay trắng trong.';
+    if(k!=='ban_dung'&&L.length>1) L.splice(L.length-1,0,t); }
   let got=[]; try{ got=JSON.parse(lsGet('tgl_chuong2_ket')||'[]'); }catch(e){} if(!got.includes(k)) got.push(k); lsSet('tgl_chuong2_ket',JSON.stringify(got));
   hideDlg(); closePhone(); const name=(ENDS[k]||['',''])[1];
   const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung'}[k];

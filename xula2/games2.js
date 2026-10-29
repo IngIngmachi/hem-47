@@ -424,6 +424,13 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
       const lg=$('clog'); if(lg) lg.scrollTop=1e5; };
     const bin=t=>'<div class="b in">'+esc(t)+'<i>'+tm()+'</i></div>', bout=t=>'<div class="b out">'+t+'<i>'+tm()+' · đã gửi</i></div>', bsys=t=>'<div class="b sys">'+t+'</div>';
     L.push(bin(k.vao)); let loi=false, lanh=false;
+    /* dòng nghĩ trước lượt chốt (ĐÃ DUYỆT): đặt người chơi vào thế giằng xé theo loại khách */
+    { const age=+((/(\d+) tuổi/.exec(k.ho||'')||[])[1]||0), cu=/^(Chú|Anh)/.test(k.ten)?'Ông cụ':'Bà cụ'; let nt='';
+      if(/nợ app/.test(k.ho||'')) nt='(Đang bị nợ app dí tới bước đường cùng giống hệt anh Lộc. Mình cứu người dưng trên màn hình, hay giữ an toàn cho mình để còn đường cứu tổ?)';
+      else if(/mất việc|tìm việc/.test(k.ho||'')) nt='(Lại một người vừa mất việc xưởng may như con bé Thủy. Chỉ cần mình bấm gửi câu này là đẩy thêm một người nữa xuống hố...)';
+      else if(age>=55) nt='('+cu+' gom tiền dưỡng già, y hệt bà Sáu hôm bị lừa cuộc gọi 5 giờ sáng. Nhưng nếu ca này mình không chốt đơn, tối nay Sẹo sẽ lôi đứa thiếu chỉ tiêu trong tổ ra chuồng cọp...)';
+      if(nt) L.push('<div class="b sys" style="font-style:italic;color:#d6cfbf">'+esc(nt)+'</div>'); }
+    const ghiCoc=()=>{ const pr=/^(Cô|Chú|Anh|Chị|Bác)\b/.exec(k.ten); return bin((pr?pr[1]:'Tui')+' chuyển qua rồi đó con, chừng nào nhận được tiền vậy con? Alo con ơi?')+'<div class="b sys" style="color:#e2645c;font-weight:700;letter-spacing:.03em">[ĐÃ NHẬN TIỀN CỌC · TỰ ĐỘNG CHẶN LIÊN LẠC]</div>'+bsys('Tiếng chuông đồng trên tường reo leng keng. Cả phòng máy vỗ tay rào rạt, còn tên người vừa bị chặn được lưu thẳng vào bộ nhớ.'); };
     for(let t=0;t<k.luot.length&&!lanh&&!thoat;t++){ const R=k.luot[t]; if(t>0) L.push(bin(R.k));
       if(kh2){ draw('<div class="op ok"><div><small>✓ Đúng kịch bản · đủ chỉ tiêu, khách mất tiền</small>'+esc(R.d)+'</div><button class="snd" id="oD" type="button" aria-label="Gửi tin đúng kịch bản"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 4.5l15 7.5-15 7.5 3.2-7.5z" fill="currentColor"/></svg></button></div><div class="op" style="border-color:#f0b25c;background:#f0b25c12"><div><small style="color:#f0b25c">Cài lỗi · khách tỉnh ra, dễ bị Chị Bảy soi</small>'+loiSpan(R.c)+'</div><button class="snd" id="oC" type="button" aria-label="Gửi tin cài lỗi" style="background:#f0b25c"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 4.5l15 7.5-15 7.5 3.2-7.5z" fill="currentColor"/></svg></button></div><div class="op"><div><small>Tin lạnh · khách bỏ đi, thiếu chỉ tiêu</small>'+esc(R.l)+'</div><button class="snd" id="oL" type="button" aria-label="Gửi tin lạnh"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 4.5l15 7.5-15 7.5 3.2-7.5z" fill="currentColor"/></svg></button></div>'+(k.hoc?'<p class="tip" style="margin:0">Tin cài lỗi có chữ gõ sai dấu (gạch đỏ). Người tinh ý đọc thấy sẽ khựng lại.</p>':''));
         const pk2=await new Promise(r=>{ window.__caPick=r; $('oD').onclick=()=>r('d'); $('oC').onclick=()=>r('c'); $('oL').onclick=()=>r('l'); }); window.__caPick=null;
@@ -442,10 +449,10 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
     let kq; if(kh2&&!thoat){ const F=kh2.fx||{};
       if(lanh){ kq='bo'; L.push(kh2.ket.l?bsys(esc(kh2.ket.l)):bsys(esc(k.ten)+' đã rời cuộc trò chuyện.')); if(F.l) fx(F.l); if(kh2.cuu) toast(kh2.cuu); }
       else if(loi){ kq='tinh'; L.push(bin(kh2.ket.c)+bsys(esc(k.ten)+' đã chặn bạn. Tiền còn nguyên.')); if(F.c) fx(F.c); if(kh2.cuu) toast(kh2.cuu); }
-      else { kq='chot'; L.push(bsys('🔔 Chuông chốt đơn. '+esc(kh2.ket.d))); (S.so=S.so||[]).push(kh2.so); ctAdd(1); if(F.d) fx(F.d); } }
+      else { kq='chot'; L.push(bsys('🔔 Chuông chốt đơn. '+esc(kh2.ket.d))+ghiCoc().replace(/^<div class="b in">.*?<\/div>/,'')); (S.so=S.so||[]).push(kh2.so); ctAdd(1); if(F.d) fx(F.d); } }
     else if(lanh){ kq='bo'; L.push(bsys(esc(k.ten)+' đã rời cuộc trò chuyện.')); }
     else if(loi){ kq='tinh'; L.push(bin('ủa sao chữ này viết kỳ vậy… thôi để hỏi con cái rồi tính')+bsys(esc(k.ten)+' đã chặn bạn. Tiền còn nguyên.')); }
-    else { kq='chot'; L.push(bin('đã chuyển rồi nha')+bsys('🔔 Chuông chốt đơn. '+esc(k.ten)+' vừa mất tiền.')); (S.so=S.so||[]).push(k.ten+' · '+k.ho); ctAdd(1); }
+    else { kq='chot'; L.push(ghiCoc()); (S.so=S.so||[]).push(k.ten+' · '+k.ho); ctAdd(1); }
     out[kq]++; (window.__caDone=window.__caDone||[]).unshift(k.ten);
     if(loi&&Math.random()<.35){ if((S.tin.bay||0)>=3) L.push(bsys('Chị Bảy đọc lướt tin của bạn, dừng ở chữ sai, rồi lướt qua.')); else { L.push(bsys('Chị Bảy đọc lướt tin của bạn, dừng ở chữ sai. Chị nhìn bạn một lúc lâu.')); fx('+nghi:12'); } }
     draw('<div class="p2bar" style="margin:0;justify-content:flex-end"><button class="btn p2main" id="oN" type="button">'+(i<so-1?'Khách kế →':'Hết ca')+'</button></div>'); await new Promise(r=>{ window.__caPick=r; $('oN').onclick=r; }); window.__caPick=null; }

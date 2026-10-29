@@ -144,6 +144,8 @@ function p2Install(){ if(P2INST) return; P2INST=true; const D=P2DATA;
   SOAT.xvp=Object.assign({img:P2REAL['x2-tang3']?'x2-tang3':'trong-vp12'},D.SOAT_XVP);
   Object.assign(SPOTN,{ngo:'Đầu hẻm · cột điện, gọi xe',cong:'Cổng sắt',rao:'Hàng rào sau bếp'});
   TOTAL_DAYS=21; SAVEKEY=P2SAVE; SAVESLOT='chuong2';
+  if(typeof P2GATE!=='undefined') P2ROWS.forEach(r=>{ const g=P2GATE[r.ma.replace(/_\d+$/,'')]; if(!g) return; const add=[g,P2GATE_ROW[r.ma]].filter(Boolean).join(' '); if(!String(r.hien||'').includes(g)) r.hien=(r.hien?r.hien+' ':'')+add; });
+  if(typeof P2OV!=='undefined') P2ROWS.forEach(r=>{ const v=P2OV[r.ma]; if(v==null) return; if(typeof v==='string') r.loi=v; else Object.assign(r,v); });
   P2ROWS.forEach(r=>ROWS_DEFAULT.push(r)); rebuild();
   NV.length=0; D.NV.forEach(x=>NV.push(x));
   const hn=$('hNghi'); if(hn){ hn.title='Quản lý trại nghi tới đâu'; if(hn.firstChild&&hn.firstChild.nodeType===3) hn.firstChild.textContent='Bị nghi '; }

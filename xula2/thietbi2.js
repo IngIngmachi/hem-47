@@ -233,9 +233,10 @@ function gMayTram(){ return new Promise(res=>{ let tab='home', left=45, seen={},
   if(!$('mtcss')){ const st=document.createElement('style'); st.id='mtcss'; st.textContent=MTCSS; document.head.appendChild(st); }
   const ds=(typeof dsCon==='function'?dsCon():[]);
   /* bảng chỉ tiêu ghi cả tổ đã chốt nhiều đơn → danh sách khách phải khớp: ngoài khách của mình, thêm khách của đồng đội (lấy từ danh sách khách có sẵn, không viết thêm chữ mới) */
-  const mine=(S.so||[]).slice(-6).map(s=>{ const [ten,ho]=s.split(' · '); return {ten,ho}; });
-  const others=(()=>{ const names=ds.map(p=>p.ten).slice(0,7); let n=0; names.forEach((nm,i)=>{ n+=((nm.length*7+(i+1)*3)%6); }); n=Math.min(n,12);
-    const used=new Set(mine.map(m=>m.ten)); const pool=(typeof KHACH!=='undefined'?KHACH:[]).filter(k=>!used.has(k.ten)); const out=[]; for(let i=0;i<n&&pool.length;i++){ const k=pool[(S.day*3+i*5)%pool.length]; if(out.some(o=>o.ten===k.ten)){ pool.splice(pool.indexOf(k),1); i--; continue; } out.push({ten:k.ten,ho:k.ho}); } return out; })();
+  const nMine=Math.max(0,Math.min(6,(typeof CT==='function'?CT():0))); const mine=(nMine?(S.so||[]).slice(-nMine):[]).map(s=>{ const [ten,ho]=s.split(' · '); return {ten,ho}; });
+  const others=(()=>{ const out=[]; const names=ds.map(p=>p.ten).slice(0,7); const used=new Set(mine.map(m=>m.ten)); const pool=(typeof KHACH!=='undefined'?KHACH:[]).filter(k=>!used.has(k.ten)).slice();
+    names.forEach((nm,si)=>{ const v=((nm.length*7+(si+1)*3)%6); for(let c=0;c<v&&out.length<20;c++){ const k=pool.length?pool.shift():null; out.push(k?{ten:k.ten,ho:(k.ho||'')+' · chốt: '+nm}:{ten:'Khách mã '+(1000+((S.day*37+out.length*91+si*13)%900)),ho:'hồ sơ tổ khác · chốt: '+nm}); } });
+    return out; })();
   const KH=mine.concat(others);
   const APP=[['home','Máy trạm'],['nhom','Nhóm quản lý'],['kh','Khách hàng'],['bang','Bảng chỉ tiêu'],['rac','Thùng rác']];
   const TT={home:['Máy trạm','Chị Bảy quên đăng xuất.'],nhom:['Nhóm quản lý','Nhóm "QL khu B".'],kh:['Khách hàng','Danh sách khách tổ 3 đã "chốt" tháng này.'],bang:['Bảng chỉ tiêu','Bảng chỉ tiêu tuần. Tên dưới 3 đơn tô đỏ.'],rac:['Thùng rác','Thùng rác: 1 tệp.']};
@@ -335,7 +336,7 @@ board=function(vu){ if(!P2.on||!KH_DOC[vu]) return board1(vu); return new Promis
 
 /* ---------------- việc ban đêm: cho người chơi biết việc nào mở ra, nghe từ đâu ---------------- */
 const MUC_NGUON={may:'Thủy với tổ 3 kể: có cái điện thoại dán dưới đáy thùng nước buồng tắm.',tuan0:'Muốn tính đường ra thì phải biết giờ lính đi qua cửa sau.',tuan3:'Sơ đồ trại còn thiếu lầu ba.',
-  kim:'Anh Lộc nói tụi bảo vệ bỏ quên cây kìm trên nóc tủ chén.',rao:'Có kìm rồi, cắt được rào sau bếp.',cua:'Đã có chìa cửa sau từ Chị Bảy.',nghe:'Đêm đêm văn phòng lầu ba có tiếng nghe tin thoại.',
+  kim:'Anh Lộc nói tụi bảo vệ bỏ quên cây kìm trên nóc tủ chén.',rao:'Có kìm rồi, cắt được rào sau bếp.',cua:'Đã có chìa khóa mở cửa sau.',nghe:'Đêm nào văn phòng lầu ba cũng bật loa nghe tin thoại.',
   gapngan:'Ngân hẹn ở buồng tắm.',thuy:'Thủy hẹn ở buồng tắm.'};
 Object.keys(MUC).forEach(k=>{ if(MUC_NGUON[k]) MUC[k].why=MUC[k].why+' '+MUC_NGUON[k]; });
 /* cái máy giấu dưới thùng nước: chỉ có 3 đêm kể từ lúc nghe kể, quá hạn coi như mất (chờ duyệt chữ) */

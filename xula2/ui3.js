@@ -317,9 +317,9 @@ function objUpd(){ const html=started&&!S.ended?objHtml():null; if(!html){ ob.hi
 
 /* một câu tả nơi đang đứng (chữ mới, cần tác giả duyệt) */
 function locDesc(){ const n=hour()>=19||hour()<5, p2=typeof P2!=='undefined'&&P2.on;
-  if(S.scene==='street'){ if(p2&&P2.map==='trai') return n?'Đèn pha quét qua hàng rào. Không khí đặc quánh mùi ẩm và sắt thép.':'Nắng rát trên mái tôn. Ai đi đâu cũng có người nhìn theo.';
-    return n?'Đêm xuống, con hẻm yên hơn nhưng không hẳn là an toàn.':'Mùi nước mưa lẫn với mùi dầu ăn từ quán tạp hóa.'; }
-  if(S.scene==='room') return 'Đèn đường hắt qua song cửa.';
+  if(S.scene==='street'){ if(p2&&P2.map==='trai') return n?'Đèn pha quét qua hàng rào kẽm gai. Bốn bề nồng mùi ẩm mốc và rỉ sét.':'Nắng hầm hập trên mái tôn. Đi đâu cũng có mắt camera dòm theo.';
+    return n?'Hẻm vắng, nhà nào nhà nấy kéo cửa sắt kín mít.':'Tiếng radio cải lương rỉ rả lẫn mùi bánh mì nướng than đầu hẻm.'; }
+  if(S.scene==='room') return 'Ánh đèn đường vàng vọt hắt qua song cửa.';
   return ''; }
 function u3Upd(){ layout(); objUpd(); { const ti=document.querySelector('#app .top h1.tua img'); const want=(typeof P2!=='undefined'&&P2.on)?'img2/tua2.webp':'img2/tua.webp'; if(ti&&!ti.src.endsWith(want)){ ti.src=want; ti.alt=want.includes('tua2')?'Hẻm 47: Xứ Lạ':'Hẻm 47: Thế Giới Lặng'; } } const night=hour()>=19||hour()<5; document.body.classList.toggle('u3p2',typeof P2!=='undefined'&&!!P2.on);
   const showLoc=started&&!S.ended&&(S.scene==='street'||S.scene==='in'||S.scene==='room');
@@ -393,6 +393,9 @@ body.u3 #dlg.u3R #dNm{right:166px;left:auto}
 body.u3 #dlg:not(.u3L):not(.u3R) #dNm{left:24px}
 body.u3 #dMore::after,body.u3 #dMore::before{content:none!important}
 body.u3 #dlg.mota #dNm{display:none!important}
+/* câu dẫn (mô tả): bỏ hai gạch ngang hai đầu, canh giữa */
+body.u3 #dlg.mota .ln::before,body.u3 #dlg.mota .ln::after{content:none!important;display:none!important}
+body.u3 #dlg.mota .ln{text-align:center}
 body.u3 #dlg .ln{font:400 19px/1.55 Newsreader,Georgia,serif!important;color:var(--u3cream)!important}
 body.u3 #dlg.nghi .ln{font-style:italic!important;color:#d6cfbf!important}
 body.u3 #dlg.nghi .ln::before{content:"("}body.u3 #dlg.nghi .ln::after{content:")"}

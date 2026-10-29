@@ -141,7 +141,6 @@ X('x_a_vinh','A · gặp đại úy Vinh',[
  ['Đại úy Vinh','Tôi nói thẳng: qua khỏi biên giới là ngoài lãnh thổ mình rồi, công an mình không tự qua nước bạn bắt người được. Muốn giải cứu, Bộ phải đề nghị cảnh sát bên đó phối hợp.'],
  ['Đại úy Vinh','Bên đó có bảo vệ vũ trang canh gác. Phía bạn chỉ xuất quân khi mình đưa ra đúng 3 thứ: vị trí chỗ nhốt người, có bao nhiêu người Việt ở trỏng, và giờ tụi gác đổi ca.'],
  ['Đại úy Vinh','Cậu nhắn ra bằng cách nào thì tùy, miễn đừng để lộ. Giả làm tin nhắn rác quảng cáo là êm nhất.'],
- ['Đại úy Vinh','Quy ước chữ để tôi đọc ra: chỗ nhốt người nằm sát sông thì ghép chữ SONG. Giờ đổi ca thì ghép chữ BAG, nghĩa là ba giờ sáng.'],
  {if:'p1:tu_lo',L:[['Đại úy Vinh','Còn đây là lời khai của Đặng Minh Tú bên cơ quan điều tra. Đang áp dụng lệnh cấm đi khỏi nơi cư trú, thả dây dài để lần ra người cầm tiền phía trên.'],'"Đám chủ sòng bên kia nắm cổ tôi từ vụ bể sàn vàng. Tôi chỉ đứng mũi chịu sào ngoài mặt thôi, còn đường tiền bên dưới là má tôi giữ."',['~','Má của ông Tú — bà Trần Thị Mỹ. Đúng cái tên đứng chức giám đốc cả hai công ty.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
 X('x_a_khoa','A · thăm Khoa',[
@@ -215,7 +214,6 @@ X('x_b_vinh','B · gặp đại úy Vinh',[
  ['Đại úy Vinh','Tôi nói trước: cậu trốn qua đường tiểu ngạch là ra ngoài tầm tay của tụi tôi, thành con tin thứ 13 liền. Giải cứu là việc của công an.'],
  ['Lâm','Vậy anh chỉ cho tôi cách thức liên lạc ra ngoài đi.'],
  ['Đại úy Vinh','...Dùng tin rác quảng cáo. Ghép chữ đầu mỗi câu thành mật mã. Khi bên tôi nhắn vô cũng dùng đúng cách đó.'],
- ['Đại úy Vinh','Quy ước chữ để tôi đọc ra: chỗ nhốt người nằm sát sông thì ghép chữ SONG. Giờ đổi ca thì ghép chữ BAG, nghĩa là ba giờ sáng.'],
  ['Đại úy Vinh','Muốn đề nghị phía bạn phối hợp đột kích, tôi phải có đủ 3 thứ từ bên trong: vị trí nhốt người, số người, và giờ đổi ca. Thiếu một thứ là chịu.'],
  {if:'p1:tu_lo',L:[['Đại úy Vinh','Nhìn qua biên bản này đi. Lời khai của Đặng Minh Tú tại cơ quan điều tra: "Đám chủ sòng bên kia nắm cổ tôi. Tôi chỉ là mặt tiền, còn đường tiền là má tôi giữ."'],['~','Bà Trần Thị Mỹ. Má ruột của ông Tú.'],{fx:'+cc:x_tu'}]},
  {fx:'+co:x_vinh'}]);
@@ -403,12 +401,12 @@ const RR={bay:['Lo ăn lẹ đi mấy đứa. Đúng 1 giờ chiều vô ca lạ
  nhi:['Giờ này ở nhà chắc ngoại em vẫn tưởng em đang làm văn phòng lương cao thiệt á.','Trong phòng máy em gõ phím lẹ nhất luôn á. Mà gõ lẹ để lừa người ta, có gì vui đâu.'],
  toan:['Làm ơn để tui yên đi, tui hổng muốn dính dáng vô vụ gì hết.','Ở nhà nợ app có ba chục triệu, qua đây tụi nó vẽ ra cục nợ trăm triệu. Cày tới chết cũng hổng trả xong.'],
  hue:['Lấy phần cơm của chị ăn thêm đi cho có sức, chị nuốt hổng nổi.','Chân cẳng chị yếu đi chậm xíu thôi, chớ chị vẫn ráng theo tụi em được.'],
- ti:['Đêm nào nằm ngủ em cũng nghe rõ tiếng nước chảy ngoài kia.','Anh nhắm từ bức tường này phóng ra tới bờ sông xa hông anh?'],
- thuy:['Phòng số 3 nhà bà Sáu giờ ai thuê vậy anh?','Tản ra đi anh, đứng nói chuyện với em lâu là tụi nó nghi đó.'],
+ ti:['Đêm nào nằm ngủ em cũng nghe rõ tiếng nước chảy ngoài kia.','Nhắm từ bức tường này phóng ra tới bờ sông có xa hông ta?'],
+ thuy:['Phòng số 3 nhà bà Sáu giờ ai thuê vậy?','Tản ra đi, đứng nói chuyện với em lâu là tụi nó nghi đó.'],
  ngan:['Cúi đầu xuống đừng ngó tui. Camera quay thẳng vô đây đó.','Lo ăn cơm đi. Đứng ngơ ngác đó tụi bảo vệ nó dòm kìa.'],
  khang:['Anh Khoa tui ở ngoài... giờ ổng ra sao rồi?','Đi chỗ khác lẹ đi. Đứng xớ rớ gần tui là bị ghi vô sổ đen đó.'],
  loc:['Trời đất ơi mò vô tận cái ổ này thiệt hả? Còn liều mạng hơn tui nữa.','Trong bếp hầm lắm, đừng có tự tiện đi vô.']};
 /* câu vu vơ nào lộ trước chuyện mà cảnh chính sẽ kể sau thì chỉ cho nói khi đã tới đó (trước đây bấm Tí ngay ngày đầu đã nghe "phóng ra sông", Khang/Thủy/Lộc cũng vậy).
    [kiểu: 'k:i' = người:số thứ tự câu → điều kiện hiện] */
-const RR_GATE={'ti:0':'tin_ti>=1','ti:1':'tin_ti>=1','thuy:0':'co:x_thuy_chi','khang:0':'co:x_khang_gap','loc:0':'tin_loc>=1','toan:1':'tin_toan>=1'};
+const RR_GATE={'ti:0':'co:x_to_biet','ti:1':'co:x_to_biet','thuy:0':'co:x_thuy_chi|co:x_to_biet','khang:0':'co:x_khang_gap','loc:0':'tin_loc>=1','toan:0':'co:x_to_biet','toan:1':'co:x_to_biet','hue:1':'co:x_to_biet'};
 for(const k in RR) RR[k].forEach((t,i)=>X('R_'+k+'_x'+i,'Câu vu vơ',[[{bay:'Chị Bảy',seo:'Sẹo',nhi:'Nhi',toan:'Toàn',hue:'Chị Huệ',ti:'Tí',thuy:'Thủy',ngan:'Ngân',khang:'Khang',loc:'Anh Lộc'}[k],t]],{h:RR_GATE[k+':'+i]||''}));

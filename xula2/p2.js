@@ -546,11 +546,7 @@ const P2KHAI={
   toan:['Toàn','Nợ app có mười hai triệu. Qua bển người ta nói em nợ thêm tiền vé, tiền ăn, tiền chỗ ngủ, thành hai trăm triệu. Đêm nào cũng nghe tên mình trong danh sách bán qua bãi khác.'],
   ti:['Tí','Đêm nào em cũng nằm nghe tiếng nước ngoài sông, tính bơi về. Có đứa bơi rồi. Sáng ra không thấy nó nữa.'],
   hue:['Chị Huệ','Thằng con tui mới mười tám. Tụi nó gọi về đòi người, tui đi thay. Tui già rồi, chịu đòn được. Chỉ sợ không còn ai biết đường về mà nhắn cho nó.']};
-const P2NEWS=[
-  {h:'6 tháng đầu năm 2026: 120 vụ mua bán người, hơn 70% nạn nhân là phụ nữ',b:'Lực lượng chức năng điều tra 120 vụ mua bán người trong nước và xuyên quốc gia, khởi tố 323 bị can, xác định 146 nạn nhân.',src:'Bộ Công an, qua báo Dân trí, 30/07/2026'},
-  {h:'Giai đoạn 2021–2025: phát hiện, điều tra 358 vụ mua bán người',b:'358 vụ với 925 bị can bị phát hiện, điều tra trong 5 năm.',src:'Cổng thông tin Bộ Công an, 09/11/2025'},
-  {h:'TP.HCM: 7 vụ mua bán người trong năm 2025',b:'Công an TP.HCM phát hiện 7 vụ, 24 đối tượng. Thủ đoạn người dân nhận diện nhiều nhất: dụ dỗ việc làm, bắt cóc (kể cả "bắt cóc online"), đánh thuốc mê.',src:'Phòng Cảnh sát hình sự Công an TP.HCM, qua báo Dân trí, 18/12/2025'},
-  {h:'Hàng trăm nghìn người bị ép vào các đường dây lừa đảo trực tuyến',b:'Văn phòng Nhân quyền Liên Hợp Quốc cho biết hàng trăm nghìn người ở Đông Nam Á có thể đang bị giữ và ép làm việc cho các đường dây lừa đảo trực tuyến.',src:'Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc, 29/08/2023'}];
+
 function p2Khai(){ return new Promise(res=>{ const L=(S.p2ra||[]).filter(id=>P2KHAI[id]); if(!L.length){ res(); return; }
   /* kiểu đoạn phim tư liệu cũ: hạt nhiễu, khung giật nhẹ, chớp sáng, dải đen trên dưới, mã thời gian */
   if(!$('p2khaiCss')){ const st=document.createElement('style'); st.id='p2khaiCss'; st.textContent=`
@@ -604,6 +600,26 @@ function p2AnhSong(k){ return new Promise(res=>{ const pick=n=>P2REAL[n]||['x2-b
   P.forEach((p,k)=>tm.push(setTimeout(()=>{ p.classList.add('on'); try{ window.SFX&&SFX.play('chup',{v:.5}); }catch(e){} },400+k*1800)));
   tm.push(setTimeout(fin,400+P.length*1800+2200));
   el.onclick=()=>fin(); }); }
+/* Tờ HẺM 47 NEWS (giao diện theo bản thiết kế 30/10): 4 trang, lật từng trang.
+   Trang 1, 3, 4 là tin thật, nguồn ghi ở chân trang. Trang 2 là bài hư cấu về vụ trong game. */
+const P2NEWS={
+  p1:{lead:{h:'6 tháng đầu năm 2026: 120 vụ mua bán người, hơn 70% nạn nhân là phụ nữ',b:'Lực lượng chức năng điều tra 120 vụ mua bán người trong nước và xuyên quốc gia, khởi tố 323 bị can, xác định 146 nạn nhân.',img:'x2-ben-ghe'},
+    side:[{h:'Giai đoạn 2021–2025: phát hiện, điều tra 358 vụ mua bán người',b:'358 vụ với 925 bị can bị phát hiện, điều tra trong 5 năm.'},
+      {h:'TP.HCM: 7 vụ mua bán người trong năm 2025',b:'Công an TP.HCM phát hiện 7 vụ, 24 đối tượng. Thủ đoạn người dân cần cảnh giác nhiều nhất: dụ dỗ việc làm, bắt cóc (kể cả "bắt cóc online"), đánh thuốc mê.'},
+      {h:'Hàng trăm nghìn người bị ép vào các đường dây lừa đảo trực tuyến',b:'Văn phòng Nhân quyền Liên Hợp Quốc cho biết hàng trăm nghìn người ở Đông Nam Á có thể đang bị giữ và ép làm việc cho các đường dây lừa đảo trực tuyến.'}],
+    src:['Bộ Công an, qua báo Dân trí, 30/07/2026','Cổng thông tin Bộ Công an, 09/11/2025','Phòng Cảnh sát hình sự Công an TP.HCM, qua báo Dân trí, 18/12/2025','Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc, 29/08/2023']},
+  p3:{kick:'Cảnh giác',h:'Nhận diện bẫy "việc nhẹ lương cao"',img:'x2-van-phong-lam',
+    b:['Theo Phòng Cảnh sát hình sự Công an TP Hải Phòng, đối tượng thường đăng tin tuyển dụng hấp dẫn trên mạng xã hội: lương cao, thủ tục đơn giản, không cần bằng cấp, việc nhẹ ở nước ngoài.',
+      'Khi đã tạo được lòng tin, chúng đề nghị gửi giấy tờ tùy thân, đặt cọc, hoặc đưa người ra nước ngoài bằng đường không chính thức. Nhiều người sau đó bị cưỡng bức lao động, bị ép tham gia các đường dây lừa đảo trực tuyến; gia đình mất tiền và mất liên lạc với người thân trong thời gian dài.'],
+    box:{h:'Công an khuyến cáo',li:['Tìm hiểu kỹ công ty, người tuyển dụng trước khi đăng ký.','Cảnh giác với lời mời việc nhẹ mà lương cao bất thường.','Không giao hộ chiếu, căn cước công dân hoặc giấy tờ cá nhân cho người lạ.','Chỉ đi làm việc ở nước ngoài qua doanh nghiệp được cấp phép.','Nghi ngờ có dấu hiệu mua bán người thì báo ngay cho công an.']},
+    side:{h:'Hơn 1.000 công dân được giải cứu',b:'Tính đến ngày 21/9/2022, hơn 1.000 công dân Việt Nam bị lừa sang làm việc trái phép đã được giải cứu, theo người phát ngôn Bộ Ngoại giao.'},
+    src:['Phòng Cảnh sát hình sự Công an TP Hải Phòng, qua VTV/VTC News, 01/09/2026','Người phát ngôn Bộ Ngoại giao, họp báo 22/09/2022']},
+  p4:{kick:'Pháp luật',h:'Luật mới: lấy nạn nhân làm trung tâm',
+    b:['Luật Phòng, chống mua bán người năm 2024 được Quốc hội thông qua ngày 28/11/2024, có hiệu lực từ 1/7/2025, gồm 8 chương, 63 điều.',
+      'Lần đầu tiên luật định nghĩa rõ "mua bán người" là hành vi tuyển mộ, vận chuyển, chứa chấp, chuyển giao hoặc tiếp nhận người nhằm mục đích bóc lột. Với người dưới 18 tuổi, chỉ cần có hành vi này là đã cấu thành, không cần có dùng vũ lực, đe dọa hay lừa gạt.',
+      'Luật đặt nạn nhân và người đang được xác minh là nạn nhân vào vị trí trung tâm. Người bị mua bán mà có vi phạm do trực tiếp bị ép buộc thì tùy trường hợp có thể không bị xử phạt hoặc truy cứu trách nhiệm.'],
+    hot:[['111','Đường dây nóng tư vấn, hỗ trợ nạn nhân bị mua bán · miễn phí · 24/7'],['113','Công an · báo tin khẩn cấp']],
+    src:['Tạp chí Tòa án nhân dân, 23/07/2025','VietNamNet, 17/11/2021']}};
 function p2Bao(k){ return new Promise(res=>{
   const my=hasC('suy_x_my')||ocl()>=4, nra=(S.p2ra||[]).length, tong=S.p2tong||0;
   const H={ca_to:'Giải cứu '+nra+' người khỏi khu trại bên kia sông',boi_song:nra+' người bơi qua sông trong đêm mưa, thoát khỏi khu trại',o_lai:nra+'/'+tong+' người thoát khỏi khu trại, vẫn còn người kẹt lại',mot_minh:'Một người thoát ra trong đêm mưa, cả tổ còn kẹt lại',ban_dung:'Kế hoạch giải cứu bị lộ, khu trại di dời trong đêm'}[k]||'';
@@ -612,41 +628,102 @@ function p2Bao(k){ return new Promise(res=>{
   else B.push('Rạng sáng, '+nra+' người Việt bị giữ tại một khu trại sát biên giới đã thoát ra và được đưa về bờ an toàn. Nhiều người cho biết họ bị dụ đi làm "việc nhẹ lương cao", bị giữ giấy tờ và ép làm việc trong các phòng máy.');
   B.push('Theo hồ sơ ban đầu, đường dây tuyển người thông qua một văn phòng "giới thiệu việc làm" trong một con hẻm ở Sài Gòn và một công ty "cung ứng lao động" đứng tên tại Quận 7.');
   B.push(my?'Người đứng tên các công ty này, bà T.T.M. (60 tuổi), đã bị cơ quan điều tra bắt giữ.':'Kẻ cầm tiền đứng sau đường dây đến nay vẫn chưa được xác định.');
+  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
+  if(!$('p2baoFont')){ const l=document.createElement('link'); l.id='p2baoFont'; l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,700;6..72,800&display=swap'; document.head.appendChild(l); }
   if(!$('p2baoCss')){ const st=document.createElement('style'); st.id='p2baoCss'; st.textContent=`
-#p2bao{position:fixed;inset:0;z-index:86;background:#0a0b0e;display:flex;align-items:center;justify-content:center;padding:14px;box-sizing:border-box;opacity:0;transition:opacity .7s;perspective:1800px;overflow:auto}
-#p2bao .pg{width:min(820px,100%);max-height:calc(100dvh - 28px);overflow:auto;background:#efe6d2 linear-gradient(rgba(120,100,60,.08),rgba(120,100,60,.02));color:#1d1a14;border-radius:3px;box-shadow:0 30px 80px rgba(0,0,0,.7);padding:22px 24px 16px;box-sizing:border-box;font-family:Newsreader,Georgia,serif;transform-origin:left center;transition:transform .9s cubic-bezier(.6,.05,.3,1),opacity .9s;backface-visibility:hidden}
+#p2bao{position:fixed;inset:0;z-index:86;display:flex;align-items:center;justify-content:center;padding:18px 12px;box-sizing:border-box;opacity:0;transition:opacity .7s;perspective:2000px;overflow:hidden;background:radial-gradient(ellipse at center,#2a2219 0%,#0d0b09 75%)}
+#p2bao .bgp{position:absolute;width:190px;aspect-ratio:4/3;background:#ddd center/cover;border:8px solid #d9cfba;border-bottom-width:24px;filter:grayscale(1) sepia(.35) brightness(.38) blur(.6px);box-shadow:0 10px 30px rgba(0,0,0,.6);pointer-events:none}
+#p2bao .stk{position:relative;width:min(1040px,100%);max-height:calc(100dvh - 36px);display:flex}
+#p2bao .stk::before,#p2bao .stk::after{content:"";position:absolute;inset:6px -6px -8px 8px;background:#cdbd9c;transform:rotate(1.1deg);box-shadow:0 20px 50px rgba(0,0,0,.7);clip-path:var(--tear)}
+#p2bao .stk::after{inset:2px 4px -4px -4px;background:#d8c9a8;transform:rotate(-.7deg)}
+#p2bao .pg{position:relative;z-index:1;flex:1;overflow:auto;color:#1d1a14;padding:clamp(16px,3vw,34px) clamp(16px,3.6vw,42px) clamp(14px,2.4vw,24px);box-sizing:border-box;font-family:Newsreader,Georgia,serif;clip-path:var(--tear);
+  background:radial-gradient(ellipse at 18% 12%,rgba(120,86,40,.20),transparent 45%),radial-gradient(ellipse at 85% 80%,rgba(110,80,40,.24),transparent 50%),radial-gradient(ellipse at 60% 30%,rgba(255,250,235,.35),transparent 55%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),#e6d8bb;
+  box-shadow:inset 0 0 90px rgba(90,60,25,.45);transform-origin:left center;transition:transform .9s cubic-bezier(.6,.05,.3,1),opacity .9s;backface-visibility:hidden}
 #p2bao .pg.out{transform:rotateY(-100deg);opacity:0}
 #p2bao .pg.in{animation:p2bin .9s cubic-bezier(.6,.05,.3,1)}
 @keyframes p2bin{from{transform:rotateY(70deg);opacity:0}}
-#p2bao .mast{text-align:center;border-bottom:3px double #1d1a14;padding-bottom:6px}
-#p2bao .mast b{display:block;font:700 clamp(34px,8vw,64px)/1 "Oswald","Arial Narrow",sans-serif;letter-spacing:.06em}
-#p2bao .mast small{display:flex;justify-content:space-between;font:600 11px "Be Vietnam Pro",sans-serif;letter-spacing:.12em;text-transform:uppercase;border-top:1px solid #1d1a14;margin-top:6px;padding-top:4px}
-#p2bao .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-@media (min-width:640px){#p2bao .grid{grid-template-columns:1.4fr 1fr}#p2bao .grid .lead{grid-row:span 3}}
-#p2bao .it{border-bottom:1px solid rgba(29,26,20,.25);padding-bottom:10px}
-#p2bao .it h3{margin:0 0 4px;font:700 18px/1.25 Newsreader,Georgia,serif}
-#p2bao .it.lead h3{font-size:clamp(22px,4vw,30px)}
-#p2bao .it p{margin:0;font-size:15px;line-height:1.5}
-#p2bao .src{margin-top:10px;font:400 10.5px/1.5 "Be Vietnam Pro",sans-serif;color:#4a4232;text-align:right}
-#p2bao .kick{font:700 11px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#a3302a;text-transform:uppercase;margin:12px 0 4px}
-#p2bao h2{margin:0 0 10px;font:700 clamp(24px,5vw,36px)/1.2 Newsreader,Georgia,serif}
-#p2bao .img{aspect-ratio:16/9;max-height:34vh;width:100%;background:#333 center/cover;filter:grayscale(1) contrast(1.1);margin-bottom:10px}
-#p2bao .body p{margin:0 0 8px;font-size:16px;line-height:1.55}
-@media (min-width:640px){#p2bao .body{column-count:2;column-gap:20px}}
-#p2bao .call{margin-top:10px;padding:10px 12px;border:1.5px solid #1d1a14;font:600 13.5px/1.5 "Be Vietnam Pro",sans-serif}
-#p2bao .ft{display:flex;justify-content:flex-end;margin-top:12px}
-#p2bao .ft button{min-height:44px;padding:0 20px;border-radius:8px;border:0;background:#1d1a14;color:#efe6d2;font:700 14px "Be Vietnam Pro",sans-serif;cursor:pointer}`; document.head.appendChild(st); }
+#p2bao .mast{display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.6vw,18px);padding:0 0 6px;border-bottom:1.5px solid #1d1a14}
+#p2bao .mast::before,#p2bao .mast::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#1d1a14 30%,#1d1a14 70%,transparent);max-width:200px}
+#p2bao .mast img{height:clamp(40px,7.4vw,82px);width:auto;filter:contrast(1.1)}
+#p2bao .mast b{font:900 clamp(38px,7.6vw,84px)/.9 Newsreader,Georgia,serif;letter-spacing:.01em;transform:scaleY(1.06)}
+#p2bao .dl{display:flex;justify-content:space-between;font:700 clamp(11px,1.3vw,14px) Newsreader,Georgia,serif;letter-spacing:.14em;text-transform:uppercase;padding:6px 0 5px;border-bottom:3px double #1d1a14}
+#p2bao .g1{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+@media (min-width:760px){#p2bao .g1{grid-template-columns:1.55fr 1fr;gap:26px}#p2bao .g1 .side{border-left:1px solid rgba(29,26,20,.4);padding-left:22px}}
+#p2bao h2{margin:0 0 8px;font:800 clamp(24px,3.6vw,44px)/1.12 Newsreader,Georgia,serif;letter-spacing:-.01em}
+#p2bao h3{margin:0 0 6px;font:800 clamp(17px,1.8vw,21px)/1.22 Newsreader,Georgia,serif}
+#p2bao p{margin:0 0 8px;font-size:clamp(15px,1.55vw,18px);line-height:1.5}
+#p2bao .side .it{padding:0 0 12px;margin:0 0 12px;border-bottom:1px solid rgba(29,26,20,.35)}
+#p2bao .side .it:last-child{border:0;margin:0}
+#p2bao .ph{background:#333 center/cover;filter:grayscale(1) sepia(.3) contrast(1.15) brightness(.9);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 40px rgba(0,0,0,.45);margin:8px 0 10px}
+#p2bao .ph.lead{aspect-ratio:16/8}
+#p2bao .ph.wide{aspect-ratio:3.6/1}
+#p2bao .kick{font:700 12px "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#9b2a22;text-transform:uppercase;margin:12px 0 2px}
+#p2bao .cols{margin-top:6px}
+@media (min-width:760px){#p2bao .cols{column-count:2;column-gap:28px;column-rule:1px solid rgba(29,26,20,.35)}}
+#p2bao .box{border:1.5px solid #1d1a14;padding:10px 14px;margin:6px 0 10px;break-inside:avoid}
+#p2bao .box b{display:block;font:800 16px Newsreader,Georgia,serif;margin-bottom:4px}
+#p2bao .box ol{margin:0;padding-left:20px;font-size:15.5px;line-height:1.5}
+#p2bao .hot{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
+#p2bao .hot div{flex:1 1 220px;border:2px solid #1d1a14;padding:8px 12px;display:flex;align-items:center;gap:12px}
+#p2bao .hot strong{font:900 clamp(30px,4vw,44px)/1 Newsreader,Georgia,serif;color:#9b2a22}
+#p2bao .hot span{font:600 13px/1.4 "Be Vietnam Pro",sans-serif}
+#p2bao .ft{display:flex;align-items:flex-end;gap:14px;margin-top:12px;border-top:1px solid rgba(29,26,20,.45);padding-top:8px}
+#p2bao .src{flex:1;font:400 11px/1.5 "Be Vietnam Pro",sans-serif;color:#3a3226}
+#p2bao .call{flex:1;border:1.5px solid #1d1a14;padding:8px 12px;font:700 13px/1.45 "Be Vietnam Pro",sans-serif}
+#p2bao .pn{font:700 13px "Be Vietnam Pro",sans-serif;letter-spacing:.1em;padding:0 4px 10px;border-left:1px solid rgba(29,26,20,.4);padding-left:14px}
+#p2bao .go{flex:none;min-height:46px;padding:0 20px;border:0;border-radius:3px;background:#1d1a14;color:#efe6d2;font:700 16px Newsreader,Georgia,serif;cursor:pointer;box-shadow:0 0 0 3px #e6d8bb,0 0 0 4px #1d1a14,0 6px 14px rgba(0,0,0,.4)}
+#p2bao .fic{font:italic 400 12px "Be Vietnam Pro",sans-serif;color:#5a4f3c;margin-top:4px}
+@media (max-width:759px){#p2bao .ft{flex-wrap:wrap}#p2bao .src,#p2bao .call{flex-basis:100%}#p2bao .go{margin-left:auto}#p2bao .bgp{display:none}}`; document.head.appendChild(st); }
+  /* mép giấy rách: đường gồ ghề ngẫu nhiên quanh 4 cạnh */
+  const tear=()=>{ const P=[], j=()=>(Math.random()*.9).toFixed(2); for(let x=0;x<=100;x+=2.5) P.push(x+'% '+j()+'%'); for(let y=0;y<=100;y+=2.5) P.push((100-j())+'% '+y+'%'); for(let x=100;x>=0;x-=2.5) P.push(x+'% '+(100-j())+'%'); for(let y=100;y>=0;y-=2.5) P.push(j()+'% '+y+'%'); return 'polygon('+P.join(',')+')'; };
   const day=new Date(); const dd=String(day.getDate()).padStart(2,'0')+'/'+String(day.getMonth()+1).padStart(2,'0')+'/'+day.getFullYear();
-  const mast='<div class="mast"><b>HẺM 47 NEWS</b><small><span>Số đặc biệt</span><span>'+dd+'</span></small></div>';
-  const p1='<div class="pg">'+mast+'<div class="grid">'+P2NEWS.map((n,i)=>'<div class="it'+(i?'':' lead')+'"><h3>'+esc(n.h)+'</h3><p>'+esc(n.b)+'</p></div>').join('')+'</div>'+
-    '<div class="src">Nguồn: '+P2NEWS.map((n,i)=>(i+1)+'. '+esc(n.src)).join(' · ')+'</div><div class="ft"><button type="button" id="p2baoNext">Lật trang ›</button></div></div>';
-  const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
-  const p2='<div class="pg in">'+mast+'<p class="kick">Vụ việc</p><h2>'+esc(H)+'</h2>'+(EB?'<div class="img" style="background-image:url(img2/'+EB+'.webp)"></div>':'')+
-    '<div class="body">'+B.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div><div class="call">Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, bị giữ giấy tờ, hay mất liên lạc với người thân đi làm xa: báo công an nơi gần nhất hoặc gọi 113.</div>'+
-    '<div class="src">Bài viết hư cấu trong trò chơi Hẻm 47. Nhân vật và địa danh không có thật.</div><div class="ft"><button type="button" id="p2baoGo">Đóng báo</button></div></div>';
-  const el=document.createElement('div'); el.id='p2bao'; el.innerHTML=p1; document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
-  try{ window.SFX&&SFX.play('viet',{v:.3,dur:1}); }catch(e){}
-  $('p2baoNext').onclick=()=>{ const pg=el.querySelector('.pg'); pg.classList.add('out'); setTimeout(()=>{ el.innerHTML=p2; $('p2baoGo').onclick=()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); }; },700); }; }); }
+  const head='<div class="mast"><img src="img2/tua-hem47-ink.webp" alt="Hẻm 47"><b>NEWS</b></div><div class="dl"><span>Số đặc biệt</span><span>'+dd+'</span></div>';
+  const src=a=>'<div class="src">Nguồn: '+a.map((x,i)=>(i+1)+'. '+esc(x)).join(' · ')+'</div>';
+  const N=P2NEWS, pn=n=>'<span class="pn">'+n+' / 4</span>';
+  const btn=(id,t)=>'<button type="button" class="go" id="'+id+'">'+t+'</button>';
+  const pages=[
+    head+'<div class="g1"><div><h2>'+esc(N.p1.lead.h)+'</h2><p>'+esc(N.p1.lead.b)+'</p><div class="ph lead" style="background-image:url(img2/'+N.p1.lead.img+'.webp)"></div></div><div class="side">'+N.p1.side.map(x=>'<div class="it"><h3>'+esc(x.h)+'</h3><p>'+esc(x.b)+'</p></div>').join('')+'</div></div>'+
+      '<div class="ft">'+src(N.p1.src)+pn(1)+btn('bgo','Lật trang ›')+'</div>',
+    head+'<p class="kick">Vụ việc</p><h2>'+esc(H)+'</h2>'+(EB?'<div class="ph wide" style="background-image:url(img2/'+EB+'.webp)"></div>':'')+'<div class="cols">'+B.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
+      '<p class="fic">Bài viết hư cấu trong trò chơi Hẻm 47. Nhân vật, công ty và địa danh không có thật.</p>'+
+      '<div class="ft"><div class="call">Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, bị giữ giấy tờ, hay mất liên lạc với người thân đi làm xa: báo công an nơi gần nhất hoặc gọi 113.</div>'+pn(2)+btn('bgo','Lật trang ›')+'</div>',
+    head+'<p class="kick">'+esc(N.p3.kick)+'</p><h2>'+esc(N.p3.h)+'</h2><div class="g1"><div><div class="ph lead" style="background-image:url(img2/'+N.p3.img+'.webp)"></div>'+N.p3.b.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
+      '<div class="side"><div class="box"><b>'+esc(N.p3.box.h)+'</b><ol>'+N.p3.box.li.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ol></div><div class="it"><h3>'+esc(N.p3.side.h)+'</h3><p>'+esc(N.p3.side.b)+'</p></div></div></div>'+
+      '<div class="ft">'+src(N.p3.src)+pn(3)+btn('bgo','Lật trang ›')+'</div>',
+    head+'<p class="kick">'+esc(N.p4.kick)+'</p><h2>'+esc(N.p4.h)+'</h2><div class="cols">'+N.p4.b.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
+      '<div class="hot">'+N.p4.hot.map(x=>'<div><strong>'+x[0]+'</strong><span>'+esc(x[1])+'</span></div>').join('')+'</div>'+
+      '<div class="ft">'+src(N.p4.src)+pn(4)+btn('bgo','Đóng báo')+'</div>'];
+  const el=document.createElement('div'); el.id='p2bao';
+  const BG=['x2-khai-nhi','x2-khai-toan','x2-bo-song-dem','x2-khai-ti','x2-ben-ghe','x2-khai-hue'];
+  const pos=[[-2,6,-12],[-3,58,9],[86,4,14],[88,52,-8],[40,-8,4],[44,86,-5]];
+  el.innerHTML=BG.map((b,i)=>'<i class="bgp" style="left:'+pos[i][0]+'%;top:'+pos[i][1]+'%;transform:rotate('+pos[i][2]+'deg);background-image:url(img2/'+b+'.webp)"></i>').join('')+'<div class="stk" style="--tear:'+tear()+'"><div class="pg"></div></div>';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  const pg=el.querySelector('.pg'); let n=0;
+  const render=()=>{ pg.innerHTML=pages[n]; pg.scrollTop=0; $('bgo').onclick=next; };
+  const next=()=>{ if(n>=pages.length-1){ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); return; }
+    try{ window.SFX&&SFX.play('viet',{v:.25,dur:.6}); }catch(e){}
+    pg.classList.remove('in'); pg.classList.add('out'); setTimeout(()=>{ n++; pg.classList.remove('out'); void pg.offsetWidth; pg.classList.add('in'); render(); },650); };
+  render(); }); }
+/* ảnh qua sông: vài tấm như ảnh chụp vội, có dấu giờ, lướt qua rồi tới bảng tổng kết (chỉ các kết có người ra được) */
+function p2AnhSong(k){ return new Promise(res=>{ const pick=n=>P2REAL[n]||['x2-bo-song-dem','x2-ben-ghe','x2-cua-khau-sang','x2-ket-o-lai'].includes(n);
+  const A={ca_to:['x2-bo-song-dem','x2-ben-ghe','x2-cua-khau-sang'],boi_song:['x2-bo-song-dem','x2-ket-boi-song','x2-cua-khau-sang'],o_lai:['x2-bo-song-dem','x2-ket-o-lai','x2-cua-khau-sang']}[k];
+  const L=(A||[]).filter(pick); if(!L.length){ res(); return; }
+  if(!$('p2anhCss')){ const st=document.createElement('style'); st.id='p2anhCss'; st.textContent=`
+#p2anh{position:fixed;inset:0;z-index:85;background:#07080b;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .6s;cursor:pointer;overflow:hidden}
+#p2anh .pp{position:absolute;width:min(78vw,640px);padding:10px 10px 38px;background:#efe8d8;box-shadow:0 24px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(30px) rotate(var(--r));transition:opacity .7s,transform .9s cubic-bezier(.2,.8,.2,1)}
+#p2anh .pp.on{opacity:1;transform:translateY(0) rotate(var(--r))}
+#p2anh .pp i{display:block;aspect-ratio:3/2;background:#222 center/cover;filter:saturate(.75) contrast(1.05)}
+#p2anh .pp span{position:absolute;right:16px;bottom:10px;font:600 13px "IBM Plex Mono",monospace;color:#e2645c;letter-spacing:.08em}
+#p2anh .sk{position:absolute;right:14px;top:14px;border:0;background:rgba(255,255,255,.08);color:#cfc8b8;font:600 13px "Be Vietnam Pro",sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer}`; document.head.appendChild(st); }
+  const el=document.createElement('div'); el.id='p2anh';
+  const R=[-4,3,-2,5];
+  el.innerHTML=L.map((n,i)=>'<div class="pp" style="--r:'+R[i%4]+'deg"><i style="background-image:url(img2/'+n+'.webp)"></i><span>'+['04:52','05:07','05:31','06:10'][i]+'</span></div>').join('')+'<button type="button" class="sk">Tiếp ›</button>';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  const P=el.querySelectorAll('.pp'); let i=0, done=false; const tm=[];
+  const fin=()=>{ if(done) return; done=true; tm.forEach(clearTimeout); el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },600); };
+  P.forEach((p,k)=>tm.push(setTimeout(()=>{ p.classList.add('on'); try{ window.SFX&&SFX.play('chup',{v:.5}); }catch(e){} },400+k*1800)));
+  tm.push(setTimeout(fin,400+P.length*1800+2200));
+  el.onclick=()=>fin(); }); }
 const ending1=ending, finale1=finale;
 finale=async function(){ if(!P2.on) return finale1(); };
 ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };

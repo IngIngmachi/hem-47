@@ -440,8 +440,8 @@ function p2KetLieu(){ return new Promise(res=>{
     const add=(who,t)=>{ const d=document.createElement('div'); d.className='m '+who; d.textContent=t; ls.appendChild(d); ls.scrollTop=ls.scrollHeight; return d; };
     const her=t=>new Promise(r=>{ const d=add('her dots','• • •'); setTimeout(()=>{ d.className='m her'; d.textContent=t; ls.scrollTop=ls.scrollHeight; r(); },900); });
     const OPT=[
-      {k:'tien',t:'"Bà nghĩ tiền mua được hết hả?"',a:'Tiền không mua được thì mua cái gì? Mạng tụi bây ngoài sông đó rẻ hơn 500 triệu nhiều.'},
-      {k:'rec',t:'Bật ghi âm, hỏi: "Tụi nhỏ bên lò là của ai?"',a:'Của ai? Đứa nào qua bển cũng là tao bỏ tiền ra mua. Cái lò đó tao nuôi mười mấy năm, tụi bây tưởng mấy tờ giấy là đánh sập được hả?'}];
+      {k:'tien',t:'"Bà nghĩ tiền mua được hết hả?"',a:'Tao đâu có mua tụi bây. Tao mua cái mạng thằng con tao. Năm trăm triệu, cầm rồi quên hết đi.'},
+      {k:'rec',t:'Bật ghi âm, hỏi: "Bà làm vậy là vì ông Tú hả?"',a:'Thằng Tú nợ tụi chủ sòng bên đó cả chục tỷ. Không có tao đứng ra gom người, gom tiền trả thay thì nó nằm dưới sông lâu rồi. Tụi bây phá cái này là giết con tao đó, nghe chưa!'}];
     const used={};
     const hang=()=>{ clearInterval(clk); try{ tone(220,.15,.03,'square'); }catch(e){} setTimeout(goChat,350); };
     const menu=()=>{ ch.innerHTML=''; const left=OPT.filter(o=>!used[o.k]);

@@ -156,7 +156,7 @@ X('x_a_thoai','A · gặp Tài xế Thoại',[
  ['Tài xế Thoại','Tụi nhỏ bên đó là máu mủ người Việt mình, chú mà lấy một đồng tiền công nào của tụi con thì đêm nằm sao nhắm mắt nhìn thằng nhỏ nhà chú được. Có điều ghe chú máy nhỏ xíu, muốn chở hơn chục mạng chạy ngược nước đêm mưa là phải qua bến mướn cái máy đuôi tôm lớn với mua bốn can dầu, tốn đúng triệu rưỡi. Chú giăng lưới ngày kiếm mấy chục ngàn mua gạo, ứng trước hổng nổi...'],
  {if:'p1:loc_o',L:['Anh Lộc lấy xe máy chở ra tận bến mà không lấy tiền xăng. Ổng đứng tuốt đằng xa hút thuốc, ngó chừng giùm.']},
  {chon:[
-  {t:'Đưa chú 1.500.000đ để mướn máy lớn và mua dầu chạy đêm',sub:'giữ chỗ ghe',dis:'tien>=1500000',s:'-tien:1500000 +co:x_ghe +tin_thoai',L:[['Tài xế Thoại','Rồi, có tiền này chiều nay chú qua bến lấy cái máy lớn về ráp vô ghe liền. Đêm nào tụi nhỏ thoát ra tới bờ sông, nhắn chú một chữ, mưa gió cỡ nào chú cũng lao qua rước.']]},
+  {t:'Đưa chú 700.000đ để mướn máy lớn và mua dầu chạy đêm',sub:'giữ chỗ ghe',dis:'tien>=700000',s:'-tien:700000 +co:x_ghe +tin_thoai',L:[['Tài xế Thoại','Rồi, có tiền này chiều nay chú qua bến lấy cái máy lớn về ráp vô ghe liền. Đêm nào tụi nhỏ thoát ra tới bờ sông, nhắn chú một chữ, mưa gió cỡ nào chú cũng lao qua rước.']]},
   {t:'Để con về gom đủ tiền mướn máy và mua dầu rồi quay lại đưa chú',L:[['Tài xế Thoại','Ráng gom lẹ nghen con. Không có cái máy lớn mà chở cả chục người ra giữa dòng nước xiết là chìm cả đám, chú hổng dám lấy mạng tụi nhỏ ra đánh cược đâu.']]}],q:'Tài xế Thoại'},
  {fx:'+co:x_gap_thoai'}]);
 X('x_a_tin2','A · tin thứ hai',[
@@ -278,8 +278,8 @@ X('x_tra_phatdat','Tra công ty Phát Đạt TN',[
  ['~','Nhưng mới đứng tên giấy phép kinh doanh thôi thì chưa đủ buộc tội bà Mỹ cầm đầu cái trại đó. Phải kiếm được bằng chứng trực tiếp ở trỏng.'],
  {fx:'+cc:x_bamy'}]);
 X('x_tra_ghe','Trả tiền ghe',[
- {if:'tien>=1500000',L:[['Tài xế Thoại','Đủ tiền mướn máy lớn với mua dầu rồi. Đêm nào rút ra tới bờ sông thì nhắn chú một chữ, chú nổ máy chờ sẵn dưới bãi lau.'],{fx:'-tien:1500000 +co:x_ghe +tin_thoai'}]},
- {if:'tien<1500000',L:[['Tài xế Thoại','Chưa đủ triệu rưỡi thì bên bến người ta chưa chịu cho mướn cái máy đuôi tôm lớn đâu con ơi. Ráng xoay thêm chút nữa đi.']]}]);
+ {if:'tien>=700000',L:[['Tài xế Thoại','Đủ tiền mướn máy lớn với mua dầu rồi. Đêm nào rút ra tới bờ sông thì nhắn chú một chữ, chú nổ máy chờ sẵn dưới bãi lau.'],{fx:'-tien:700000 +co:x_ghe +tin_thoai'}]},
+ {if:'tien<700000',L:[['Tài xế Thoại','Chưa đủ bảy trăm ngàn thì bên bến người ta chưa chịu cho mướn cái máy đuôi tôm lớn đâu con ơi. Ráng xoay thêm chút nữa đi.']]}]);
 X('x_b_gom','B · gom tiền',[
  'Lâm đi gõ cửa từng nhà trong hẻm. Không mở miệng xin, chỉ kể rõ chuyến này mình đi đâu.',
  {if:'tin_ba_sau>=3',L:[['Bà Sáu','Cầm lấy đi con. Tiền dưỡng già bà cất mua cái hòm đó. Năm ngoái bà trót cho thằng Khoa thuê cái gác mái, để 12 đứa nhỏ đi mất từ nhà bà… Giờ bà đưa tiền này cho con đi rước tụi nó về, coi như bà trả bớt cái nghiệp của bà.'],{fx:'+tien:1000000'}]},
@@ -383,7 +383,7 @@ const MUC2=[
  ['b2','Qua quán Thảo Điên gặp Hương. Ra công an phường gặp đại úy Vinh.','hoi<2 nhanh:B cc:x_siha !co:x_vinh'],
  ['b3','Kiếm mối trà trộn lên chuyến xe đợt mới. Hỏi dò sơ đồ bên trong trại.','hoi<2 nhanh:B co:x_vinh !co:x_duong'],
  ['b4','Đi khám sức khỏe lấy giấy hẹn. Buổi tối ra trước tạp hóa tập gõ mật mã giấu chữ với Bin.','hoi<2 nhanh:B co:x_duong !co:x_tapma'],
- ['c1','Ra bến sông gặp chú Thoại, đưa tiền mướn máy ghe lớn và mua dầu chạy đêm (1.500.000đ). Thiếu tiền thì về hẻm gom thêm.','hoi<2 co:x_vinh !co:x_ghe ngay>=4'],
+ ['c1','Ra bến sông gặp chú Thoại, đưa tiền mướn máy ghe lớn và mua dầu chạy đêm (700.000đ). Thiếu tiền thì về hẻm gom thêm.','hoi<2 co:x_vinh !co:x_ghe ngay>=4'],
  ['c2','Mở laptop phòng 3 lập bảng "Kế hoạch" gửi cho đại úy Vinh.','hoi<2 co:x_vinh cc:x_sodo !co:bao_xvinh'],
  ['c3','Lụm mảnh tờ rơi mới dán ở cột điện đầu hẻm, ghép lại coi con dấu của công ty nào.','hoi<2 ngay>=3 !cc:x_phatdat'],
  ['c4','Đêm cuối trước khi lên xe: chọn 1 món đồ giấu mang theo.','hoi<2 ngay>=7 !co:x_mon_xong'],

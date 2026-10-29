@@ -87,7 +87,7 @@ const P2DATA=(()=>{
     {id:'x_ghep',...H1,d:[3,7],who:'ngo',k:'x_ghep',t:'Ráp tờ rơi rách ở cột điện',c:'!cc:x_phatdat',until:'cc:x_phatdat',cost:30},
     {id:'x_tra_phatdat',...H1,d:[3,7],who:'o:laptop',k:'x_tra_phatdat',t:'Tra công ty Phát Đạt TN',c:'vai:lam cc:x_phatdat !cc:x_bamy',cost:30},
     {id:'x_thoai',...H1,d:[4,7],w:[6,18],who:'ngo',place:'ben_ghe',k:'x_a_thoai',t:'Tìm Tài xế Thoại ở bến',c:'co:x_vinh !co:x_gap_thoai co:x_bin_thoai|vai:ngan',cost:150},
-    {id:'x_tra_ghe',...H1,d:[4,7],w:[6,18],who:'ngo',place:'ben_ghe',k:'x_tra_ghe',t:'Trả tiền ghe cho Tài xế Thoại',sub:'1.500.000đ',c:'co:x_gap_thoai !co:x_ghe',need:'tien>=1500000',why:'Cần 1.500.000đ. Làm thêm hoặc gom tiền trong hẻm.',until:'co:x_ghe',cost:120},
+    {id:'x_tra_ghe',...H1,d:[4,7],w:[6,18],who:'ngo',place:'ben_ghe',k:'x_tra_ghe',t:'Trả tiền ghe cho Tài xế Thoại',sub:'700.000đ',c:'co:x_gap_thoai !co:x_ghe',need:'tien>=700000',why:'Cần 700.000đ. Làm thêm hoặc gom tiền trong hẻm.',until:'co:x_ghe',cost:120},
     {id:'x_kehoach',...H1,d:[3,7],who:'o:laptop',board:'xvinh',t:'Viết kế hoạch gửi đại úy Vinh',c:'vai:lam co:x_vinh cc:x_sodo !co:bao_xvinh',cost:45},
     {id:'x_mon',...H1,d:7,w:[18,23.5],who:'phong',k:'x_mon',t:'Chọn món mang theo',c:'!co:x_mon_xong nhanh:B|co:x_chot',cost:20},
     // trong trại

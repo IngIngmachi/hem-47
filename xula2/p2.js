@@ -129,7 +129,8 @@ function p2Fresh(p1){ const o=fresh(); const k=(p1&&p1.ket)||'hetgio'; const nh=
   Object.assign(o,{p2:1,p1:{ket:k,co:Object.assign({},(p1&&p1.co)||{}),tin:Object.assign({},(p1&&p1.tin)||{})},nhanh:nh,vai:nh==='A'?'ngan':'lam',ai_vao:null,lo:k==='bocphot'?40:0,ds:[],mon:null,p2log:[],so:[],cs:{},map:'hem'});
   /* có tiền từ Phần 1 thì mang nguyên qua (tối thiểu 600k); vào thẳng Phần 2 không có bài Phần 1 thì cho thêm việc kiếm tiền (cond "direct") */
   o.direct=(p1&&p1.tien!=null)?0:1;
-  o.money=Math.max(600000,Math.min(((p1&&p1.tien)||650000)+(k==='tien'?20000000:0),40000000));
+  /* chơi nối từ Phần 1: giữ đúng số tiền cuối Phần 1; vào thẳng Phần 2: 650.000đ */
+  o.money=(p1&&p1.tien!=null)?Math.max(0,Math.min(p1.tien+(k==='tien'?20000000:0),40000000)):650000;
   o.nghi=0;
   const t=(p1&&p1.tin)||{}; o.tin={ba_sau:Math.max(1,t.ba_sau||2),bin:Math.max(1,t.bin||1),huong:Math.max(1,t.huong||2),thoa:t.thoa||0,ngan:nh==='A'?3:0,thuy:1,khang:1,bay:0,nhi:1,toan:1,hue:1,ti:1,loc:2};
   o.min=7*60+10; o.day=1; o.hoi=1; o.scene='street'; return o; }

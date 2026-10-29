@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Tạo trang chơi thử Phần 2 (taotestcaigiketao.html) từ index.html.
+"""Tạo bản chính index.html và trang thử taotestcaigiketao.html từ nguon.html (mã gốc Phần 1).
+Sửa game Phần 1 thì sửa nguon.html rồi chạy lại lệnh này, ĐỪNG sửa index.html trực tiếp.
 
 Chỉ sửa vài chỗ nhỏ trong khung Phần 1 để nó chạy được cả Phần 2:
  - TOTAL_DAYS, SAVEKEY đổi từ const sang let; ô lưu trên tài khoản dùng biến SAVESLOT.
@@ -9,7 +10,7 @@ Chạy: python3 tools/mk_p2.py
 """
 import re, sys, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-src = (ROOT / 'index.html').read_text(encoding='utf-8')
+src = (ROOT / 'nguon.html').read_text(encoding='utf-8')   # bản gốc Phần 1 (trước đây là index.html)
 s = src
 
 def rep(old, new, count=None, must=True):
@@ -66,8 +67,8 @@ if _ov.exists():
     s = s[:i] + _json.dumps(rows, ensure_ascii=False) + tail + s[j:]
     print('Áp lời thử Phần 1:', n)
 
-# trang thử: không cho máy tìm kiếm lập chỉ mục, tiêu đề riêng
-rep('<title>Hẻm 47: Thế Giới Lặng</title>', '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow"><style id="mdfirst">body:not(.ingame) #cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia.webp) 62% center/cover}</style>', 1)
+# phần đầu trang dùng chung: màn đầu mới hiện ngay, không chớp bản cũ
+MDFIRST='<style id="mdfirst">body:not(.ingame) #cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia-chung.webp) 60% center/cover}</style>'
 
 # gắn Phần 2 sau script chính
 tag = '<script src="xula2/p2.js?v=__V__"></script><script src="xula2/games2.js?v=__V__"></script><script src="xula2/rows2.js?v=__V__"></script><script src="xula2/rows2b.js?v=__V__"></script><script src="xula2/data2.js?v=__V__"></script><script src="xula2/p2_thu.js?v=__V__"></script><script src="xula2/thietbi2.js?v=__V__"></script><script src="xula2/test2.js?v=__V__"></script><script src="xula2/bia2.js?v=__V__"></script><script src="xula2/ui2.js?v=__V__"></script><script src="xula2/ui3.js?v=__V__"></script><script src="xula2/p1fix.js?v=__V__"></script><script src="xula2/amb.js?v=__V__"></script><script src="xula2/sfx.js?v=__V__"></script><script src="xula2/p1hype.js?v=__V__"></script>'
@@ -79,5 +80,10 @@ if i < 0:
 else:
     s = s[:i] + tag + s[i:]
 
-(ROOT / 'taotestcaigiketao.html').write_text(s, encoding='utf-8')
-print('Đã tạo taotestcaigiketao.html', len(s))
+TITLE='<title>Hẻm 47: Thế Giới Lặng</title>'
+assert s.count(TITLE)==1
+# bản chính (index.html): tiêu đề gốc, cho máy tìm kiếm lập chỉ mục
+(ROOT / 'index.html').write_text(s.replace(TITLE, TITLE+MDFIRST), encoding='utf-8')
+# trang thử: không cho lập chỉ mục, tiêu đề riêng
+(ROOT / 'taotestcaigiketao.html').write_text(s.replace(TITLE, '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">'+MDFIRST), encoding='utf-8')
+print('Đã tạo index.html (bản chính) và taotestcaigiketao.html (trang thử)', len(s))

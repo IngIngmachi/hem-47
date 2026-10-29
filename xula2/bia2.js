@@ -5,6 +5,22 @@
 #cover .in:has(> .mdv){max-width:440px;width:100%}
 #cover .in:has(> .mdv) > :not(.mdv){display:none!important}
 #cover:has(.mdv) .tlr-st{display:none}
+/* 30/10: trang chủ + chọn chương */
+.hm .tsts{flex-direction:column!important;align-items:flex-end}
+.hm .tst.t2{margin-top:6px!important}
+.hm .logo{position:relative;margin-top:28px!important}.hm .logo .age{position:absolute;right:-6px;top:-4px;font-style:normal;font:600 13px/1 "Be Vietnam Pro",sans-serif;color:#ff6a5c;border:1.5px solid #e2453c;border-radius:5px;padding:3px 6px;background:rgba(0,0,0,.35)}
+.mdx-moi{margin-top:56px!important}
+.mdx-logo .lg47{display:block;width:260px;height:auto}
+.mdx-logo{display:flex;align-items:flex-start;gap:10px}
+.mdx-logo .mdx-kick{margin:6px 0 0!important}
+#cover:has(.mdx-chap){background:#060709!important}
+#cover:has(.mdx-chap)::before{content:"";position:fixed;inset:-30px;background:url(img2/bia-chung.webp) 60% center/cover;filter:blur(9px) brightness(.32) saturate(.8);z-index:0;pointer-events:none}
+#cover:has(.mdx-chap) .in{position:relative;z-index:1}
+.mdx-top{position:relative}
+.mdx-moi{margin-left:auto;align-self:center;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 12px;border-radius:2px;border:0;background:#efe8d8;color:#2a241b;font:400 15px/1.2 "Playpen Sans",cursive;text-align:left;cursor:pointer;transform:rotate(-2.5deg);box-shadow:0 10px 22px rgba(0,0,0,.55);transition:transform .2s}
+.mdx-moi:hover{transform:rotate(0) translateY(-2px)}
+.mdx-moi svg{width:28px;height:28px;fill:none;stroke:#8a4b12;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+@media (max-width:899px){.hm .logo .age{right:auto;left:0;top:-10px}.mdx-logo .mdx-kick{display:none}.mdx-moi{position:absolute;right:0;top:0;padding:7px 10px;font-size:12.5px}.mdx-moi svg{width:20px;height:20px}.mdx-logo .lg47{width:180px}}
 /* màn hết hồi / màn kết Phần 1: khung tối, chữ rõ, nút giống trang chủ */
 #cover.solid::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(5,5,7,.55),rgba(5,5,7,.88));pointer-events:none}
 #cover.solid .in:has(> .cl){position:relative;max-width:540px;width:calc(100% - 32px);box-sizing:border-box;background:rgba(10,11,15,.84);border:1px solid rgba(239,230,210,.16);border-radius:18px;padding:26px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-align:center}
@@ -92,7 +108,7 @@
 #cover:not([hidden]):has(.mdx){position:fixed!important;inset:0!important;z-index:40;display:block!important;padding:0!important;overflow-y:auto;border-radius:0!important}
 #cover:has(.mdx) .in{max-width:none!important;width:auto!important;margin:0!important;padding:40px 64px 120px;box-sizing:border-box;min-height:100%;text-align:left}
 #cover:has(.mdx) .tlr-st,#cover:has(.mdx) .moi-st,#cover:has(.mdx) #logoTop,#cover:has(.mdx) #logoBot{display:none!important}
-#cover:has(.mdx-chap){background:linear-gradient(90deg,rgba(5,5,7,.94) 0%,rgba(5,5,7,.78) 40%,rgba(5,5,7,.1) 70%,rgba(5,5,7,.2) 100%),#08090b url(img2/bia.webp) 75% center/cover!important}
+#cover:has(.mdx-chap){background:#060709!important}
 .mdx{text-align:left;font-family:"Be Vietnam Pro",system-ui,sans-serif;color:#efe6d2;gap:0}
 /* chọn chương: chừa chỗ cho thanh dưới cùng, cuộn được khi màn hình thấp; thẻ thấp lại trên máy tính màn ngắn */
 #cover:has(.mdx-chap){overflow-y:auto!important;align-items:flex-start!important}
@@ -149,7 +165,7 @@
 .mdx-cover .mdx-blurb{margin:22px 0 28px;font-size:18px;line-height:1.55;color:#d9d2c2;max-width:480px}
 @media (max-width:899px),(orientation:portrait){
   #cover:has(.mdx) .in{padding:24px 16px 104px}
-  #cover:has(.mdx-chap){background:linear-gradient(180deg,rgba(5,5,7,.6),rgba(5,5,7,.92) 40%),#08090b url(img2/bia.webp) 70% top/cover!important}
+  #cover:has(.mdx-chap){background:#060709!important}
   .mdx .mdx-top{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:22px}.mdx .mdx-sep{display:none}
   .mdx .mdx-logo img{width:210px}.mdx .mdx-kick{font-size:12px}
   .mdx .mdx-h h2{font-size:36px}.mdx .mdx-h p{font-size:16px;margin-top:6px}
@@ -227,7 +243,7 @@
 @media (orientation:landscape) and (max-height:540px){.mdx-hbtn{min-height:58px}.mdx-home{min-height:0;padding:0}.mdx-home .mdx-hb{margin-top:0}}
 
 /* ===== trang chủ bản chốt (29/10): logo đủ chữ, thẻ trailer góc phải, nút vàng, 5 biểu tượng, chân trang ===== */
-#cover:has(.hm){background:linear-gradient(180deg,rgba(5,5,7,.25) 0%,rgba(5,5,7,.35) 40%,rgba(5,5,7,.88) 72%,rgba(5,5,7,.96) 100%),#08090b url(img2/bia.webp) 62% center/cover!important}
+#cover:has(.hm){background:linear-gradient(180deg,rgba(5,5,7,.25) 0%,rgba(5,5,7,.35) 40%,rgba(5,5,7,.88) 72%,rgba(5,5,7,.96) 100%),#08090b url(img2/bia-chung.webp) 60% center/cover!important}
 #cover:has(.hm) .in{padding:0!important;max-width:none!important;width:100%!important}
 .hm{position:relative;display:flex;flex-direction:column;align-items:center;min-height:100dvh;box-sizing:border-box;padding:max(26px,env(safe-area-inset-top)) 18px max(14px,env(safe-area-inset-bottom));width:100%;max-width:560px;margin:0 auto;color:#efe6d2;font-family:"Be Vietnam Pro",sans-serif}
 .hm .kick{align-self:flex-start;display:flex;align-items:center;gap:12px;font:500 15px/1 Newsreader,Georgia,serif;letter-spacing:.32em;text-transform:uppercase;color:#e9dcc4;margin-top:22px}
@@ -259,7 +275,7 @@
 .hm .foot{margin-top:clamp(20px,4vh,44px);font:400 13.5px/1.6 Newsreader,Georgia,serif;color:#a9a090;text-align:center}
 .hm .foot a{color:inherit;text-underline-offset:3px}
 @media (min-width:900px) and (orientation:landscape){
-  #cover:has(.hm){background:linear-gradient(90deg,rgba(5,5,7,.92) 0%,rgba(5,5,7,.65) 38%,rgba(5,5,7,0) 62%),#08090b url(img2/bia.webp) 70% center/cover!important}
+  #cover:has(.hm){background:linear-gradient(90deg,rgba(5,5,7,.92) 0%,rgba(5,5,7,.6) 38%,rgba(5,5,7,0) 62%),#08090b url(img2/bia-chung.webp) 70% center/cover!important}
   .hm{margin:0 0 0 6vw;max-width:520px;justify-content:center}.hm .logo{padding-top:0;margin:18px 0 0}.hm .kick{align-self:center}
   .hm .tlr{position:fixed;right:28px;top:24px;width:150px}.hm .tlr i{height:82px}
   .hm .foot{position:fixed;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom));margin:0;z-index:2}
@@ -295,7 +311,7 @@ function mdPrimary(T){ if(T.p2) return {t:'Chơi tiếp',s:'Phần 2 · Ngày '+
 function mdBar(v){ const T=mdState(); const tools=[['tr',MDI.tr,'Trailer'],['so',MDI.so,'Sổ tay'],['acc',MDI.acc,'Tài khoản'],['cd',MDI.cd,'Cài đặt'],['ung',MDI.ung,'Ủng hộ']].concat($('bInstall')&&!$('bInstall').hidden?[['app',MDI.app,'Cài app']]:[]);
   const keys=v==='chap'?[['<kbd>Space</kbd>','Chọn chương'],['<kbd>←</kbd><kbd>→</kbd>','Di chuyển']]:[['<kbd>Space</kbd>','Tiếp tục'],['<kbd>↑</kbd><kbd>↓</kbd>','Di chuyển']];
   return '<div class="mdx-bar"><div class="mdx-tools">'+tools.map(([k,i,l])=>'<button type="button" class="'+(k==='tr'?'tr':'')+'" data-go="t_'+k+'">'+i+'<span>'+esc(l)+'</span></button>').join('')+'</div><i class="mdx-div"></i><div class="mdx-keys">'+keys.map(([a,b])=>'<span>'+a+esc(b)+'</span>').join('')+'</div></div>'; }
-const MDLOGO='<div class="mdx-logo"><i class="crop"><img src="img2/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="1000" height="471"></i><div class="mdx-kick">Sài Gòn · 2026<span class="mdx-age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div></div>';
+const MDLOGO='<div class="mdx-logo"><img class="lg47" src="img2/tua-hem47.webp" alt="Hẻm 47" width="1000" height="329"><div class="mdx-kick"><span class="mdx-age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</span></div></div>';
 function mdCover(T){ const p=mdPrimary(T), ld=$('bNew')&&$('bNew').disabled&&!/^p2/.test(p.go);
   const chev='<svg class="cv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
   const I={play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>',book:'<svg viewBox="0 0 24 24"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1V19c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5V20"/></svg>',
@@ -305,8 +321,8 @@ function mdCover(T){ const p=mdPrimary(T), ld=$('bNew')&&$('bNew').disabled&&!/^
   return '<div class="mdv mdx hm">'+
    '<div class="tsts"><button type="button" class="tst" data-go="t_tr" aria-label="Xem trailer Phần 1"><img src="img/trailer-poster.webp" alt="" width="640" height="360"><i></i><span>trailer phần 1</span></button>'+
    '<button type="button" class="tst t2" data-go="t_tr2" aria-label="Xem trailer Phần 2"><img src="img2/x2-bo-song-dem.webp" alt="" width="640" height="360"><i></i><span>trailer phần 2</span></button></div>'+
-   '<div class="kick">Sài Gòn · 2026<em title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
-   '<div class="logo"><img src="img2/tua.webp" alt="Hẻm 47: Thế Giới Lặng" width="1000" height="471"></div>'+
+   
+   '<div class="logo"><img src="img2/tua-hem47.webp" alt="Hẻm 47" width="1000" height="329"><em class="age" title="18+ · Có nội dung về lừa đảo, buôn người, bạo lực và bắt nạt trên mạng">18+</em></div>'+
    '<div class="btns"><button class="b pri" type="button" data-go="'+p.go+'"'+(ld?' disabled':'')+'><span class="ic">'+I.play+'</span><span class="tx"><b>'+esc(p.t)+'</b><small>'+esc(ld?'Đang tải tranh…':p.s)+'</small></span>'+chev+'</button>'+
    '<button class="b" type="button" data-go="chap"><span class="ic">'+I.book+'</span><span class="tx"><b>Chọn chương</b></span>'+chev+'</button></div>'+
    '<div class="tools">'+tools.map(([k,i,l])=>'<button type="button" data-go="t_'+k+'">'+i+'<span>'+esc(l)+'</span></button>').join('')+'</div>'+
@@ -321,8 +337,8 @@ function mdChap(T){ if(!MD.sel) MD.sel=(T.p2||T.xong)?2:1;
     '<button class="mdx-b'+(!T.p2&&T.xong?' red':'')+'" type="button" data-go="'+(T.xong?'ends':'gate')+'">'+gear+'Thiết lập ký ức Phần 1<svg class="cv" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button>';
   const dots='<div class="mdx-dots">'+Object.keys(MDK).map(k=>'<i class="'+(T.got.includes(k)?'on':'')+'"></i>').join('')+'<span>'+T.got.length+'/5 kết</span></div>';
   return '<div class="mdv mdx mdx-chap"><button class="mdx-back" type="button" data-go="cover"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 6l-6 6 6 6"/></svg></i>Quay lại</button>'+
-   '<div class="mdx-top">'+MDLOGO+'<i class="mdx-sep"></i><div class="mdx-h"><h2>Chọn chương</h2><p>Tiếp tục hành trình của Lâm.</p></div></div>'+
-   '<div class="mdx-card'+(MD.sel===1?' sel':'')+'" data-card="1" style="--img:url(img2/bia.webp);--pos:70% 40%"><div class="k">Phần 1</div><h4>Thế Giới Lặng</h4><div class="meta">'+m1+'</div><p class="bl">Một bài bóc phốt sai.<br>Một người biến mất.<br>Và những câu hỏi chưa có lời giải.</p><div class="mdx-acts">'+a1+'</div>'+dots+'</div>'+
+   '<div class="mdx-top">'+MDLOGO+'<i class="mdx-sep"></i><div class="mdx-h"><h2>Chọn chương</h2><p>Tiếp tục hành trình của Lâm.</p></div><button type="button" class="mdx-moi" data-go="t_ung"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.6 1 .6 1.8 0 3M11.5 3.5c-.6 1 .6 1.8 0 3"/></svg><span>Mời chủ hẻm<br>ly cà phê</span></button></div>'+
+   '<div class="mdx-card'+(MD.sel===1?' sel':'')+'" data-card="1" style="--img:url(img2/bia.webp);--pos:70% 40%"><div class="k">Phần 1</div><h4>Thế Giới Lặng</h4><div class="meta">'+m1+'</div><p class="bl">Một bài bóc phốt sai. Một người biến mất.<br>Và những câu hỏi chưa có lời giải.</p><div class="mdx-acts">'+a1+'</div>'+dots+'</div>'+
    '<div class="mdx-card'+(MD.sel===2?' sel':'')+'" data-card="2" style="--img:url(img2/x2-bo-ben-nay.webp);--pos:60% center"><div class="k">Phần 2</div><h4>Xứ Lạ</h4><div class="meta">'+m2+'</div><p class="bl">Người bên sông,<br>liệu còn nhớ tên mình?</p><div class="mdx-acts">'+a2+'</div></div>'+
    mdBar('chap')+'</div>'; }
 function mdEnds(T){ if(!MD.pick||!T.got.includes(MD.pick)) MD.pick=T.last&&T.got.includes(T.last)?T.last:T.got[0]||'hetgio';
@@ -364,6 +380,15 @@ function mdTrailer2(){ const ov=document.getElementById('tlr'); if(!TLR2_YT||!ov
   const box=ov.querySelector('.box'); ov.classList.remove('doc');
   box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(TLR2_YT)+'?autoplay=1&rel=0&playsinline=1" title="Trailer Hẻm 47 · Phần 2" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>';
   const cap=ov.querySelector('.cap'); if(cap) cap.textContent='Hẻm 47: Thế Giới Lặng · Trailer Phần 2'; ov.hidden=false; }
+/* cảnh báo lần đầu bấm chơi (mỗi máy một lần): Phần 1 hiện trước đoạn mở đầu, Phần 2 hiện trước khi vào game */
+function mdCanhBao(){ return new Promise(res=>{ try{ if(localStorage.getItem('tgl_canhbao')){ res(); return; } }catch(e){}
+  const el=document.createElement('div'); el.id='mdcb';
+  el.innerHTML='<div class="b"><span class="a">18+</span><h3>Trước khi vào hẻm</h3><p>Trò chơi lấy cảm hứng từ các vụ việc thực tế đã được cơ quan chức năng cảnh báo. Khi nhận được lời dụ dỗ đi làm \'việc nhẹ lương cao\' ở nước ngoài, hãy liên hệ ngay với cơ quan công an gần nhất để được hỗ trợ.</p><p class="s">Game có nội dung về lừa đảo, mua bán người và giam giữ. Nhân vật, địa danh là hư cấu.</p><button type="button">Tôi hiểu, vào game</button></div>';
+  if(!document.getElementById('mdcbCss')){ const st=document.createElement('style'); st.id='mdcbCss'; st.textContent='#mdcb{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(4,5,8,.9);opacity:0;transition:opacity .4s}#mdcb .b{max-width:520px;background:#0e0f13;border:1px solid rgba(239,230,210,.16);border-radius:16px;padding:26px 24px;color:#efe6d2;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.7)}#mdcb .a{display:inline-block;font:700 14px "Be Vietnam Pro",sans-serif;color:#ff6a5c;border:1.5px solid #e2453c;border-radius:6px;padding:3px 8px}#mdcb h3{margin:12px 0 10px;font:600 26px Newsreader,Georgia,serif;color:#f0b25c}#mdcb p{margin:0 0 10px;font:400 17px/1.55 Newsreader,Georgia,serif}#mdcb p.s{font-size:14.5px;color:#a9a090}#mdcb button{margin-top:10px;width:100%;min-height:50px;border:0;border-radius:12px;background:linear-gradient(180deg,#f3c46f,#d99a3f);color:#1b1408;font:700 16px "Be Vietnam Pro",sans-serif;cursor:pointer}'; document.head.appendChild(st); }
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  el.querySelector('button').onclick=()=>{ try{ localStorage.setItem('tgl_canhbao','1'); }catch(e){} el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },400); }; }); }
+if(typeof typeIntro==='function'){ const ti0=typeIntro; typeIntro=async function(){ await mdCanhBao(); return ti0.apply(this,arguments); }; }
+if(typeof p2Begin==='function'){ const pb0=p2Begin; p2Begin=async function(cont){ if(!cont) await mdCanhBao(); return pb0.apply(this,arguments); }; }
 function mdSnap(k){ try{ return JSON.parse(lsGet('tgl_chuong1_'+k)||'null'); }catch(e){ return null; } }
 function mdP2Rec(k){ const rec=mdSnap(k)||p2p1()||{}; let p=Object.assign({},rec,{ket:k}); p.co=Object.assign({},rec.co||{});
   const ck=id=>$(id)&&$(id).checked; if(ck('p2kl')||ck('p2tu')||ck('p2cg')||ck('p2ph')) p.co=Object.assign({},p.co||{},{khoa_lat:ck('p2kl'),tu_lo:ck('p2tu'),noi_cuocgoi:ck('p2cg'),phat_nhanchung:ck('p2ph')}); return p; }

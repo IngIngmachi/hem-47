@@ -293,5 +293,49 @@
 "X_07_07": "Đúng hai ngày sau, app VinaGold X sập nguồn, khóa sạch tài khoản của khách.",
 "ng_banhmi_01": {
 "hien": "co:don_hanh"
+},
+"nghi60_01": {
+"after": "nghi50_03",
+"canh": "Anh Khoa nghi · phá đồ",
+"hoi": "-",
+"ai": "",
+"kieu": "mota",
+"hien": "",
+"sau": "",
+"note": "",
+"loi": "Về tới phòng 3, nghe mùi cà phê nồng nặc. Ly cà phê sữa đá ai đó để sẵn trên bàn đã đổ nghiêng, tràn thẳng vô bàn phím laptop."
+},
+"nghi60_02": {
+"after": "nghi60_01",
+"canh": "Anh Khoa nghi · phá đồ",
+"hoi": "-",
+"ai": "",
+"kieu": "mota",
+"hien": "",
+"sau": "",
+"note": "",
+"loi": "Bấm nút nguồn mấy lần, màn hình chỉ chớp một cái rồi tắt ngấm."
+},
+"nghi60_03": {
+"after": "nghi60_02",
+"canh": "Anh Khoa nghi · phá đồ",
+"hoi": "-",
+"ai": "Lâm",
+"kieu": "nghi",
+"hien": "",
+"sau": "+co:laptop_hu -tien:150000",
+"note": "",
+"loi": "Mình đâu có mua ly cà phê nào. Đem ra tiệm sửa mất 150 ngàn, tiệm hẹn tối mai mới lấy được."
+},
+"nghi60_04": {
+"after": "nghi60_03",
+"canh": "Anh Khoa nghi · phá đồ",
+"hoi": "-",
+"ai": "Khoa",
+"kieu": "tin",
+"hien": "",
+"sau": "",
+"note": "",
+"loi": "trời nóng quá em ha, uống nước nhớ cầm ly cho chắc nha 🙏"
 }
 }

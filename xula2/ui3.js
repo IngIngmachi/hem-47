@@ -596,3 +596,8 @@ body:has(#phone:not([hidden])) #u3sys{top:auto;bottom:96px}
 
 /* đang có hộp thoại thì ẩn thẻ người trong phòng (khỏi lòi nửa thẻ chân dung sau hộp thoại) */
 if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=$('dlg'); if(d&&!d.hidden) return; return nc0.apply(this,arguments); }; }
+
+/* đoạn ký ức mở đầu: điện thoại dọc thì cắt tranh theo chỗ có người (không cắt giữa) */
+(function(){ const FX={'ky-uc-1':'70%','ky-uc-3':'80%','ky-uc-4':'78%','bia':'79%','hem-dem':'50%','trong-phong3-dem':'58%'};
+  const fix=el=>{ const m=String(el.style.backgroundImage||'').match(/img2\/([\w-]+)\.webp/); const x=m&&FX[m[1]]; const want=x?x+' center':''; if(el.style.backgroundPosition!==want) el.style.backgroundPosition=want; };
+  new MutationObserver(ms=>{ for(const m of ms){ const t=m.target; if(t.classList&&t.classList.contains('in-bg')) fix(t); } }).observe(document.body,{subtree:true,attributes:true,attributeFilter:['style']}); })();

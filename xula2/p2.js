@@ -327,6 +327,7 @@ night=async function(){ if(!P2.on) return night1(); if(sleeping) return; sleepin
       if(S.day===17&&!hasF('x_canh7_xem')){ setCo('x_canh7_xem'); await runS('x_canh7'); hideDlg(); }
       if(typeof p2NhipHem==='function') await p2NhipHem();
       if(S.day>=8&&S.day<19) await p2DiDem();
+      if(S.day>=9&&S.day<19) await p2Siet();
       if(S.nghi>=100){ await runS('x_phongtoi'); hideDlg(); const p=dsCon().filter(x=>!['ngan','khang'].includes(x.id))[0]; if(p) effects('mat:'+p.id); S.nghi=55; }
       S.nghi=Math.max(0,S.nghi-1); }
     else { S.money-=30000; dayGain.tien-=30000; if(S.money<0) S.money=0; S.nghi=Math.max(0,S.nghi-2); }
@@ -337,6 +338,17 @@ night=async function(){ if(!P2.on) return night1(); if(sleeping) return; sleepin
     S.day++; dayGain={tien:0,cc:[]}; await p2NewDay();
   } finally { sleeping=false; }
   hud(); save(); await tick(); };
+/* khám phòng bất chợt ban đêm (BẢN NHÁP chờ duyệt chữ): chỉ nghe tiếng, không thấy cảnh.
+   Bị nghi càng cao càng dễ bị khám; từ 70 trở lên thì có người bị lôi đi. Không quá 1 lần mỗi 2 đêm. */
+async function p2Siet(){ if((S.siet_d||0)>=S.day-1) return; const pr=.12+(S.nghi||0)/250; if(Math.random()>pr) return; S.siet_d=S.day;
+  const sp=(k,o)=>{ try{ window.SFX&&SFX.play(k,o); }catch(e){} };
+  await say('mota','','2 giờ sáng. Đèn hành lang bật sáng trưng. Tiếng dép, tiếng đập cửa từng phòng.');
+  setTimeout(()=>sp('hit',{v:.35,rate:.75}),500);
+  await say('mota','','Phòng bên cạnh có tiếng ai đó kêu lên một tiếng rồi tắt ngấm. Không ai trong phòng dám ngồi dậy.');
+  const can=(S.nghi||0)>=70?dsCon().filter(x=>!['ngan','khang','loc'].includes(x.id)).sort((a,b)=>(S.tin[a.id]||0)-(S.tin[b.id]||0))[0]:null;
+  if(can){ sp('boom',{v:.4,rate:.8,delay:.3}); await say('mota','','Sáng ra, giường của '+can.ten+' trống trơn. Mền đã gấp sẵn.'); effects('mat:'+can.id); S.nghi=Math.max(0,S.nghi-15); }
+  else { await say('mota','','Sáng ra, lính gác đứng ở cửa phòng máy lâu hơn mọi bữa. Từ giờ phải cẩn thận gấp đôi.'); S.nghi=Math.min(99,(S.nghi||0)+5); }
+  hideDlg(); }
 async function p2NewDay(){ const d=S.day;
   if(S.hoi===1){ S.vai=S.nhanh==='A'?(d%2===1&&d<7?'ngan':'lam'):'lam'; setME(); S.min=DAY_START; S.scene='street'; S.room=null; PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); fade=.9; chime();
     toast('Ngày '+d+' · '+fmtT(S.min)+(S.nhanh==='A'?' · hôm nay bạn là '+ME:'')); return; }
@@ -499,6 +511,8 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
       if(ci===0){ const q=$('teQ7'); if(q) q.style.opacity=/biệt thự ở Quận 7/.test(L[li])?1:0; cur=document.createElement('p'); if(li===L.length-1) cur.className='te-last'; tx.appendChild(cur); }
       const line=L[li]; ci+=2; cur.textContent=line.slice(0,ci); if(ci>=line.length){ cur.textContent=line; li++; ci=0; setTimeout(step,650); } else setTimeout(step,22); };
     step(); });
+  /* 1b. ngoài đời thật: số liệu chính thức có nguồn */
+  await p2Real();
   /* 2. thẻ tổng kết trên màn bìa, cùng khung kết Phần 1 */
   S.scene='place'; S.place=null; BGNOW=(EB&&P2REAL[EB])?EB:BGNOW; fade=1; hud();
   const c=$('cover'); c.hidden=false; c.classList.add('solid');
@@ -513,6 +527,31 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     '<div class="row"><button class="btn" type="button" id="p2Again">Chơi lại Phần 2</button><button class="btn ghost" type="button" id="p2Home">Về màn đầu</button><button class="btn alt" type="button" id="p2Kq">Khoe kết quả</button><button class="btn alt" type="button" id="p2Tt">Thành tựu</button></div>';
   if(!$('p2sodCss')){ const st=document.createElement('style'); st.id='p2sodCss'; st.textContent='.p2sod{max-width:520px;margin:10px auto;text-align:left;color:#b9b3a6;font-size:14px}.p2sod summary{cursor:pointer;color:#efe8d8;padding:6px 0}.p2sod ol{margin:6px 0 0 18px;line-height:1.7}'; document.head.appendChild(st); }
   $('p2Again').onclick=()=>{ lsDel(P2SAVE); location.reload(); }; $('p2Home').onclick=()=>location.reload(); $('p2Kq').onclick=()=>kqOpen(k); $('p2Tt').onclick=()=>ttOpen(); ttCheck2(); }
+/* khung "Ngoài đời thật" sau kết Phần 2 (BẢN NHÁP chờ tác giả duyệt). Số liệu lấy nguyên văn từ nguồn ghi bên dưới. */
+const P2REAL_STATS=[
+  ['358 vụ','mua bán người bị phát hiện, điều tra trong giai đoạn 2021–2025, với 925 bị can.','Bộ Công an · 09/11/2025'],
+  ['120 vụ','mua bán người bị khởi tố, điều tra chỉ riêng 6 tháng đầu năm 2025, với 365 bị can.','Bộ Công an · 12/08/2025'],
+  ['Hàng trăm nghìn người','có thể đang bị giữ và bị ép làm việc trong các đường dây lừa đảo trực tuyến ở Đông Nam Á.','Văn phòng Cao ủy Nhân quyền Liên Hợp Quốc · 08/2023']];
+function p2Real(){ return new Promise(res=>{
+  if(!$('p2realCss')){ const st=document.createElement('style'); st.id='p2realCss'; st.textContent=`
+#p2real{position:fixed;inset:0;z-index:85;background:#050608;color:#efe8d8;display:flex;align-items:center;justify-content:center;padding:24px 18px;box-sizing:border-box;opacity:0;transition:opacity .8s;overflow:auto}
+#p2real .w{max-width:560px;width:100%}
+#p2real .k{font:600 12px "Be Vietnam Pro",sans-serif;letter-spacing:.24em;color:#a9a090;text-transform:uppercase;margin:0 0 18px}
+#p2real .it{border-top:1px solid rgba(239,230,210,.14);padding:16px 0;opacity:0;transform:translateY(8px);transition:opacity .7s,transform .7s}
+#p2real .it.on{opacity:1;transform:none}
+#p2real .it b{display:block;font:600 clamp(30px,8vw,44px)/1.1 Newsreader,Georgia,serif;color:#e2645c}
+#p2real .it p{margin:6px 0 4px;font:400 16px/1.5 Newsreader,Georgia,serif;color:#e6dfcf}
+#p2real .it small{font:500 12px "Be Vietnam Pro",sans-serif;color:#8f887a}
+#p2real .call{margin:18px 0 0;padding:14px 16px;border-radius:12px;background:rgba(226,100,92,.1);border:1px solid rgba(226,100,92,.35);font:500 15px/1.5 "Be Vietnam Pro",sans-serif}
+#p2real button{margin-top:18px;width:100%;min-height:50px;border-radius:12px;border:1.5px solid rgba(239,230,210,.4);background:transparent;color:#efe6d2;font:700 15px "Be Vietnam Pro",sans-serif;cursor:pointer;opacity:0;transition:opacity .6s}`; document.head.appendChild(st); }
+  const el=document.createElement('div'); el.id='p2real';
+  el.innerHTML='<div class="w"><p class="k">Ngoài đời thật</p>'+P2REAL_STATS.map(x=>'<div class="it"><b>'+esc(x[0])+'</b><p>'+esc(x[1])+'</p><small>Nguồn: '+esc(x[2])+'</small></div>').join('')+
+    '<div class="call it">Được mời đi làm "việc nhẹ lương cao" ở nước ngoài, bị giữ giấy tờ, hay mất liên lạc với người thân đi làm xa: báo công an nơi gần nhất hoặc gọi <b style="display:inline;font:inherit;color:#ffb3ab">113</b>.</div>'+
+    '<button type="button" id="p2realGo">Tiếp</button></div>';
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  const its=el.querySelectorAll('.it'); its.forEach((x,i)=>setTimeout(()=>x.classList.add('on'),700+i*1300));
+  const btn=$('p2realGo'); setTimeout(()=>{ btn.style.opacity=1; },700+its.length*1300);
+  btn.onclick=()=>{ el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },700); }; }); }
 const ending1=ending, finale1=finale;
 finale=async function(){ if(!P2.on) return finale1(); };
 ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };

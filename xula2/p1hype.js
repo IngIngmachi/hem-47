@@ -108,3 +108,29 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
     supa.from('loi').insert({msg,src:String(src||'').slice(-120),dong:line||null,cot:col||null,stack:String(stack||'').slice(0,1500),trang:location.pathname.slice(-40),phan:(typeof P2!=='undefined'&&P2.on)?2:1,ngay:st.day||null,hoi:st.hoi||null,canh:String(st.scene||'')+(st.room?':'+st.room:''),ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }catch(e){} };
   addEventListener('error',e=>send(e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack));
   addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; send('Promise: '+(r.message||r),'',0,0,r.stack); }); })();
+
+/* Cài đặt gọn lại (30/10): mỗi nhóm một khung, dòng phụ ngắn, mô tả độ khó một dòng */
+(function(){ if(typeof cdOpen!=='function') return;
+  const st=document.createElement('style'); st.textContent=`
+#cdBox .cd-s{margin:18px 2px 6px!important}
+#cdBox .cd-grp{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:2px 14px}
+#cdBox .cd-grp>.cd-r{margin:0!important;padding:11px 0;border-top:1px solid rgba(255,255,255,.06)}
+#cdBox .cd-grp>.cd-r:first-child{border-top:0}
+#cdBox .cd-grp>.cd-tip{background:none!important;border:0!important;padding:0 0 10px!important;margin:-4px 0 0!important;font-size:12.5px;color:#9aa0b4}
+#cdBox .cd-grp>.cd-r:not(:has(.walls)){flex-wrap:nowrap!important;align-items:center}
+#cdBox .cd-grp>.cd-r>span{flex:1 1 auto!important;min-width:0}
+#cdBox .cd-grp>.cd-r>.seg{flex:none;margin-left:auto}
+#cdBox .cd-grp>.cd-r:has(input[type=range])>span{flex:0 0 112px!important}
+#cdBox .cd-grp>.cd-r input[type=range]{flex:1;min-width:0}
+#cdBox .cd-grp .seg button{padding-left:11px!important;padding-right:11px!important}
+#cdBox .cd-r>span{font-size:15px}
+#cdBox .cd-r>span small{font-size:12px!important;color:#8e94a8!important;margin-top:2px}
+#cdBox .walls{padding-bottom:12px}`; document.head.appendChild(st);
+  const SM={'Chữ dễ đọc':'Thay chữ viết tay bằng chữ thường','Tự đọc tiếp':'Câu tự qua, khỏi chạm','Lựa chọn gấp':'Đồng hồ ở các lựa chọn gấp','Giọng lách tách':'Tiếng nhỏ khi chữ đang chạy','Rung máy':'Khi bị bắt gặp, bị nghi nặng','Tiếng hiệu ứng':'Tiếng phím, chuông, tiếng bấm','Hình nền':'Mở thêm khi chơi tới','Giảm chuyển động':'Tắt phóng tranh, chuyển cảnh'};
+  const TIP={de:'Khoa nghi chậm, làm thêm được nhiều tiền, nối thẻ có gợi ý.',thuong:'Như game gốc.',kho:'Khoa nghi nhanh, làm thêm bị trừ nhiều, nối thẻ không gợi ý.'};
+  const c1=cdOpen; cdOpen=function(){ c1.apply(this,arguments); const B=$('cdBox'); if(!B) return;
+    B.querySelectorAll('.cd-r>span').forEach(sp=>{ const sm=sp.querySelector('small'); const t=(sp.firstChild&&sp.firstChild.textContent||'').trim(); if(sm&&SM[t]) sm.textContent=SM[t]; });
+    const tip=B.querySelector('.cd-tip'); if(tip) tip.textContent=TIP[CD.kho]||'';
+    B.querySelectorAll('.seg[data-k="gap"] [data-v="cham"]').forEach(b=>b.textContent='Chậm');
+    /* gom các dòng sau mỗi tiêu đề nhóm vào một khung */
+    [...B.querySelectorAll('.cd-s')].forEach(h=>{ const g=document.createElement('div'); g.className='cd-grp'; let n=h.nextElementSibling; while(n&&!n.classList.contains('cd-s')){ const nx=n.nextElementSibling; g.appendChild(n); n=nx; } h.after(g); }); }; })();

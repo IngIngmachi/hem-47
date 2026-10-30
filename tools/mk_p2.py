@@ -68,6 +68,8 @@ if _ov.exists():
     print('Áp lời thử Phần 1:', n)
 
 # phần đầu trang dùng chung: màn đầu mới hiện ngay, không chớp bản cũ
+# bản tiếng Anh: tải sẵn file dịch ngay đầu trang, chạy song song với ảnh (en.js lấy lại từ window.ENPRE)
+ENPRE='<script>try{if(localStorage.getItem("tgl_lang")==="en"){window.ENPRE={};["en_p1","en_p2","en_ten","en_ui"].forEach(function(f){window.ENPRE[f]=fetch("{D}"+f+".json?v=3010b").then(function(r){return r.ok?r.json():{}}).catch(function(){return {}})})}}catch(e){}</script>'
 MDFIRST='<style id="mdfirst">body:not(.ingame) #cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia-chung.webp) 60% center/cover}</style>'
 
 # gắn Phần 2 sau script chính
@@ -89,8 +91,8 @@ if '--chinh' in sys.argv:
     dst = ROOT / 'xula2c'
     if dst.exists(): shutil.rmtree(dst)
     shutil.copytree(ROOT / 'xula2', dst)
-    (ROOT / 'index.html').write_text(s.replace(TITLE, TITLE+MDFIRST).replace('src="xula2/', 'src="xula2c/'), encoding='utf-8')
+    (ROOT / 'index.html').write_text(s.replace(TITLE, TITLE+MDFIRST+ENPRE.replace('{D}','xula2c/')).replace('src="xula2/', 'src="xula2c/'), encoding='utf-8')
     print('ĐÃ CẬP NHẬT BẢN CHÍNH (index.html + xula2c/)')
 # trang thử: không cho lập chỉ mục, tiêu đề riêng
-(ROOT / 'taotestcaigiketao.html').write_text(s.replace(TITLE, '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">'+MDFIRST), encoding='utf-8')
+(ROOT / 'taotestcaigiketao.html').write_text(s.replace(TITLE, '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">'+MDFIRST+ENPRE.replace('{D}','xula2/')), encoding='utf-8')
 print('Đã tạo taotestcaigiketao.html (trang thử)', len(s))

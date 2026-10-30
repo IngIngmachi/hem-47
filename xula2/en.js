@@ -7,15 +7,15 @@
   const DIR=((document.currentScript&&document.currentScript.src)||'xula2/en.js').replace(/[^/]*$/,'');
   let lang='vi'; try{ lang=localStorage.getItem('tgl_lang')||'vi'; }catch(e){}
   window.LANG=lang;
-  window.setLang=function(l){ try{ localStorage.setItem('tgl_lang',l); }catch(e){} location.reload(); };
+  window.setLang=function(l){ try{ localStorage.setItem('tgl_lang',l); }catch(e){} try{ const o=document.createElement('div'); o.style.cssText='position:fixed;inset:0;z-index:999999;background:#08090b;opacity:0;transition:opacity .18s'; document.body.appendChild(o); requestAnimationFrame(()=>o.style.opacity='.85'); }catch(e){} setTimeout(()=>location.reload(),60); };
   if(lang!=='en') return;
   document.documentElement.lang='en';
-  const V='?v=3010b';
+  const V='?v=3010b'; const get=f=>(window.ENPRE&&window.ENPRE[f])||fetch(DIR+f+'.json'+V).then(r=>r.ok?r.json():{}).catch(()=>({}));
   let EN={}, TEN={}; const ROWUI={};  /* câu ngắn trong bảng thoại cũng dùng làm nhãn (tên chỗ, nút) → dịch theo luôn */
   const apply=()=>{ if(typeof T==='undefined') return; T.forEach(r=>{ const e=EN[r.ma]; if(!e) return; if(e.loi&&r.loi&&r.loi!==e.loi&&r.loi.length<90&&!ROWUI[r.loi.trim()]) ROWUI[r.loi.trim()]=e.loi; if(e.loi) r.loi=e.loi; if(e.sub) r.sub=e.sub; if(e.ai&&!/^(KHAI_|BANG_)/.test(r.ai||'')) r.ai=e.ai; }); };
   const name=n=>{ n=String(n||''); if(TEN[n]) return TEN[n]; return n; };
   window.enName=name;
-  Promise.all(['en_p1','en_p2','en_ten'].map(f=>fetch(DIR+f+'.json'+V).then(r=>r.ok?r.json():{}).catch(()=>({}))))
+  Promise.all(['en_p1','en_p2','en_ten'].map(get))
     .then(([a,b,c])=>{ EN=Object.assign({},a,b); TEN=c||{}; if(typeof rebuild==='function') rebuild(); });
   /* mỗi lần dựng lại bảng thoại (vào Phần 2, sửa câu…) thì áp tiếng Anh lại */
   if(typeof rebuild==='function'){ const rb0=rebuild; rebuild=function(){ const o=rb0.apply(this,arguments); try{ apply(); }catch(e){} return o; }; }
@@ -27,7 +27,7 @@
   const VN=/[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
   let UI={}, RX=null; const memo=new Map();
   const esc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const trS=t=>{ if(!t) return t; const k=t.trim(); const x=UI[k]||ROWUI[k]; if(x) return t.replace(k,x); if(!VN.test(t)||!RX) return t;
+  const trS=t=>{ if(!t) return t; const k=t.trim(); const x=UI[k]||ROWUI[k]; if(x) return t.replace(k,x); if(t.length>160||!VN.test(t)||!RX) return t;
     if(memo.has(t)) return memo.get(t); const o=t.replace(RX,(m,p,w)=>p+UI[w]); if(memo.size>4000) memo.clear(); memo.set(t,o); return o; };
   window.trUI=trS;
   const tnode=n=>{ const v=n.nodeValue; if(!v||(!VN.test(v)&&!UI[v.trim()]&&!ROWUI[v.trim()])) return; const o=trS(v); if(o!==v) n.nodeValue=o; };
@@ -45,7 +45,7 @@
   const cf0=window.confirm, al0=window.alert; window.confirm=m=>cf0(trS(String(m))); window.alert=m=>al0(trS(String(m)));
   /* chữ không dấu nên file xuất bỏ sót, tôi tự dịch (chờ tác giả duyệt) */
   const EXTRA={'Xong':'Done','Xong!':'Done!','Nhanh':'Fast','Kho':'Storage','Xem':'View','Nghe':'Listen','Xoay':'Rotate','Trang Facebook':'Facebook Page'};
-  fetch(DIR+'en_ui.json'+V).then(r=>r.ok?r.json():{}).catch(()=>({})).then(u=>{ UI=Object.assign({},EXTRA,u||{});
+  get('en_ui').then(u=>{ UI=Object.assign({},EXTRA,u||{});
     const ks=Object.keys(UI).filter(k=>k.length>=1).sort((a,b)=>b.length-a.length);
     /* mảnh phải đứng riêng: trước/sau không dính chữ cái khác */
     if(ks.length) RX=new RegExp('(^|[^\\p{L}])('+ks.map(esc).join('|')+')(?![\\p{L}])','gu');

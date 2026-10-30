@@ -643,6 +643,13 @@ if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy
 /* iPhone mở từ màn hình chính (chế độ app): 100dvh ngắn hơn màn hình, để lại dải tối ở đáy và cắt mất ô vị trí.
    Ghim khung game phủ kín màn hình bằng position:fixed thay vì đo chiều cao. */
 (function(){ const st=document.createElement('style'); st.textContent=`
-body.u3m #app{position:fixed!important;inset:0!important;height:auto!important}
+body.u3m #app{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:auto!important;height:100vh!important}
+@supports (height:100lvh){body.u3m #app{height:100lvh!important}}
 body.u3m #stage{position:absolute!important;inset:0!important;height:auto!important}
+/* 3 nút bên phải (điện thoại, chờ, ngủ): một cột tròn đều nhau, thẳng hàng */
+html body.u3m #phoneBtn,html body.u3m #stage .tbtns button,html body.u3m .tbtns button{width:50px!important;height:50px!important;border-radius:50%!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(10,10,12,.82)!important;border:1px solid rgba(239,230,210,.18)!important;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+body.u3m #phoneBtn::before,body.u3m .tbtns button::before{margin:0!important}
+body.u3m #phoneBtn{top:calc(max(10px,env(safe-area-inset-top)) + 54px)!important;right:max(12px,env(safe-area-inset-right))!important}
+body.u3m .tbtns{flex-direction:column!important;gap:10px!important;top:calc(max(10px,env(safe-area-inset-top)) + 114px)!important;right:max(12px,env(safe-area-inset-right))!important;align-items:center!important}
+body.u3m .tbtns button>*:not(svg):not(i){display:none!important}
 body.u3m #u3loc{bottom:calc(env(safe-area-inset-bottom) + 10px)!important}`; document.head.appendChild(st); })();

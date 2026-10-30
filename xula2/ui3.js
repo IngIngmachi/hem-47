@@ -633,3 +633,9 @@ if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy
   g.save(); g.beginPath(); g.rect(x-w*1.5,fy-H*1.3,w*3,H*1.3-H*hy+2); g.clip();
   g.translate(x,piv); g.rotate(face*sw*.028); g.translate(0,-Math.abs(Math.cos(o.ph||0))*H*.004); g.translate(-x,-piv);
   dw0.apply(this,arguments); g.restore(); g.restore(); }; }
+
+/* nút "Để sau" trong trò chơi: luôn nổi rõ ở góc phải, né tai thỏ/thanh trạng thái điện thoại, tiêu đề chừa chỗ */
+(function(){ const st=document.createElement('style'); st.textContent=`
+#gameBox .p2g .p2x{position:fixed!important;float:none!important;top:max(10px,calc(env(safe-area-inset-top) + 6px));right:max(10px,env(safe-area-inset-right));z-index:60!important;margin:0!important;min-height:40px;padding:8px 14px!important;font:600 14px "Be Vietnam Pro",sans-serif!important;color:#efe6d2!important;background:rgba(10,12,18,.92)!important;border:1.5px solid rgba(240,178,92,.7)!important;box-shadow:0 6px 16px rgba(0,0,0,.6);opacity:1!important}
+#game.p2full #gameBox .p2g:has(.p2x)>h3{margin-right:118px!important;padding-right:0}
+@media (max-width:760px){#game.p2full #gameBox .p2g:has(.p2x)>h3{padding-top:calc(env(safe-area-inset-top) + 4px);font-size:20px!important;line-height:1.25!important}}`; document.head.appendChild(st); })();

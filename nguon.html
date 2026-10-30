@@ -1292,7 +1292,7 @@ const VH=720, GROUND=628, FEET=690, NFEET=676, HOUSE_H=786;
 const HGT={lam:168,basau:140,khoa:170,thoa:150,hanh:152,bin:164,loc:168,tam:150,diem:160,phuong:156,tu:160,huong:158,vinh:168,phat:166,thuy:154,ngan:150};
 const A={}; let W=0; const ML=260, MR=360;
 function layout(){ let x=ML; HOUSE_ORDER.forEach(h=>{ const im=IMG[h]; const w=Math.round(im.width*HOUSE_H/im.height); A[h.slice(4)]={x,w,cx:x+w/2}; x+=w-4; }); W=x+MR; }
-const at=(h,u)=>A[h].x+A[h].w*u;
+const at=(h,u)=>{ const a=A[h]||A[Object.keys(A)[0]]; return a?a.x+a.w*u:ML; };
 let LAMPS=[], HIDES=[]; const hideNear=()=>HIDES.find(o=>Math.abs(o.x-PL.x)<85); const TOUCH=matchMedia('(pointer:coarse)').matches;
 function places(){ LAMPS=[A.taphoa.x-30,A.basau.x-4,A.tam.x-4,A.diem.x+A.diem.w+70];
   HIDES=[{x:A.taphoa.x-30,n:'cột điện'},{x:at('banhmi',.12),n:'xe bánh mì'},{x:A.basau.x-4,n:'cột điện'},{x:at('khoa',.1),n:'chậu cây'},{x:A.tam.x-4,n:'cột điện'},{x:at('diem',.06),n:'giàn hoa'},{x:A.diem.x+A.diem.w+70,n:'cột điện'}]; }

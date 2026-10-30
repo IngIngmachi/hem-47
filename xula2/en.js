@@ -36,9 +36,9 @@
   box.innerHTML='<div class="cd-s">'+(en?'Language':'Ngôn ngữ')+'</div><div class="cd-grp"><div class="cd-r" id="cdLang"><span>'+(en?'Language':'Ngôn ngữ')+'<small>'+(en?'Reloads the game. Progress is kept.':'Tải lại game, giữ nguyên tiến trình.')+'</small></span><div class="seg"><button type="button" data-l="vi" class="'+(en?'':'on')+'">Tiếng Việt</button><button type="button" data-l="en" class="'+(en?'on':'')+'">English</button></div></div></div>';
   const first=B.querySelector('.cd-s'); if(first) first.before(...box.childNodes); else B.append(...box.childNodes);
   B.querySelectorAll('#cdLang [data-l]').forEach(b=>b.onclick=()=>{ if(b.dataset.l!==window.LANG){ if(typeof save==='function'&&typeof started!=='undefined'&&started) try{ save(); }catch(e){} setLang(b.dataset.l); } }); }; })();
-/* nút VI/EN nhỏ ở trang chủ */
-(function(){ const add=()=>{ const t=document.querySelector('#cover .hm .tools'); if(!t||t.querySelector('.lgsw')) return;
-  const b=document.createElement('button'); b.type='button'; b.className='lgsw'; b.innerHTML='<b>'+(window.LANG==='en'?'EN':'VI')+'</b><span>'+(window.LANG==='en'?'Tiếng Việt':'English')+'</span>';
-  b.onclick=()=>setLang(window.LANG==='en'?'vi':'en'); t.appendChild(b); };
-  const st=document.createElement('style'); st.textContent='.hm .tools .lgsw b{display:grid;place-items:center;width:24px;height:24px;font:700 12px "Be Vietnam Pro",sans-serif;border:1.5px solid currentColor;border-radius:6px;margin:0 auto 4px}'; document.head.appendChild(st);
+/* nút VI/EN nhỏ ở trang chủ, nằm cùng hàng "Sài Gòn · 2026 18+" để khỏi chen vào hàng nút dưới */
+(function(){ const add=()=>{ const k=document.querySelector('#cover .hm .kick'); if(!k||k.querySelector('.lgsw')) return;
+  const b=document.createElement('button'); b.type='button'; b.className='lgsw'; b.textContent=window.LANG==='en'?'VI':'EN'; b.title=window.LANG==='en'?'Tiếng Việt':'English';
+  b.onclick=e=>{ e.stopPropagation(); setLang(window.LANG==='en'?'vi':'en'); }; k.appendChild(b); };
+  const st=document.createElement('style'); st.textContent='.hm .kick .lgsw{font:600 12px/1 "Be Vietnam Pro",sans-serif;letter-spacing:.06em;color:#e9dcc4;background:rgba(0,0,0,.35);border:1.5px solid rgba(233,220,196,.55);border-radius:5px;padding:4px 7px;cursor:pointer}'; document.head.appendChild(st);
   setInterval(add,800); })();

@@ -663,3 +663,14 @@ body.u3m #dlg{bottom:max(10px,env(safe-area-inset-bottom))!important}
 #game.p2full{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
 #phone{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
 @media (orientation:landscape){body.u3m .hud,body.u3m #u3loc{left:max(12px,env(safe-area-inset-left))!important}body.u3m #phoneBtn,body.u3m .tbtns{right:max(12px,env(safe-area-inset-right))!important}}`; document.head.appendChild(st); })();
+
+/* trang chủ trên điện thoại thấp (iPhone có thanh Safari): gói gọn trong 1 màn, chữ dưới nút không xuống dòng, chân trang không bị khuất */
+(function(){ const st=document.createElement('style'); st.textContent=`
+.hm .tools button span,.hm .tools a span{white-space:nowrap}
+@media (max-width:420px){.hm .tools button span,.hm .tools a span{font-size:12.5px!important;letter-spacing:0!important}}
+@media (max-width:420px) and (max-height:760px){
+ .hm .logo{margin-top:4px!important}.hm .logo img{width:min(300px,78vw)!important}
+ .hm .btns{margin-top:14px!important;gap:10px!important}.hm .btns .b{min-height:0!important;padding-top:14px!important;padding-bottom:14px!important}
+ .hm .tools{margin-top:16px!important}.hm .foot{margin-top:10px!important;padding-bottom:max(8px,env(safe-area-inset-bottom))}}
+@media (max-width:420px) and (max-height:640px){.hm .logo img{width:min(280px,74vw)!important}.hm .btns .b{padding-top:10px!important;padding-bottom:10px!important}}`;
+document.head.appendChild(st); })();

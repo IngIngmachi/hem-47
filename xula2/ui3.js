@@ -639,3 +639,10 @@ if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy
 #gameBox .p2g .p2x{position:fixed!important;float:none!important;top:max(10px,calc(env(safe-area-inset-top) + 6px));right:max(10px,env(safe-area-inset-right));z-index:60!important;margin:0!important;min-height:40px;padding:8px 14px!important;font:600 14px "Be Vietnam Pro",sans-serif!important;color:#efe6d2!important;background:rgba(10,12,18,.92)!important;border:1.5px solid rgba(240,178,92,.7)!important;box-shadow:0 6px 16px rgba(0,0,0,.6);opacity:1!important}
 #game.p2full #gameBox .p2g:has(.p2x)>h3{margin-right:118px!important;padding-right:0}
 @media (max-width:760px){#game.p2full #gameBox .p2g:has(.p2x)>h3{padding-top:calc(env(safe-area-inset-top) + 4px);font-size:20px!important;line-height:1.25!important}}`; document.head.appendChild(st); })();
+
+/* iPhone mở từ màn hình chính (chế độ app): 100dvh ngắn hơn màn hình, để lại dải tối ở đáy và cắt mất ô vị trí.
+   Ghim khung game phủ kín màn hình bằng position:fixed thay vì đo chiều cao. */
+(function(){ const st=document.createElement('style'); st.textContent=`
+body.u3m #app{position:fixed!important;inset:0!important;height:auto!important}
+body.u3m #stage{position:absolute!important;inset:0!important;height:auto!important}
+body.u3m #u3loc{bottom:calc(env(safe-area-inset-bottom) + 10px)!important}`; document.head.appendChild(st); })();

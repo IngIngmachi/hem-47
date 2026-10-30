@@ -203,9 +203,9 @@ hud=function(){ hud1(); if(!P2.on) return; const xb=$('exitBtn'); if(xb) xb.text
 
 /* vẽ */
 const frame1=frame;
-frame=function(){ if(P2.on&&BGNOW==='den'){ const dpr=Math.min(2,window.devicePixelRatio||1); if(cv.width!==Math.round(cv.clientWidth*dpr)){ cv.width=Math.round(cv.clientWidth*dpr); cv.height=Math.round(cv.clientHeight*dpr); } g.setTransform(1,0,0,1,0,0); g.fillStyle='#000'; g.fillRect(0,0,cv.width,cv.height); return; }
+frame=function(){ if(P2.on&&BGNOW==='den'){ const dpr=Math.min(window.devicePixelRatio||1,Math.min(innerWidth,innerHeight)<600?1.25:2); if(cv.width!==Math.round(cv.clientWidth*dpr)){ cv.width=Math.round(cv.clientWidth*dpr); cv.height=Math.round(cv.clientHeight*dpr); } g.setTransform(1,0,0,1,0,0); g.fillStyle='#000'; g.fillRect(0,0,cv.width,cv.height); return; }
   if(P2.on&&P2.map==='trai'&&!(BGNOW&&IMG[BGNOW])&&(S.scene==='street'||S.scene==='room')) return frameTrai(); return frame1(); };
-function frameTrai(){ const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.clientWidth, ch=cv.clientHeight;
+function frameTrai(){ const dpr=Math.min(window.devicePixelRatio||1,Math.min(innerWidth,innerHeight)<600?1.25:2), cw=cv.clientWidth, ch=cv.clientHeight;
   if(cv.width!==Math.round(cw*dpr)||cv.height!==Math.round(ch*dpr)){ cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); }
   const sc=cv.height/VH; VW=cv.width/sc; g.setTransform(sc,0,0,sc,0,0); g.imageSmoothingEnabled=true;
   const h=hour(), nn=nightF(h);
@@ -231,10 +231,8 @@ function frameTrai(){ const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.cl
   g.globalCompositeOperation='multiply'; g.fillStyle=key(GRK,h)[0]; g.fillRect(0,0,VW,VH);
   g.globalCompositeOperation='saturation'; g.fillStyle='rgba(128,128,128,.45)'; g.fillRect(0,0,VW,VH); g.globalCompositeOperation='source-over';
   /* nhân vật vẽ sau lớp màu, chỉ nhuộm nhẹ trên chính hình người: khỏi bị bạc như trong suốt */
-  { const cw=g.canvas.width, chh=g.canvas.height; if(!window._p2CH||_p2CH.width!==cw||_p2CH.height!==chh){ window._p2CH=document.createElement('canvas'); _p2CH.width=cw; _p2CH.height=chh; }
-    const c2=_p2CH.getContext('2d'); c2.setTransform(1,0,0,1,0,0); c2.clearRect(0,0,cw,chh); c2.setTransform(g.getTransform());
-    c2.save(); c2.translate(-cam,0); D.sort((a,b)=>a.y-b.y).forEach(d=>d.f.call(null,c2)); c2.restore();
-    g.save(); g.setTransform(1,0,0,1,0,0); g.filter=nn>.3?'brightness(.78) saturate(.7)':'brightness(.94) saturate(.8)'; g.drawImage(_p2CH,0,0); g.filter='none'; g.restore(); }
+  /* nhân vật vẽ thẳng sau lớp màu (không dùng tranh phụ + filter: tốn máy, lag trên điện thoại) */
+  g.save(); g.translate(-cam,0); D.sort((a,b)=>a.y-b.y).forEach(d=>d.f()); g.restore();
   if(nn>0){ g.save(); g.translate(-cam,0); g.globalCompositeOperation='lighter'; FL.forEach(x=>{ const gr=g.createRadialGradient(x,GROUND-470,2,x,GROUND-200,420); gr.addColorStop(0,'rgba(230,240,255,'+(.22*nn)+')'); gr.addColorStop(1,'rgba(230,240,255,0)'); g.fillStyle=gr; g.beginPath(); g.moveTo(x-20,GROUND-470); g.lineTo(x+20,GROUND-470); g.lineTo(x+260,FEET+30); g.lineTo(x-260,FEET+30); g.closePath(); g.fill(); }); g.restore(); g.globalCompositeOperation='source-over'; }
   overlays(); }
 

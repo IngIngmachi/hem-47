@@ -661,6 +661,8 @@ const mgWave=(x,px,py,w,h,v,t,lab)=>{ const k=mgK(x); if(k>1){ w*=1.15; h*=k*.8;
   const n=30, bw=(w-36)/n; for(let i=0;i<n;i++){ const on=i/n<v; const hh=6+Math.abs(Math.sin(i*1.7+t*(on?9:3)))*(on?(h-60)*.9:(h-60)*.35); x.fillStyle=on?(v>.7?'#e2645c':'#f0b25c'):'rgba(239,232,216,.35)'; x.fillRect(px+18+i*bw,py+h-18-hh,bw*.55,hh); } };
 const mgNote=(x,px,py,w,h,txt,rot)=>{ const k=mgK(x); if(k>1){ w*=1.25; h*=1.35; px=1000-w-14; py=14; } x.save(); x.translate(px+w/2,py+h/2); x.rotate(rot||.05); x.fillStyle='rgba(0,0,0,.45)'; x.fillRect(-w/2+8,-h/2+10,w,h); x.fillStyle='#e6dbc0'; x.fillRect(-w/2,-h/2,w,h); x.fillStyle='rgba(230,220,185,.7)'; x.fillRect(-28,-h/2-10,56,20);
   x.fillStyle='#3a2f22'; const fs=Math.round(26*k); x.font='italic 400 '+fs+'px Newsreader,Georgia,serif'; x.textAlign='left'; const words=String(txt).split(' '); let line='', y=-h/2+fs+18; for(const wd of words){ const tl=line?line+' '+wd:wd; if(x.measureText(tl).width>w-36){ x.fillText(line,-w/2+18,y); line=wd; y+=fs*1.35; } else line=tl; } if(line) x.fillText(line,-w/2+18,y); x.restore(); };
+/* cái điện thoại giấu dưới thùng nước (ảnh thật) */
+const DTIMG=new Image(); DTIMG.src='img2/x2-dt-thung.webp';
 const MINI={
   /* 1. mò điện thoại dưới đáy thùng nước rồi gỡ băng keo */
   may(x,u){ let ph='mo', noise=0, tens=0, prog=0, pull=0; const a0=Math.random()*6.28, r0=40+Math.random()*150; const P={x:501+Math.cos(a0)*r0,y:300+Math.sin(a0)*r0*.95}; const rip=[]; let hint='Chạm vào mặt nước để mò. Đèn pin soi được ba lần.';
@@ -680,7 +682,7 @@ const MINI={
       if(ph==='mo'){ mgNote(x,760,90,220,250,hint,.06); return; }
       if(pull){ prog+=dt*.3; tens+=dt*.95; } else tens=Math.max(0,tens-dt*1.3);
       if(tens>=1){ noise+=.4; tens=0; prog=Math.max(0,prog-.15); tone(180,.25,.04,'sawtooth'); window.SFX&&SFX.play('nuoc',{v:1,rate:.75}); u.hit('bad'); u.say('Rẹt! Băng keo giật, nước văng ra ngoài.'); if(noise>=1){ u.end({kq:'on',n:.6,m:'Nước văng tung tóe. Có tiếng người hỏi vọng ra.'}); return; } }
-      x.save(); x.translate(P.x,P.y); x.rotate(-.2); x.fillStyle='rgba(20,24,30,.92)'; x.fillRect(-70,-40,140,80); x.strokeStyle='#5a6470'; x.lineWidth=3; x.strokeRect(-70,-40,140,80); x.fillStyle='rgba(225,212,165,'+(1-prog)+')'; x.fillRect(-90,-14,180*(1-prog),26); x.restore();
+      if(DTIMG.complete&&DTIMG.naturalWidth){ const w=240,h=w*DTIMG.naturalHeight/DTIMG.naturalWidth; x.save(); x.translate(P.x,P.y); x.rotate(-.15); x.globalAlpha=.85+.15*prog; x.drawImage(DTIMG,-w/2,-h/2,w,h); x.globalAlpha=1; x.fillStyle='rgba(225,212,165,'+(.55*(1-prog))+')'; x.fillRect(-w*.55,-12,w*1.1*(1-prog),24); x.restore(); } else { x.save(); x.translate(P.x,P.y); x.rotate(-.2); x.fillStyle='rgba(20,24,30,.92)'; x.fillRect(-70,-40,140,80); x.strokeStyle='#5a6470'; x.lineWidth=3; x.strokeRect(-70,-40,140,80); x.fillStyle='rgba(225,212,165,'+(1-prog)+')'; x.fillRect(-90,-14,180*(1-prog),26); x.restore(); }
       mgPanel(x,620,420,360,160); mgBar(x,645,470,310,tens,tens>.75?'#e2645c':'#f0b25c','Độ căng'); mgBar(x,645,540,310,prog,'#5fb37a','Băng keo đã gỡ');
       if(prog>=1){ chime(); u.end({kq:'ok'}); } }; },
 

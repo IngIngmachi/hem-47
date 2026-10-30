@@ -40,6 +40,10 @@
   const trS=t=>{ if(!ON||!t) return t; const k=t.trim(); const x=UI[k]||ROWUI[k]; if(x) return t.replace(k,x); if(t.length>160||!VN.test(t)||!RX) return t;
     if(memo.has(t)) return memo.get(t); const o=t.replace(RX,(m,p,w)=>p+FR[w]); if(memo.size>4000) memo.clear(); memo.set(t,o); return o; };
   window.trUI=trS;
+  /* bản đầy đủ cho câu dài có chèn tên (màn kết chữ chạy): thay mảnh không giới hạn độ dài */
+  const trF=t=>{ if(!ON||!t) return t; const k=t.trim(); const x=UI[k]||ROWUI[k]; if(x) return t.replace(k,x); return RX&&VN.test(t)?t.replace(RX,(m,p,w)=>p+FR[w]):t; };
+  window.trUIfull=trF;
+  if(typeof endLines==='function'){ const el0=endLines; endLines=function(){ const r=el0.apply(this,arguments); return ON&&Array.isArray(r)?r.map(trF):r; }; }
   /* nhớ chữ gốc để đổi về tiếng Việt khỏi tải lại trang */
   const ORIG=new WeakMap(), AORIG=new WeakMap();
   const tnode=n=>{ const v=n.nodeValue; if(!v) return; const k=v.trim(); if(!VN.test(v)&&!UI[k]&&!ROWUI[k]) return; const o=trS(v); if(o!==v){ ORIG.set(n,[v,o]); n.nodeValue=o; } };
@@ -60,7 +64,7 @@
   const cf0=window.confirm, al0=window.alert; window.confirm=m=>cf0(trS(String(m))); window.alert=m=>al0(trS(String(m)));
 
   /* ---- dữ liệu minigame dựng HTML có chữ gạch chân (khách chat): dịch tại nguồn, nhớ bản gốc để trả lại ---- */
-  const DATA=['KHACH','KHACH2'], DORIG=new Map(), SKIPK={ten:1,id:1,ca:1};
+  const DATA=['KHACH','KHACH2','P2KHAI'], DORIG=new Map(), SKIPK={ten:1,id:1,ca:1};
   const dwalk=(o,fn)=>{ if(!o||typeof o!=='object') return; for(const k of Object.keys(o)){ const v=o[k]; if(typeof v==='string'){ if(!SKIPK[k]||Array.isArray(o)) fn(o,k,v); } else dwalk(v,fn); } };
   const dataOn=()=>DATA.forEach(n=>{ let a; try{ a=Function('return typeof '+n+"!=='undefined'?"+n+':null')(); }catch(e){ return; } if(!a) return; dwalk(a,(o,k,v)=>{ const t=trS(v); if(t!==v){ let m=DORIG.get(o); if(!m){ m={}; DORIG.set(o,m); } if(!(k in m)) m[k]=v; o[k]=t; } }); });
   const dataOff=()=>{ DORIG.forEach((m,o)=>{ for(const k in m) o[k]=m[k]; }); DORIG.clear(); };

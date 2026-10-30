@@ -17,13 +17,13 @@ const opt = (salt) => ({
   identifiersPrefix: 'h' + salt,          // mỗi tệp một tiền tố, không đụng tên nhau
   renameGlobals: false,                    // các tệp gọi hàm của nhau qua tên toàn cục
   stringArray: true,
-  stringArrayThreshold: 1,                 // mọi câu chữ đều vào mảng mã hóa
-  stringArrayEncoding: ['base64'],
+  stringArrayThreshold: 0.75,              // phần lớn câu chữ vào mảng (không mã hóa base64: giải mã mỗi lần đọc làm game lag)
+  stringArrayEncoding: [],
   stringArrayRotate: true,
   stringArrayShuffle: true,
-  stringArrayIndexShift: true,
-  stringArrayWrappersCount: 2,
-  stringArrayWrappersType: 'function',
+  stringArrayIndexShift: false,
+  stringArrayWrappersCount: 1,
+  stringArrayWrappersType: 'variable',
   splitStrings: false,
   controlFlowFlattening: false,            // giữ nhịp khung hình trên điện thoại
   deadCodeInjection: false,

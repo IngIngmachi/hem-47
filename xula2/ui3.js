@@ -622,7 +622,7 @@ if(typeof npcCard==='function'){ const nc0=npcCard; npcCard=function(){ const d=
 
 /* trong trại: hình đi lại của Lâm/Ngân (vẫn là bộ đồ Phần 1) tái màu, tối lại cho ra người đang bị giữ, chờ bộ hình riêng */
 const LAMTRAI=new Image(); LAMTRAI.src='img2/lam-full-trai.webp';  /* Lâm trong trại: không còn balo */
-if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter, o0=IMG['lam-full']; const nw=k==='lam'&&LAMTRAI.complete&&LAMTRAI.naturalWidth; g.filter=nw?'brightness(.9) contrast(1.05)':'grayscale(.55) sepia(.2) brightness(.72) contrast(1.1)'; if(nw) IMG['lam-full']=LAMTRAI; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; IMG['lam-full']=o0; } } return dc0.apply(this,arguments); }; }
+if(typeof drawChar==='function'){ const dc0=drawChar; drawChar=function(g,k){ if((k==='lam'||k==='ngan')&&document.body.classList.contains('p2trai')&&g&&'filter' in g){ const f0=g.filter, o0=IMG['lam-full']; const nw=k==='lam'&&LAMTRAI.complete&&LAMTRAI.naturalWidth; if(nw) IMG['lam-full']=LAMTRAI; try{ return dc0.apply(this,arguments); } finally{ g.filter=f0; IMG['lam-full']=o0; } } return dc0.apply(this,arguments); }; }
 
 /* đi bộ: thân trên lắc nhẹ ngược nhịp chân (vai đưa tới lui, người nhún), đỡ bị đơ khi chưa có tay rời */
 if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy,face,o,fu){
@@ -636,7 +636,8 @@ if(typeof drawWalk==='function'){ const dw0=drawWalk; drawWalk=function(g,k,x,fy
 
 /* nút "Để sau" trong trò chơi: luôn nổi rõ ở góc phải, né tai thỏ/thanh trạng thái điện thoại, tiêu đề chừa chỗ */
 (function(){ const st=document.createElement('style'); st.textContent=`
-#gameBox .p2g .p2x{position:fixed!important;float:none!important;top:max(10px,calc(env(safe-area-inset-top) + 6px));right:max(10px,env(safe-area-inset-right));z-index:60!important;margin:0!important;min-height:40px;padding:8px 14px!important;font:600 14px "Be Vietnam Pro",sans-serif!important;color:#efe6d2!important;background:rgba(10,12,18,.92)!important;border:1.5px solid rgba(240,178,92,.7)!important;box-shadow:0 6px 16px rgba(0,0,0,.6);opacity:1!important}
+@media (max-width:900px){#gameBox .p2g .p2x{position:fixed!important;float:none!important;top:max(10px,calc(env(safe-area-inset-top) + 6px));right:max(10px,env(safe-area-inset-right));z-index:60!important}}
+#gameBox .p2g .p2x{margin:0!important;min-height:40px;padding:8px 14px!important;font:600 14px "Be Vietnam Pro",sans-serif!important;color:#efe6d2!important;background:rgba(10,12,18,.92)!important;border:1.5px solid rgba(240,178,92,.7)!important;box-shadow:0 6px 16px rgba(0,0,0,.6);opacity:1!important}
 #game.p2full #gameBox .p2g:has(.p2x)>h3{margin-right:118px!important;padding-right:0}
 @media (max-width:760px){#game.p2full #gameBox .p2g:has(.p2x)>h3{padding-top:calc(env(safe-area-inset-top) + 4px);font-size:20px!important;line-height:1.25!important}}`; document.head.appendChild(st); })();
 
@@ -653,3 +654,12 @@ body.u3m #phoneBtn{top:calc(max(10px,env(safe-area-inset-top)) + 54px)!important
 body.u3m .tbtns{flex-direction:column!important;gap:10px!important;top:calc(max(10px,env(safe-area-inset-top)) + 114px)!important;right:max(12px,env(safe-area-inset-right))!important;align-items:center!important}
 body.u3m .tbtns button>*:not(svg):not(i){display:none!important}
 body.u3m #u3loc{bottom:calc(env(safe-area-inset-bottom) + 10px)!important}`; document.head.appendChild(st); })();
+
+/* iPhone có tai thỏ (14 Plus…): chừa đủ chỗ thanh trạng thái phía trên và thanh vuốt phía dưới cho mọi thứ nổi trên khung game */
+(function(){ const st=document.createElement('style'); st.textContent=`
+body.u3m .hud{top:calc(max(10px,env(safe-area-inset-top)) + 4px)!important}
+body.u3m #dlg.dlg{margin-bottom:env(safe-area-inset-bottom)!important}
+body.u3m #dlg{bottom:max(10px,env(safe-area-inset-bottom))!important}
+#game.p2full{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
+#phone{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
+@media (orientation:landscape){body.u3m .hud,body.u3m #u3loc{left:max(12px,env(safe-area-inset-left))!important}body.u3m #phoneBtn,body.u3m .tbtns{right:max(12px,env(safe-area-inset-right))!important}}`; document.head.appendChild(st); })();

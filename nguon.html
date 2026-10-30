@@ -2259,7 +2259,7 @@ function drawCat(){ if(IMG['el-meo-den']){ drawSprite('el-meo-den',catAt(),GROUN
 function pill(x,y,txt,col){ g.font='600 16px "Be Vietnam Pro",system-ui'; const w=g.measureText(txt).width+24; g.fillStyle='rgba(16,19,28,.86)'; g.beginPath(); if(g.roundRect) g.roundRect(x-w/2,y,w,30,15); else g.rect(x-w/2,y,w,30); g.fill(); g.fillStyle=col||'#f0b25c'; g.textAlign='center'; g.textBaseline='middle'; g.fillText(txt,x,y+15); g.textBaseline='alphabetic'; }
 let rain=[], cars=[], tsec=0;
 function frame(){
-  const dpr=Math.min(2,window.devicePixelRatio||1), cw=cv.clientWidth, ch=cv.clientHeight;
+  const dpr=Math.min(window.devicePixelRatio||1,Math.min(innerWidth,innerHeight)<600?1.25:2), cw=cv.clientWidth, ch=cv.clientHeight;  /* điện thoại: tối đa 1.25x (tranh nền chỉ cao 900px, nét hơn cũng không thấy) để đỡ lag */
   if(cv.width!==Math.round(cw*dpr)||cv.height!==Math.round(ch*dpr)){ cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); }
   const sc=cv.height/VH; VW=cv.width/sc; g.setTransform(sc,0,0,sc,0,0); g.imageSmoothingEnabled=true; g.imageSmoothingQuality='high';
   const h=hour(), nn=nightF(h);

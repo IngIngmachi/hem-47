@@ -10,7 +10,7 @@
   let lang='vi'; try{ lang=localStorage.getItem('tgl_lang')||'vi'; }catch(e){}
   window.LANG=lang;
   let ON=false, LOADED=null;
-  let EN={}, TEN={}, UI={}, RX=null; const ROWUI={}, memo=new Map();
+  let EN={}, TEN={}, UI={}, FR={}, RX=null; const ROWUI={}, memo=new Map();
   const VN=/[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i;
   const esc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   /* chữ không dấu nên file xuất bỏ sót, tự dịch (chờ tác giả duyệt) */
@@ -21,7 +21,10 @@
     /* câu VI gốc của mọi dòng thoại (kể cả Phần 2 chưa nạp) → EN, để nhãn lấy chữ từ bảng thoại cũng dịch được */
     const put=(ma,vi)=>{ const e=EN[ma]; if(e&&e.loi&&vi&&vi.length<90&&!ROWUI[vi.trim()]) ROWUI[vi.trim()]=e.loi; };
     try{ (typeof ROWS_DEFAULT!=='undefined'?ROWS_DEFAULT:[]).concat(typeof P2ROWS!=='undefined'?P2ROWS:[]).forEach(r=>put(r.ma,r.loi)); if(typeof P2OV!=='undefined') Object.keys(P2OV).forEach(k=>put(k,P2OV[k])); }catch(e){}
-    const ks=Object.keys(UI).sort((x,y)=>y.length-x.length);
+    /* tên người (sheet Tên) cũng thay khi dính trong chữ, vd "Chị Bảy ○○○" */
+    const NOFR={'{me}':1,'Khách':1,'Hoa':1,'Lan':1,'Người lạ':1,'Số lạ':1,'Thanh':1,'Tâm':1};
+    Object.keys(TEN).forEach(k=>{ if(!NOFR[k]&&!UI[k]&&TEN[k]&&TEN[k]!==k) FR[k]=TEN[k]; }); Object.assign(FR,UI);
+    const ks=Object.keys(FR).sort((x,y)=>y.length-x.length);
     /* mảnh phải đứng riêng: trước/sau không dính chữ cái khác */
     if(ks.length) RX=new RegExp('(^|[^\\p{L}])('+ks.map(esc).join('|')+')(?![\\p{L}])','gu'); }));
 
@@ -35,7 +38,7 @@
 
   /* ---- chữ giao diện: khớp nguyên câu trước; chữ ghép với số/tên ("Ngày 3") thì thay từng mảnh ---- */
   const trS=t=>{ if(!ON||!t) return t; const k=t.trim(); const x=UI[k]||ROWUI[k]; if(x) return t.replace(k,x); if(t.length>160||!VN.test(t)||!RX) return t;
-    if(memo.has(t)) return memo.get(t); const o=t.replace(RX,(m,p,w)=>p+UI[w]); if(memo.size>4000) memo.clear(); memo.set(t,o); return o; };
+    if(memo.has(t)) return memo.get(t); const o=t.replace(RX,(m,p,w)=>p+FR[w]); if(memo.size>4000) memo.clear(); memo.set(t,o); return o; };
   window.trUI=trS;
   /* nhớ chữ gốc để đổi về tiếng Việt khỏi tải lại trang */
   const ORIG=new WeakMap(), AORIG=new WeakMap();
@@ -49,19 +52,36 @@
       else { const m=AORIG.get(n); if(m){ for(const a in m) if(n.getAttribute(a)===m[a][1]) n.setAttribute(a,m[a][0]); AORIG.delete(n); } } } };
   const Q=new Set(); let pend=false;
   const flush=()=>{ pend=false; const l=[...Q]; Q.clear(); if(!ON) return; for(const n of l){ try{ tx(n); }catch(e){} } };
-  new MutationObserver(rs=>{ if(!ON) return; for(const r of rs){ if(r.type==='childList') r.addedNodes.forEach(n=>Q.add(n)); else Q.add(r.target); } if(!pend){ pend=true; requestAnimationFrame(flush); } })
+  new MutationObserver(rs=>{ if(!ON) return; for(const r of rs){ if(r.type==='childList') r.addedNodes.forEach(n=>Q.add(n)); else Q.add(r.target); } flush(); })
     .observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATT});
   /* chữ vẽ thẳng lên canvas (minigame, điện thoại, nhãn chỗ) */
   const C2=CanvasRenderingContext2D.prototype;
   ['fillText','strokeText','measureText'].forEach(f=>{ const o=C2[f]; C2[f]=function(t,...r){ return o.call(this,ON&&typeof t==='string'?trS(t):t,...r); }; });
   const cf0=window.confirm, al0=window.alert; window.confirm=m=>cf0(trS(String(m))); window.alert=m=>al0(trS(String(m)));
 
+  /* ---- dữ liệu minigame dựng HTML có chữ gạch chân (khách chat): dịch tại nguồn, nhớ bản gốc để trả lại ---- */
+  const DATA=['KHACH','KHACH2'], DORIG=new Map(), SKIPK={ten:1,id:1,ca:1};
+  const dwalk=(o,fn)=>{ if(!o||typeof o!=='object') return; for(const k of Object.keys(o)){ const v=o[k]; if(typeof v==='string'){ if(!SKIPK[k]||Array.isArray(o)) fn(o,k,v); } else dwalk(v,fn); } };
+  const dataOn=()=>DATA.forEach(n=>{ let a; try{ a=Function('return typeof '+n+"!=='undefined'?"+n+':null')(); }catch(e){ return; } if(!a) return; dwalk(a,(o,k,v)=>{ const t=trS(v); if(t!==v){ let m=DORIG.get(o); if(!m){ m={}; DORIG.set(o,m); } if(!(k in m)) m[k]=v; o[k]=t; } }); });
+  const dataOff=()=>{ DORIG.forEach((m,o)=>{ for(const k in m) o[k]=m[k]; }); DORIG.clear(); };
+  /* chữ nằm trong CSS (content:"…") không đổi được bằng DOM → ghi đè khi html[lang=en] */
+  (function(){ const st=document.createElement('style'); st.textContent=`
+html[lang=en] #dock .obj::before{content:"To-do"!important}
+html[lang=en] #game.p2full .p2g[data-g="lichtuan"]>#tray::before{content:"Shifts · drag & drop"}
+html[lang=en] #game.p2full .p2tl::before{content:"PATROL SCHEDULE"}
+html[lang=en] .card.mc.new b::after,html[lang=en] .thr.res.new .t b::after{content:" · new"}
+html[lang=en] .mt7 .task .tt>span b::after{content:" sec"}
+html[lang=en] .phone .card.hint::after{content:"Hint"}
+html[lang=en] .phone .card.pick.sel::after{content:"Card 1 ✓"}
+html[lang=en] body.testing .top h1::after{content:" · test"}
+html[lang=en] body.u3d .top .r #acctBtn::after{content:"Account"!important}
+html[lang=en] body.u3d .top .r #musBtn::after,html[lang=en] body.u3m #u3menu #musBtn::after{content:"Sound"!important}`; document.head.appendChild(st); })();
   /* ---- bật / tắt ---- */
   const TITLE0=document.title;
   const refresh=()=>{ try{ if(typeof hud==='function'&&typeof started!=='undefined'&&started) hud(); }catch(e){} document.dispatchEvent(new Event('tgl-lang')); };
-  const turnOn=()=>load().then(()=>{ ON=true; window.LANG='en'; document.documentElement.lang='en'; if(typeof rebuild==='function') rebuild(); memo.clear(); tx(document.body);
+  const turnOn=()=>load().then(()=>{ ON=true; window.LANG='en'; document.documentElement.lang='en'; if(typeof rebuild==='function') rebuild(); memo.clear(); dataOn(); tx(document.body);
     if(VN.test(document.title)) document.title=trS(document.title); refresh(); });
-  const turnOff=()=>{ ON=false; window.LANG='vi'; document.documentElement.lang='vi'; untx(); if(typeof rebuild==='function') rebuild(); document.title=TITLE0; refresh(); };
+  const turnOff=()=>{ ON=false; window.LANG='vi'; document.documentElement.lang='vi'; dataOff(); untx(); if(typeof rebuild==='function') rebuild(); document.title=TITLE0; refresh(); };
   let busyL=false;
   window.setLang=function(l){ if(busyL||l===window.LANG) return; try{ localStorage.setItem('tgl_lang',l); }catch(e){}
     if(l==='vi'){ turnOff(); return; }

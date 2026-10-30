@@ -674,3 +674,6 @@ body.u3m #dlg{bottom:max(10px,env(safe-area-inset-bottom))!important}
  .hm .tools{margin-top:16px!important}.hm .foot{margin-top:10px!important;padding-bottom:max(8px,env(safe-area-inset-bottom))}}
 @media (max-width:420px) and (max-height:640px){.hm .logo img{width:min(280px,74vw)!important}.hm .btns .b{padding-top:10px!important;padding-bottom:10px!important}}`;
 document.head.appendChild(st); })();
+
+/* iPhone: Safari tự phóng to khi chạm ô nhập chữ nhỏ hơn 16px (lọc manh mối, gõ tin) rồi để nguyên → màn bị lệch, mất nút. Ô nhập trên iOS giữ 16px. */
+(function(){ const st=document.createElement('style'); st.textContent='@supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}}'; document.head.appendChild(st); })();

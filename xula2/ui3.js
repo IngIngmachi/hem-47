@@ -365,7 +365,7 @@ function drawEdgesM(){ const all=hotspots().filter(h=>h.kind!=='cat'&&h.kind!=='
   let nl=0,nr=0; const R=46;
   for(const {h,left} of pick){ const k=left?nl++:nr++; const cy=VH*.42+k*(R+64); const cx=left?R/2+10:VW-R/2-10; const main=!!h.main;
     g.font='500 14px "Be Vietnam Pro",system-ui,sans-serif'; const maxw=Math.min(150,VW*.4); const LN=[]; let cur='';
-    for(const w of String(h.l).split(/\s+/)){ const t=cur?cur+' '+w:w; if(cur&&g.measureText(t).width>maxw-18){ LN.push(cur); cur=w; } else cur=t; } if(cur) LN.push(cur);
+    for(const w of String(window.trUI?trUI(h.l):h.l).split(/\s+/)){ const t=cur?cur+' '+w:w; if(cur&&g.measureText(t).width>maxw-18){ LN.push(cur); cur=w; } else cur=t; } if(cur) LN.push(cur);
     const lw=Math.max(...LN.map(t=>g.measureText(t).width))+18, lh=18, bh=LN.length*lh+8, lx=left?10:VW-10-lw;
     g.save(); g.fillStyle=main?'rgba(240,178,92,.95)':'rgba(10,12,18,.82)'; g.strokeStyle=main?'#f0b25c':'rgba(236,228,210,.55)'; g.lineWidth=2; g.beginPath(); g.arc(cx,cy,R/2,0,7); g.fill(); g.stroke();
     g.strokeStyle=main?'#21170a':'#ece4d2'; g.lineWidth=3; g.lineCap='round'; g.lineJoin='round'; const d=left?-1:1; g.beginPath(); g.moveTo(cx-d*4,cy-9); g.lineTo(cx+d*5,cy); g.lineTo(cx-d*4,cy+9); g.stroke();

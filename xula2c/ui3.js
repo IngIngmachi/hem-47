@@ -365,7 +365,7 @@ function drawEdgesM(){ const all=hotspots().filter(h=>h.kind!=='cat'&&h.kind!=='
   let nl=0,nr=0; const R=46;
   for(const {h,left} of pick){ const k=left?nl++:nr++; const cy=VH*.42+k*(R+64); const cx=left?R/2+10:VW-R/2-10; const main=!!h.main;
     g.font='500 14px "Be Vietnam Pro",system-ui,sans-serif'; const maxw=Math.min(150,VW*.4); const LN=[]; let cur='';
-    for(const w of String(h.l).split(/\s+/)){ const t=cur?cur+' '+w:w; if(cur&&g.measureText(t).width>maxw-18){ LN.push(cur); cur=w; } else cur=t; } if(cur) LN.push(cur);
+    for(const w of String(window.trUI?trUI(h.l):h.l).split(/\s+/)){ const t=cur?cur+' '+w:w; if(cur&&g.measureText(t).width>maxw-18){ LN.push(cur); cur=w; } else cur=t; } if(cur) LN.push(cur);
     const lw=Math.max(...LN.map(t=>g.measureText(t).width))+18, lh=18, bh=LN.length*lh+8, lx=left?10:VW-10-lw;
     g.save(); g.fillStyle=main?'rgba(240,178,92,.95)':'rgba(10,12,18,.82)'; g.strokeStyle=main?'#f0b25c':'rgba(236,228,210,.55)'; g.lineWidth=2; g.beginPath(); g.arc(cx,cy,R/2,0,7); g.fill(); g.stroke();
     g.strokeStyle=main?'#21170a':'#ece4d2'; g.lineWidth=3; g.lineCap='round'; g.lineJoin='round'; const d=left?-1:1; g.beginPath(); g.moveTo(cx-d*4,cy-9); g.lineTo(cx+d*5,cy); g.lineTo(cx-d*4,cy+9); g.stroke();
@@ -663,3 +663,17 @@ body.u3m #dlg{bottom:max(10px,env(safe-area-inset-bottom))!important}
 #game.p2full{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
 #phone{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
 @media (orientation:landscape){body.u3m .hud,body.u3m #u3loc{left:max(12px,env(safe-area-inset-left))!important}body.u3m #phoneBtn,body.u3m .tbtns{right:max(12px,env(safe-area-inset-right))!important}}`; document.head.appendChild(st); })();
+
+/* trang chủ trên điện thoại thấp (iPhone có thanh Safari): gói gọn trong 1 màn, chữ dưới nút không xuống dòng, chân trang không bị khuất */
+(function(){ const st=document.createElement('style'); st.textContent=`
+.hm .tools button span,.hm .tools a span{white-space:nowrap}
+@media (max-width:420px){.hm .tools button span,.hm .tools a span{font-size:12.5px!important;letter-spacing:0!important}}
+@media (max-width:420px) and (max-height:760px){
+ .hm .logo{margin-top:4px!important}.hm .logo img{width:min(300px,78vw)!important}
+ .hm .btns{margin-top:14px!important;gap:10px!important}.hm .btns .b{min-height:0!important;padding-top:14px!important;padding-bottom:14px!important}
+ .hm .tools{margin-top:16px!important}.hm .foot{margin-top:10px!important;padding-bottom:max(8px,env(safe-area-inset-bottom))}}
+@media (max-width:420px) and (max-height:640px){.hm .logo img{width:min(280px,74vw)!important}.hm .btns .b{padding-top:10px!important;padding-bottom:10px!important}}`;
+document.head.appendChild(st); })();
+
+/* iPhone: Safari tự phóng to khi chạm ô nhập chữ nhỏ hơn 16px (lọc manh mối, gõ tin) rồi để nguyên → màn bị lệch, mất nút. Ô nhập trên iOS giữ 16px. */
+(function(){ const st=document.createElement('style'); st.textContent='@supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}}'; document.head.appendChild(st); })();

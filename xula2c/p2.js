@@ -26,7 +26,11 @@ function p2Img(name){ return new Promise(res=>{ if(IMG[name]&&P2REAL[name]){ res
   i.onload=()=>{ IMG[name]=i; P2REAL[name]=1; res(i); };
   i.onerror=()=>{ const fb=P2FB[name]; if(!fb){ res(null); return; } if(IMG[fb]){ IMG[name]=IMG[fb]; res(IMG[fb]); return; } const j=new Image(); j.onload=()=>{ IMG[fb]=IMG[name]=j; res(j); }; j.onerror=()=>res(null); j.src='img2/'+fb+'.webp'; };
   i.src='img2/'+name+'.webp?v=1025'; }); }
-function p2LoadImgs(){ const L=Object.keys(P2FB).map(p2Img);
+/* ảnh cảnh Phần 2 (~4MB) tải nền, không bắt người chơi chờ; cảnh nào cần thì show() chờ riêng ảnh đó tối đa 2.5 giây */
+let P2BGLOAD=null;
+function p2BgLoad(){ if(P2BGLOAD) return P2BGLOAD; const ks=Object.keys(P2FB); let i=0; const one=()=>i<ks.length?p2Img(ks[i++]).then(one):null; P2BGLOAD=Promise.all([one(),one(),one()]); return P2BGLOAD; }
+function p2NeedImg(k){ if(!k||k==='den'||(IMG[k]&&P2REAL[k])||!(k in P2FB)) return null; return Promise.race([p2Img(k),sleep(2500)]); }
+function p2LoadImgs(){ const L=[];
   const ch=Object.keys(P2CH).map(k=>Promise.all(['full','bust','face'].map(sfx=>new Promise(r=>{ const i=new Image(); i.onload=()=>{ IMG[k+'-'+sfx]=i; P2FACEOK[k+'-'+sfx]=1; r(); };
     i.onerror=()=>{ if(sfx==='face'&&!i._f1){ i._f1=1; i.onload=()=>{ IMG[k+'-face']=i; P2FACEOK[k+'-face1']=1; r(); }; i.src='img2/face-'+k+'-1.webp'; return; } const al=P2CH[k]; if(IMG[al+'-'+sfx]){ IMG[k+'-'+sfx]=IMG[al+'-'+sfx]; r(); return; } const j=new Image(); j.onload=()=>{ IMG[k+'-'+sfx]=j; r(); }; j.onerror=()=>r(); j.src='img2/'+al+'-'+sfx+'.webp'; }; i.src='img2/'+k+'-'+sfx+'.webp'; }))));
   return Promise.all(L.concat(ch)); }
@@ -69,6 +73,11 @@ async function trainImgs(){ await Promise.all([...new Set(TPROP.map(p=>p.k))].ma
 
 /* ---------------- bản đồ: hẻm 47 hoặc trại ---------------- */
 let P1MAP=null;
+/* thanh tải mảnh ở mép trên khi mở Phần 2 */
+function p2Bar(){ const b=document.createElement('div'); b.className='p2bar'; b.innerHTML='<i></i>'; document.body.appendChild(b);
+  if(!document.getElementById('p2barCss')){ const st=document.createElement('style'); st.id='p2barCss'; st.textContent='.p2bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:99999;background:rgba(0,0,0,.25);pointer-events:none}.p2bar i{display:block;height:100%;width:4%;background:#e8b04b;transition:width .25s}'; document.head.appendChild(st); }
+  return b; }
+function p2Track(ps,bar){ let done=0; const tot=ps.length+1, i=bar.querySelector('i'); const up=()=>{ i.style.width=Math.max(4,Math.round(100*(++done)/tot))+'%'; }; return Promise.all(ps.map(p=>Promise.resolve(p).then(up,up))); }
 function p2SetMap(m){ P2.map=m; S.map=m;
   if(!P1MAP) P1MAP={order:HOUSE_ORDER.slice(),lit:Object.assign({},LIT)};
   HOUSE_ORDER.length=0; Object.keys(LIT).forEach(k=>delete LIT[k]);
@@ -248,7 +257,7 @@ function cardSync(t){ const m=String(t).match(/^NGÀY (\d+)(?: · (\d{1,2}):(\d{
   return head+t.slice(m[0].length); }
 const show1=show;
 show=async function(r){ if(!P2.on) return show1(r);
-  if(r.bg!=null){ BGNOW=r.bg||null; fade=.7; }
+  if(r.bg!=null){ const w=p2NeedImg(r.bg); if(w) await w; BGNOW=r.bg||null; fade=.7; }
   if(r.kieu==='fx') return;
   if(r.kieu==='mota'&&typeof r.loi==='string'){ const m=r.loi.match(/^(\d{1,2})(?:h|:(\d{2})|\s*giờ)(\d{2})?\s*(sáng|trưa|chiều|tối|khuya)?[.,\s]/); if(m){ let h=+m[1]; const mm=+(m[2]||m[3]||0), b=m[4]; if((b==='chiều'||b==='tối'||(b==='khuya'&&h>=9))&&h<12) h+=12; if(h>=5&&h<=23) at2(h*60+mm); } }
   if(r.kieu==='the'){ hideDlg(); await p2Card(cardSync(p2t(r.loi))); return; }
@@ -362,7 +371,7 @@ async function p2NewDay(){ const d=S.day;
   S.vai=S.ai_vao||'lam'; setME();
   if(d===8){ S.min=19*60; putAt('xngu',.35); toast('Ngày 8 · 19:00 · được ra sân tới 22:00'); return; }
   S.min=6*60; S.scene='street'; S.room=null; await p2Card('NGÀY '+d+' · 5:00\nCHUÔNG CHÙA BÊN SÔNG'); S.min=7*60; putAt('xmay',.5); }
-async function p2VaoTrai(){ S.vai=S.ai_vao||'lam'; setME(); p2SetMap('trai'); BGNOW=null; await runS('x_canh1'); hideDlg(); await runS('x_canh2'); hideDlg(); }
+async function p2VaoTrai(){ S.vai=S.ai_vao||'lam'; setME(); await trainImgs(); p2SetMap('trai'); BGNOW=null; await runS('x_canh1'); hideDlg(); await runS('x_canh2'); hideDlg(); }
 
 /* ---------------- đêm giải cứu ---------------- */
 async function p2Rescue(){ if((S.lo||0)>=75||S.nghi>=100){ await runS('x_ban_dung'); hideDlg(); return p2Ending('ban_dung'); }
@@ -519,6 +528,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
   hideDlg(); closePhone(); const name=(ENDS[k]||['',''])[1];
   const EB={ca_to:P2REAL['x2-tiec-taphoa']?'x2-tiec-taphoa':'x2-cua-khau-sang',o_lai:'x2-ket-o-lai',mot_minh:'x2-ket-mot-minh',ban_dung:'x2-ket-ban-dung',boi_song:P2REAL['x2-ket-boi-song']?'x2-ket-boi-song':'x2-bo-song-dem'}[k];
   /* 1. chữ chạy, cùng kiểu kết Phần 1 */
+  if(window.trUIfull){ for(let i=0;i<L.length;i++) L[i]=trUIfull(L[i]); }  /* bản tiếng Anh: dịch trước khi chữ chạy */
   await new Promise(res=>{ let el=$('typeEnd'); if(!el){ el=document.createElement('div'); el.id='typeEnd'; document.body.appendChild(el); }
     el.innerHTML='<div id="teQ7" style="position:absolute;inset:0;opacity:0;transition:opacity 1.2s;pointer-events:none;background:linear-gradient(rgba(5,6,10,.55),rgba(5,6,10,.85)),url(img2/x2-bietthu-q7.webp) center/cover"></div><div class="te-in" style="position:relative"><div class="te-tx" id="teTx"></div><div class="te-c2" id="teC2" hidden><div class="te-k">HẺM 47 · PHẦN 2 · XỨ LẠ</div><div class="te-n">'+esc(name)+'</div><div class="te-s">Kết '+got.length+'/5</div></div><button type="button" class="te-go" id="teGo" hidden>Xem tổng kết</button><div class="te-skip" id="teSkip">bấm để tua nhanh</div></div>';
     el.style.background='linear-gradient(rgba(5,6,10,.78),rgba(5,6,10,.92)),#05060a '+(EB&&P2REAL[EB]?'url(img2/'+EB+'.webp) center/cover':'');
@@ -526,7 +536,7 @@ async function p2Ending(k){ S.ended=k; save(); const ra=(S.p2ra||[]).map(id=>((S
     const fin=()=>{ if(done) return; done=true; { const q=$('teQ7'); if(q) q.style.opacity=0; } tx.innerHTML=L.map((l,i)=>'<p'+(i===L.length-1?' class="te-last"':'')+'>'+esc(l)+'</p>').join(''); $('teSkip').hidden=true; setTimeout(()=>{ $('teC2').hidden=false; tone(110,1.6,.05,'sine'); tone(165,1.6,.03,'sine',.05); setTimeout(()=>{ $('teGo').hidden=false; },1400); },700); };
     el.onclick=e=>{ if(e.target.id==='teGo'){ el.hidden=true; res(); return; } if(!done) skip=true; };
     const step=()=>{ if(skip||li>=L.length){ fin(); return; }
-      if(ci===0){ const q=$('teQ7'); if(q) q.style.opacity=/biệt thự ở Quận 7/.test(L[li])?1:0; cur=document.createElement('p'); if(li===L.length-1) cur.className='te-last'; tx.appendChild(cur); }
+      if(ci===0){ const q=$('teQ7'); if(q) q.style.opacity=/biệt thự ở Quận 7|District 7/.test(L[li])?1:0; cur=document.createElement('p'); if(li===L.length-1) cur.className='te-last'; tx.appendChild(cur); }
       const line=L[li]; ci+=2; cur.textContent=line.slice(0,ci); if(ci>=line.length){ cur.textContent=line; li++; ci=0; setTimeout(step,650); } else setTimeout(step,22); };
     step(); });
   /* 1b. lời khai của người ra được, rồi tờ báo HẺM 47 NEWS (tin thật có nguồn → lật trang là vụ trong game) */
@@ -757,8 +767,11 @@ function p2Menu(){ const c=$('cover'); const p1=p2p1(), sv=lsGet(P2SAVE); const 
   $('p2New').onclick=()=>{ if(sv&&!confirm('Chơi mới sẽ xóa bài lưu Phần 2 trên máy này. Tiếp tục?')) return; let p=p1; const v=$('p2k').value;
     if(v||$('p2kl').checked||$('p2tu').checked||$('p2cg').checked||$('p2ph').checked) p=Object.assign({},p1||{},{ket:v||(p1&&p1.ket)||'hetgio',co:Object.assign({},(p1&&p1.co)||{},{khoa_lat:$('p2kl').checked,tu_lo:$('p2tu').checked,noi_cuocgoi:$('p2cg').checked,phat_nhanchung:$('p2ph').checked})});
     lsDel(P2SAVE); p2Begin(false,p); }; }
-async function p2Begin(cont,p1){ ac(); P2.on=true; await p2LoadImgs(); await trainImgs(); p2Install();
+async function p2Begin(cont,p1){ ac(); if(P2.starting) return; P2.starting=true; const bar=p2Bar();
   let o=null; if(cont){ try{ o=JSON.parse(lsGet(P2SAVE)||'null'); }catch(e){} }
+  try{ const need=[p2LoadImgs(),(async()=>{ for(let i=0;i<300&&!(Object.keys(A).length&&W);i++) await sleep(100); })()]; if(o&&o.map==='trai') need.push(trainImgs()); await p2Track(need,bar); }
+  finally{ bar.remove(); P2.starting=false; }
+  P2.on=true; p2Install(); p2BgLoad(); trainImgs();
   S=o&&o.p2?Object.assign(fresh(),o):p2Fresh(p1||p2p1()); setME();
   loadNang(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; $('blBtn').hidden=false; setInterval(()=>{ if(!busy&&!SO.on&&!sleeping) save(); },8000);
   p2SetMap(S.map||'hem'); if(P2.map==='trai') putAt('xngu',.35); else { PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); } hud();

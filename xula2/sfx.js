@@ -24,6 +24,8 @@
     const len=B.riser?B.riser.duration*1000:3700; const t=setTimeout(()=>{ r=play('riser',{v:.8}); },Math.max(0,ms-len));
     return ()=>{ clearTimeout(t); hb.stop(); r&&r.stop&&r.stop(); }; }
   window.SFX={play,loop,loadAll,urgent,has:k=>!!B[k]};
+  /* iPhone: gạt nút im lặng thì Web Audio bị tắt tiếng còn nhạc nền vẫn kêu; xin chế độ phát như nhạc để tiếng động kêu theo nhạc */
+  try{ if(navigator.audioSession) navigator.audioSession.type='playback'; }catch(e){}
 
   /* tin nhắn: tiếng báo + rung khi điện thoại đang cất */
   if(typeof ping!=='undefined'){ const p0=ping; try{ ping=function(){ if(B.tinbao&&A&&A.state==='running'){ play('tinbao',{v:.7}); } else p0(); }; }catch(e){} }

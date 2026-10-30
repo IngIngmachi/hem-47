@@ -53,7 +53,7 @@ def main():
     warn = []
     for sheet, out in (('Phần 1', 'en_p1.json'), ('Phần 2', 'en_p2.json')):
         if sheet not in wb.sheetnames:
-            warn.append(f'Không thấy sheet "{sheet}"'); continue
+            continue
         res, seen, n = {}, set(), 0
         for ma, vi, vis, en, ens, ent in read_sheet(wb[sheet]):
             if not ma:
@@ -83,6 +83,18 @@ def main():
                 ten[str(r[0]).strip()] = str(r[1]).strip()
         (ROOT / 'xula2' / 'en_ten.json').write_text(json.dumps(ten, ensure_ascii=False, indent=0), encoding='utf-8')
         print(f'Tên: {len(ten)} tên → xula2/en_ten.json')
+    if 'Giao diện' in wb.sheetnames:
+        rs = list(wb['Giao diện'].iter_rows(values_only=True)); h = [str(x or '').strip() for x in rs[0]]
+        iv, ie = h.index('VI'), h.index('EN')
+        ui = {}
+        for r in rs[1:]:
+            vi = str(r[iv] or '').strip(); en = str(r[ie] or '').strip()
+            if vi and en and vi != en:
+                if vi.count('%') != en.count('%'):
+                    warn.append(f'Giao diện · {vi[:40]}: số dấu % khác nhau')
+                ui[vi] = en
+        (ROOT / 'xula2' / 'en_ui.json').write_text(json.dumps(ui, ensure_ascii=False, indent=0), encoding='utf-8')
+        print(f'Giao diện: {len(ui)} chữ → xula2/en_ui.json')
     if warn:
         print(f'\n{len(warn)} chỗ cần xem lại:')
         for w in warn:

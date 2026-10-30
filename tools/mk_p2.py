@@ -82,8 +82,15 @@ else:
 
 TITLE='<title>Hẻm 47: Thế Giới Lặng</title>'
 assert s.count(TITLE)==1
-# bản chính (index.html): tiêu đề gốc, cho máy tìm kiếm lập chỉ mục
-(ROOT / 'index.html').write_text(s.replace(TITLE, TITLE+MDFIRST), encoding='utf-8')
+# Mặc định CHỈ cập nhật trang thử. Muốn đưa lên bản chính thì chạy:  python3 tools/mk_p2.py --chinh
+# Bản chính dùng bản chụp riêng của các file xula2 (thư mục xula2c/), nên sửa xula2/ không đụng tới người chơi.
+if '--chinh' in sys.argv:
+    import shutil
+    dst = ROOT / 'xula2c'
+    if dst.exists(): shutil.rmtree(dst)
+    shutil.copytree(ROOT / 'xula2', dst)
+    (ROOT / 'index.html').write_text(s.replace(TITLE, TITLE+MDFIRST).replace('src="xula2/', 'src="xula2c/'), encoding='utf-8')
+    print('ĐÃ CẬP NHẬT BẢN CHÍNH (index.html + xula2c/)')
 # trang thử: không cho lập chỉ mục, tiêu đề riêng
 (ROOT / 'taotestcaigiketao.html').write_text(s.replace(TITLE, '<title>Hẻm 47 · bản thử Phần 2</title><meta name="robots" content="noindex,nofollow">'+MDFIRST), encoding='utf-8')
-print('Đã tạo index.html (bản chính) và taotestcaigiketao.html (trang thử)', len(s))
+print('Đã tạo taotestcaigiketao.html (trang thử)', len(s))

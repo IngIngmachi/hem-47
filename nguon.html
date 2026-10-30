@@ -2795,7 +2795,7 @@ function tutorial(){ return new Promise(res=>{ const R=rowsOf('n0_huongdan'); if
   $('hdCard').onclick=e=>e.stopPropagation(); el.onclick=go; addEventListener('resize',place);
   show(); }); }
 $('bIntro').onclick=async()=>{ ac(); const c=$('cover'); c.hidden=true; await typeIntro(); lsSet(INTRO_KEY,'1'); c.hidden=false; };
-$('hdBtn').onclick=()=>{ if(!started||busy||!$('hd').hidden&&$('hd').innerHTML) return; tutorial(); };
+$('hdBtn').onclick=()=>{ const h=$('hd'); if(!started||busy||(h&&!h.hidden&&h.innerHTML)) return; tutorial(); };
 
 /* ===== bố cục dọc: đưa mục tiêu + nút xuống dưới tranh ===== */
 const DOCK_HOME={};

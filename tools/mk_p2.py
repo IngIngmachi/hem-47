@@ -69,7 +69,7 @@ if _ov.exists():
 
 # phần đầu trang dùng chung: màn đầu mới hiện ngay, không chớp bản cũ
 # bản tiếng Anh: tải sẵn file dịch ngay đầu trang, chạy song song với ảnh (en.js lấy lại từ window.ENPRE)
-ENPRE='<script>try{if(localStorage.getItem("tgl_lang")==="en"){window.ENPRE={};["en_p1","en_p2","en_ten","en_ui"].forEach(function(f){window.ENPRE[f]=fetch("{D}"+f+".json?v=3010b").then(function(r){return r.ok?r.json():{}}).catch(function(){return {}})})}}catch(e){}</script>'
+ENPRE='<script>window.__EQ=[];addEventListener("error",function(e){if(window.__EQ)window.__EQ.push([e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack])});try{if(localStorage.getItem("tgl_lang")==="en"){window.ENPRE={};["en_p1","en_p2","en_ten","en_ui"].forEach(function(f){window.ENPRE[f]=fetch("{D}"+f+".json?v=3010b").then(function(r){return r.ok?r.json():{}}).catch(function(){return {}})})}}catch(e){}</script>'
 MDFIRST='<style id="mdfirst">body:not(.ingame) #cover .in{visibility:hidden;animation:mdshow 0s 5s forwards}#cover .in:has(.mdw){visibility:visible;animation:none}@keyframes mdshow{to{visibility:visible}}#cover{background:#08090b url(img2/bia-chung.webp) 60% center/cover}</style>'
 
 # gắn Phần 2 sau script chính

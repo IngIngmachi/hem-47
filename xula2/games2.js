@@ -257,7 +257,8 @@ function g7css(){ if($('g7css')) return; const st=document.createElement('style'
    ===================================================================== */
 const CAM=['cuu','cong an','tron','giai cuu','bao tin','huong','vinh','lam','bavet','xi ha','tron thoat','canh sat'];
 function chamTin(txt,tu){ const can=bo(tu).toUpperCase().replace(/[^A-Z0-9]/g,'');
-  const cau=txt.split(/(?<=[.!?…])\s+|\n+/).map(x=>x.trim()).filter(Boolean);
+  /* không dùng lookbehind (?<=): iPhone/iPad iOS dưới 16.4 báo lỗi cú pháp, chết cả file minigame */
+  const cau=txt.replace(/([.!?…])\s+/g,'$1\n').split(/\n+/).map(x=>x.trim()).filter(Boolean);
   const dau=cau.map(c=>bo(c).replace(/^[^A-Za-z0-9]+/,'').charAt(0).toUpperCase()).join('');
   const loi=[]; let vung=0;
   cau.forEach((c,i)=>{ if(c.split(/\s+/).filter(Boolean).length<4){ loi.push('Câu '+(i+1)+' cụt quá (dưới 4 chữ), đọc như mật mã.'); vung++; } });

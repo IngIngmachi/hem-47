@@ -109,6 +109,28 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   addEventListener('error',e=>send(e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack));
   addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; send('Promise: '+(r.message||r),'',0,0,r.stack); }); })();
 
+/* ---- Chống đơ (31/10): một bước trong game lỗi giữa chừng thì cờ "đang bận" kẹt lại, bấm gì cũng không ăn, phải F5.
+   Nếu cờ bận kéo dài mà trên màn không có gì đang chạy (thoại, lựa chọn, minigame, điện thoại, sổ tay, màn kết…) quá 6 giây thì tự gỡ và ghi lại để sửa. ---- */
+(function(){ let since=0, last='';
+  const vis=id=>{ const e=document.getElementById(id); return !!(e&&!e.hidden&&e.offsetParent!==null); };
+  const anyOpen=()=>vis('dlg')||vis('game')||vis('phone')||vis('so')||vis('cd')||vis('cover')||vis('ed')||vis('hd')||vis('typeEnd')||vis('inst')
+    ||!!document.querySelector('#p2khai,.p2cardfull,.p2bao,#p2anh,#p2kl,.md:not([hidden])')||(typeof chooseFn!=='undefined'&&chooseFn)||(typeof typing!=='undefined'&&typing)||(typeof waitFn!=='undefined'&&waitFn)
+    ||(typeof sleeping!=='undefined'&&sleeping)||(typeof ticking!=='undefined'&&ticking)||(typeof camping!=='undefined'&&camping)||(typeof SO!=='undefined'&&SO&&SO.on)||(typeof fade!=='undefined'&&fade>0.05);
+  setInterval(()=>{ try{
+    if(typeof started==='undefined'||!started||typeof busy==='undefined'||!busy||document.hidden){ since=0; return; }
+    if(anyOpen()){ since=0; return; }
+    if(!since){ since=Date.now(); return; }
+    if(Date.now()-since<6000) return;
+    window.__unstuck=(window.__unstuck||0)+1; busy=false; since=0; if(typeof evBusy!=='undefined') evBusy=false; try{ hud(); }catch(e){}
+    const st=(typeof S!=='undefined'&&S)?S:{}; const key=(st.day||'')+'|'+(st.scene||'');
+    if(key!==last&&typeof supa!=='undefined'&&supa){ last=key; supa.from('loi').insert({msg:'Tự gỡ kẹt: game đứng im (busy) quá 6 giây',src:'chongdo',stack:String(window.__lastErr||'').slice(0,1500),trang:location.pathname.slice(-40),phan:(typeof P2!=='undefined'&&P2.on)?2:1,ngay:st.day||null,hoi:st.hoi||null,canh:String(st.scene||'')+(st.room?':'+st.room:''),ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }
+  }catch(e){} },1000);
+  addEventListener('error',e=>{ window.__lastErr=(e.message||'')+' @'+(e.filename||'').slice(-40)+':'+e.lineno+'\n'+((e.error&&e.error.stack)||''); });
+  addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; window.__lastErr='Promise: '+(r.message||r)+'\n'+(r.stack||''); });
+  /* lỗi xảy ra trước khi file này chạy (vd. file minigame không đọc được trên máy cũ) được giữ trong window.__EQ ở đầu trang → gửi bù */
+  setTimeout(()=>{ try{ (window.__EQ||[]).slice(0,4).forEach(a=>{ if(typeof supa!=='undefined'&&supa) supa.from('loi').insert({msg:String(a[0]||'').slice(0,300),src:String(a[1]||'').slice(-120),dong:a[2]||null,cot:a[3]||null,stack:String(a[4]||'').slice(0,1500),trang:location.pathname.slice(-40),phan:1,ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }); window.__EQ=[]; }catch(e){} },6000);
+})();
+
 /* Cài đặt gọn lại (30/10): mỗi nhóm một khung, dòng phụ ngắn, mô tả độ khó một dòng */
 (function(){ if(typeof cdOpen!=='function') return;
   const st=document.createElement('style'); st.textContent=`

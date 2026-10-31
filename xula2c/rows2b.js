@@ -131,7 +131,7 @@ X('x_bay_goi','Lầu ba · Chị Bảy gọi lên',[
  ['Chị Bảy','Ngồi xuống đó đi. Chị hỏi câu nào trả lời thiệt câu đó, chị chúa ghét đứa nào nói láo.'],
  ['Chị Bảy','Chị ở đây cũng chỉ là phận làm thuê ăn lương thôi em. Ở trên chỉ đạo xuống sao thì chị làm vậy.'],{bg:''}]);
 M('KHAI_xbay','khai','Chị Bảy','Chị Bảy: "Chị chỉ làm công"',{sau:'+cc:x_khaibay +co:x_bay_lat +tin_bay +tin_bay +tin_bay'});
-M('CAU_xbay_01','cau','KHAI_xbay','Chị ở đây cũng chỉ làm thuê ăn lương thôi. Tiền bạc chảy về đâu chị làm sao biết được.',{sau:'dung:x_so ok:kh_xbay_1 key'});
+M('CAU_xbay_01','cau','KHAI_xbay','Chị ở đây cũng chỉ làm thuê ăn lương thôi. Tiền bạc chảy về đâu chị làm sao biết được.',{sau:'dung:x_so ok:kh_xbay_1'}  /* 31/10: bỏ 'key' — sổ chỉ lấy được sau khi khai xong (cần chìa), để key là kẹt vòng */);
 M('CAU_xbay_02','cau','KHAI_xbay','Trại này có nhốt ai đâu. Đứa nào làm đủ doanh số trả dứt tiền nợ trong giấy là được thả về liền.',{sau:'dung:x_no|x_lich ok:kh_xbay_2 hoi:kh_xbay_h2'});
 M('CAU_xbay_03','cau','KHAI_xbay','Chị chưa gặp mặt chủ lò lần nào hết. Nghe giọng trong tin nhắn là đàn ông mà.',{sau:'dung:x_giongthat ok:kh_xbay_3 key'});
 M('CAU_xbay_04','cau','KHAI_xbay','Chị được cất nhắc lên quản lý lầu 3 là nhờ chị làm việc được việc thôi.',{sau:'hoi:kh_xbay_h4'});

@@ -99,7 +99,7 @@ const P2DATA=(()=>{
     {id:'x_gui',...H2,d:[9,19],who:'o:thung',k:'x_gui_act',t:'Gửi tin giấu chữ ra ngoài',sub:'cần ghép ra chữ',c:'co:x_may gui:ok !co:x_cho_xn',until:'co:x_tin_3g',cost:30},
     {id:'x_xinchia',...H2,d:[13,19],w:[19,22],who:'bay',k:'x_xinchia',t:'Xin Chị Bảy chìa cửa sau',c:'co:x_bay_lat !co:x_chia',cost:20},
     {id:'x_muachuoc',...H2,d:[9,19],w:[19,22],who:'seo',k:'x_muachuoc',t:'Đút lót lính gác',sub:'500.000đ, bớt bị nghi',c:'nghi>=40',need:'tien>=500000',why:'Cần 500.000đ.',rep:1,cost:20},
-    {id:'x_khai_bay',...H2,d:[12,19],w:[19,22],who:'bay',k:'x_bay_goi',khai:'xbay',t:'Lên lầu ba nói chuyện với Chị Bảy',c:'cc:x_so|cc:x_giongthat',until:'co:khai_xbay',cost:60},
+    {id:'x_khai_bay',...H2,d:[12,19],w:[19,22],who:'bay',k:'x_bay_goi',khai:'xbay',t:'Lên lầu ba nói chuyện với Chị Bảy',c:'cc:x_giongthat',until:'co:khai_xbay',cost:60},
     {id:'x_soat_vp',...H2,d:[9,19],w:[12,13],who:'o:bantang3',soat:'xvp',t:'Lục văn phòng lúc quản lý đi ăn',c:'co:x_chia',cost:30},
     {id:'x_lich',...H2,d:[9,19],w:[19,22],who:'o:giuong',k:'x_lich_act',t:'Xếp lại lịch tuần tra',c:'co:x_tuan0 !co:x_gio',until:'co:x_gio',cost:20},
     {id:'x_dongtien',...H2,d:[9,19],w:[19,22],who:'o:giuong',k:'x_dt_act',t:'Xâu chuỗi: ai cầm lò?',c:'ccx>=3 !cc:suy_x_my',until:'cc:suy_x_my',cost:20},

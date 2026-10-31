@@ -705,3 +705,15 @@ function mdXoay(){ return new Promise(res=>{ try{ if(localStorage.getItem('tgl_x
   el.querySelector('button').onclick=()=>{ try{ localStorage.setItem('tgl_xoay','1'); }catch(e){} el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },350); }; }); }
 if(typeof typeIntro==='function'){ const tx0=typeIntro; typeIntro=async function(){ if(typeof mdCanhBao==='function') await mdCanhBao(); await mdXoay(); return tx0.apply(this,arguments); }; }
 if(typeof p2Begin==='function'){ const pbx=p2Begin; p2Begin=async function(cont){ if(!cont&&typeof mdCanhBao==='function') await mdCanhBao(); await mdXoay(); return pbx.apply(this,arguments); }; }
+
+/* ---- Nhạc nền (31/10): kéo "Nhạc nền" về 0 là tắt hẳn nhạc.
+   iPhone/iPad bỏ qua chỉnh âm lượng của thẻ audio (luôn 100%), nên trên máy Apple nhạc đi qua một nút âm lượng của Web Audio. ---- */
+(function(){
+  if(typeof nhacMood==='function'){ const m0=nhacMood; nhacMood=function(){ if(typeof CD!=='undefined'&&+CD.nhac<=0) return null; return m0.apply(this,arguments); }; }
+  const iOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  if(!iOS||typeof NHAC==='undefined'||typeof ac!=='function') return;
+  let G=null;
+  const hook=()=>{ if(G) return; const a=ac(); if(!a) return; try{ const g=a.createGain(); g.gain.value=Math.min(1,NHAC.vol); g.connect(a.destination); NHAC.els.forEach(el=>a.createMediaElementSource(el).connect(g)); G=g; }catch(e){} };
+  addEventListener('pointerdown',()=>{ hook(); try{ if(AC&&AC.state!=='running') AC.resume(); }catch(e){} },{capture:true});
+  setInterval(()=>{ if(!G||!AC) return; const dlg=$('dlg')&&!$('dlg').hidden; G.gain.setTargetAtTime(Math.min(1,NHAC.vol*(dlg?.6:1)),AC.currentTime,.3); },250);
+})();

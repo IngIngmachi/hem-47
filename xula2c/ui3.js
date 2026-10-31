@@ -677,3 +677,31 @@ document.head.appendChild(st); })();
 
 /* iPhone: Safari tự phóng to khi chạm ô nhập chữ nhỏ hơn 16px (lọc manh mối, gõ tin) rồi để nguyên → màn bị lệch, mất nút. Ô nhập trên iOS giữ 16px. */
 (function(){ const st=document.createElement('style'); st.textContent='@supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}}'; document.head.appendChild(st); })();
+
+/* ---- Giảm lag (31/10) ----
+   1. Khi có thứ phủ kín màn (điện thoại, sổ tay, cài đặt, minigame toàn màn, màn kết…) thì thôi vẽ khung hình hẻm/trại phía sau:
+      trước đây game vẫn vẽ cảnh 60 lần/giây sau lưng điện thoại và minigame, máy yếu bị giật, bấm thẻ manh mối chậm.
+   2. Điện thoại/máy tính bảng: bỏ hiệu ứng kính mờ (backdrop-filter) — mỗi khung hình phải làm mờ lại cả vùng cảnh đang chuyển động.
+   3. Danh sách thẻ manh mối: thẻ ngoài màn hình không dàn trang, ảnh vật chứng tải khi cuộn tới. */
+(function(){ if(typeof frame!=='function') return;
+  let covered=false; const cv=document.getElementById('cv');
+  const pts=()=>[[.5,.5],[.25,.25],[.75,.25],[.25,.6],[.75,.6]];
+  const check=()=>{ try{ if(!cv||document.hidden){ covered=false; return; } let hit=false;
+    for(const [x,y] of pts()){ const e=document.elementFromPoint(innerWidth*x,innerHeight*y); if(e===cv){ hit=true; break; } }
+    covered=!hit; }catch(e){ covered=false; } };
+  setInterval(check,250);
+  const f0=frame; frame=function(){ if(covered) return; return f0.apply(this,arguments); };
+  const st=document.createElement('style'); st.textContent=`
+@media (pointer:coarse){*,*::before,*::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+#phBody .card{content-visibility:auto;contain-intrinsic-size:auto 96px}`;
+  document.head.appendChild(st); })();
+
+/* ---- Mẹo xoay màn hình (31/10, chữ VI tác giả đã duyệt): chỉ hiện 1 lần trên điện thoại/máy tính bảng, lúc bắt đầu chơi ---- */
+function mdXoay(){ return new Promise(res=>{ try{ if(localStorage.getItem('tgl_xoay')||!matchMedia('(pointer:coarse)').matches){ res(); return; } }catch(e){ res(); return; }
+  const en=window.LANG==='en'; const el=document.createElement('div'); el.id='mdxoay';
+  el.innerHTML='<div class="b"><div class="ic" aria-hidden="true"><i></i></div><h3>'+(en?'Playing on a phone?':'Chơi trên điện thoại?')+'</h3><p>'+(en?'Most scenes look best upright. A few, like action maps, incoming phone calls and some investigation screens, are easier to see sideways.':'Hầu hết các màn để dọc là đẹp. Có vài cảnh như bản đồ cần hành động, có điện thoại gọi tới hay một số thao tác điều tra sẽ dễ nhìn hơn khi xoay ngang.')+'</p><p>'+(en?'If a screen looks cramped or cut off, just turn your phone the other way. Lock rotation once it looks right, and unlock it whenever you need to switch. Have fun!':'Thấy khung hình chật hay bị che thì “hẻm viên” cứ xoay điện thoại qua lại thử nha. Xoay xong thì bật khóa xoay của máy lại cho màn đứng yên, khi cần đổi chiều thì tắt khóa đi. Chơi game vui vẻ!')+'</p><button type="button">'+(en?'Got it':'Đã hiểu')+'</button></div>';
+  if(!document.getElementById('mdxoayCss')){ const st=document.createElement('style'); st.id='mdxoayCss'; st.textContent='#mdxoay{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(4,5,8,.88);opacity:0;transition:opacity .35s}#mdxoay .b{max-width:440px;background:#0e0f13;border:1px solid rgba(239,230,210,.16);border-radius:16px;padding:24px 22px;color:#efe6d2;text-align:center;font:15px/1.6 "Be Vietnam Pro",sans-serif}#mdxoay h3{font:600 21px Newsreader,Georgia,serif;margin:10px 0 8px;color:#f0b25c}#mdxoay p{margin:0 0 10px;color:#d9d2c2}#mdxoay button{margin-top:8px;font:600 16px "Be Vietnam Pro",sans-serif;background:#f0b25c;color:#1c1408;border:0;border-radius:999px;padding:11px 28px;cursor:pointer}#mdxoay .ic{display:flex;justify-content:center}#mdxoay .ic i{width:26px;height:44px;border:2.5px solid #efe6d2;border-radius:6px;animation:mdxr 2.4s ease-in-out infinite}@keyframes mdxr{0%,25%{transform:rotate(0)}45%,75%{transform:rotate(-90deg)}95%,100%{transform:rotate(0)}}'; document.head.appendChild(st); }
+  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+  el.querySelector('button').onclick=()=>{ try{ localStorage.setItem('tgl_xoay','1'); }catch(e){} el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },350); }; }); }
+if(typeof typeIntro==='function'){ const tx0=typeIntro; typeIntro=async function(){ if(typeof mdCanhBao==='function') await mdCanhBao(); await mdXoay(); return tx0.apply(this,arguments); }; }
+if(typeof p2Begin==='function'){ const pbx=p2Begin; p2Begin=async function(cont){ if(!cont&&typeof mdCanhBao==='function') await mdCanhBao(); await mdXoay(); return pbx.apply(this,arguments); }; }

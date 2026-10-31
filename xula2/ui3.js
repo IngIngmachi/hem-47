@@ -677,3 +677,21 @@ document.head.appendChild(st); })();
 
 /* iPhone: Safari tự phóng to khi chạm ô nhập chữ nhỏ hơn 16px (lọc manh mối, gõ tin) rồi để nguyên → màn bị lệch, mất nút. Ô nhập trên iOS giữ 16px. */
 (function(){ const st=document.createElement('style'); st.textContent='@supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}}'; document.head.appendChild(st); })();
+
+/* ---- Giảm lag (31/10) ----
+   1. Khi có thứ phủ kín màn (điện thoại, sổ tay, cài đặt, minigame toàn màn, màn kết…) thì thôi vẽ khung hình hẻm/trại phía sau:
+      trước đây game vẫn vẽ cảnh 60 lần/giây sau lưng điện thoại và minigame, máy yếu bị giật, bấm thẻ manh mối chậm.
+   2. Điện thoại/máy tính bảng: bỏ hiệu ứng kính mờ (backdrop-filter) — mỗi khung hình phải làm mờ lại cả vùng cảnh đang chuyển động.
+   3. Danh sách thẻ manh mối: thẻ ngoài màn hình không dàn trang, ảnh vật chứng tải khi cuộn tới. */
+(function(){ if(typeof frame!=='function') return;
+  let covered=false; const cv=document.getElementById('cv');
+  const pts=()=>[[.5,.5],[.25,.25],[.75,.25],[.25,.6],[.75,.6]];
+  const check=()=>{ try{ if(!cv||document.hidden){ covered=false; return; } let hit=false;
+    for(const [x,y] of pts()){ const e=document.elementFromPoint(innerWidth*x,innerHeight*y); if(e===cv){ hit=true; break; } }
+    covered=!hit; }catch(e){ covered=false; } };
+  setInterval(check,250);
+  const f0=frame; frame=function(){ if(covered) return; return f0.apply(this,arguments); };
+  const st=document.createElement('style'); st.textContent=`
+@media (pointer:coarse){*,*::before,*::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+#phBody .card{content-visibility:auto;contain-intrinsic-size:auto 96px}`;
+  document.head.appendChild(st); })();

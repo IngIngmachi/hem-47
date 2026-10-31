@@ -69,7 +69,7 @@ const TPROP=[{k:'el2-jeep',h:'xcong',u:.78,hh:185},{k:'el2-den',h:'xcong',u:.99,
   {k:'el2-xemay',h:'xan',u:.1,hh:100},{k:'el2-rao',h:'xngu',u:.78,hh:92},{k:'el2-phuy',h:'xbep',u:.12,hh:100},{k:'el2-thung',h:'xbep',u:.97,hh:108},{k:'el2-baocat',h:'xvp',u:.06,hh:78},{k:'el2-den',h:'xvp',u:.97,hh:195}];
 function drawTProps(){ TPROP.forEach(p=>{ const im=IMG[p.k]; if(!im||!A[p.h]) return; const w=im.width*p.hh/im.height, x=at(p.h,p.u);
   g.save(); g.fillStyle='rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(x,NFEET-10,w*.5,10,0,0,7); g.fill(); g.translate(x,NFEET-10); g.scale(p.f||1,1); g.drawImage(im,-w/2,-p.hh,w,p.hh); g.restore(); }); }
-async function trainImgs(){ await Promise.all([...new Set(TPROP.map(p=>p.k))].map(k=>p2Img(k))); for(const hk of TRAI_ORDER){ const k=hk.slice(4); const im=await p2Img(hk); if(!im){ IMG[hk]=facade(k,false); IMG[hk+'-dem']=facade(k,true); } } }
+async function trainImgs(){ await Promise.all([...new Set(TPROP.map(p=>p.k))].map(k=>p2Img(k))); for(const hk of TRAI_ORDER){ const k=hk.slice(4); const im=await p2Img(hk); if(!im){ IMG[hk]=facade(k,false); IMG[hk+'-dem']=facade(k,true); } }  if(P2.map==='trai'){ const px=PL.x/(W||1); Object.keys(A).forEach(k=>delete A[k]); layout(); prepLit(); PL.x=px*W; } }
 
 /* ---------------- bản đồ: hẻm 47 hoặc trại ---------------- */
 let P1MAP=null;
@@ -81,7 +81,9 @@ function p2Track(ps,bar){ let done=0; const tot=ps.length+1, i=bar.querySelector
 function p2SetMap(m){ P2.map=m; S.map=m;
   if(!P1MAP) P1MAP={order:HOUSE_ORDER.slice(),lit:Object.assign({},LIT)};
   HOUSE_ORDER.length=0; Object.keys(LIT).forEach(k=>delete LIT[k]);
-  if(m==='trai'){ TRAI_ORDER.forEach(h=>HOUSE_ORDER.push(h)); Object.assign(LIT,P2DATA.LIT_TRAI); }
+  if(m==='trai'){ /* ảnh mặt tiền trại chưa tải xong (tải nền) → tạm dùng mặt tiền vẽ bằng code, tải xong tự dựng lại */
+    TRAI_ORDER.forEach(h=>{ if(!IMG[h]){ IMG[h]=facade(h.slice(4),false); if(!IMG[h+'-dem']) IMG[h+'-dem']=facade(h.slice(4),true); } });
+    TRAI_ORDER.forEach(h=>HOUSE_ORDER.push(h)); Object.assign(LIT,P2DATA.LIT_TRAI); }
   else { P1MAP.order.forEach(h=>HOUSE_ORDER.push(h)); Object.assign(LIT,P1MAP.lit); }
   Object.keys(A).forEach(k=>delete A[k]); layout();
   if(m==='trai'){ LAMPS=[]; HIDES=[]; FGP=[]; ELP=[]; } else { places(); propsInit(); ELP=null; }
@@ -782,7 +784,7 @@ async function p2Begin(cont,p1){ ac(); if(P2.starting) return; P2.starting=true;
   save(); await tick(); }
 p2Buttons(); new MutationObserver(p2Buttons).observe($('cover'),{childList:true,subtree:true});
 /* nhảy nhanh để thử (gõ trong console): P2JUMP(8) vào trại, P2JUMP(19) */
-window.P2JUMP=async d=>{ if(!P2.on) return; if(d>=8){ buildDs(); S.hoi=d>=19?3:2; setCo('hoi2'); setCo('x_mon_xong'); S.ai_vao=S.ai_vao||'lam'; S.vai=S.ai_vao; setME(); p2SetMap('trai'); S.day=d; S.min=d===8?19*60:7*60; putAt('xngu',.35); hud(); save(); await tick(); } };
+window.P2JUMP=async d=>{ if(!P2.on) return; if(d>=8){ await trainImgs(); buildDs(); S.hoi=d>=19?3:2; setCo('hoi2'); setCo('x_mon_xong'); S.ai_vao=S.ai_vao||'lam'; S.vai=S.ai_vao; setME(); p2SetMap('trai'); S.day=d; S.min=d===8?19*60:7*60; putAt('xngu',.35); hud(); save(); await tick(); } };
 /* thành tựu Phần 1 không chấm khi đang chơi Phần 2 */
 const ttCheck1=ttCheck; ttCheck=function(){ if(P2.on) return ttCheck2(); return ttCheck1.apply(this,arguments); };
 /* thành tựu Phần 2: lưu riêng */

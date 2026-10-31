@@ -109,21 +109,27 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
   addEventListener('error',e=>send(e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack));
   addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; send('Promise: '+(r.message||r),'',0,0,r.stack); }); })();
 
-/* ---- Chống đơ (31/10): một bước trong game lỗi giữa chừng thì cờ "đang bận" kẹt lại, bấm gì cũng không ăn, phải F5.
-   Nếu cờ bận kéo dài mà trên màn không có gì đang chạy (thoại, lựa chọn, minigame, điện thoại, sổ tay, màn kết…) quá 6 giây thì tự gỡ và ghi lại để sửa. ---- */
-(function(){ let since=0, last='';
+/* ---- Chống đơ (31/10, bản 2): một bước trong game lỗi giữa chừng thì cờ "đang bận" kẹt lại, bấm gì cũng không ăn, phải F5.
+   Chỉ gỡ khi chắc là kẹt thật: cờ bận kéo dài ≥ 12 giây, KHÔNG có gì phủ lên màn (điểm giữa màn là khung hình game),
+   không có thoại/lựa chọn/chữ chạy đang chờ, VÀ người chơi đã chạm/bấm vào khung game ít nhất 3 lần mà không ăn.
+   Bản 1 gỡ nhầm lúc game đang bận hợp lệ (đi bộ tự động, mở laptop…), bản này chặt hơn và ghi kèm thứ đang hiện để sửa tận gốc. ---- */
+(function(){ let since=0, last='', taps=0;
   const vis=id=>{ const e=document.getElementById(id); return !!(e&&!e.hidden&&e.offsetParent!==null); };
   const anyOpen=()=>vis('dlg')||vis('game')||vis('phone')||vis('so')||vis('cd')||vis('cover')||vis('ed')||vis('hd')||vis('typeEnd')||vis('inst')
     ||!!document.querySelector('#p2khai,.p2cardfull,.p2bao,#p2anh,#p2kl,.md:not([hidden])')||(typeof chooseFn!=='undefined'&&chooseFn)||(typeof typing!=='undefined'&&typing)||(typeof waitFn!=='undefined'&&waitFn)
     ||(typeof sleeping!=='undefined'&&sleeping)||(typeof ticking!=='undefined'&&ticking)||(typeof camping!=='undefined'&&camping)||(typeof SO!=='undefined'&&SO&&SO.on)||(typeof fade!=='undefined'&&fade>0.05);
+  const onStage=el=>!!(el&&(el.id==='cv'||el.id==='stage'));
+  const topAt=(x,y)=>{ const e=document.elementFromPoint(x,y); return e?(e.id?'#'+e.id:'')+(e.className&&typeof e.className==='string'?'.'+e.className.split(' ')[0]:'')+'<'+e.tagName.toLowerCase():'-'; };
+  const tap=e=>{ if(since&&typeof busy!=='undefined'&&busy&&(e.type==='keydown'||onStage(e.target))) taps++; };
+  addEventListener('pointerdown',tap,true); addEventListener('keydown',tap,true);
   setInterval(()=>{ try{
-    if(typeof started==='undefined'||!started||typeof busy==='undefined'||!busy||document.hidden){ since=0; return; }
-    if(anyOpen()){ since=0; return; }
-    if(!since){ since=Date.now(); return; }
-    if(Date.now()-since<6000) return;
-    window.__unstuck=(window.__unstuck||0)+1; busy=false; since=0; if(typeof evBusy!=='undefined') evBusy=false; try{ hud(); }catch(e){}
+    if(typeof started==='undefined'||!started||typeof busy==='undefined'||!busy||document.hidden||anyOpen()){ since=0; taps=0; return; }
+    if(!onStage(document.elementFromPoint(innerWidth/2,innerHeight/2))){ since=0; taps=0; return; }
+    if(!since){ since=Date.now(); taps=0; return; }
+    if(Date.now()-since<12000||taps<3) return;
+    window.__unstuck=(window.__unstuck||0)+1; busy=false; since=0; taps=0; if(typeof evBusy!=='undefined') evBusy=false; try{ hud(); }catch(e){}
     const st=(typeof S!=='undefined'&&S)?S:{}; const key=(st.day||'')+'|'+(st.scene||'');
-    if(key!==last&&typeof supa!=='undefined'&&supa){ last=key; supa.from('loi').insert({msg:'Tự gỡ kẹt: game đứng im (busy) quá 6 giây',src:'chongdo',stack:String(window.__lastErr||'').slice(0,1500),trang:location.pathname.slice(-40),phan:(typeof P2!=='undefined'&&P2.on)?2:1,ngay:st.day||null,hoi:st.hoi||null,canh:String(st.scene||'')+(st.room?':'+st.room:''),ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }
+    if(key!==last&&typeof supa!=='undefined'&&supa){ last=key; supa.from('loi').insert({msg:'Tự gỡ kẹt v2: bận ≥12s, người chơi bấm không ăn',src:'chongdo',stack:('giữa:'+topAt(innerWidth/2,innerHeight/2)+' · trên:'+topAt(innerWidth/2,60)+' · dưới:'+topAt(innerWidth/2,innerHeight-60)+'\n'+String(window.__lastErr||'')).slice(0,1500),trang:location.pathname.slice(-40),phan:(typeof P2!=='undefined'&&P2.on)?2:1,ngay:st.day||null,hoi:st.hoi||null,canh:String(st.scene||'')+(st.room?':'+st.room:''),ua:navigator.userAgent.slice(0,200),w:innerWidth,h:innerHeight}).then(()=>{},()=>{}); }
   }catch(e){} },1000);
   addEventListener('error',e=>{ window.__lastErr=(e.message||'')+' @'+(e.filename||'').slice(-40)+':'+e.lineno+'\n'+((e.error&&e.error.stack)||''); });
   addEventListener('unhandledrejection',e=>{ const r=e.reason||{}; window.__lastErr='Promise: '+(r.message||r)+'\n'+(r.stack||''); });

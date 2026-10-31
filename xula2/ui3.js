@@ -717,3 +717,6 @@ if(typeof p2Begin==='function'){ const pbx=p2Begin; p2Begin=async function(cont)
   addEventListener('pointerdown',()=>{ hook(); try{ if(AC&&AC.state!=='running') AC.resume(); }catch(e){} },{capture:true});
   setInterval(()=>{ if(!G||!AC) return; const dlg=$('dlg')&&!$('dlg').hidden; G.gain.setTargetAtTime(Math.min(1,NHAC.vol*(dlg?.6:1)),AC.currentTime,.3); },250);
 })();
+
+/* ---- Màn ngang trên điện thoại (31/10): máy cảm ứng không có bàn phím → ẩn dòng phím tắt ở thanh dưới màn chọn chương (đang tràn chữ) ---- */
+(function(){ const st=document.createElement('style'); st.textContent='@media (pointer:coarse){.mdx-bar .mdx-keys,.mdx-bar .mdx-div{display:none!important}}'; document.head.appendChild(st); })();

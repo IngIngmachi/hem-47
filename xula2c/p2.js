@@ -74,8 +74,8 @@ async function trainImgs(){ await Promise.all([...new Set(TPROP.map(p=>p.k))].ma
 /* ---------------- bản đồ: hẻm 47 hoặc trại ---------------- */
 let P1MAP=null;
 /* thanh tải mảnh ở mép trên khi mở Phần 2 */
-function p2Bar(){ const b=document.createElement('div'); b.className='p2bar'; b.innerHTML='<i></i>'; document.body.appendChild(b);
-  if(!document.getElementById('p2barCss')){ const st=document.createElement('style'); st.id='p2barCss'; st.textContent='.p2bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:99999;background:rgba(0,0,0,.25);pointer-events:none}.p2bar i{display:block;height:100%;width:4%;background:#e8b04b;transition:width .25s}'; document.head.appendChild(st); }
+function p2Bar(){ const b=document.createElement('div'); b.className='p2load'; b.innerHTML='<i></i>'; document.body.appendChild(b);
+  if(!document.getElementById('p2loadCss')){ const st=document.createElement('style'); st.id='p2loadCss'; st.textContent='.p2load{position:fixed;left:0;right:0;top:0;height:3px;z-index:99999;background:rgba(0,0,0,.25);pointer-events:none}.p2load i{display:block;height:100%;width:4%;background:#e8b04b;transition:width .25s}'; document.head.appendChild(st); }
   return b; }
 function p2Track(ps,bar){ let done=0; const tot=ps.length+1, i=bar.querySelector('i'); const up=()=>{ i.style.width=Math.max(4,Math.round(100*(++done)/tot))+'%'; }; return Promise.all(ps.map(p=>Promise.resolve(p).then(up,up))); }
 function p2SetMap(m){ P2.map=m; S.map=m;

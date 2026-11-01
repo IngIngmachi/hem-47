@@ -471,7 +471,7 @@ function caNhan(so){ return new Promise(async res=>{ const out={chot:0,tinh:0,bo
     draw('<div class="p2bar" style="margin:0;justify-content:flex-end"><button class="btn p2main" id="oN" type="button">'+(i<so-1?'Khách kế →':'Hết ca')+'</button></div>'); await new Promise(r=>{ window.__caPick=r; $('oN').onclick=r; }); window.__caPick=null; }
   if(thoat){ await sleep(10); }
   p2close(); if(thoat){ await say('nghi','','Bỏ dở ca. Chỉ tiêu hụt, Chị Bảy sẽ ghi tên.'); hideDlg(); fx('+nghi:5'); } res(out); }); }
-async function caCa(so){ if(S.day>=11&&!caHom()){ busy=true; const p=await choose([{ma:'d',loi:'Nhắn đúng kịch bản cả ca',sub:'đủ chỉ tiêu, có người mất tiền'},{ma:'l',loi:'Cài lỗi vào hết',sub:'khách tỉnh ra, thiếu chỉ tiêu, có thể bị nghi',dis:!hasF('x_meo_cailoi')},{ma:'n',loi:'Ngồi nhắn từng khách',sub:'chơi đủ ca'}],false,'Tiếng gõ phím. Lại một ca.'); hideDlg();
+async function caCa(so){ if(S.day>=11&&!caHom()){ busy=true; const p=await choose([{ma:'d',loi:'Nhắn đúng kịch bản cả ca',sub:'đủ chỉ tiêu, có người mất tiền'},{ma:'l',loi:'Cài lỗi vào hết',sub:'khách tỉnh ra, thiếu chỉ tiêu, có thể bị nghi',dis:!hasF('x_meo_cailoi')},{ma:'n',loi:'Ngồi nhắn từng khách',sub:'chơi đủ ca'}],false,'Tiếng gõ phím. Lại một ca.'); hideDlg(); busy=false;  /* 1/11: trước đây quên trả cờ bận → kẹt cả game từ ngày 11 */
     if(p.ma==='d'){ for(let j=0;j<so;j++){ const k=KHACH[(S.day+j)%KHACH.length]; (S.so=S.so||[]).push(k.ten+' · '+k.ho); } ctAdd(so); return {chot:so,tinh:0,bo:0}; }
     if(p.ma==='l'){ if(Math.random()<.5&&(S.tin.bay||0)<3) fx('+nghi:12'); return {chot:0,tinh:so,bo:0}; } }
   return caNhan(so); }
@@ -630,7 +630,7 @@ async function gDanhSach(){ const can=dsCon().filter(p=>!['ngan','khang','loc'].
   if(p.ma==='a'){ await say('thoai','Chị Bảy','...Thứ Sáu chị bận. Chị viết sai tên. Đi ngủ đi.'); }
   else if(p.ma==='b'){ fx('-tien:3000000'); await say('thoai','Chị Bảy','Một người thôi. Đứa kia chị hổng giữ được.'); if(can[1]) fx('mat:'+can[1].id); }
   else { can.forEach(x=>fx('mat:'+x.id)); await say('mota','','Sáng thứ Năm, hai cái giường trống. Mền đã gấp sẵn.'); }
-  hideDlg(); }
+  hideDlg(); busy=false; }
 
 /* =====================================================================
    10. ĐI ĐÊM và ĐÊM DẪN NGƯỜI RA SÔNG — bản đồ cắt ngang ba tầng
@@ -747,7 +747,7 @@ const MINI={
   /* 5. chùm chìa: rọi đèn nhìn ổ khóa vài giây, chọn chìa theo trí nhớ, rồi xoay giữ chốt trong vùng xanh */
   cua(x,u){ const NK=7; const T=[0,1,2,3,4].map(()=>1+Math.floor(Math.random()*4)); const keys=[T.slice()];
     while(keys.length<NK){ const k=T.slice(); const i=Math.floor(Math.random()*5); k[i]=1+((k[i]+Math.floor(Math.random()*3))%4); if(Math.random()<.35){ const j=(i+2)%5; k[j]=1+(k[j]%4); } if(k.join()!==T.join()&&!keys.some(z=>z.join()===k.join())) keys.push(k); }
-    keys.sort(()=>Math.random()-.5); const LOOK=4.2; let sel=-1, bad=0, turn=0, tv=0, ph='nhin', look=LOOK, den=0, nz=0, nd=0, ndv=.7; const KX=600, KY=206, KH=54;
+    keys.sort(()=>Math.random()-.5); const LOOK=4.2; let sel=-1, bad=0, turn=0, tv=0, ph='nhin', look=LOOK, den=0, nz=0, nd=0, ndv=.45; const KX=600, KY=206, KH=54;
     u.tip('Rọi đèn vô ổ khóa: nhớ hình răng trong vài giây. Đèn tắt rồi thì kéo cây chìa nhớ được thả vô ổ. Tra sai hai lần là lộ.');
     const bL=u.btn('Rọi lại (ồn)',()=>{ if(ph!=='chon') return; look=2.4; den++; nz+=.25; window.SFX&&SFX.play('denpin',{v:.8}); if(nz>=1) u.end({kq:'on',n:.6,m:'Đèn pin quẹt vô cửa kêu cạch. Đèn lầu hai bật.'}); }); bL.hidden=true;
     let drag=null;
@@ -767,8 +767,8 @@ const MINI={
       if(drag&&sel>=0&&drag.mv>30){ x.save(); x.globalAlpha=.9; x.fillStyle='#c9b98a'; x.beginPath(); x.arc(drag.x-90,drag.y,16,0,7); x.fill(); prof(keys[sel],drag.x-72,drag.y-2,30,'#e3d3a2'); x.restore(); if(drag.y<190){ x.strokeStyle='rgba(240,178,92,.8)'; x.lineWidth=3; x.strokeRect(KX-14,22,388,158); } }
       mgPanel(x,20,20,230,80); mgBar(x,40,72,190,nz,'#e2645c','Tiếng động'); mgT(x,'Tra sai: '+bad+'/2',140,96,{s:12,c:bad?'#e2645c':'#9aa2b5'});
       u.danger(nz); if(ph==='xoay'&&turn>.4&&!u._ev1){ u._ev1=1; tv=0; u.interrupt('Đèn hành lang chớp lên.',()=>{ nz+=.35; }); }
-      if(ph==='xoay'){ nd+=ndv*dt; if(nd>1||nd<0){ ndv=-ndv*(0.8+Math.random()*.6); nd=Math.max(0,Math.min(1,nd)); } const zc=.5+Math.sin(turn*9)*.18, zw=.2-turn*.06, inz=Math.abs(nd-zc)<zw/2;
-        if(tv){ if(inz) turn+=dt*.32; else { nz+=dt*.9; if(Math.random()<dt*6) tone(900,.03,.015,'square'); } }
+      if(ph==='xoay'){ nd+=ndv*dt; if(nd>1||nd<0){ const sp=Math.min(.55,Math.max(.35,Math.abs(ndv)*(0.85+Math.random()*.3))); ndv=(ndv>0?-1:1)*sp; nd=Math.max(0,Math.min(1,nd)); } const zc=.5+Math.sin(turn*9)*.15, zw=.26-turn*.04, inz=Math.abs(nd-zc)<zw/2;  /* 1/11: kim không còn nhanh dần vô hạn, vùng xanh rộng hơn */
+        if(tv){ if(inz) turn+=dt*.36; else { nz+=dt*.7; if(Math.random()<dt*6) tone(900,.03,.015,'square'); } }
         if(nz>=1){ u.end({kq:'on',n:.7,m:'Chốt kêu cạch một tiếng lớn. Có người trở mình.'}); return; }
         mgPanel(x,20,440,520,140); x.fillStyle='rgba(255,255,255,.08)'; x.fillRect(40,480,480,26); x.fillStyle='rgba(95,179,122,.55)'; x.fillRect(40+480*(zc-zw/2),480,480*zw,26); x.fillStyle=inz?'#efe8d8':'#e2645c'; x.fillRect(40+480*nd-3,474,6,38); mgT(x,'Giữ Xoay khi kim nằm trong vùng xanh',280,466,{s:13,c:'#9aa2b5'});
         mgBar(x,40,548,480,turn,'#5fb37a','Đã xoay'); if(turn>=1){ chime(); u.end({kq:'ok'}); } } }; },

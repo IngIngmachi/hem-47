@@ -31,7 +31,7 @@ Phần 1 · Thế Giới Lặng (30 ngày, 5 kết) và Phần 2 · Xứ Lạ (2
 | `tools/protect.mjs` | Làm rối mã nhẹ + khóa tên miền, chạy trong build. |
 | `tools/nhap_en.py`, `tools/xuat_ui.py` | Nhập bản dịch từ Excel / xuất chữ giao diện ra Excel. |
 | `build.sh` | Chép file vào `public/` rồi làm rối mã. Cloudflare chạy file này. |
-| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v40**). |
+| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v41**). |
 | `supabase/*.sql` | SQL đã chạy cho Sổ tay / bảng lỗi. |
 | `backup/` | Bản lưu Phần 1 cũ. |
 
@@ -114,6 +114,7 @@ await p.evaluate(()=>{ P2JUMP(10) });                                     // nh�
 ## 8. Đang làm / chờ
 
 - Đã lên bản chính 31/10 20:25 (tgl-v40): sửa trùng lớp `.p2bar` (nút Khách kế / Hết ca), khóa cửa sau 4,2 giây, ẩn phím tắt trên máy cảm ứng.
+- Đã lên bản chính 1/11 18:15 (tgl-v41): cờ `busy` kẹt từ ngày 11 (`caCa` nhắn cả ca, `gDanhSach`; `tick` của trại giờ luôn trả `busy=false`), chuồng chó vẽ bằng `BGNOW` (lớp phủ z84 cũ che hộp thoại z30), `tryNoi` khi bận thì vẽ lại, kim khóa cửa sau có giới hạn tốc độ. Quy tắc: `busy=true` thì mọi nhánh phải trả `busy=false`.
 - **Chờ tác giả duyệt chữ** (file `Hem47_P2_noi_P1_cho_duyet.xlsx`): thẻ "Chuyện đã xảy ra" lúc mở Phần 2 và
   trang "Những khoảnh khắc nối từ Phần 1" ở màn tổng kết. Các cờ Phần 1 dùng ở Phần 2: `noi_cuocgoi, khoa_lat,
   phat_nhanchung, ngan_bv, tu_lo, phuong_dauthu, loc_o, loc_di, lam_nho, bao_tam, bao_phat`.

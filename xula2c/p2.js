@@ -295,7 +295,7 @@ runS=async function(key,opt){ if(!P2.on) return runS1(key,opt); const pre=key+'_
 /* ---------------- lịch trại ---------------- */
 let camping=false;
 const tick1=tick;
-tick=async function(){ if(P2.on&&!S.ended&&!camping&&!sleeping&&P2.map==='trai'){ camping=true; try{ await p2Camp(); } finally { camping=false; } if(S.ended) return; }
+tick=async function(){ if(P2.on&&!S.ended&&!camping&&!sleeping&&P2.map==='trai'){ camping=true; try{ await p2Camp(); } finally { camping=false; busy=false; } if(S.ended) return; }
   if(P2.on&&P2.map==='trai'&&hour()>=22&&!sleeping&&!S.ended&&!camping){ toast('22:00 · tắt đèn'); await night(); return; }
   return tick1(); };
 const at2=m=>{ S.min=Math.max(S.min,m); hud(); };
@@ -359,14 +359,13 @@ async function p2Siet(){ if((S.siet_d||0)>=S.day-1) return; const pr=.12+(S.nghi
   else { await say('mota','','Sáng ra, lính gác đứng ở cửa phòng máy lâu hơn mọi bữa. Từ giờ phải cẩn thận gấp đôi.'); S.nghi=Math.min(99,(S.nghi||0)+5); }
   hideDlg(); }
 /* hụt chỉ tiêu 3 ca liền: bị nhốt chuồng chó dưới gầm cầu thang một đêm (BẢN NHÁP chờ duyệt chữ). Chỉ thấy cái chuồng trống, nghe tiếng. */
-function p2ChuongCho(){ return new Promise(async res=>{ const el=document.createElement('div');
-  el.style.cssText='position:fixed;inset:0;z-index:84;background:#000 url(img2/x2-chuong-cho.webp) center/cover;filter:grayscale(.35) brightness(.55);opacity:0;transition:opacity 1.2s';
-  document.body.appendChild(el); requestAnimationFrame(()=>{ el.style.opacity=1; });
+/* chuồng chó: ảnh nền vẽ bằng khung cảnh như mọi cảnh khác (trước đây là lớp phủ che mất hộp thoại → người chơi kẹt, 1/11) */
+async function p2ChuongCho(){ await Promise.race([p2Img('x2-chuong-cho'),sleep(2500)]); const bg0=BGNOW; if(IMG['x2-chuong-cho']) BGNOW='x2-chuong-cho'; fade=1;
   try{ window.SFX&&SFX.play('cong_mo',{v:.6,rate:.8,delay:.4}); }catch(e){}
   await say('mota','','Hụt chỉ tiêu ba ca liền. Đêm đó Sẹo lôi {me} xuống gầm cầu thang, đẩy vô cái chuồng sắt rồi bấm ổ khóa.'.replace('{me}',ME));
   try{ window.SFX&&SFX.has('dien')&&SFX.play('dien',{v:.4}); }catch(e){}
   await say('mota','','Sàn xi măng ướt nhẹp. Cả đêm không duỗi thẳng chân được. Sáng ra mới được thả về phòng máy.');
-  hideDlg(); S.nghi=Math.max(0,(S.nghi||0)-10); el.style.opacity=0; setTimeout(()=>{ el.remove(); res(); },1200); }); }
+  hideDlg(); S.nghi=Math.max(0,(S.nghi||0)-10); BGNOW=bg0; fade=.6; }
 async function p2NewDay(){ const d=S.day;
   if(S.hoi===1){ S.vai=S.nhanh==='A'?(d%2===1&&d<7?'ngan':'lam'):'lam'; setME(); S.min=DAY_START; S.scene='street'; S.room=null; PL.x=S.vai==='ngan'?at('taphoa',.5):at('basau',.4); snapNPC(); fade=.9; chime();
     toast('Ngày '+d+' · '+fmtT(S.min)+(S.nhanh==='A'?' · hôm nay bạn là '+ME:'')); return; }

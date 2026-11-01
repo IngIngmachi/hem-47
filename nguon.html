@@ -1417,7 +1417,7 @@ let noiMode=false, noiSel=[], lastPairs=0, noiAll=false, soF='all', soQ=''; let 
 const noiParts=r=>String(r.ai).split('+').map(x=>x.trim());
 const noiOut=r=>'suy_'+r.ma.slice(4);
 function noiPairs(){ return metaRows('noi').filter(r=>{ const [a,b]=noiParts(r); return S.cc[a]&&S.cc[b]&&!S.cc[noiOut(r)]&&cond(r.hien); }).length; }
-async function tryNoi(a,b){ if(busy) return; const r=metaRows('noi').find(r=>{ const p=noiParts(r); return (p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a); });
+async function tryNoi(a,b){ if(busy){ renderPhone(); return; } const r=metaRows('noi').find(r=>{ const p=noiParts(r); return (p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a); });
   if(!r||!cond(r.hien)){ S.tried[[a,b].sort().join('+')]=1; tone(220,.15,.03,'triangle'); toast('Hai thứ này chưa nối được với nhau'); renderPhone(); return; }
   if(S.cc[noiOut(r)]){ toast('Đã nối rồi: '+r.loi); renderPhone(); return; }
   closePhone(); chime(); S.noi[r.ma]=1; await runS('noi_'+r.ma.slice(4)); effects(r.sau); save(); hud();

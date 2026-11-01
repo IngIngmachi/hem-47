@@ -1415,7 +1415,7 @@ new MutationObserver(()=>{ if($('dlg').hidden) $('dBust').hidden=true; }).observ
 /* ================= NỐI MANH MỐI ================= */
 let noiMode=false, noiSel=[], lastPairs=0, noiAll=false, soF='all', soQ=''; let noiHint=[];
 const noiParts=r=>String(r.ai).split('+').map(x=>x.trim());
-const noiOut=r=>'suy_'+r.ma.slice(4);
+const noiOut=r=>{ const m=String(r.sau||'').match(/\+cc:(suy_\w+)/); return m?m[1]:'suy_'+r.ma.slice(4); };  /* 1/11: NOI_x_saigon2 ra suy_x_saigon, không phải suy_x_saigon2 → trước đây nối xong vẫn báo còn cặp */
 function noiPairs(){ return metaRows('noi').filter(r=>{ const [a,b]=noiParts(r); return S.cc[a]&&S.cc[b]&&!S.cc[noiOut(r)]&&cond(r.hien); }).length; }
 async function tryNoi(a,b){ if(busy){ renderPhone(); return; } const r=metaRows('noi').find(r=>{ const p=noiParts(r); return (p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a); });
   if(!r||!cond(r.hien)){ S.tried[[a,b].sort().join('+')]=1; tone(220,.15,.03,'triangle'); toast('Hai thứ này chưa nối được với nhau'); renderPhone(); return; }
@@ -3547,4 +3547,4 @@ try{ btvApply(); }catch(e){} { const _rb=rebuild; rebuild=function(){ const r=_r
   setTimeout(()=>{ box.hidden=false; document.addEventListener('keydown',esc); document.getElementById('chaoGo').focus(); },500);
 })();
 </script>
-<script src="xula2c/p2.js?v=1793531231"></script><script src="xula2c/games2.js?v=1793531231"></script><script src="xula2c/rows2.js?v=1793531231"></script><script src="xula2c/rows2b.js?v=1793531231"></script><script src="xula2c/data2.js?v=1793531231"></script><script src="xula2c/p2_thu.js?v=1793531231"></script><script src="xula2c/thietbi2.js?v=1793531231"></script><script src="xula2c/test2.js?v=1793531231"></script><script src="xula2c/bia2.js?v=1793531231"></script><script src="xula2c/ui2.js?v=1793531231"></script><script src="xula2c/ui3.js?v=1793531231"></script><script src="xula2c/p1fix.js?v=1793531231"></script><script src="xula2c/amb.js?v=1793531231"></script><script src="xula2c/sfx.js?v=1793531231"></script><script src="xula2c/p1hype.js?v=1793531231"></script><script src="xula2c/en.js?v=1793531231"></script></body></html>
+<script src="xula2c/p2.js?v=1793539425"></script><script src="xula2c/games2.js?v=1793539425"></script><script src="xula2c/rows2.js?v=1793539425"></script><script src="xula2c/rows2b.js?v=1793539425"></script><script src="xula2c/data2.js?v=1793539425"></script><script src="xula2c/p2_thu.js?v=1793539425"></script><script src="xula2c/thietbi2.js?v=1793539425"></script><script src="xula2c/test2.js?v=1793539425"></script><script src="xula2c/bia2.js?v=1793539425"></script><script src="xula2c/ui2.js?v=1793539425"></script><script src="xula2c/ui3.js?v=1793539425"></script><script src="xula2c/p1fix.js?v=1793539425"></script><script src="xula2c/amb.js?v=1793539425"></script><script src="xula2c/sfx.js?v=1793539425"></script><script src="xula2c/p1hype.js?v=1793539425"></script><script src="xula2c/en.js?v=1793539425"></script></body></html>

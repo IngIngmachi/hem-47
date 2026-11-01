@@ -31,7 +31,7 @@ Phần 1 · Thế Giới Lặng (30 ngày, 5 kết) và Phần 2 · Xứ Lạ (2
 | `tools/protect.mjs` | Làm rối mã nhẹ + khóa tên miền, chạy trong build. |
 | `tools/nhap_en.py`, `tools/xuat_ui.py` | Nhập bản dịch từ Excel / xuất chữ giao diện ra Excel. |
 | `build.sh` | Chép file vào `public/` rồi làm rối mã. Cloudflare chạy file này. |
-| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v41**). |
+| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v42**). |
 | `supabase/*.sql` | SQL đã chạy cho Sổ tay / bảng lỗi. |
 | `backup/` | Bản lưu Phần 1 cũ. |
 
@@ -109,12 +109,22 @@ await p.evaluate(()=>{ P2JUMP(10) });                                     // nh�
 - Hiệu năng điện thoại: canvas giới hạn DPR 1.25; ngừng vẽ cảnh khi có thứ che kín màn; tắt `backdrop-filter`
   trên máy cảm ứng; ảnh cảnh Phần 2 tải nền (`p2BgLoad`), chỉ chờ ảnh cần (`p2NeedImg`, tối đa 2,5 giây).
 - Phần 2 bấm sớm khi Phần 1 chưa tải xong bản đồ → đã chặn (`p2Begin` chờ `A`/`W`). `at()` không còn văng lỗi.
+- **Cờ `busy` phải được trả ở mọi nhánh** (kể cả nhánh `return` sớm). Quên trả là cả game đứng im, người chơi phải F5
+  (đã xảy ra ở `caCa` và `gDanhSach`, 1/11). `tick` của trại trả `busy=false` khi xong `p2Camp` để chắc.
+- **Lớp phủ `position:fixed` tự tạo** (ảnh toàn màn) có z-index cao hơn hộp thoại `#dlg` (z 30) thì che mất thoại → kẹt.
+  Ảnh cảnh dùng `BGNOW` như các cảnh khác (đã sửa chuồng chó 1/11).
+- **Nối manh mối**: `noiOut(r)` lấy mã suy luận từ `+cc:suy_…` trong cột `sau` (từ 1/11). Hai cặp có thể cùng ra một suy luận
+  (vd. `NOI_x_saigon` và `NOI_x_saigon2` cùng ra `suy_x_saigon`). Thêm cặp mới thì ghi rõ `+cc:suy_…`.
+- Trò có kim chạy qua lại: đổi chiều thì giữ tốc độ trong khoảng cố định, đừng nhân ngẫu nhiên (kim khóa cửa sau từng nhanh dần vô hạn).
+- **Trước khi lên bản chính**: chạy thử trên `public/` (bản đã làm rối mã) mọi trò Phần 2, ca nhắn tin (Khách kế / Hết ca),
+  điện thoại, cài đặt, ở màn dọc 390×844 và ngang 932×430: mọi nút phải bấm được (elementFromPoint trúng nút), không lỗi trang.
 - Popup chồng nhau: thứ tự là cảnh báo 18+ (`mdCanhBao`, cờ `tgl_canhbao`) rồi mẹo xoay (`mdXoay`, cờ `tgl_xoay`).
 
 ## 8. Đang làm / chờ
 
 - Đã lên bản chính 31/10 20:25 (tgl-v40): sửa trùng lớp `.p2bar` (nút Khách kế / Hết ca), khóa cửa sau 4,2 giây, ẩn phím tắt trên máy cảm ứng.
 - Đã lên bản chính 1/11 18:15 (tgl-v41): cờ `busy` kẹt từ ngày 11 (`caCa` nhắn cả ca, `gDanhSach`; `tick` của trại giờ luôn trả `busy=false`), chuồng chó vẽ bằng `BGNOW` (lớp phủ z84 cũ che hộp thoại z30), `tryNoi` khi bận thì vẽ lại, kim khóa cửa sau có giới hạn tốc độ. Quy tắc: `busy=true` thì mọi nhánh phải trả `busy=false`.
+- Đã lên bản chính 1/11 20:30 (tgl-v42): sửa `noiOut` (nối Bà Mỹ + tin thoại xong vẫn báo còn cặp).
 - **Chờ tác giả duyệt chữ** (file `Hem47_P2_noi_P1_cho_duyet.xlsx`): thẻ "Chuyện đã xảy ra" lúc mở Phần 2 và
   trang "Những khoảnh khắc nối từ Phần 1" ở màn tổng kết. Các cờ Phần 1 dùng ở Phần 2: `noi_cuocgoi, khoa_lat,
   phat_nhanchung, ngan_bv, tu_lo, phuong_dauthu, loc_o, loc_di, lam_nho, bao_tam, bao_phat`.

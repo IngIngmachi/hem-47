@@ -626,7 +626,7 @@ function gNghe(){ return new Promise(res=>{ const B=p2open('<h3>Nghe kỹ tin th
    ===================================================================== */
 async function gDanhSach(){ const can=dsCon().filter(p=>!['ngan','khang','loc'].includes(p.id)).sort((a,b)=>(S.tin[a.id]||0)-(S.tin[b.id]||0)).slice(0,2);
   if(!can.length) return; await say('mota','','Hai cái tên: '+can.map(p=>p.ten).join(' và ')+'.'); await say('nghi','','Thứ Sáu là ngày kia. Sau đêm đó một ngày, nếu đêm đó đúng giờ.');
-  busy=true; const p=await choose([{ma:'a',loi:'Xin Chị Bảy gạch hai cái tên',sub:(S.tin.bay||0)>=3?'chị đã tin mình':'cần Chị Bảy tin mình',dis:(S.tin.bay||0)<3},{ma:'b',loi:'Nhờ người ngoài chuyển 3.000.000đ cho Chị Bảy, giữ một người',sub:'tiền đang có: '+money(S.money)+'đ',dis:S.money<3000000},{ma:'c',loi:'Không làm gì được'}],false,'Tờ danh sách'); hideDlg();
+  busy=true; const p=await choose([{ma:'a',loi:'Xin Chị Bảy gạch hai cái tên',sub:(S.tin.bay||0)>=3?'chị đã tin mình':'cần Chị Bảy tin mình',dis:(S.tin.bay||0)<3},{ma:'b',loi:'Nhờ người ngoài chuyển 3.000.000đ cho Chị Bảy, giữ một người',sub:'tiền đang có: '+money(S.money),dis:S.money<3000000},{ma:'c',loi:'Không làm gì được'}],false,'Tờ danh sách'); hideDlg();
   if(p.ma==='a'){ await say('thoai','Chị Bảy','...Thứ Sáu chị bận. Chị viết sai tên. Đi ngủ đi.'); }
   else if(p.ma==='b'){ fx('-tien:3000000'); await say('thoai','Chị Bảy','Một người thôi. Đứa kia chị hổng giữ được.'); if(can[1]) fx('mat:'+can[1].id); }
   else { can.forEach(x=>fx('mat:'+x.id)); await say('mota','','Sáng thứ Năm, hai cái giường trống. Mền đã gấp sẵn.'); }

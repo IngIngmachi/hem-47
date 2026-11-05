@@ -330,7 +330,7 @@ M('NOI_x_saigon2','noi','x_bamy + x_giong','Ông Chủ Lò ở Sài Gòn',{sau:'
 M('NOI_x_khe','noi','x_lich + x_sodo','Khe hở 3 giờ sáng',{sau:'+cc:suy_x_khe +co:x_gio'});
 X('noi_x_saigon','Nối',[['~','Ví tổng mở tại Quận 7, băng ghi âm lại dính tiếng loa phường tiếng Việt. Vậy "Ông Chủ Lò" đâu có ngồi bên kia biên giới, kẻ đó đang ở ngay giữa Sài Gòn đếm tiền mỗi cuối tuần.']]);
 X('noi_x_saigon2','Nối',[['~','Công ty đăng ký ở Sài Gòn, ghi âm có tiếng loa phường. Kẻ cầm đầu cái lò này đang ngồi ngay tại Việt Nam.']]);
-X('noi_x_khe','Nối',[['~','Đúng 3h sáng, lính tầng trệt bỏ vị trí đi lên lầu 2 bàn giao ca. Cửa hậu sẽ bỏ trống không ai canh suốt 2 phút.'],['~','Thời điểm mở cửa trốn ra sông phải chốt đúng 3h sáng. Mật mã giờ G cần gửi về: 3G.']]);
+X('noi_x_khe','Nối',[['~','Đúng 3h sáng, lính tầng trệt bỏ vị trí đi lên lầu 2 bàn giao ca. Cửa hậu sẽ bỏ trống không ai canh suốt 2 phút.'],['~','Thời điểm mở cửa trốn ra sông phải chốt đúng 3h sáng. Mật mã giờ G cần gửi về: BAG (ba giờ).']]);
 
 /* báo cáo: kế hoạch gửi đại úy Vinh */
 M('BANG_xvinh_1','bang','xvinh','Trại ở {}.');

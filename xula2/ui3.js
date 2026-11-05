@@ -183,22 +183,20 @@ body.u3d .top .r #acctBtn .tx{display:none!important}
 body.u3d .top .r #acctBtn::after{content:"Tài khoản"}
 body.u3d #btvPill{top:auto;bottom:84px;right:16px}
 
- body.u3d.u3w15 .top{padding:0 16px!important
- body.u3d .top h1.tua img{height:38px!important}
- body.u3d .top>.chips{margin-left:14px!important}
- body.u3d .top>.chips .chip{padding:4px 11px!important;font-size:15.5px!important;gap:7px}
- body.u3d .top .r>button{min-width:56px!important;font-size:12px!important}
-}
+ body.u3d.u3w15 .top{padding:0 16px!important}
+ body.u3d.u3w15 .top h1.tua img{height:38px!important}
+ body.u3d.u3w15 .top>.chips{margin-left:14px!important}
+ body.u3d.u3w15 .top>.chips .chip{padding:4px 11px!important;font-size:15.5px!important;gap:7px}
+ body.u3d.u3w15 .top .r>button{min-width:56px!important;font-size:12px!important}
  body.u3d.u3w15 .keys{gap:16px!important;padding-left:36%!important;font-size:13.5px!important} body.u3d.u3w15 .keys kbd{padding:3px 7px!important;font-size:12.5px!important} 
  body.u3d.u3w15 .keys .k:nth-child(n+6){display:none!important} 
  body.u3d.u3w11 .keys .k:nth-child(n+4){display:none!important} body.u3d.u3w11 .top h1.tua img{height:32px!important} 
 
- body.u3d.u3w13 #app .top .r>button .lb,body.u3d.u3w13 #app .top .r #musBtn::after,body.u3d.u3w13 #app .top .r #acctBtn::after{display:none!important;content:none!important
- body.u3d #app .top .r>button{min-width:42px!important;height:44px!important}
- body.u3d .top .r>button{min-width:42px!important;height:44px!important}
- body.u3d .top .r #phoneBtn{font-size:0!important}
- body.u3d .top>.chips #hHoi{display:none}
-}
+ body.u3d.u3w13 #app .top .r>button .lb,body.u3d.u3w13 #app .top .r #musBtn::after,body.u3d.u3w13 #app .top .r #acctBtn::after{display:none!important;content:none!important}
+ body.u3d.u3w13 #app .top .r>button{min-width:42px!important;height:44px!important}
+ body.u3d.u3w13 .top .r>button{min-width:42px!important;height:44px!important}
+ body.u3d.u3w13 .top .r #phoneBtn{font-size:0!important}
+ body.u3d.u3w13 .top>.chips #hHoi{display:none}
 body.u3d .top .r{margin-left:auto;gap:4px!important}
 body.u3d .top .r #hAct{display:none}
 body.u3d .top .r>button{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:auto!important;min-width:76px;height:56px!important;padding:0 8px!important;background:none!important;border:0!important;color:var(--u3cream)!important;font:400 13.5px/1 Newsreader,Georgia,serif!important;position:relative;border-radius:6px!important}

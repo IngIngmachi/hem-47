@@ -345,7 +345,7 @@ function mdChap(T){ if(!MD.sel) MD.sel=(T.p2||T.xong)?2:1;
 function mdEnds(T){ if(!MD.pick||!T.got.includes(MD.pick)) MD.pick=T.last&&T.got.includes(T.last)?T.last:T.got[0]||'hetgio';
   const rec=T.rec||{};
   const list=Object.keys(MDK).map(k=>{ const [ten,br]=MDK[k]; if(!T.got.includes(k)) return '<div class="mdend locked" aria-disabled="true"><span class="n">???</span><span class="m">Chưa mở · chơi Phần 1 để tìm</span></div>';
-    const sn=mdSnap(k)||(k===T.last?rec:null); const m=sn&&sn.chungcu!=null?sn.chungcu+' chứng cứ · '+money(sn.tien||0)+'đ':'đã mở · chưa lưu bằng chứng';
+    const sn=mdSnap(k)||(k===T.last?rec:null); const m=sn&&sn.chungcu!=null?sn.chungcu+' chứng cứ · '+money(sn.tien||0):'đã mở · chưa lưu bằng chứng';
     return '<button type="button" class="mdend'+(MD.pick===k?' sel':'')+'" data-pick="'+k+'" aria-pressed="'+(MD.pick===k)+'"><span class="n">'+esc(ten)+(k===T.last?'<span class="mdlast">gần nhất</span>':'')+'</span><span class="m">'+esc(m)+'</span><span class="mdbr '+br+'">'+MDBR[br]+'</span></button>'; }).join('');
   const brNote=MDK[MD.pick][1]==='A'?'Ngân trở về hẻm. Bạn chơi xen kẽ Ngân và Lâm.':'Ngân vẫn mất tích. Lâm một mình đi tìm.';
   const warn=T.p2?'<div class="mdwarn">Phần 2 đang dở ở <b>ngày '+T.p2.ngay+'</b>'+(T.p2.ket?' (kết '+esc(mdTen(T.p2.ket))+')':'')+'. Bắt đầu lại sẽ xóa tiến trình này.</div>':'';

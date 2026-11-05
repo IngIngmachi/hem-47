@@ -751,6 +751,20 @@ ending=async function(k){ if(!P2.on) return ending1(k); return p2Ending(k); };
 
 /* ---------------- màn đầu: thêm nút Phần 2 ---------------- */
 function p2p1(){ try{ return JSON.parse(lsGet('tgl_chuong1')||'null'); }catch(e){ return null; } }
+/* Lưu theo tài khoản: kéo bài lưu Phần 2 (slot chuong2) và kết Phần 1 (chuong1, chuong1_<kết>) từ mây về máy.
+   Trước đây chỉ đẩy lên mà không kéo về, đổi máy là mất Phần 2. Chỉ ghi khi bản trên mây mới hơn / máy chưa có. */
+let P2PULL=null;
+function p2CloudPull(){ if(typeof supa==='undefined'||!supa||!USERID) return Promise.resolve(false); if(P2PULL&&P2PULL.uid===USERID) return P2PULL.p;
+  const uid=USERID; const p=(async()=>{ let ch=false;
+    try{ const {data}=await supa.from('saves').select('slot,data').eq('user_id',uid);
+      for(const r of data||[]){ const d=r.data; if(!d) continue;
+        if(r.slot==='chuong2'){ if(P2.on||!d.json) continue; let c=null, L=null; try{ c=JSON.parse(d.json); }catch(e){} if(!(c&&c.v===7&&c.p2)) continue;
+          try{ L=JSON.parse(lsGet(P2SAVE)||'null'); }catch(e){} if(!(L&&L.v===7&&L.p2)||saveNewer(c,L)){ lsSet(P2SAVE,d.json); ch=true; } }
+        else if(/^chuong1(_[a-z0-9]+)?$/.test(r.slot)&&d.ket){ const k='tgl_'+r.slot; if(!lsGet(k)){ lsSet(k,JSON.stringify(d)); ch=true; } } } }catch(e){}
+    if(ch){ try{ if(typeof mdRender==='function') mdRender(); }catch(e){} } return ch; })();
+  P2PULL={uid,p}; return p; }
+if(typeof onAuth==='function'){ const _oa=onAuth; onAuth=async function(){ const r=await _oa.apply(this,arguments); try{ P2PULL=null; p2CloudPull(); }catch(e){} return r; }; }
+setTimeout(()=>{ try{ p2CloudPull(); }catch(e){} },0);
 function p2Buttons(){ const row=document.querySelector('#cover .row'); if(!row||$('bP2')||P2.on) return;
   /* chỉ hiện ở màn kết Phần 1, không chen vô màn hết hồi */
   if(!(typeof S!=='undefined'&&S&&S.ended)) return;
@@ -769,7 +783,7 @@ function p2Menu(){ const c=$('cover'); const p1=p2p1(), sv=lsGet(P2SAVE); const 
     if(v||$('p2kl').checked||$('p2tu').checked||$('p2cg').checked||$('p2ph').checked) p=Object.assign({},p1||{},{ket:v||(p1&&p1.ket)||'hetgio',co:Object.assign({},(p1&&p1.co)||{},{khoa_lat:$('p2kl').checked,tu_lo:$('p2tu').checked,noi_cuocgoi:$('p2cg').checked,phat_nhanchung:$('p2ph').checked})});
     lsDel(P2SAVE); p2Begin(false,p); }; }
 async function p2Begin(cont,p1){ ac(); if(P2.starting) return; P2.starting=true; const bar=p2Bar();
-  let o=null; if(cont){ try{ o=JSON.parse(lsGet(P2SAVE)||'null'); }catch(e){} }
+  let o=null; if(cont){ try{ await Promise.race([p2CloudPull(),sleep(4000)]); }catch(e){} try{ o=JSON.parse(lsGet(P2SAVE)||'null'); }catch(e){} }
   try{ const need=[p2LoadImgs(),(async()=>{ for(let i=0;i<300&&!(Object.keys(A).length&&W);i++) await sleep(100); })()]; if(o&&o.map==='trai') need.push(trainImgs()); await p2Track(need,bar); }
   finally{ bar.remove(); P2.starting=false; }
   P2.on=true; p2Install(); p2BgLoad(); trainImgs();
@@ -824,7 +838,7 @@ const kqCanvas1=kqCanvas; kqCanvas=async function(k){ if(!P2.on) return kqCanvas
   g.fillStyle='#d9d3c4'; g.font='500 26px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='8px'; g.fillText('PHẦN 2',W/2+4,ly+46); if('letterSpacing' in g) g.letterSpacing='0px';
   g.fillStyle='#a9a493'; g.font='500 30px "Be Vietnam Pro", sans-serif'; if('letterSpacing' in g) g.letterSpacing='6px'; g.fillText('KẾT THÚC · NGÀY '+S.day,W/2,860); if('letterSpacing' in g) g.letterSpacing='0px';
   g.fillStyle='#ffffff'; g.font='600 92px Oswald, "Arial Narrow", sans-serif'; g.fillText(String((ENDS[k]||['',''])[1]).toUpperCase(),W/2,965);
-  const st=[[(S.p2ra||[]).length+'/'+(S.p2tong||0),'người ra tới sông'],[ocl()+'/5','chứng cứ Ông Chủ Lò'],[p2KetGot().length+'/4','kết đã mở']];
+  const st=[[(S.p2ra||[]).length+'/'+(S.p2tong||0),'người ra tới sông'],[ocl()+'/5','chứng cứ Ông Chủ Lò'],[p2KetGot().length+'/5','kết đã mở']];
   st.forEach(([v,l],i)=>{ const x=W/2+(i-1)*300, y=1065; g.fillStyle='rgba(32,38,58,.85)'; g.strokeStyle='rgba(255,255,255,.12)'; g.lineWidth=2; const rw=270,rh=130; if(g.roundRect){ g.beginPath(); g.roundRect(x-rw/2,y-rh/2,rw,rh,18); g.fill(); g.stroke(); } else g.fillRect(x-rw/2,y-rh/2,rw,rh);
     g.fillStyle='#efe8d8'; g.font='600 50px Oswald, "Arial Narrow", sans-serif'; g.fillText(v,x,y+8); g.fillStyle='#959cb2'; g.font='400 24px "Be Vietnam Pro", sans-serif'; g.fillText(l,x,y+46); });
   g.fillStyle='#d9d3c4'; g.font='400 32px "Be Vietnam Pro", sans-serif'; g.fillText('Bạn đưa được bao nhiêu người về?',W/2,1215);

@@ -1,4 +1,4 @@
-# Hẻm 47 · Bàn giao kỹ thuật (31/10/2026)
+# Hẻm 47 · Bàn giao kỹ thuật (cập nhật 05/11/2026)
 
 Đọc hết file này trước khi đụng code. Tác giả: Irene (tài khoản mudashot). Game web tĩnh, 2 phần:
 Phần 1 · Thế Giới Lặng (30 ngày, 5 kết) và Phần 2 · Xứ Lạ (21 ngày, 2 nhánh, 5 kết). Có bản tiếng Anh.
@@ -31,7 +31,7 @@ Phần 1 · Thế Giới Lặng (30 ngày, 5 kết) và Phần 2 · Xứ Lạ (2
 | `tools/protect.mjs` | Làm rối mã nhẹ + khóa tên miền, chạy trong build. |
 | `tools/nhap_en.py`, `tools/xuat_ui.py` | Nhập bản dịch từ Excel / xuất chữ giao diện ra Excel. |
 | `build.sh` | Chép file vào `public/` rồi làm rối mã. Cloudflare chạy file này. |
-| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v42**). |
+| `sw.js` | Service worker, tên bộ nhớ đệm `const C='tgl-vNN'` (hiện **tgl-v43**). |
 | `supabase/*.sql` | SQL đã chạy cho Sổ tay / bảng lỗi. |
 | `backup/` | Bản lưu Phần 1 cũ. |
 
@@ -118,6 +118,12 @@ await p.evaluate(()=>{ P2JUMP(10) });                                     // nh�
 - Trò có kim chạy qua lại: đổi chiều thì giữ tốc độ trong khoảng cố định, đừng nhân ngẫu nhiên (kim khóa cửa sau từng nhanh dần vô hạn).
 - **Trước khi lên bản chính**: chạy thử trên `public/` (bản đã làm rối mã) mọi trò Phần 2, ca nhắn tin (Khách kế / Hết ca),
   điện thoại, cài đặt, ở màn dọc 390×844 và ngang 932×430: mọi nút phải bấm được (elementFromPoint trúng nút), không lỗi trang.
+- **Lưu theo tài khoản**: mỗi phần một slot trong `saves` (`save` = Phần 1, `chuong2` = Phần 2, `chuong1` / `chuong1_<kết>` = kết Phần 1).
+  `p2CloudPull()` (p2.js, từ 05/11) kéo `chuong2` + `chuong1*` về localStorage khi đăng nhập và trước khi "Chơi tiếp" Phần 2.
+- **CSS trong ui3.js là chuỗi dài**: thiếu một dấu `}` là trình duyệt nuốt luôn các luật sau mà không báo lỗi (đã gặp 05/11).
+  Sửa CSS thì kiểm bằng `document.styleSheets` xem luật có thật sự còn không.
+- **Bộ thử ca chat sau `P2JUMP`**: cảnh của ngày nhảy tới còn chạy, hộp thoại che nút → phải bấm cho hết cảnh (đợi `$('dlg').hidden&&!busy`) rồi mới thử.
+- `supabase-js` ghim cố định `@2.118.0` (nguon.html). Muốn nâng thì thử kỹ đăng nhập + lưu trước.
 - Popup chồng nhau: thứ tự là cảnh báo 18+ (`mdCanhBao`, cờ `tgl_canhbao`) rồi mẹo xoay (`mdXoay`, cờ `tgl_xoay`).
 
 ## 8. Đang làm / chờ
@@ -125,6 +131,13 @@ await p.evaluate(()=>{ P2JUMP(10) });                                     // nh�
 - Đã lên bản chính 31/10 20:25 (tgl-v40): sửa trùng lớp `.p2bar` (nút Khách kế / Hết ca), khóa cửa sau 4,2 giây, ẩn phím tắt trên máy cảm ứng.
 - Đã lên bản chính 1/11 18:15 (tgl-v41): cờ `busy` kẹt từ ngày 11 (`caCa` nhắn cả ca, `gDanhSach`; `tick` của trại giờ luôn trả `busy=false`), chuồng chó vẽ bằng `BGNOW` (lớp phủ z84 cũ che hộp thoại z30), `tryNoi` khi bận thì vẽ lại, kim khóa cửa sau có giới hạn tốc độ. Quy tắc: `busy=true` thì mọi nhánh phải trả `busy=false`.
 - Đã lên bản chính 1/11 20:30 (tgl-v42): sửa `noiOut` (nối Bà Mỹ + tin thoại xong vẫn báo còn cặp).
+- Đã lên bản chính 05/11 (tgl-v43), theo file audit tác giả gửi: lưu Phần 2 theo tài khoản (`p2CloudPull`), bỏ "đđ"
+  (bia2/games2), ảnh tổng kết "/5 kết", sửa 2 khối CSS thiếu `}` (thanh trên máy tính 1100–1500px), câu `noi_x_khe_02` đổi 3G → BAG
+  (VI + EN, tác giả duyệt), ghim supabase-js, `build.sh` không còn đưa `v2.html` lên web, giới hạn độ dài cột bảng `loi`
+  (`supabase/loi-gioi-han-05-11.sql`, đã chạy).
+- Audit 05/11 còn để ngỏ (nhẹ, chưa làm): `setInterval` tự lưu tạo lại mỗi lần `begin`/`p2Begin`; `p2AnhSong` khai báo 2 lần;
+  `thongke`/`baiviet_tim` ai cũng đọc được (nên đổi sang view đếm); đường dẫn trang thử lộ trong `sw.js`; ~15 bộ đếm giờ chạy liên tục (hao pin);
+  màn đầu tải sẵn ~8MB ảnh. Các mục audit sai/cũ: LOG-03 (mk_p2), ARC-02 (sw.js), SEC-03/04 (XSS), LOG-11.
 - **Chờ tác giả duyệt chữ** (file `Hem47_P2_noi_P1_cho_duyet.xlsx`): thẻ "Chuyện đã xảy ra" lúc mở Phần 2 và
   trang "Những khoảnh khắc nối từ Phần 1" ở màn tổng kết. Các cờ Phần 1 dùng ở Phần 2: `noi_cuocgoi, khoa_lat,
   phat_nhanchung, ngan_bv, tu_lo, phuong_dauthu, loc_o, loc_di, lam_nho, bao_tam, bao_phat`.

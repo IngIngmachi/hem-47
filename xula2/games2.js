@@ -749,16 +749,17 @@ const MINI={
     while(keys.length<NK){ const k=T.slice(); const i=Math.floor(Math.random()*5); k[i]=1+((k[i]+Math.floor(Math.random()*3))%4); if(Math.random()<.35){ const j=(i+2)%5; k[j]=1+(k[j]%4); } if(k.join()!==T.join()&&!keys.some(z=>z.join()===k.join())) keys.push(k); }
     keys.sort(()=>Math.random()-.5); const LOOK=4.2; let sel=-1, bad=0, turn=0, tv=0, ph='nhin', look=LOOK, den=0, nz=0, nd=0, ndv=.45; const KX=600, KY=206, KH=54;
     u.tip('Rọi đèn vô ổ khóa: nhớ hình răng trong vài giây. Đèn tắt rồi thì kéo cây chìa nhớ được thả vô ổ. Tra sai hai lần là lộ.');
-    const bL=u.btn('Rọi lại (ồn)',()=>{ if(ph!=='chon') return; look=2.4; den++; nz+=.25; window.SFX&&SFX.play('denpin',{v:.8}); if(nz>=1) u.end({kq:'on',n:.6,m:'Đèn pin quẹt vô cửa kêu cạch. Đèn lầu hai bật.'}); }); bL.hidden=true;
+    u.cam.focus(KX+180,100,1.07,.9); /* máy đẩy chậm vô ổ khóa lúc đang rọi */
+    const bL=u.btn('Rọi lại (ồn)',()=>{ if(ph!=='chon') return; look=2.4; den++; nz+=.25; u.cam.flash('255,240,190',.35); u.cam.focus(KX+180,100,1.07,4); u.cam.shake(.25); window.SFX&&SFX.play('denpin',{v:.8}); if(nz>=1) u.end({kq:'on',n:.6,m:'Đèn pin quẹt vô cửa kêu cạch. Đèn lầu hai bật.'}); }); bL.hidden=true;
     let drag=null;
     u.cv.onpointerdown=e=>{ if(ph!=='chon') return; const p=u.pt(e); if(p.x>KX-10&&p.y>KY){ const i=Math.floor((p.y-KY)/KH); if(i>=0&&i<NK){ sel=i; blip(); drag={x:p.x,y:p.y,mv:0}; } } };
     u.cv.onpointermove=e=>{ if(!drag) return; const p=u.pt(e); drag.mv+=Math.hypot(p.x-drag.x,p.y-drag.y); drag.x=p.x; drag.y=p.y; };
     u.cv.onpointerup=e=>{ if(!drag) return; const d=drag; drag=null; if(d.mv>30&&d.y<190&&d.x>KX-40) bT.onclick(); };
-    const bT=u.btn('Tra vô',()=>{ if(ph!=='chon') return; if(sel<0){ u.say('Chọn một cây chìa trước.'); return; } if(keys[sel].join()===T.join()){ ph='xoay'; tone(500,.06,.03,'triangle'); u.hit('ok'); bT.hidden=true; bL.hidden=true; bX.hidden=false; u.tip('Vô rồi. Giữ Xoay khi kim nằm trong vùng xanh. Xoay lúc kim ra ngoài là chốt kêu cạch.'); } else { bad++; nz+=.35; tone(220,.12,.04,'square'); u.hit('bad'); tone(260,.1,.04,'square',.12); u.say('Lạch cạch. Không vô.'); if(bad>=2||nz>=1) u.end({kq:'on',n:.6,m:'Lạch cạch to quá. Đèn lầu hai bật.'}); } },false,'main'); bT.hidden=true;
+    const bT=u.btn('Tra vô',()=>{ if(ph!=='chon') return; if(sel<0){ u.say('Chọn một cây chìa trước.'); return; } if(keys[sel].join()===T.join()){ ph='xoay'; tone(500,.06,.03,'triangle'); u.hit('ok'); u.cam.slow(.25,.6); u.cam.kick(.06); u.cam.focus(280,500,1.06,2.5); bT.hidden=true; bL.hidden=true; bX.hidden=false; u.tip('Vô rồi. Giữ Xoay khi kim nằm trong vùng xanh. Xoay lúc kim ra ngoài là chốt kêu cạch.'); } else { bad++; nz+=.35; tone(220,.12,.04,'square'); u.hit('bad'); u.cam.glitch(.35,1); u.cam.kick(.07); u.cam.shake(.8); tone(260,.1,.04,'square',.12); u.say('Lạch cạch. Không vô.'); if(bad>=2||nz>=1) u.end({kq:'on',n:.6,m:'Lạch cạch to quá. Đèn lầu hai bật.'}); } },false,'main'); bT.hidden=true;
     const bX=u.btn('Xoay',v=>tv=v,true,'main'); bX.hidden=true;
     const prof=(k,px,py,s,c)=>{ x.fillStyle=c; x.beginPath(); x.moveTo(px,py); k.forEach((h,i)=>{ x.lineTo(px+i*s+s*.2,py); x.lineTo(px+i*s+s*.35,py+h*s*.32); x.lineTo(px+i*s+s*.65,py+h*s*.32); x.lineTo(px+i*s+s*.8,py); }); x.lineTo(px+5*s,py); x.lineTo(px+5*s,py-s*.4); x.lineTo(px,py-s*.4); x.closePath(); x.fill(); };
     return dt=>{ if(!u.bg()){ x.fillStyle='#101218'; x.fillRect(0,0,1000,600); x.fillStyle='#8a7a52'; x.fillRect(320,220,200,260); }
-      if(look>0){ look-=dt; if(look<=0&&ph==='nhin'){ ph='chon'; bT.hidden=false; bL.hidden=false; } }
+      if(look>0){ look-=dt; if(look<=0){ u.cam.black(.85); tone(1200,.02,.02,'square'); u.cam.focus(KX+180,KY+160,1.03,2); if(ph==='nhin'){ ph='chon'; bT.hidden=false; bL.hidden=false; } } }
       mgPanel(x,KX-20,16,400,170); mgT(x,'Ổ khóa',KX,44,{s:13,c:'#9aa2b5',a:'left'});
       if(look>0){ const g=x.createRadialGradient(KX+180,100,10,KX+180,100,200); g.addColorStop(0,'rgba(255,240,190,.35)'); g.addColorStop(1,'rgba(255,240,190,0)'); x.fillStyle=g; x.fillRect(KX-20,16,400,170); prof(T,KX+20,96,64,'rgba(255,240,200,.85)'); mgBar(x,KX,160,360,look/LOOK,'#f0b25c'); }
       else { x.fillStyle='rgba(255,255,255,.06)'; x.fillRect(KX+20,70,320,60); mgT(x,'tối thui · nhớ lại hình răng',KX+180,108,{s:13,c:'#6f7790'}); if(sel>=0&&ph==='chon') prof(keys[sel],KX+20,96,64,'rgba(240,178,92,.35)'); }
@@ -766,9 +767,9 @@ const MINI={
       keys.forEach((k,i)=>{ const y=KY+i*KH; if(i===sel){ x.fillStyle='rgba(240,178,92,.18)'; x.fillRect(KX-10,y,380,KH-6); } x.fillStyle='#c9b98a'; x.beginPath(); x.arc(KX+18,y+18,13,0,7); x.fill(); x.fillStyle='rgba(8,10,16,.9)'; x.beginPath(); x.arc(KX+18,y+18,5,0,7); x.fill(); prof(k,KX+36,y+16,28,'#c9b98a'); mgT(x,String(i+1),KX+350,y+30,{s:13,c:'#9aa2b5'}); });
       if(drag&&sel>=0&&drag.mv>30){ x.save(); x.globalAlpha=.9; x.fillStyle='#c9b98a'; x.beginPath(); x.arc(drag.x-90,drag.y,16,0,7); x.fill(); prof(keys[sel],drag.x-72,drag.y-2,30,'#e3d3a2'); x.restore(); if(drag.y<190){ x.strokeStyle='rgba(240,178,92,.8)'; x.lineWidth=3; x.strokeRect(KX-14,22,388,158); } }
       mgPanel(x,20,20,230,80); mgBar(x,40,72,190,nz,'#e2645c','Tiếng động'); mgT(x,'Tra sai: '+bad+'/2',140,96,{s:12,c:bad?'#e2645c':'#9aa2b5'});
-      u.danger(nz); if(ph==='xoay'&&turn>.4&&!u._ev1){ u._ev1=1; tv=0; u.interrupt('Đèn hành lang chớp lên.',()=>{ nz+=.35; }); }
+      u.danger(nz); if(ph==='xoay'&&turn>.4&&!u._ev1){ u._ev1=1; tv=0; u.interrupt('Đèn hành lang chớp lên.',()=>{ nz+=.35; }); u.cam.strobe(3); u.cam.shake(.4); }
       if(ph==='xoay'){ nd+=ndv*dt; if(nd>1||nd<0){ const sp=Math.min(.55,Math.max(.35,Math.abs(ndv)*(0.85+Math.random()*.3))); ndv=(ndv>0?-1:1)*sp; nd=Math.max(0,Math.min(1,nd)); } const zc=.5+Math.sin(turn*9)*.15, zw=.26-turn*.04, inz=Math.abs(nd-zc)<zw/2;  /* 1/11: kim không còn nhanh dần vô hạn, vùng xanh rộng hơn */
-        if(tv){ if(inz) turn+=dt*.36; else { nz+=dt*.7; if(Math.random()<dt*6) tone(900,.03,.015,'square'); } }
+        if(tv){ if(inz){ turn+=dt*.36; u.cam.focus(280,500,1.06+turn*.04,2); } else { nz+=dt*.7; u.cam.shake(.35); if(Math.random()<dt*6) tone(900,.03,.015,'square'); } }
         if(nz>=1){ u.end({kq:'on',n:.7,m:'Chốt kêu cạch một tiếng lớn. Có người trở mình.'}); return; }
         mgPanel(x,20,440,520,140); x.fillStyle='rgba(255,255,255,.08)'; x.fillRect(40,480,480,26); x.fillStyle='rgba(95,179,122,.55)'; x.fillRect(40+480*(zc-zw/2),480,480*zw,26); x.fillStyle=inz?'#efe8d8':'#e2645c'; x.fillRect(40+480*nd-3,474,6,38); mgT(x,'Giữ Xoay khi kim nằm trong vùng xanh',280,466,{s:13,c:'#9aa2b5'});
         mgBar(x,40,548,480,turn,'#5fb37a','Đã xoay'); if(turn>=1){ chime(); u.end({kq:'ok'}); } } }; },
@@ -779,7 +780,9 @@ const MINI={
     const mv=e=>{ const p=u.pt(e); ear=Math.max(0,Math.min(1,(p.y-60)/460)); };
     u.cv.onpointerdown=e=>{ drag=true; mv(e); }; u.cv.onpointermove=e=>{ if(drag||e.pointerType==='mouse') mv(e); }; u.cv.onpointerup=()=>drag=false;
     u.btn('Rút',()=>u.end(h>=2/3?{kq:'ok'}:{kq:'hong',m:'Nghe chưa ra gì. Lính lên rồi, để đêm khác.'}),false,'main');
-    let nh=0; return (dt,t)=>{ const s=.5+Math.sin(t*.35)*.32; const cl=Math.max(0,1-Math.abs(ear-s)/.13); h=Math.min(1,h+cl*dt/8); d-=dt/24; step+=dt; u.danger(Math.max(0,(1-d)-.3)/.7); const nn=Math.floor(h*3+.001); if(nn>nh){ nh=nn; u.hit('tick'); tone(720,.06,.02,'triangle'); }
+    let nh=0, stT=1; return (dt,t)=>{ const s=.5+Math.sin(t*.35)*.32; const cl=Math.max(0,1-Math.abs(ear-s)/.13); h=Math.min(1,h+cl*dt/8); d-=dt/24; step+=dt; u.danger(Math.max(0,(1-d)-.3)/.7); const nn=Math.floor(h*3+.001); if(nn>nh){ nh=nn; u.hit('tick'); tone(720,.06,.02,'triangle'); u.cam.slow(.3,.7); u.cam.kick(.06); u.cam.flash('255,220,150',.22); }
+      u.cam.focus(EX,60+ear*460,1+cl*.07,1.6); /* tai càng nghe rõ máy càng áp sát */
+      if(dt>0){ stT-=dt; if(stT<=0){ const near=1-d; stT=1.05-near*.6; if(near>.25) u.cam.shake(.12+near*.55); } } /* rung theo từng bước dép tới gần */
       u.steps.set(.15+.85*(1-d));
       if(d<=0){ u.end({kq:'on',n:1,m:'Lính đứng ngay đầu cầu thang.'}); return; }
       if(!u.bg()){ x.fillStyle='#0c0d12'; x.fillRect(0,0,1000,600); x.fillStyle='#4a3a28'; x.fillRect(120,0,560,560); }
@@ -798,10 +801,25 @@ function miniDem(host,muc){ return new Promise(res=>{ const box=document.createE
   let bg=null; const k=MGIMG[muc]; if(k){ const i=new Image(); i.onload=()=>bg=i; i.onerror=()=>{ if(!i._r){ i._r=1; i.src='img2/'+k+'.webp?r='+Date.now(); } }; i.src='img2/'+k+'.webp?v=1025'; }
   let over=false, raf, t=0, last=performance.now(), msg='', msgT=0, dang=0, beat=0, EV=null; const HB=window.SFX?SFX.loop('timdap',{max:.9}):null, ST=window.SFX?SFX.loop('buocchan',{max:.8}):null;
   const fxEl=box.querySelector('.mgfx');
+  /* 06/11 · bộ đạo diễn: máy quay (zoom/đẩy/rung), quay chậm, glitch, chớp, tối, nhiễu phim. Gọi qua u.cam.* trong từng trò. */
+  const RM=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CAM={z:1,tz:1,fx:500,fy:300,tfx:500,tfy:300,k:3,sh:0,ts:1,slowT:0,gl:0,glS:1,fl:0,flC:'255,255,255',bl:0,tbl:0,str:0,strT:0,ds:0,out:0};
+  /* viền tối + hạt phim bằng lớp CSS (GPU vẽ, không tốn khung hình canvas) */
+  if(!window.__mgGrain){ const GR=document.createElement('canvas'); GR.width=GR.height=128; const g=GR.getContext('2d'), d=g.createImageData(128,128); for(let i=0;i<d.data.length;i+=4){ const v=Math.random()*255; d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=40; } g.putImageData(d,0,0); window.__mgGrain=GR.toDataURL(); }
+  if(!document.getElementById('mgCineCss')){ const st=document.createElement('style'); st.id='mgCineCss'; st.textContent='.mgcine{position:absolute;inset:0;pointer-events:none;border-radius:12px;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%)}.mgcine:after{content:"";position:absolute;inset:0;background-image:url('+window.__mgGrain+');opacity:.5;mix-blend-mode:overlay;animation:mggr .5s steps(4) infinite}@keyframes mggr{0%{background-position:0 0}25%{background-position:-40px 30px}50%{background-position:50px -20px}75%{background-position:-20px -50px}}@media (prefers-reduced-motion:reduce){.mgcine:after{animation:none}}'; document.head.appendChild(st); }
+  { const ci=document.createElement('i'); ci.className='mgcine'; cv.parentNode.style.position='relative'; cv.parentNode.appendChild(ci); const fit=()=>{ if(!box.isConnected) return; const r=cv.getBoundingClientRect(), pr=cv.parentNode.getBoundingClientRect(); Object.assign(ci.style,{left:(r.left-pr.left)+'px',top:(r.top-pr.top)+'px',width:r.width+'px',height:r.height+'px',right:'auto',bottom:'auto'}); }; requestAnimationFrame(fit); try{ new ResizeObserver(fit).observe(cv); }catch(e){} }
+  let dsNow=-1;
+  /* zoom nhẹ (≤4.5%) và tâm zoom kẹp gần giữa để bảng chữ ở mép khung không bị cắt */
+  const cam={focus:(fx,fy,z,k)=>{ CAM.tfx=Math.max(400,Math.min(600,fx)); CAM.tfy=Math.max(240,Math.min(360,fy)); CAM.tz=RM?1:Math.max(1,Math.min(1.045,z||1)); CAM.k=k||3; },
+    kick:dz=>{ if(!RM) CAM.z=Math.min(1.07,CAM.z+(dz||.03)); }, shake:v=>{ if(!RM) CAM.sh=Math.max(CAM.sh,v||.5); },
+    slow:(s,dur)=>{ CAM.ts=s; CAM.slowT=dur||.5; }, glitch:(dur,st)=>{ CAM.gl=Math.max(CAM.gl,dur||.3); CAM.glS=st||1; },
+    flash:(c,a)=>{ CAM.flC=c||'255,255,255'; CAM.fl=Math.max(CAM.fl,a==null?.5:a); }, black:(a,hold)=>{ CAM.bl=a; CAM.tbl=hold?a:0; }, strobe:n=>{ CAM.str=n||3; CAM.strT=0; },
+    desat:v=>{ CAM.ds=v; }};
   const hit=k=>{ fxEl.className='mgfx'; void fxEl.offsetWidth; fxEl.className='mgfx '+k; if(k==='bad'){ box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake'); try{ navigator.vibrate&&navigator.vibrate(120); }catch(e){} } };
-  const end=r=>{ if(over) return; over=true; cancelAnimationFrame(raf); HB&&HB.stop(); ST&&ST.stop(); removeEventListener('keydown',mk,true); removeEventListener('keyup',mku,true);
-    if(r.kq==='ok'||r.kq==='on'){ hit(r.kq==='ok'?'ok':'bad'); if(r.kq==='on') tone(140,.5,.05,'sawtooth'); [...bar.children].forEach(c=>c.disabled=true); setTimeout(()=>{ box.remove(); window.__p2mini=null; res(r); },r.kq==='ok'?420:620); return; }
-    box.remove(); window.__p2mini=null; res(r); };
+  const end=r=>{ if(over) return; over=true; HB&&HB.stop(); ST&&ST.stop(); removeEventListener('keydown',mk,true); removeEventListener('keyup',mku,true);
+    if(r.kq==='ok'||r.kq==='on'){ hit(r.kq==='ok'?'ok':'bad'); CAM.out=1; if(r.kq==='ok'){ cam.flash('255,246,220',.6); cam.kick(.05); cam.focus(CAM.tfx,CAM.tfy,CAM.tz+.03,6); } else { tone(140,.5,.05,'sawtooth'); cam.glitch(.7,1.5); cam.flash('200,40,30',.45); cam.shake(1); cam.desat(1); cam.black(.75,true); }
+      [...bar.children].forEach(c=>c.disabled=true); setTimeout(()=>{ cancelAnimationFrame(raf); box.remove(); window.__p2mini=null; res(r); },r.kq==='ok'?520:820); return; }
+    cancelAnimationFrame(raf); box.remove(); window.__p2mini=null; res(r); };
   /* sự cố giữa chừng: phải đứng im vài giây, đụng tay là ồn */
   const evBad=e=>{ if(!EV||EV.hit) return; EV.hit=1; hit('bad'); tone(200,.12,.04,'square'); try{ EV.bad&&EV.bad(); }catch(err){} msg='Động rồi!'; msgT=1.2; };
   box.addEventListener('pointerdown',e=>{ if(EV){ e.stopPropagation(); evBad(); } },true);
@@ -813,15 +831,27 @@ function miniDem(host,muc){ return new Promise(res=>{ const box=document.createE
     if(cls==='main') b.title='Phím Space'; if(lab.includes('◀')){ HK['ArrowLeft']=b; b.title='Phím ←'; } if(lab.includes('▶')){ HK['ArrowRight']=b; b.title='Phím →'; }
     if(hold){ b._hold=fn; b.addEventListener('pointerdown',e=>{ e.preventDefault(); fn(1); }); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>fn(0))); }
     else b.onclick=fn; bar.insertBefore(b,bo); return b; };
-  const pt=e=>{ const r=cv.getBoundingClientRect(); return {x:(e.clientX-r.left)*1000/r.width,y:(e.clientY-r.top)*600/r.height}; };
+  const pt=e=>{ const r=cv.getBoundingClientRect(); const px=(e.clientX-r.left)*1000/r.width, py=(e.clientY-r.top)*600/r.height; return {x:(px-CAM.fx*(1-CAM.z))/CAM.z,y:(py-CAM.fy*(1-CAM.z))/CAM.z}; };
   const bo=document.createElement('button'); bo.type='button'; bo.textContent='Rút về'; bo.dataset.bo=1; bo.className='ghost'; bo.onclick=()=>end({kq:'bo'}); bar.appendChild(bo);
   const U={btn,end,cv,pt,tip:s=>tip.textContent=s,say:s=>{ msg=s; msgT=2.2; },clear:()=>{ [...bar.children].forEach(c=>{ if(!c.dataset.bo) c.remove(); }); },
     bg:()=>{ if(!bg) return false; x.drawImage(bg,0,0,1000,600); return true; },
-    hit, steps:{set:v=>{ ST&&ST.set(v); }}, danger:v=>{ dang=Math.max(0,Math.min(1,v||0)); },
+    hit, cam, steps:{set:v=>{ ST&&ST.set(v); }}, danger:v=>{ dang=Math.max(0,Math.min(1,v||0)); },
     interrupt:(m,bad,len)=>{ if(EV||over) return; EV={m,bad,t:len||2.6,T:len||2.6}; tone(90,.3,.05,'triangle'); }};
   const G=MINI[muc](x,U);
-  const loop=now=>{ if(over) return; const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt;
-    x.clearRect(0,0,1000,600); G(EV?0:dt,t); if(over) return;
+  const loop=now=>{ if(over&&!CAM.out) return; const dt=Math.min(.05,(now-last)/1000); last=now; t+=dt;
+    if(CAM.slowT>0){ CAM.slowT-=dt; if(CAM.slowT<=0) CAM.ts=1; }
+    const a=Math.min(1,dt*CAM.k); CAM.z+=(CAM.tz-CAM.z)*a; CAM.fx+=(CAM.tfx-CAM.fx)*a; CAM.fy+=(CAM.tfy-CAM.fy)*a;
+    const sx=(Math.random()-.5)*CAM.sh*16, sy=(Math.random()-.5)*CAM.sh*10; CAM.sh=Math.max(0,CAM.sh-dt*2.2);
+    x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,1000,600); x.setTransform(CAM.z,0,0,CAM.z,CAM.fx*(1-CAM.z)+sx,CAM.fy*(1-CAM.z)+sy);
+    G(EV||over?0:dt*CAM.ts,t); x.setTransform(1,0,0,1,0,0);
+    const ds=Math.round(Math.max(CAM.ds,dang*.55)*20)/20; if(ds!==dsNow){ dsNow=ds; cv.style.filter=ds>0?'saturate('+(1-ds*.85)+') contrast('+(1+ds*.12)+')':''; }
+    if(CAM.gl>0){ CAM.gl-=dt; const S=CAM.glS; if(!RM) for(let i=0;i<7;i++){ const y=Math.random()*600, h=6+Math.random()*44, dx=(Math.random()-.5)*70*S; x.drawImage(cv,0,y,1000,h,dx,y,1000,h); }
+      x.save(); x.globalCompositeOperation='screen'; x.globalAlpha=.28*S; x.drawImage(cv,7*S,0); x.fillStyle='rgba(255,0,60,.10)'; x.fillRect(0,0,1000,600); x.restore();
+      if(Math.random()<.5){ x.fillStyle='rgba(255,255,255,'+(.05+.1*Math.random())+')'; x.fillRect(0,Math.random()*600,1000,2+Math.random()*3); } }
+    if(CAM.str>0){ CAM.strT-=dt; if(CAM.strT<=0){ CAM.strT=.09; CAM.str-=.5; } if(CAM.str%1===0){ x.fillStyle='rgba(235,240,255,.55)'; x.fillRect(0,0,1000,600); } }
+    if(CAM.fl>.01){ x.fillStyle='rgba('+CAM.flC+','+CAM.fl+')'; x.fillRect(0,0,1000,600); CAM.fl*=Math.pow(.02,dt); }
+    CAM.bl+=(CAM.tbl-CAM.bl)*Math.min(1,dt*(CAM.tbl>CAM.bl?3:4)); if(CAM.bl>.01){ x.fillStyle='rgba(0,0,0,'+CAM.bl+')'; x.fillRect(0,0,1000,600); }
+    if(over){ raf=requestAnimationFrame(loop); return; }
     if(dang>.05){ const pu=.55+.45*Math.sin(t*(4+dang*6)); const g=x.createRadialGradient(500,300,220,500,300,620); g.addColorStop(0,'rgba(200,40,30,0)'); g.addColorStop(1,'rgba(200,40,30,'+(dang*.38*pu)+')'); x.fillStyle=g; x.fillRect(0,0,1000,600);
       if(dang>.7&&!(HB&&SFX.has('timdap'))){ beat-=dt; if(beat<=0){ beat=.85-dang*.3; tone(55,.12,.05,'sine'); tone(52,.1,.04,'sine',.16); } } }
     HB&&HB.set(dang>.45?(dang-.45)/.55:0);

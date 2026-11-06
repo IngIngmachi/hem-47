@@ -1,1 +1,12 @@
 Câu thoại cần giọng: 816 (Phần 1: 585, Phần 2: 231) → giong/danh_sach.csv
+[1/10] Bà Sáu: Lâm hả con? Nhìn hình trên Za Lô thấy nhỏ con, ngo… (6.73s)
+[2/10] Cô Thoa: Làm xác minh thông tin hả. Xác minh gì thì làm cho… (8.45s)
+[3/10] Lâm: Dạo này anh Lộc có gì lạ hông chị? Đồ đạc, đt, tiề… (5.34s)
+[4/10] Hạnh Bánh Mì: Lạ hả… tuần trước chả đem về cái áo khoác xanh lá,… (5.95s)
+[5/10] Tám Hớt Tóc: Tui biết nhiêu đó thôi, cậu đừng nói tui kể nghen.… (7.08s)
+[6/10] Lộc: Ủa, cậu ở phòng 3 phải hông? Khuya lơ khuya lắc rồ… (5.94s)
+[7/10] Diễm Nail: Em cũng chẳng nhớ tên page nào nữa. Chắc giờ tụi n… (4.81s)
+[8/10] Bin: Anh Lâm, em hỏi cái này nha. Làm xác minh là tra đ… (4.12s)
+[9/10] Khoa: Đi đâu cũng nhớ coi chừng nha em. Dạo này hẻm mình… (2.87s)
+[10/10] Tú: Ủa thằng Lâm! Lặn một hơi cả năm trời nay mới thấy… (4.17s)
+Xong. Mở giong/nghe_thu.html để nghe. Lỗi: 0

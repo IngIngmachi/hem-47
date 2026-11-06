@@ -1,0 +1,52 @@
+{
+"n1_basau_02": {
+"d": 6.73,
+"cx": "questioning, curious",
+"ai": "Bà Sáu"
+},
+"n1_thoa_06": {
+"d": 8.45,
+"cx": "sad, hesitant, quiet",
+"ai": "Cô Thoa"
+},
+"n1_hoihanh_02": {
+"d": 5.34,
+"cx": "questioning, curious",
+"ai": "Lâm"
+},
+"n1_hoihanh_03": {
+"d": 5.95,
+"cx": "sad, hesitant, quiet",
+"ai": "Hạnh Bánh Mì"
+},
+"n1_hoitam_04": {
+"d": 7.08,
+"cx": "sad, hesitant, quiet",
+"ai": "Tám Hớt Tóc"
+},
+"n1_bat_01": {
+"d": 5.94,
+"cx": "questioning, curious",
+"ai": "Lộc"
+},
+"n2_diem_05": {
+"d": 4.81,
+"cx": "sad, hesitant, quiet",
+"ai": "Diễm Nail"
+},
+"n3_binhoi_01": {
+"d": 4.12,
+"cx": "questioning, curious",
+"ai": "Bin"
+},
+"R_khoa_3": {
+"d": 2.87,
+"cx": "panicked, urgent, breathless",
+"ai": "Khoa"
+},
+"h2_tu_02": {
+"d": 4.17,
+"cx": "emphatic, raised voice",
+"ai": "Tú"
+}
+}

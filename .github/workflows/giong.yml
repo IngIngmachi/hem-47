@@ -1,0 +1,41 @@
+# Tạo giọng đọc trên máy của GitHub (khỏi cài gì trên máy bà).
+# Cần 1 lần: GitHub → repo → Settings → Secrets and variables → Actions → New repository secret
+#   Name: GEMINI_API_KEY   Secret: <API key Gemini của bà>
+# Chạy: sửa file giong/YEU_CAU.txt (dòng đầu: "thu 10" hoặc "tat-ca" hoặc "lam-lai ma1,ma2") rồi push lên main.
+name: Tao giong
+on:
+  push:
+    branches: [main]
+    paths: ['giong/YEU_CAU.txt']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: giong, cancel-in-progress: false }
+jobs:
+  giong:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Tạo giọng
+        env: { GEMINI_API_KEY: '${{ secrets.GEMINI_API_KEY }}' }
+        run: |
+          set -o pipefail
+          read -r LENH THAM < giong/YEU_CAU.txt || true
+          case "$LENH" in
+            thu)     python3 tools/tao_giong.py --thu "${THAM:-10}" ;;
+            tat-ca)  python3 tools/tao_giong.py --tat-ca ;;
+            lam-lai) python3 tools/tao_giong.py --lam-lai "$THAM" ;;
+            *)       python3 tools/tao_giong.py --ds ;;
+          esac 2>&1 | tee giong/NHAT_KY.txt
+      - name: Lưu kết quả vào repo
+        if: always()
+        run: |
+          git config user.name "hem47-giong"
+          git config user.email "actions@users.noreply.github.com"
+          git add giong
+          git commit -m "Giọng đọc: cập nhật file âm thanh + nhật ký" || exit 0
+          git pull --rebase -q && git push

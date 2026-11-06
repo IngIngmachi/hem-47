@@ -2588,7 +2588,7 @@ let TESTMODE=false, tsTab='canh', tsQ='', tsAllCC=true;
 const TSN={'1':'Hồi 1','2':'Hồi 2','3':'Hồi 3','4':'Hồi 4','5':'Hồi 5','-':'Chung (đêm, việc phụ, nối manh mối, tra cứu…)'};
 function tsScenes(){ const L=[]; for(const k in SCN){ const r=T[SCN[k][0]]; L.push({k,canh:r.canh||'',hoi:String(r.hoi||'-'),n:SCN[k][1]-SCN[k][0]+1}); } return L; }
 async function tsEnter(){ if(TESTMODE) return; TESTMODE=true; document.body.classList.add('testing');
-  if(!started){ ac(); $('cover').hidden=true; started=true; setInterval(()=>{ if(!busy&&!SO.on) save(); },8000); S=fresh(); S.scene='street'; S.min=7*60+12; PL.x=at('basau',.4); snapNPC(); hud(); }
+  if(!started){ ac(); $('cover').hidden=true; started=true; clearInterval(window.__saveIv); window.__saveIv=setInterval(()=>{ if(!busy&&!SO.on) save(); },8000); S=fresh(); S.scene='street'; S.min=7*60+12; PL.x=at('basau',.4); snapNPC(); hud(); }
   toast('Đang ở phòng thử · tiến trình không lưu vào bản chơi thật'); }
 function tsOpen(){ if(!isAdmin()){ toast('Cần đăng nhập tài khoản tác giả'); return; } tsEnter().then(()=>{ $('test').hidden=false; tsRender(); }); }
 function tsClose(){ $('test').hidden=true; $('test').classList.remove('min'); }
@@ -2684,7 +2684,7 @@ async function boot(){
   if(CLOUD||lsGet(SAVEKEY)) $('bCont').hidden=false; $('bNew').disabled=false; try{ if(sessionStorage.getItem('tgl_auto')){ sessionStorage.removeItem('tgl_auto'); setTimeout(()=>begin(true),60); } }catch(e){}
   requestAnimationFrame(loop); }
 let NANG=0; function loadNang(){ if(NANG) return; NANG=1; loadPhotos(); loadRooms(); loadScenes(); }
-async function begin(cont){ ac(); loadNang(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; $('blBtn').hidden=false; setInterval(()=>{ if(!busy&&!SO.on) save(); },8000);
+async function begin(cont){ ac(); loadNang(); $('cover').hidden=true; started=true; $('hdBtn').hidden=false; $('blBtn').hidden=false; clearInterval(window.__saveIv); window.__saveIv=setInterval(()=>{ if(!busy&&!SO.on) save(); },8000);
   if(cont&&load()){ if(S.ended){ endCard(S.ended); return; } if(S.scene==='room'||S.scene==='place'){ S.scene='street'; S.room=null; } PL.x=at('basau',.4); snapNPC(); hud();
     if(!lsGet(INTRO_KEY)){ await typeIntro(); lsSet(INTRO_KEY,'1'); }
     if(!lsGet(HD_KEY)){ await sleep(500); await tutorial(); }
@@ -2765,7 +2765,7 @@ function typeIntro(){ kbLoad(); return new Promise(res=>{ const SL=introSlides()
     else timer=setTimeout(step,ch===','||ch==='.'||ch===':'?190:58+Math.random()*55); };
   const next=()=>{ clearTimeout(timer); si++; if(si>=SL.length){ end(); return; }
     const S0=SL[si]; dots.forEach((d,i)=>d.classList.toggle('on',i<=si));
-    if(si===0||S0.img!==SL[si-1].img){ flip=!flip; const a=$(flip?'inA':'inB'), b=$(flip?'inB':'inA'); a.style.backgroundImage=S0.img?'url('+S0.img+')':'none'; a.classList.remove('on'); void a.offsetWidth; a.classList.add('on'); b.classList.remove('on'); tone(98,1.4,.04,'sine'); }
+    if(si===0||S0.img!==SL[si-1].img){ flip=!flip; const a=$(flip?'inA':'inB'), b=$(flip?'inB':'inA'); if(!a||!b) return; a.style.backgroundImage=S0.img?'url('+S0.img+')':'none'; a.classList.remove('on'); void a.offsetWidth; a.classList.add('on'); b.classList.remove('on'); tone(98,1.4,.04,'sine'); }
     tx.innerHTML=''; li=0; ci=0; typing=true; timer=setTimeout(step,si===0?900:600); };
   el.onclick=e=>{ if(e.target.id==='inSkip'){ e.stopPropagation(); end(); return; } if(typing) full(); else next(); };
   next(); }); }

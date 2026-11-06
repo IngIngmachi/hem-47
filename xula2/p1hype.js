@@ -162,3 +162,61 @@ body.p1gap #hClock,body.p1gap #hDay{color:#ff7a6e!important;animation:hgap 1.6s 
     B.querySelectorAll('.seg[data-k="gap"] [data-v="cham"]').forEach(b=>b.textContent='Chậm');
     /* gom các dòng sau mỗi tiêu đề nhóm vào một khung */
     [...B.querySelectorAll('.cd-s')].forEach(h=>{ const g=document.createElement('div'); g.className='cd-grp'; let n=h.nextElementSibling; while(n&&!n.classList.contains('cd-s')){ const nx=n.nextElementSibling; g.appendChild(n); n=nx; } h.after(g); }); }; })();
+
+/* 07/11 · Bộ đạo diễn cho truyện: mỗi khoảnh khắc chính (theo mã dòng) có máy quay riêng.
+   rung = rung máy · giat = giật zoom + mất màu · day = máy đẩy chậm vô · den = tối sầm · tat = đèn chập chờn rồi tắt
+   gl = nhiễu sóng · chop = chớp trắng · tim = viền đỏ đập theo nhịp tim · vien = khung phim (viền đen trên dưới).
+   Không đổi chữ, không chặn bấm; hiệu ứng tự hết khi qua dòng khác (riêng vien giữ hết cảnh). */
+(function(){
+  const CUE={ lam_nho_fb_01:'giat tim', h4_thoa_14:'rung', soi_taphoa_son_thoa_01:'day vien', nghi90_01:'tat tim vien', khai_khoa_duoi_01:'day',
+    h5_tu_vao_02:'day tim', webn_vinagold_01:'giat gl', noi_thuy_03:'giat', kq_nguoinhan_01:'giat', h3_mo_04:'gl',
+    x_canh2_03:'rung vien', x_canh2_06:'day', x_canh2_12:'den tim', x_canh2_15:'giat', x_nguoiban_01:'giat', x_nguoiban_05:'tim',
+    x_canh4_08:'day', x_canh5_04:'day', x_canh5_05:'day', x_canh7_03:'tim rung', x_canh7_11:'rung chop', x_canh7_14:'den',
+    x_tutai_03:'day', x_tutai_09:'tim vien', x_dd_bat_01:'chop rung gl', x_cuu_mo_04:'tat vien', x_cuu_loa_03:'rung tim',
+    x_cuu_loa_05:'tim', x_cuu_loa_15:'tat', x_bay_chan_02:'tim rung', x_ban_dung_02:'chop rung', x_het1_02:'vien day',
+    noi_x_saigon2_01:'giat gl', x_demcuoi_14:'vien tim' };
+  const cueOf=r=>CUE[r.ma]||(/^(ket_|x_ket)/.test(r.ma||'')&&/_0?1$/.test(r.ma||'')?'vien day':'');
+  const RM=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const st=document.createElement('style'); st.textContent=`
+#stage #cv{transition:filter 2.5s ease,transform .9s ease}
+#stage.dd-day #cv{transition:transform 3.2s cubic-bezier(.2,.6,.3,1);transform:scale(1.07)}
+#stage.dd-giat #cv{transition:transform .14s ease-out,filter .14s;transform:scale(1.12);filter:saturate(.35) contrast(1.15)}
+#stage.dd-rung{animation:ddRung .5s linear}
+@keyframes ddRung{0%,100%{transform:none}10%{transform:translate(-7px,3px)}25%{transform:translate(6px,-4px)}40%{transform:translate(-5px,-2px)}55%{transform:translate(4px,4px)}70%{transform:translate(-3px,1px)}85%{transform:translate(2px,-2px)}}
+#ddOv{position:absolute;inset:0;pointer-events:none;z-index:1}
+#ddOv i{position:absolute;inset:0;opacity:0}
+#ddOv .k{background:#000}#ddOv .w{background:#fff8e6}
+#ddOv .t{background:radial-gradient(ellipse at center,rgba(0,0,0,0) 40%,rgba(150,0,0,.42) 100%);animation:ddTim .9s ease-in-out infinite;opacity:0;transition:opacity .4s}
+#ddOv.tim .t{opacity:1}
+@keyframes ddTim{0%,100%{filter:brightness(.7)}12%{filter:brightness(1.5)}24%{filter:brightness(.9)}36%{filter:brightness(1.3)}}
+#ddOv .lb{position:absolute;left:0;right:0;height:0;background:#000;transition:height .6s ease;opacity:1}
+#ddOv .lb.a{top:0}#ddOv .lb.b{bottom:0;top:auto}
+#ddOv.vien .lb{height:9%}
+#stage.dd-gl #cv{animation:ddGl .55s steps(2) 1}
+@keyframes ddGl{0%{filter:none;transform:none}20%{filter:drop-shadow(6px 0 0 rgba(255,0,60,.7)) drop-shadow(-6px 0 0 rgba(0,220,255,.7));transform:translateX(-4px) skewX(3deg)}40%{filter:drop-shadow(-8px 0 0 rgba(255,0,60,.7)) drop-shadow(8px 0 0 rgba(0,220,255,.7));transform:translateX(5px)}60%{filter:hue-rotate(40deg) saturate(2);transform:translateY(2px) skewX(-4deg)}80%{filter:drop-shadow(3px 0 0 rgba(255,0,60,.6));transform:none}100%{filter:none;transform:none}}
+@media (prefers-reduced-motion:reduce){#stage.dd-rung{animation:none}#stage.dd-gl #cv{animation:none}#stage.dd-day #cv,#stage.dd-giat #cv{transform:none}}`;
+  document.head.appendChild(st);
+  let ov=null; const stage=()=>document.getElementById('stage');
+  const ensure=()=>{ const s=stage(); if(!s) return null; if(!ov||!ov.isConnected){ ov=document.createElement('div'); ov.id='ddOv'; ov.innerHTML='<i class="k"></i><i class="w"></i><i class="t"></i><i class="lb a"></i><i class="lb b"></i>'; s.appendChild(ov); } return s; };
+  const fade=(el,from,to,ms)=>{ el.style.transition='none'; el.style.opacity=from; void el.offsetWidth; el.style.transition='opacity '+ms+'ms ease'; el.style.opacity=to; };
+  let keepVien=false;
+  function clear(){ const s=stage(); if(!s) return; s.classList.remove('dd-day','dd-giat','dd-rung','dd-gl'); if(ov) ov.classList.remove('tim'); }
+  function play(cue){ const s=ensure(); if(!s) return; const c=cue.split(/\s+/);
+    clear(); void s.offsetWidth;
+    if(c.includes('vien')){ ov.classList.add('vien'); keepVien=true; }
+    if(c.includes('tim')) ov.classList.add('tim');
+    if(RM) return;
+    if(c.includes('day')) s.classList.add('dd-day');
+    if(c.includes('giat')) s.classList.add('dd-giat');
+    if(c.includes('rung')) s.classList.add('dd-rung');
+    if(c.includes('gl')) s.classList.add('dd-gl');
+    if(c.includes('chop')){ const w=ov.querySelector('.w'); fade(w,.85,0,700); }
+    if(c.includes('den')){ const k=ov.querySelector('.k'); fade(k,0,.8,700); setTimeout(()=>fade(k,.8,0,1600),1400); }
+    if(c.includes('tat')){ const k=ov.querySelector('.k'); let n=0; const f=()=>{ k.style.transition='none'; k.style.opacity=n%2?0:.85; if(++n<6) setTimeout(f,70+Math.random()*120); else { fade(k,.85,.55,300); setTimeout(()=>fade(k,.55,0,2500),1800); } }; f(); }
+  }
+  if(typeof show==='function'){ const show0=show; show=function(r){ try{ const cue=r&&cueOf(r); if(cue) play(cue); else { clear(); } }catch(e){} return show0.apply(this,arguments); }; }
+  /* hộp thoại đóng (hết đoạn) thì gỡ hiệu ứng; khung phim giữ tới khi hết cả cảnh */
+  const dlg=document.getElementById('dlg');
+  if(dlg) new MutationObserver(()=>{ if(!dlg.hidden) return; try{ clear(); setTimeout(()=>{ if(dlg.hidden&&ov&&keepVien&&!(typeof busy!=='undefined'&&busy)){ ov.classList.remove('vien'); keepVien=false; } },400); }catch(e){} }).observe(dlg,{attributes:true,attributeFilter:['hidden']});
+  window.DDTRUYEN={play,clear,CUE};
+})();

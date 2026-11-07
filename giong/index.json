@@ -1,52 +1,62 @@
 {
 "n1_basau_02": {
-"d": 6.73,
+"d": 6.61,
 "cx": "questioning, curious",
-"ai": "Bà Sáu"
+"ai": "Bà Sáu",
+"v": 2
 },
 "n1_thoa_06": {
-"d": 8.45,
+"d": 8.89,
 "cx": "sad, hesitant, quiet",
-"ai": "Cô Thoa"
+"ai": "Cô Thoa",
+"v": 2
 },
 "n1_hoihanh_02": {
-"d": 5.34,
+"d": 5.59,
 "cx": "questioning, curious",
-"ai": "Lâm"
+"ai": "Lâm",
+"v": 2
 },
 "n1_hoihanh_03": {
-"d": 5.95,
+"d": 6.38,
 "cx": "sad, hesitant, quiet",
-"ai": "Hạnh Bánh Mì"
+"ai": "Hạnh Bánh Mì",
+"v": 2
 },
 "n1_hoitam_04": {
 "d": 7.08,
 "cx": "sad, hesitant, quiet",
-"ai": "Tám Hớt Tóc"
+"ai": "Tám Hớt Tóc",
+"v": 2
 },
 "n1_bat_01": {
-"d": 5.94,
+"d": 4.95,
 "cx": "questioning, curious",
-"ai": "Lộc"
+"ai": "Lộc",
+"v": 2
 },
 "n2_diem_05": {
-"d": 4.81,
+"d": 5.09,
 "cx": "sad, hesitant, quiet",
-"ai": "Diễm Nail"
+"ai": "Diễm Nail",
+"v": 2
 },
 "n3_binhoi_01": {
-"d": 4.12,
+"d": 5.34,
 "cx": "questioning, curious",
-"ai": "Bin"
+"ai": "Bin",
+"v": 2
 },
 "R_khoa_3": {
-"d": 2.87,
+"d": 3.61,
 "cx": "panicked, urgent, breathless",
-"ai": "Khoa"
+"ai": "Khoa",
+"v": 2
 },
 "h2_tu_02": {
-"d": 4.17,
+"d": 5.39,
 "cx": "emphatic, raised voice",
-"ai": "Tú"
+"ai": "Tú",
+"v": 2
 }
 }

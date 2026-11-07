@@ -27,8 +27,8 @@ API = 'https://generativelanguage.googleapis.com/v1beta/interactions'
 NAM = 'Southern Vietnamese (Saigon) accent, natural spoken Vietnamese, not a news reader'
 P = lambda voice, who: {'voice': voice, 'who': who}
 GIONG = {
-  'Bà Sáu':        P('Sulafat',  'a 75-year-old Saigon grandmother, slightly hoarse, slow and warm, takes small breaths'),
-  'Cô Thoa':       P('Gacrux',   'a 52-year-old grocery-shop mother, weary, low voice, tender toward her children'),
+  'Bà Sáu':        P('Gacrux',   'a frail 78-year-old Saigon grandmother: clearly elderly voice, thin, breathy and a little shaky, slow, soft trailing endings, warm'),
+  'Cô Thoa':       P('Sulafat',  'a 52-year-old grocery-shop mother, weary, low voice, tender toward her children'),
   'Hạnh Bánh Mì':  P('Despina',  'a 36-year-old banh mi seller, quick and chatty, worried about her family'),
   'Diễm Nail':     P('Laomedeia','a 24-year-old nail-salon girl, playful, gossipy, quick'),
   'Tám Hớt Tóc':   P('Algenib',  'a 65-year-old barber, old raspy voice, slow, plain-spoken'),
@@ -71,8 +71,12 @@ for(const f of ['rows2.js','rows2b.js','data2.js','p2_thu.js','thietbi2.js']){
 }
 const P2=vm.runInContext('typeof P2ROWS!=="undefined"?P2ROWS:[]',ctx);
 const out=[];
-for(const r of P1){ if(r.kieu!=='thoai') continue; const o=thu[r.ma]; const loi=typeof o==='string'?o:(o&&o.loi)||r.loi; out.push({ma:r.ma,phan:1,canh:r.canh||'',ai:r.ai,loi}); }
-for(const r of P2){ if(r.kieu!=='thoai') continue; out.push({ma:r.ma,phan:2,canh:r.canh||'',ai:r.ai,loi:r.loi}); }
+const txt=r=>{ const o=thu[r.ma]; return String(typeof o==='string'?o:(o&&o.loi)||r.loi||'').replace(/\[\[(.+?)\]\]/g,'$1').replace(/\{\w+\}/g,'').trim(); };
+const ke=(L,k)=>{ const say=x=>x.kieu==='thoai'?(String(x.ai||'').replace(/^#/,'')+': "'+txt(x)+'"'):x.kieu==='nghi'?('(Lâm nghĩ: '+txt(x)+')'):txt(x);
+  const tr=[],sa=[]; for(let i=k-1;i>=0&&tr.length<4;i--){ const x=L[i]; if(x.canh!==L[k].canh) break; if(['thoai','mota','nghi'].includes(x.kieu)&&txt(x)) tr.unshift(say(x)); }
+  for(let i=k+1;i<L.length&&sa.length<1;i++){ const x=L[i]; if(x.canh!==L[k].canh) break; if(['thoai','mota','nghi'].includes(x.kieu)&&txt(x)) sa.push(say(x)); } return {truoc:tr.join(' / '),sau:sa.join(' / ')}; };
+P1.forEach((r,k)=>{ if(r.kieu!=='thoai') return; out.push({ma:r.ma,phan:1,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P1,k)}); });
+P2.forEach((r,k)=>{ if(r.kieu!=='thoai') return; out.push({ma:r.ma,phan:2,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P2,k)}); });
 process.stdout.write(JSON.stringify(out));
 """
 
@@ -100,7 +104,7 @@ def doan_cam_xuc(loi):
     if re.search(r'(suỵt|nhỏ thôi|đừng nói)', t): return 'whispering'
     if '!' in loi: return 'emphatic, raised voice'
     if loi.rstrip().endswith('?'): return 'questioning, curious'
-    return 'natural, conversational'
+    return 'infer the emotion from the scene context'
 
 def ho_so(ai):
     if ai in GIONG: return GIONG[ai]
@@ -119,7 +123,10 @@ def xuat_ds(rows):
 
 def goi_api(key, r, cx):
     hs = ho_so(r['ai'])
-    style = f"{NAM}. Speaker: {hs['who']}. Emotion and delivery for this line: {cx}."
+    ctx = (f" What just happened in the scene: {r.get('truoc','')}." if r.get('truoc') else '') + (f" What comes right after: {r.get('sau','')}." if r.get('sau') else '')
+    style = (f"{NAM}. Speaker: {hs['who']}.{ctx} Act this ONE line as a real person in that exact moment, like natural dialogue in a realistic film:"
+             f" understated, not theatrical, not a radio drama, no exaggerated intonation; let the situation decide the tension (fear, secrecy, grief, threat) and keep it real."
+             f" Pace and pauses like real speech. Extra direction: {cx}.")
     body = {'model': MODEL,
             'input': [{'type': 'user_input', 'content': [{'type': 'text', 'text': r['loi'],
                        'annotations': [{'type': 'speech_metadata', 'style': style}]}]}],
@@ -158,7 +165,7 @@ def trang_nghe(rows, idx):
          '<style>body{font:16px system-ui;background:#16110f;color:#f3e7d7;margin:0;padding:16px;max-width:760px}h1{font-size:20px}.r{border-bottom:1px solid #3a2c25;padding:12px 0}.a{color:#f0b25c;font-weight:700}.m{color:#998;font-size:12px}audio{width:100%;margin-top:6px}</style>',
          f'<h1>Hẻm 47 · nghe thử giọng ({len(it)} câu)</h1>']
     for r in it:
-        h.append(f'<div class="r"><span class="a">{r["ai"]}</span> <span class="m">{r["ma"]} · {idx[r["ma"]]["cx"]}</span><div>{r["loi"]}</div><audio controls preload="none" src="{r["ma"]}.m4a"></audio></div>')
+        h.append(f'<div class="r"><span class="a">{r["ai"]}</span> <span class="m">{r["ma"]} · {idx[r["ma"]]["cx"]}</span><div>{r["loi"]}</div><audio controls preload="none" src="{r["ma"]}.m4a"></audio>' + (f'<div class="m">bản cũ:</div><audio controls preload="none" src="cu/{r["ma"]}.m4a"></audio>' if (OUT / 'cu' / f'{r["ma"]}.m4a').exists() else '') + '</div>')
     (OUT / 'nghe_thu.html').write_text('\n'.join(h), encoding='utf-8')
 
 def main():
@@ -179,16 +186,18 @@ def main():
             if r['ai'] in GIONG and r['ai'] not in ai_da and 25 < len(r['loi']) < 160:
                 chon.append(r); ai_da.add(r['ai'])
             if len(chon) >= a.thu: break
-    elif a.tat_ca or a.lam_lai: chon = rows
+    elif a.tat_ca: chon = rows
+    elif a.lam_lai: ds = set(filter(None, a.lam_lai.split(','))); chon = [r for r in rows if r['ma'] in ds]
     else: sys.exit('Chọn --ds, --thu N hoặc --tat-ca.')
     fidx = OUT / 'index.json'; idx = json.loads(fidx.read_text()) if fidx.exists() else {}
     loi = 0
     for n, r in enumerate(chon, 1):
         dst = OUT / f'{r["ma"]}.m4a'; cx = sua.get(r['ma']) or doan_cam_xuc(r['loi'])
-        if dst.exists() and r['ma'] in idx and idx[r['ma']].get('cx') == cx: continue
+        V = 2
+        if dst.exists() and r['ma'] in idx and idx[r['ma']].get('cx') == cx and idx[r['ma']].get('v') == V: continue
         try:
             dur = luu_m4a(goi_api(key, r, cx), dst)
-            idx[r['ma']] = {'d': dur, 'cx': cx, 'ai': r['ai']}
+            idx[r['ma']] = {'d': dur, 'cx': cx, 'ai': r['ai'], 'v': V}
             print(f'[{n}/{len(chon)}] {r["ai"]}: {r["loi"][:50]}… ({dur}s)')
             fidx.write_text(json.dumps(idx, ensure_ascii=False, indent=0))
         except Exception as e:

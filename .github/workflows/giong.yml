@@ -30,7 +30,7 @@ jobs:
           read -r LENH THAM < giong/YEU_CAU.txt || true
           case "$LENH" in
             thu)     python3 tools/tao_giong.py --thu "${THAM:-10}" ;;
-            tat-ca)  python3 tools/tao_giong.py --tat-ca ;;
+            tat-ca)  python3 tools/tao_giong.py --tat-ca ${THAM:+--kieu "$THAM"} ;;
             lam-lai) python3 tools/tao_giong.py --lam-lai "$THAM" ;;
             *)       python3 tools/tao_giong.py --ds ;;
           esac 2>&1 | tee giong/NHAT_KY.txt

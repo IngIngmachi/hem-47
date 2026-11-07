@@ -32,11 +32,13 @@ GIONG = {
   'Hạnh Bánh Mì':  P('Despina',  'a 36-year-old banh mi seller, quick and chatty, worried about her family'),
   'Diễm Nail':     P('Laomedeia','a 24-year-old nail-salon girl, playful, gossipy, quick'),
   'Tám Hớt Tóc':   P('Algenib',  'a 65-year-old barber, old raspy voice, slow, plain-spoken'),
-  'Lộc':           P('Iapetus',  'a 42-year-old labourer, low hoarse voice, uneasy, speaks quietly'),
+  'Lộc':           {**P('Iapetus',  'a 42-year-old labourer, low hoarse voice, uneasy, speaks quietly'), 'cu': True},   # bà chọn kiểu đọc bản cũ
   'Anh Lộc':       P('Iapetus',  'a 42-year-old labourer, low hoarse voice, uneasy, speaks quietly'),
   'Khoa':          P('Charon',   'a 35-year-old smooth recruiter, low, polite but cold and dangerous'),
   'Bin':           P('Puck',     'a 19-year-old ride-hailing driver, fast, honest, blunt'),
   'Lâm':           P('Achird',   'a 25-year-old young man, tired, thoughtful, medium-low voice'),
+  'Lâm (nghĩ)':    {**P('Achird', 'the same 25-year-old young man (Lâm)'), 'nghi': True},
+  'Ngân (nghĩ)':   {**P('Leda',   'the same 23-year-old young woman (Ngân)'), 'nghi': True},
   'Ngân':          P('Leda',     'a 23-year-old young woman, gentle but resilient, holding back fear'),
   'Phương':        P('Autonoe',  'a 22-year-old livestream seller, acts careless but is scared inside'),
   'Tú':            P('Orus',     'a 38-year-old media man, slick, pragmatic, a bit condescending'),
@@ -75,8 +77,13 @@ const txt=r=>{ const o=thu[r.ma]; return String(typeof o==='string'?o:(o&&o.loi)
 const ke=(L,k)=>{ const say=x=>x.kieu==='thoai'?(String(x.ai||'').replace(/^#/,'')+': "'+txt(x)+'"'):x.kieu==='nghi'?('(Lâm nghĩ: '+txt(x)+')'):txt(x);
   const tr=[],sa=[]; for(let i=k-1;i>=0&&tr.length<4;i--){ const x=L[i]; if(x.canh!==L[k].canh) break; if(['thoai','mota','nghi'].includes(x.kieu)&&txt(x)) tr.unshift(say(x)); }
   for(let i=k+1;i<L.length&&sa.length<1;i++){ const x=L[i]; if(x.canh!==L[k].canh) break; if(['thoai','mota','nghi'].includes(x.kieu)&&txt(x)) sa.push(say(x)); } return {truoc:tr.join(' / '),sau:sa.join(' / ')}; };
-P1.forEach((r,k)=>{ if(r.kieu!=='thoai') return; out.push({ma:r.ma,phan:1,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P1,k)}); });
-P2.forEach((r,k)=>{ if(r.kieu!=='thoai') return; out.push({ma:r.ma,phan:2,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P2,k)}); });
+P1.forEach((r,k)=>{ if(r.kieu==='thoai') out.push({ma:r.ma,kieu:'thoai',phan:1,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P1,k)});
+  else if(r.kieu==='nghi') out.push({ma:r.ma,kieu:'nghi',phan:1,canh:r.canh||'',ai:'Lâm (nghĩ)',loi:txt(r),...ke(P1,k)}); });
+/* Phần 2: câu nghĩ là của người đang nhập vai: nhánh A (x_a_) là Ngân, nhánh B (x_b_) là Lâm, còn lại làm cả hai giọng (file <ma>__ngan) */
+P2.forEach((r,k)=>{ if(r.kieu==='thoai') out.push({ma:r.ma,kieu:'thoai',phan:2,canh:r.canh||'',ai:r.ai,loi:txt(r),...ke(P2,k)});
+  else if(r.kieu==='nghi'){ const c=ke(P2,k), m=r.ma||'';
+    if(!/^x_a_/.test(m)) out.push({ma:m,kieu:'nghi',phan:2,canh:r.canh||'',ai:'Lâm (nghĩ)',loi:txt(r),...c});
+    if(!/^x_b_/.test(m)) out.push({ma:/^x_a_/.test(m)?m:m+'__ngan',kieu:'nghi',phan:2,canh:r.canh||'',ai:'Ngân (nghĩ)',loi:txt(r),...c}); } });
 process.stdout.write(JSON.stringify(out));
 """
 
@@ -124,9 +131,14 @@ def xuat_ds(rows):
 def goi_api(key, r, cx):
     hs = ho_so(r['ai'])
     ctx = (f" What just happened in the scene: {r.get('truoc','')}." if r.get('truoc') else '') + (f" What comes right after: {r.get('sau','')}." if r.get('sau') else '')
-    style = (f"{NAM}. Speaker: {hs['who']}.{ctx} Act this ONE line as a real person in that exact moment, like natural dialogue in a realistic film:"
-             f" understated, not theatrical, not a radio drama, no exaggerated intonation; let the situation decide the tension (fear, secrecy, grief, threat) and keep it real."
-             f" Pace and pauses like real speech. Extra direction: {cx}.")
+    if hs.get('nghi'):
+        style = (f"{NAM}. Speaker: {hs['who']}, thinking silently to themselves.{ctx} This is an INNER MONOLOGUE, not spoken to anyone:"
+                 f" quiet, low, close to the microphone, slow and introspective, almost a murmur, pensive pauses, brooding; never performed, never projected. Extra direction: {cx}.")
+    elif hs.get('cu'):
+        style = f"{NAM}. Speaker: {hs['who']}. Emotion and delivery for this line: {cx}."
+    else: style = (f"{NAM}. Speaker: {hs['who']}.{ctx} Act this ONE line as a real person in that exact moment, like natural dialogue in a realistic film:"
+                 f" understated, not theatrical, not a radio drama, no exaggerated intonation; let the situation decide the tension (fear, secrecy, grief, threat) and keep it real."
+                 f" Pace and pauses like real speech. Extra direction: {cx}.")
     body = {'model': MODEL,
             'input': [{'type': 'user_input', 'content': [{'type': 'text', 'text': r['loi'],
                        'annotations': [{'type': 'speech_metadata', 'style': style}]}]}],
@@ -171,10 +183,10 @@ def trang_nghe(rows, idx):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--ds', action='store_true'); ap.add_argument('--thu', type=int, default=0)
-    ap.add_argument('--tat-ca', action='store_true'); ap.add_argument('--lam-lai', default='')
+    ap.add_argument('--tat-ca', action='store_true'); ap.add_argument('--lam-lai', default=''); ap.add_argument('--kieu', default='')
     a = ap.parse_args()
     rows = lay_thoai(); sua = xuat_ds(rows)
-    print(f'Câu thoại cần giọng: {len(rows)} (Phần 1: {sum(r["phan"]==1 for r in rows)}, Phần 2: {sum(r["phan"]==2 for r in rows)}) → giong/danh_sach.csv')
+    print(f'Câu cần giọng: {len(rows)} (thoại {sum(r.get("kieu")=="thoai" for r in rows)}, độc thoại {sum(r.get("kieu")=="nghi" for r in rows)}) → giong/danh_sach.csv')
     if a.ds: return
     key = os.environ.get('GEMINI_API_KEY', '')
     if not key: sys.exit('Thiếu GEMINI_API_KEY.')
@@ -182,18 +194,20 @@ def main():
         (OUT / f'{m}.m4a').unlink(missing_ok=True)
     if a.thu:   # mỗi nhân vật chính 1 câu, ưu tiên câu có cảm xúc rõ
         chon, ai_da = [], set()
-        for r in sorted(rows, key=lambda r: doan_cam_xuc(r['loi']) == 'natural, conversational'):
-            if r['ai'] in GIONG and r['ai'] not in ai_da and 25 < len(r['loi']) < 160:
+        for r in sorted(rows, key=lambda r: doan_cam_xuc(r['loi']) == 'infer the emotion from the scene context'):
+            if (not a.kieu or r.get('kieu') == a.kieu) and r['ai'] in GIONG and r['ai'] not in ai_da and 25 < len(r['loi']) < 160:
                 chon.append(r); ai_da.add(r['ai'])
             if len(chon) >= a.thu: break
-    elif a.tat_ca: chon = rows
+    elif a.tat_ca: chon = [r for r in rows if not a.kieu or r.get('kieu') == a.kieu]
     elif a.lam_lai: ds = set(filter(None, a.lam_lai.split(','))); chon = [r for r in rows if r['ma'] in ds]
     else: sys.exit('Chọn --ds, --thu N hoặc --tat-ca.')
     fidx = OUT / 'index.json'; idx = json.loads(fidx.read_text()) if fidx.exists() else {}
     loi = 0
+    giu = set((OUT / 'giu.txt').read_text().split()) if (OUT / 'giu.txt').exists() else set()   # câu bà đã chọn giữ, không làm lại
     for n, r in enumerate(chon, 1):
         dst = OUT / f'{r["ma"]}.m4a'; cx = sua.get(r['ma']) or doan_cam_xuc(r['loi'])
         V = 2
+        if r['ma'] in giu and dst.exists(): continue
         if dst.exists() and r['ma'] in idx and idx[r['ma']].get('cx') == cx and idx[r['ma']].get('v') == V: continue
         try:
             dur = luu_m4a(goi_api(key, r, cx), dst)

@@ -58,5 +58,29 @@
 "cx": "emphatic, raised voice",
 "ai": "Tú",
 "v": 2
+},
+"n0_mo_05": {
+"d": 9.49,
+"cx": "sad, hesitant, quiet",
+"ai": "Lâm (nghĩ)",
+"v": 2
+},
+"h2_ben_08": {
+"d": 4.65,
+"cx": "panicked, urgent, breathless",
+"ai": "Lâm (nghĩ)",
+"v": 2
+},
+"noi_thuy_03": {
+"d": 10.51,
+"cx": "panicked, urgent, breathless",
+"ai": "Lâm (nghĩ)",
+"v": 2
+},
+"x_b_tratin_03": {
+"d": 4.91,
+"cx": "infer the emotion from the scene context",
+"ai": "Lâm (nghĩ)",
+"v": 2
 }
 }

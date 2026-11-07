@@ -1,12 +1,8 @@
-Câu thoại cần giọng: 816 (Phần 1: 585, Phần 2: 231) → giong/danh_sach.csv
-[1/10] Bà Sáu: Lâm hả con? Nhìn hình trên Za Lô thấy nhỏ con, ngo… (6.61s)
-[2/10] Cô Thoa: Làm xác minh thông tin hả. Xác minh gì thì làm cho… (8.89s)
-[3/10] Lâm: Dạo này anh Lộc có gì lạ hông chị? Đồ đạc, đt, tiề… (5.59s)
-[4/10] Hạnh Bánh Mì: Lạ hả… tuần trước chả đem về cái áo khoác xanh lá,… (6.38s)
-[5/10] Tám Hớt Tóc: Tui biết nhiêu đó thôi, cậu đừng nói tui kể nghen.… (7.08s)
-[6/10] Lộc: Ủa, cậu ở phòng 3 phải hông? Khuya lơ khuya lắc rồ… (4.95s)
-[7/10] Diễm Nail: Em cũng chẳng nhớ tên page nào nữa. Chắc giờ tụi n… (5.09s)
-[8/10] Bin: Anh Lâm, em hỏi cái này nha. Làm xác minh là tra đ… (5.34s)
-[9/10] Khoa: Đi đâu cũng nhớ coi chừng nha em. Dạo này hẻm mình… (3.61s)
-[10/10] Tú: Ủa thằng Lâm! Lặn một hơi cả năm trời nay mới thấy… (5.39s)
-Xong. Mở giong/nghe_thu.html để nghe. Lỗi: 0
+Câu cần giọng: 1356 (thoại 816, độc thoại 540) → giong/danh_sach.csv
+[1/6] Lâm (nghĩ): Ngân Order... Cô gái mà chỉ bằng một bài đăng đêm … (9.49s)
+[2/6] Lâm (nghĩ): Có đứa khác đang cầm nick của Ngân. Một người lén … (4.65s)
+[3/6] Lâm (nghĩ): Gõ "ko", "e", "a", "dc" y hệt nhau. Người cầm nick… (10.51s)
+[4/6] LỖI x_mo_10__ngan: HTTP 429: {"error":{"message":"Rate limit exceeded for model gemini-3.8-flash-tts (limit: 10 requests per day on Free Tier). Please retry in 21h8m3s or upgrade your tier at https://ai.dev/rate-limit.","code":"too_many_requests"}}
+[5/6] LỖI x_a_giaitin_05: HTTP 429: {"error":{"message":"Rate limit exceeded for model gemini-3.8-flash-tts (limit: 10 requests per day on Free Tier). Please retry in 21h5m32s or upgrade your tier at https://ai.dev/rate-limit.","code":"too_many_requests"}}
+[6/6] Lâm (nghĩ): Cảng Xi-ha. Để hẹn gặp Hương hỏi thử coi cổ biết v… (4.91s)
+Xong. Mở giong/nghe_thu.html để nghe. Lỗi: 2
